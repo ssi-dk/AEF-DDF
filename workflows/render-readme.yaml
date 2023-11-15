@@ -1,0 +1,8 @@
+on:
+  push:
+    paths:
+      - README.Rmd
+
+jobs:
+  render:
+    uses: ./.github/workflows/render-readme.yaml
