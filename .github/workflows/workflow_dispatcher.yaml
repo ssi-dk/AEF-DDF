@@ -13,22 +13,6 @@ on:
         required: true
         type: string
 
-      R_files_changed:
-        required: true
-        type: string
-      test_files_changed:
-        required: true
-        type: string
-      man_files_changed:
-        required: true
-        type: string
-      vignette_files_changed:
-        required: true
-        type: string
-      readme_files_changed:
-        required: true
-        type: string
-
       schema_creation:
         required: false
         type: string
@@ -36,17 +20,61 @@ on:
 
 jobs:
 
+  # To give granular control of when workflows should execute, we determine which "categories" of files has changed
+  trigger:
+    name: ⚙️ Determine changed files
+    runs-on: ubuntu-latest
+
+    outputs:
+      R_files_changed: ${{ steps.changed-files-yaml.outputs.R_any_changed }}
+      test_files_changed: ${{ steps.changed-files-yaml.outputs.test_any_changed }}
+      man_files_changed: ${{ steps.changed-files-yaml.outputs.man_any_changed }}
+      vignette_files_changed: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}
+      readme_files_changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get all R, test, man, vignette and readme files that have changed
+        id: changed-files-yaml
+        uses: tj-actions/changed-files@v40
+        with:
+          files_yaml: |
+            R:
+              - R/**
+            test:
+              - tests/**
+            man:
+              - man/**
+            vignette:
+              - vignettes/**
+            readme:
+              - README.Rmd
+
   lint:
-    if: ${{ contains(inputs.jobs, 'lint') && (inputs.R_files_changed == 'true' || inputs.man_files_changed == 'true') }}
+    needs: trigger
+    if: ${{ contains(inputs.jobs, 'lint') && (
+      needs.trigger.outputs.R_files_changed == 'true' ||
+      needs.trigger.outputs.man_files_changed == 'true') }}
     uses: ./.github/workflows/lint.yaml
 
   R-CMD-check:
-    if: ${{ contains(inputs.jobs, 'R-CMD-check') && (inputs.R_files_changed == 'true' || inputs.test_files_changed == 'true' || inputs.man_files_changed == 'true' || inputs.vignette_files_changed == 'true') }}
+    needs: trigger
+    if: ${{ contains(inputs.jobs, 'R-CMD-check') && (
+      needs.trigger.outputs.R_files_changed == 'true' ||
+      needs.trigger.outputs.test_files_changed == 'true' ||
+      needs.trigger.outputs.man_files_changed == 'true' ||
+      needs.trigger.outputs.vignette_files_changed == 'true') }}
     uses: ./.github/workflows/R-CMD-check.yaml
     secrets: inherit
 
   code-coverage:
-    if: ${{ contains(inputs.jobs, 'code-coverage') && (inputs.R_files_changed == 'true' || inputs.test_files_changed == 'true') }}
+    needs: trigger
+    if: ${{ contains(inputs.jobs, 'code-coverage') && (
+      needs.trigger.outputs.R_files_changed == 'true' ||
+      needs.trigger.outputs.test_files_changed == 'true') }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
       event_name: ${{ inputs.event_name }}
@@ -54,12 +82,18 @@ jobs:
     secrets: inherit
 
   document:
-    if: ${{ contains(inputs.jobs, 'document') && inputs.R_files_changed == 'true' }}
+    needs: trigger
+    if: ${{ contains(inputs.jobs, 'document') && (
+      needs.trigger.outputs.R_files_changed == 'true') }}
     uses: ./.github/workflows/document.yaml
     secrets: inherit
 
   pkgdown:
-    if: ${{ contains(inputs.jobs, 'pkgdown') && (inputs.R_files_changed == 'true' || inputs.man_files_changed == 'true' || inputs.vignette_files_changed == 'true') }}
+    needs: trigger
+    if: ${{ contains(inputs.jobs, 'pkgdown') && (
+      needs.trigger.outputs.R_files_changed == 'true' ||
+      needs.trigger.outputs.man_files_changed == 'true' ||
+      needs.trigger.outputs.vignette_files_changed == 'true') }}
     uses: ./.github/workflows/pkgdown.yaml
     with:
       event_name: ${{ inputs.event_name }}
@@ -67,6 +101,8 @@ jobs:
     secrets: inherit
 
   render-readme:
-    if: ${{ contains(inputs.jobs, 'render-readme') && inputs.readme_files_changed == 'true'}}
+    needs: trigger
+    if: ${{ contains(inputs.jobs, 'render-readme') && (
+      needs.trigger.outputs.readme_files_changed == 'true') }}
     uses: ./.github/workflows/render-readme.yaml
     secrets: inherit
