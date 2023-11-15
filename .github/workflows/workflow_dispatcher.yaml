@@ -77,7 +77,6 @@ jobs:
       needs.trigger.outputs.test_files_changed == 'true') }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
-      event_name: ${{ inputs.event_name }}
       schema_creation: ${{ inputs.schema_creation }}
     secrets: inherit
 
