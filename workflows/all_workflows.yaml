@@ -1,0 +1,60 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branch: [main, master]
+  pull_request:
+    branch: [main, master]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+
+  # To give granular control of when workflows should execute, we determine which "categories" of files has changed
+  determine-changed-files:
+    name: ⚙️ Determine changed files
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get all R, test, man, vignette and readme files that have changed
+        id: changed-files-yaml
+        uses: tj-actions/changed-files@v40
+        with:
+          files_yaml: |
+            R:
+              - R/**
+            test:
+              - tests/**
+            man:
+              - man/**
+            vignette:
+              - vignettes/**
+            readme:
+              - README.Rmd
+
+
+  # We call the reuseable workflow that triggers all AEF-DDF workflows
+  run-all-AEF-DFF-workflows:
+    name: ⚙️ Run all AEF-DDF workflows
+    uses: ./.github/workflows/workflow_dispatcher.yaml
+    needs: determine-changed-files
+    with:
+      # We pass information about the triggering event
+      event_name: ${{ github.event_name }}
+      run_id: ${{ github.run_id }}
+
+      # We tell the workflow which files have been changed in this update
+      R_files_changed: ${{ needs.determine-changed-files.steps.changed-files-yaml.outputs.R_any_changed }}
+      test_files_changed: ${{ needs.determine-changed-files.steps.changed-files-yaml.outputs.test_any_changed }}
+      man_files_changed: ${{ needs.determine-changed-files.steps.changed-files-yaml.outputs.man_any_changed }}
+      vignette_files_changed: ${{ needs.determine-changed-files.steps.changed-files-yaml.outputs.vignette_any_changed }}
+      readme_files_changed: ${{ needs.determine-changed-files.steps.changed-files-yaml.outputs.readme_any_changed }}
+
+      # code-coverage creates data bases for the tests. Here you can specify the schemas you need for the workflow
+      schema_creation: '"CREATE SCHEMA test; CREATE SCHEMA \"test.one\";"'
+    secrets: inherit

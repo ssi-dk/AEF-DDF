@@ -1,0 +1,72 @@
+on:
+  workflow_call:
+    inputs:
+      jobs:
+        required: false
+        type: string
+        default: lint,R-CMD-check,code-coverage,document,pkgdown,render-readme
+
+      event_name:
+        required: true
+        type: string
+      run_id:
+        required: true
+        type: string
+
+      R_files_changed:
+        required: true
+        type: string
+      test_files_changed:
+        required: true
+        type: string
+      man_files_changed:
+        required: true
+        type: string
+      vignette_files_changed:
+        required: true
+        type: string
+      readme_files_changed:
+        required: true
+        type: string
+
+      schema_creation:
+        required: false
+        type: string
+
+
+jobs:
+
+  lint:
+    if: ${{ contains(inputs.jobs, 'lint') && (inputs.R_files_changed == 'true' || inputs.man_files_changed == 'true') }}
+    uses: ./.github/workflows/lint.yaml
+
+  R-CMD-check:
+    if: ${{ contains(inputs.jobs, 'R-CMD-check') && (inputs.R_files_changed == 'true' || inputs.test_files_changed == 'true' || inputs.man_files_changed == 'true' || inputs.vignette_files_changed == 'true') }}
+    uses: ./.github/workflows/R-CMD-check.yaml
+    secrets: inherit
+
+  code-coverage:
+    if: ${{ contains(inputs.jobs, 'code-coverage') && (inputs.R_files_changed == 'true' || inputs.test_files_changed == 'true') }}
+    uses: ./.github/workflows/code-coverage.yaml
+    with:
+      event_name: ${{ inputs.event_name }}
+      schema_creation: ${{ inputs.schema_creation }}
+    secrets: inherit
+
+  document:
+    if: ${{ contains(inputs.jobs, 'document') && inputs.R_files_changed == 'true' }}
+    uses: ./.github/workflows/document.yaml
+    secrets: inherit
+
+  pkgdown:
+    if: ${{ contains(inputs.jobs, 'pkgdown') && (inputs.R_files_changed == 'true' || inputs.man_files_changed == 'true' || inputs.vignette_files_changed == 'true') }}
+    uses: ./.github/workflows/pkgdown.yaml
+    with:
+      event_name: ${{ inputs.event_name }}
+      run_id: ${{ inputs.run_id }}
+    secrets: inherit
+
+  render-readme:
+    if: ${{ contains(inputs.jobs, 'render-readme') && inputs.readme_files_changed == 'true'}}
+    uses: ./.github/workflows/render-readme.yaml
+    secrets: inherit
