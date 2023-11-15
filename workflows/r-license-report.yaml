@@ -5,9 +5,9 @@ name: License Report
 
 on:
   push:
-    branches-ignore: [main]
+    branches-ignore: [main, master]
   pull_request:
-    branches: [main]
+    branches: [main, master]
 
 jobs:
   license-report:
