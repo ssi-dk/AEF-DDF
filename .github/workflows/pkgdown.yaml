@@ -1,20 +1,21 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
-on:
-  push:
-    branch: main
-  pull_request:
-    branch: main
-  release:
-    types: [published]
-  workflow_dispatch:
 
-name: Deploy to GitHub Pages
+on:
+  workflow_call:
+    inputs:
+      event_name:
+        required: true
+        type: string
+      run_id:
+        required: true
+        type: string
 
 jobs:
+
   cleanup:
-    name: 🧼 Clean up environment
-    if: ${{ (github.repository == 'ssi-dk/SCDB') && (github.event_name == 'release') }}
+    name: 🧼 Clean up pkgdown environment
+    if: ${{ inputs.event_name == 'release' }}
     runs-on: ubuntu-latest
     permissions: write-all
 
@@ -27,11 +28,11 @@ jobs:
           onlyRemoveDeployments: true
 
   pkgdown-build:
-    name: Render pkgdown output
+    name: 📖 Render pkgdown output
     runs-on: ubuntu-latest
     # Only restrict concurrency for non-PR jobs
     concurrency:
-      group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
+      group: pkgdown-${{ inputs.event_name != 'pull_request' || inputs.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     permissions:
@@ -61,9 +62,9 @@ jobs:
           path: docs/
 
   deploy:
-    name: Deploy to GitHub pages 🚀
+    name: 🚀 Deploy to GitHub pages
     runs-on: ubuntu-latest
-    if: ${{ (github.repository == 'ssi-dk/SCDB') && (github.event_name == 'release') }}
+    if: ${{ inputs.event_name == 'release' }}
     needs: [cleanup, pkgdown-build]
     steps:
       - uses: actions/checkout@v3
@@ -74,7 +75,7 @@ jobs:
           name: pkgdown
           path: docs
 
-      - name: Deploy to GitHub pages 🚀
+      - name: 🚀 Deploy to GitHub pages
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           clean: false

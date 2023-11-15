@@ -1,0 +1,28 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branch: [main, master]
+    paths:
+      - R/**
+      - man/**
+      - vignettes/**
+  pull_request:
+    branch: [main, master]
+      paths:
+      - R/**
+      - man/**
+      - vignettes/**
+  release:
+    types: [published]
+  workflow_dispatch:
+
+name: Deploy to GitHub Pages
+
+jobs:
+  cleanup-build-deploy:
+    uses: ./.github/workflows/pkgdown.yaml
+    with:
+      event_name: ${{ github.event_name }}
+      run_id: ${{ github.run_id }}
+    secrets: inherit
