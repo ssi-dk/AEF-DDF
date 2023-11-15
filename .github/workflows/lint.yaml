@@ -6,7 +6,7 @@ on:
 
 jobs:
   lint:
-    name: 🔎 Perform linting
+    name: 🖋️ Perform linting
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}

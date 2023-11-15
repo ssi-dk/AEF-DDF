@@ -9,7 +9,7 @@ jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
 
-    name: ⚙️ R-CMD-check ${{ matrix.config.os }} (${{ matrix.config.r }})
+    name: 🔎 R-CMD-check ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
       fail-fast: false
@@ -47,7 +47,7 @@ jobs:
   R-CMD-check-hard:
     runs-on: ubuntu-latest
 
-    name: ⚙️ R-CMD-check ubuntu-latest (release, no dependencies)
+    name: 🔎 R-CMD-check ubuntu-latest (release, no dependencies)
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
