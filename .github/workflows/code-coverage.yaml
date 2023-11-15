@@ -1,29 +1,27 @@
-# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
-# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
-  push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
-
-name: test-coverage
+  workflow_call:
+    inputs:
+      schema_creation:
+        type: string
+        default: none
 
 env:
   PGHOST: localhost
   PGPORT: 5432
-  PGDATABASE: SCDB_test
+  PGDATABASE: test
   PGUSER: postgres
   PGPASSWORD: postgres
 
 jobs:
-  test-coverage:
+  code-coverage:
+    name: 🧪 Running tests
     runs-on: ubuntu-latest
 
     services:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: SCDB_test
+          POSTGRES_DB: test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         ports:
@@ -46,8 +44,9 @@ jobs:
           needs: coverage
 
       - name: Setup testing schemata in PostgreSQL
+        if: ${{ inputs.schema_creation != 'none' }}
         run: |
-          psql SCDB_test -c "CREATE SCHEMA test; CREATE SCHEMA \"test.one\";"
+          psql test -c ${{ inputs.schema_creation }}
 
       - name: Test coverage
         run: |

@@ -1,0 +1,19 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branch: [main, master]
+    paths:
+      - R/**
+      - tests/**
+  pull_request:
+    branch: [main, master]
+    paths:
+      - R/**
+      - tests/**
+
+jobs:
+  code-coverage:
+    uses: ./.github/workflows/code-coverage.yaml
+    with:
+      schema_creation: '"CREATE SCHEMA test; CREATE SCHEMA \"test.one\";"'
