@@ -5,4 +5,4 @@ on:
 
 jobs:
   render:
-    uses: ./.github/workflows/render-readme.yaml
+    uses: ssi-dk/AEF-DDF/.github/workflows/render-readme.yaml@main

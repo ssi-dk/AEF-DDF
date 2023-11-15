@@ -8,5 +8,5 @@ name: document
 
 jobs:
   document:
-    uses: ./.github/workflows/document.yaml
+    uses: ssi-dk/AEF-DDF/.github/workflows/document.yaml@main
     secrets: inherit

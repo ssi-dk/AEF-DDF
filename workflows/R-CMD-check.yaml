@@ -20,5 +20,5 @@ name: R-CMD-check
 
 jobs:
   R-CMD-check:
-    uses: ./.github/workflows/R-CMD-check.yaml
+    uses: ssi-dk/AEF-DDF/.github/workflows/R-CMD-check.yaml@main
     secrets: inherit

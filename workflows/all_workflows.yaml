@@ -41,7 +41,7 @@ jobs:
   # We call the reuseable workflow that triggers all AEF-DDF workflows
   run-all-AEF-DFF-workflows:
     name: ⚙️ Run all AEF-DDF workflows
-    uses: ./.github/workflows/workflow_dispatcher.yaml
+    uses: ssi-dk/AEF-DDF/.github/workflows/workflow_dispatcher.yaml@main
     needs: determine-changed-files
     with:
       # We pass information about the triggering event

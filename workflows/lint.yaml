@@ -16,5 +16,5 @@ name: lint
 
 jobs:
   lint:
-    uses: ./.github/workflows/lint.yaml
+    uses: ssi-dk/AEF-DDF/.github/workflows/lint.yaml@main
     secrets: inherit
