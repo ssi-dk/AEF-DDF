@@ -4,9 +4,6 @@ on:
       schema_creation:
         type: string
         default: none
-      repository:
-        required: true
-        type: string
 
 
 jobs:
