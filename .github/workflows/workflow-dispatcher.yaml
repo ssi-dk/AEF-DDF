@@ -71,6 +71,17 @@ jobs:
       needs.trigger.outputs.man_files_changed == 'true') }}
     uses: ./.github/workflows/lint.yaml
 
+
+  spell-checker:
+    needs: trigger
+    if: ${{ !contains(inputs.skip, 'spell-checker')  && (
+      needs.trigger.outputs.description_changed == 'true' ||
+      needs.trigger.outputs.man_files_changed == 'true' ||
+      needs.trigger.outputs.vignette_files_changed == 'true') }}
+    uses: ./.github/workflows/spell-checker.yaml
+    secrets: inherit
+
+
   R-CMD-check:
     needs: trigger
     if: ${{ !contains(inputs.skip, 'R-CMD-check') &&
@@ -94,12 +105,22 @@ jobs:
       repository: ${{ inputs.repository }}
     secrets: inherit
 
+
   document:
     needs: trigger
     if: ${{ !contains(inputs.skip, 'document') && (
       needs.trigger.outputs.R_files_changed == 'true') }}
     uses: ./.github/workflows/document.yaml
     secrets: inherit
+
+
+  render-readme:
+    needs: trigger
+    if: ${{ !contains(inputs.skip, 'render-readme') && (
+      needs.trigger.outputs.readme_files_changed == 'true') }}
+    uses: ./.github/workflows/render-readme.yaml
+    secrets: inherit
+
 
   pkgdown:
     needs: trigger
@@ -112,21 +133,4 @@ jobs:
     with:
       event_name: ${{ inputs.event_name }}
       run_id: ${{ inputs.run_id }}
-    secrets: inherit
-
-  render-readme:
-    needs: trigger
-    if: ${{ !contains(inputs.skip, 'render-readme') && (
-      needs.trigger.outputs.readme_files_changed == 'true') }}
-    uses: ./.github/workflows/render-readme.yaml
-    secrets: inherit
-
-
-  spell-checker:
-    needs: trigger
-    if: ${{ !contains(inputs.skip, 'spell-checker')  && (
-      needs.trigger.outputs.description_changed == 'true' ||
-      needs.trigger.outputs.man_files_changed == 'true' ||
-      needs.trigger.outputs.vignette_files_changed == 'true') }}
-    uses: ./.github/workflows/spell-checker.yaml
     secrets: inherit
