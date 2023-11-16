@@ -12,6 +12,8 @@ on:
       - R/**
       - tests/**
 
+name: Check code coverage
+
 jobs:
   code-coverage:
     uses: ssi-dk/AEF-DDF/.github/workflows/code-coverage.yaml@main
