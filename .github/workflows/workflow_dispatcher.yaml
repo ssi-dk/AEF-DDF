@@ -1,10 +1,10 @@
 on:
   workflow_call:
     inputs:
-      jobs:
+      skip:
         required: false
         type: string
-        default: lint,R-CMD-check,code-coverage,document,pkgdown,render-readme
+        default: ''
 
       event_name:
         required: true
@@ -55,14 +55,14 @@ jobs:
 
   lint:
     needs: trigger
-    if: ${{ contains(inputs.jobs, 'lint') && (
+    if: ${{ !contains(inputs.skip, 'lint') && (
       needs.trigger.outputs.R_files_changed == 'true' ||
       needs.trigger.outputs.man_files_changed == 'true') }}
     uses: ./.github/workflows/lint.yaml
 
   R-CMD-check:
     needs: trigger
-    if: ${{ contains(inputs.jobs, 'R-CMD-check') && (
+    if: ${{ !contains(inputs.skip, 'R-CMD-check') && (
       needs.trigger.outputs.R_files_changed == 'true' ||
       needs.trigger.outputs.test_files_changed == 'true' ||
       needs.trigger.outputs.man_files_changed == 'true' ||
@@ -72,7 +72,7 @@ jobs:
 
   code-coverage:
     needs: trigger
-    if: ${{ contains(inputs.jobs, 'code-coverage') && (
+    if: ${{ !contains(inputs.skip, 'code-coverage') && (
       needs.trigger.outputs.R_files_changed == 'true' ||
       needs.trigger.outputs.test_files_changed == 'true') }}
     uses: ./.github/workflows/code-coverage.yaml
@@ -82,14 +82,14 @@ jobs:
 
   document:
     needs: trigger
-    if: ${{ contains(inputs.jobs, 'document') && (
+    if: ${{ !contains(inputs.skip, 'document') && (
       needs.trigger.outputs.R_files_changed == 'true') }}
     uses: ./.github/workflows/document.yaml
     secrets: inherit
 
   pkgdown:
     needs: trigger
-    if: ${{ contains(inputs.jobs, 'pkgdown') && (
+    if: ${{ !contains(inputs.skip, 'pkgdown') && (
       needs.trigger.outputs.R_files_changed == 'true' ||
       needs.trigger.outputs.man_files_changed == 'true' ||
       needs.trigger.outputs.vignette_files_changed == 'true') }}
@@ -101,7 +101,7 @@ jobs:
 
   render-readme:
     needs: trigger
-    if: ${{ contains(inputs.jobs, 'render-readme') && (
+    if: ${{ !contains(inputs.skip, 'render-readme') && (
       needs.trigger.outputs.readme_files_changed == 'true') }}
     uses: ./.github/workflows/render-readme.yaml
     secrets: inherit

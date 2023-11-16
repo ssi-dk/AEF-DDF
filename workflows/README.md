@@ -14,6 +14,10 @@ Continue reading to learn what the individual workflows do.
 If these workflows take arguments, they can also be passed to `all_workflows` which will then pass it to the approriate
 workflows.
 
+#### Arguments
+`skip`: Comma-seperated string naming workflows to skip
+
+
 ## lint.yaml
 #### Trigger
 Changes to any file in the `R/` or `man/` folders.
