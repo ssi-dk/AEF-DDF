@@ -14,7 +14,7 @@ jobs:
     name: 🧪 Running tests (sqlite)
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/workflows/code-coverage-steps.yaml
+      - uses: ./.github/actions/code-coverage-action.yaml
         with:
           repository: ${{ inputs.repository }}
 
@@ -51,8 +51,6 @@ jobs:
         run: |
           psql test -c ${{ inputs.schema_creation }}
 
-      - uses: ./.github/workflows/code-coverage-steps.yaml
+      - uses: ./.github/actions/code-coverage-action.yaml
         with:
           repository: ${{ inputs.repository }}
-
-      - uses: ./.github/workflows/code-coverage-steps.yaml
