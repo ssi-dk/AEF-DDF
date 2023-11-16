@@ -6,6 +6,8 @@ on:
   release:
   workflow_dispatch:
 
+name: Run all workflows
+
 jobs:
 
   # We call the reuseable workflow that triggers all AEF-DDF workflows

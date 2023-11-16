@@ -12,7 +12,7 @@ on:
       - R/**
       - man/**
 
-name: lint
+name: Lint the code base
 
 jobs:
   lint:

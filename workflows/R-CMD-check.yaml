@@ -16,7 +16,7 @@ on:
       - man/**
       - vignettes/**
 
-name: R-CMD-check
+name: Run R-CMD-check
 
 jobs:
   R-CMD-check:

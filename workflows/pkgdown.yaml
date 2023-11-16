@@ -17,7 +17,7 @@ on:
     types: [published]
   workflow_dispatch:
 
-name: Deploy to GitHub Pages
+name: Generate pkgdown page
 
 jobs:
   cleanup-build-deploy:
