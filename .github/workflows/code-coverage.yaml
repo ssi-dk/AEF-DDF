@@ -8,11 +8,13 @@ on:
 jobs:
   code-coverage-sqlite:
     name: 🧪 Running tests (sqlite)
+    runs-on: ubuntu-latest
     uses: ./.github/workflows/code-coverage-steps.yaml
 
 
   code-coverage-postgres:
     name: 🧪 Running tests (postgres)
+    runs-on: ubuntu-latest
 
     services:
       postgres:
@@ -48,6 +50,7 @@ jobs:
 
   code-coverage-mssql:
     name: 🧪 Running tests (mssql)
+    runs-on: ubuntu-latest
 
     services:
       mssql:
