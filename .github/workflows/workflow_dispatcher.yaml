@@ -22,7 +22,7 @@ jobs:
 
   # To give granular control of when workflows should execute, we determine which "categories" of files has changed
   trigger:
-    name: ⚙️ Determine changed files
+    name: ⚙️ Determine downstream workflow triggers
     runs-on: ubuntu-latest
 
     outputs:
@@ -31,6 +31,7 @@ jobs:
       man_files_changed: ${{ steps.changed-files-yaml.outputs.man_any_changed }}
       vignette_files_changed: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}
       readme_files_changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}
+      main_branch_affected: ${{ GITHUB_REF == 'main' || GITHUB_REF == 'master' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -62,7 +63,8 @@ jobs:
 
   R-CMD-check:
     needs: trigger
-    if: ${{ !contains(inputs.skip, 'R-CMD-check') && (
+    if: ${{ !contains(inputs.skip, 'R-CMD-check') &&
+      needs.trigger.outputs.main_branch_affected == 'true' && (
       needs.trigger.outputs.R_files_changed == 'true' ||
       needs.trigger.outputs.test_files_changed == 'true' ||
       needs.trigger.outputs.man_files_changed == 'true' ||
@@ -72,7 +74,8 @@ jobs:
 
   code-coverage:
     needs: trigger
-    if: ${{ !contains(inputs.skip, 'code-coverage') && (
+    if: ${{ !contains(inputs.skip, 'code-coverage') &&
+      needs.trigger.outputs.main_branch_affected == 'true' && (
       needs.trigger.outputs.R_files_changed == 'true' ||
       needs.trigger.outputs.test_files_changed == 'true') }}
     uses: ./.github/workflows/code-coverage.yaml
@@ -89,7 +92,8 @@ jobs:
 
   pkgdown:
     needs: trigger
-    if: ${{ !contains(inputs.skip, 'pkgdown') && (
+    if: ${{ !contains(inputs.skip, 'pkgdown') &&
+      (needs.trigger.outputs.main_branch_affected == 'true' || inputs.event_name == 'release') && (
       needs.trigger.outputs.R_files_changed == 'true' ||
       needs.trigger.outputs.man_files_changed == 'true' ||
       needs.trigger.outputs.vignette_files_changed == 'true') }}
