@@ -119,6 +119,6 @@ jobs:
     if: ${{ !contains(inputs.skip, 'spell-checker')  && (
       needs.trigger.outputs.description_changed == 'true' ||
       needs.trigger.outputs.man_files_changed == 'true' ||
-      needs.trigger.outputs.vignette_files_changed == 'true')
+      needs.trigger.outputs.vignette_files_changed == 'true') }}
     uses: ./.github/workflows/spell-checker.yaml
     secrets: inherit
