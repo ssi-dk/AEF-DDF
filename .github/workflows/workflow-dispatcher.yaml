@@ -32,7 +32,7 @@ jobs:
       vignette_files_changed: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}
       readme_files_changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}
       description_changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}
-      main_branch_affected: ${{ GITHUB_REF == 'main' || GITHUB_REF == 'master' }}
+      main_branch_affected: ${{ github.ref == 'main' || github.ref == 'master' }}
 
     steps:
       - uses: actions/checkout@v4
