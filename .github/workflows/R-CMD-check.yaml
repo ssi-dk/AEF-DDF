@@ -3,13 +3,10 @@
 on:
   workflow_call:
 
-name: R-CMD-check
-
 jobs:
   R-CMD-check:
-    runs-on: ${{ matrix.config.os }}
-
     name: 🔎 R-CMD-check ${{ matrix.config.os }} (${{ matrix.config.r }})
+    runs-on: ${{ matrix.config.os }}
 
     strategy:
       fail-fast: false

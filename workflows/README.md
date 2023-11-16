@@ -4,7 +4,7 @@ R-package.
 These workflows calls the reusable workflows (which are stored in this repo' `.github/workflows` folder).
 
 Below is an overview of the workflows available to you.
-## all_workflows.yaml
+## all-workflows.yaml
 This workflow calls is a convenience wrapper for all the individual workflows stored in this repo.
 If you do not want granular control of the workflows being run, you can copy this single file to your repo and let us
 curate the selection of workflows being run on your package.

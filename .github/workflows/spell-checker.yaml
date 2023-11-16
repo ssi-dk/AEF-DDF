@@ -3,8 +3,8 @@ on:
 
 jobs:
   check-spelling:
-    runs-on: ubuntu-latest
     name: 🔠 Check spelling
+    runs-on: ubuntu-latest
     container:
       image: rocker/tidyverse:4.1.2
     steps:
