@@ -16,5 +16,7 @@ name: Lint the code base
 
 jobs:
   lint:
-    uses: ssi-dk/AEF-DDF/.github/workflows/lint.yaml@main
-    secrets: inherit
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ssi-dk/AEF-DDF/.github/workflows/lint.yaml@main
+      secrets: inherit

@@ -8,5 +8,8 @@ name: Check roxygen documentiaton
 
 jobs:
   document:
-    uses: ssi-dk/AEF-DDF/.github/workflows/document.yaml@main
-    secrets: inherit
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: ssi-dk/AEF-DDF/.github/workflows/document.yaml@main
+      secrets: inherit

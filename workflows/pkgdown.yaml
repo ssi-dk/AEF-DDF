@@ -21,8 +21,11 @@ name: Generate pkgdown page
 
 jobs:
   cleanup-build-deploy:
-    uses: ssi-dk/AEF-DDF/.github/workflows/pkgdown.yaml@main
-    with:
-      event_name: ${{ github.event_name }}
-      run_id: ${{ github.run_id }}
-    secrets: inherit
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ssi-dk/AEF-DDF/.github/workflows/pkgdown.yaml@main
+        with:
+          event_name: ${{ github.event_name }}
+          run_id: ${{ github.run_id }}
+        secrets: inherit

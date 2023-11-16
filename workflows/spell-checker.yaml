@@ -16,5 +16,8 @@ name: Check spelling
 
 jobs:
   R-CMD-check:
-    uses: ssi-dk/AEF-DDF/.github/workflows/spell-checker.yaml@main
-    secrets: inherit
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ssi-dk/AEF-DDF/.github/workflows/spell-checker.yaml@main
+        secrets: inherit
