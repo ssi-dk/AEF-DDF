@@ -16,6 +16,7 @@ workflows.
 
 #### Arguments
 `skip`: Comma-seperated string naming workflows to skip (optional) 
+
 `triggering_branches`: Comma-seperated string naming main-branches to trigger on (optional) 
 
 ## lint.yaml
