@@ -22,3 +22,4 @@ jobs:
       - uses: ssi-dk/AEF-DDF/.github/workflows/code-coverage.yaml@main
         with:
           schema_creation: '"CREATE SCHEMA test; CREATE SCHEMA \"test.one\";"'
+          repository: ${{ github.repository }}
