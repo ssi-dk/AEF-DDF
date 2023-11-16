@@ -7,6 +7,4 @@ name: Render README.md from markdown
 
 jobs:
   render:
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ssi-dk/AEF-DDF/.github/workflows/render-readme.yaml@main
+    uses: ssi-dk/AEF-DDF/.github/workflows/render-readme.yaml@main

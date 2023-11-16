@@ -13,15 +13,12 @@ jobs:
   # We call the reuseable workflow that triggers all AEF-DDF workflows
   run-all-AEF-DFF-workflows:
     name: ⚙️ Run all AEF-DDF workflows
-    steps:
-    - uses: actions/checkout@v4
+    uses: ssi-dk/AEF-DDF/.github/workflows/workflow-dispatcher.yaml@main
+    with:
+      # We pass information about the triggering event
+      event_name: ${{ github.event_name }}
+      run_id: ${{ github.run_id }}
 
-    - uses: ssi-dk/AEF-DDF/.github/workflows/workflow-dispatcher.yaml@main
-      with:
-        # We pass information about the triggering event
-        event_name: ${{ github.event_name }}
-        run_id: ${{ github.run_id }}
-
-        # code-coverage creates data bases for the tests. Here you can specify the schemas you need for the workflow
-        schema_creation: '"CREATE SCHEMA test; CREATE SCHEMA \"test.one\";"'
-      secrets: inherit
+      # code-coverage creates data bases for the tests. Here you can specify the schemas you need for the workflow
+      schema_creation: '"CREATE SCHEMA test; CREATE SCHEMA \"test.one\";"'
+    secrets: inherit

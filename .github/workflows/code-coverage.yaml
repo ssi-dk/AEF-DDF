@@ -14,9 +14,9 @@ jobs:
     name: 🧪 Running tests (sqlite)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
       - uses: ./.github/workflows/code-coverage-steps.yaml
+        with:
+          repository: ${{ inputs.repository }}
 
 
   code-coverage-postgres:
@@ -46,13 +46,10 @@ jobs:
       PGPASSWORD: postgres
 
     steps:
-
       - name: Setup testing schemata in PostgreSQL
         if: ${{ inputs.schema_creation != 'none' }}
         run: |
           psql test -c ${{ inputs.schema_creation }}
-
-      - uses: actions/checkout@v4
 
       - uses: ./.github/workflows/code-coverage-steps.yaml
         with:
