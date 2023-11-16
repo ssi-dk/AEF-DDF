@@ -1,0 +1,20 @@
+on:
+  push:
+    branches: [main, master]
+      paths:
+        - DESCRIPTION
+        - man/**
+        - vignettes/**
+  pull_request:
+    branches: [main, master]
+      paths:
+        - DESCRIPTION
+        - man/**
+        - vignettes/**
+
+name: Check spelling
+
+jobs:
+  R-CMD-check:
+    uses: ssi-dk/AEF-DDF/.github/workflows/spell-checker.yaml@main
+    secrets: inherit

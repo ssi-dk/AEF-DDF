@@ -96,3 +96,14 @@ Knits `README.md` from `README.Rmd`.
 
 #### Outcome
 If this generates changes to `README.md`, it it will commit the updated README to the repository.
+
+
+## spell-checker.yaml
+#### Trigger
+Changes to `DESCRIPTION` or any file in the `man/` or `vignette/` folders.
+
+#### Function
+Runs `spelling::spell_check_package` on the code base.
+
+#### Outcome
+If any spelling mistakes are found, the workflow will give an error.
