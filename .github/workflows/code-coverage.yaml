@@ -9,7 +9,8 @@ jobs:
   code-coverage-sqlite:
     name: 🧪 Running tests (sqlite)
     runs-on: ubuntu-latest
-    uses: ./.github/workflows/code-coverage-steps.yaml
+    steps:
+      - uses: ./.github/workflows/code-coverage-steps.yaml
 
 
   code-coverage-postgres:
@@ -37,7 +38,6 @@ jobs:
       PGDATABASE: test
       PGUSER: postgres
       PGPASSWORD: postgres
-
 
     steps:
       - name: Setup testing schemata in PostgreSQL
