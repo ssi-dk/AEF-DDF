@@ -33,13 +33,13 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      R_files_changed: ${{ steps.changed-files-yaml.outputs.R_any_changed }}
-      test_files_changed: ${{ steps.changed-files-yaml.outputs.test_any_changed }}
-      man_files_changed: ${{ steps.changed-files-yaml.outputs.man_any_changed }}
-      vignette_files_changed: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}
-      readme_files_changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}
-      description_changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}
-      main_branch_affected: ${{ contains(inputs.main_branches, github.ref) }}
+      R_files_changed: 'true' #${{ steps.changed-files-yaml.outputs.R_any_changed }}
+      test_files_changed: 'true' #${{ steps.changed-files-yaml.outputs.test_any_changed }}
+      man_files_changed: 'true' #${{ steps.changed-files-yaml.outputs.man_any_changed }}
+      vignette_files_changed: 'true' #${{ steps.changed-files-yaml.outputs.vignette_any_changed }}
+      readme_files_changed: 'true' #${{ steps.changed-files-yaml.outputs.readme_any_changed }}
+      description_changed: 'true' #${{ steps.changed-files-yaml.outputs.description_any_changed }}
+      main_branch_affected: 'true' #${{ contains(inputs.main_branches, github.ref) }}
 
     steps:
       - uses: actions/checkout@v4
