@@ -14,7 +14,7 @@ on:
 jobs:
 
   cleanup:
-    name: 🧼 Clean up pkgdown environment
+    name: "🧼 pkgdown: Clean up environment"
     if: ${{ inputs.event_name == 'release' }}
     runs-on: ubuntu-latest
     permissions: write-all
@@ -28,7 +28,7 @@ jobs:
           onlyRemoveDeployments: true
 
   pkgdown-build:
-    name: 📖 Render pkgdown output
+    name: "📖 pkgdown: Build site"
     runs-on: ubuntu-latest
     # Only restrict concurrency for non-PR jobs
     concurrency:
@@ -62,7 +62,7 @@ jobs:
           path: docs/
 
   deploy:
-    name: 🚀 Deploy to GitHub pages
+    name: "🚀 pkgdown: Deploy to GitHub pages"
     runs-on: ubuntu-latest
     if: ${{ inputs.event_name == 'release' }}
     needs: [cleanup, pkgdown-build]
@@ -75,7 +75,7 @@ jobs:
           name: pkgdown
           path: docs
 
-      - name: 🚀 Deploy to GitHub pages
+      - name: Deploy to GitHub pages
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           clean: false
