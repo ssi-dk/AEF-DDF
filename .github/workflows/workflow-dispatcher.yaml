@@ -5,7 +5,7 @@ on:
         required: false
         type: string
         default: ''
-      triggering_branches:
+      main_branches:
         required: false
         type: string
         default: 'main,master'
