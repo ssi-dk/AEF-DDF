@@ -141,7 +141,8 @@ jobs:
       - name: Setup testing schemata in SQL server
         if: ${{ inputs.schema_creation != 'none' }}
         run: |
-          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "${{ inputs.schema_creation }} GO"
+          schema_creation_mssl="${ ${{ inputs.schema_creation }}/;/;GO}"
+          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "${ schema_creation_mssl }"
 
       - uses: actions/checkout@v4
 
