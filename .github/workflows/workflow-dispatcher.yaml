@@ -46,7 +46,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get all R, test, man, vignette and readme files that have changed
+      - name: Detect changes to .R, tests/, man/, vignettes/, README.Rmd and DESCRIPTION
         id: changed-files-yaml
         uses: tj-actions/changed-files@v40
         with:
@@ -63,6 +63,15 @@ jobs:
               - README.Rmd
             description:
               - DESCRIPTION
+
+      - name: Report files that have changed
+        run: |
+          echo "R files changed ${{ steps.changed-files-yaml.outputs.R_any_changed }}"
+          echo "test files changed ${{ steps.changed-files-yaml.outputs.test_any_changed }}"
+          echo "man files changed ${{ steps.changed-files-yaml.outputs.man_any_changed }}"
+          echo "vignette files changed ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}"
+          echo "readme changed ${{ steps.changed-files-yaml.outputs.readme_any_changed }}"
+          echo "description changed ${{ steps.changed-files-yaml.outputs.description_any_changed }}"
 
   lint:
     needs: trigger
