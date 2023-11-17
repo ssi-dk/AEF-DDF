@@ -80,7 +80,7 @@ jobs:
       - name: Setup testing schemata in PostgreSQL
         if: ${{ inputs.schema_creation != 'none' }}
         run: |
-          psql test -c ${{ inputs.schema_creation }}
+          psql test -c "${{ inputs.schema_creation }}"
 
       - uses: actions/checkout@v4
 
