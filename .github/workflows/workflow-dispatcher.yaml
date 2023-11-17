@@ -39,7 +39,7 @@ jobs:
       vignette_files_changed: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}
       readme_files_changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}
       description_changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}
-      main_branch_affected: ${{ contains(inputs.main_branches, github.ref) }}
+      main_branch_affected: ${{ contains(inputs.main_branches, github.base_ref) }}
 
     steps:
       - uses: actions/checkout@v4
@@ -72,7 +72,7 @@ jobs:
           echo "vignette files changed: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}"
           echo "readme changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}"
           echo "description changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}"
-          echo "main branch affected: ${{ contains(inputs.main_branches, github.ref) }}"
+          echo "main branch affected: ${{ contains(inputs.main_branches, github.base_ref) }}"
 
   lint:
     needs: trigger
