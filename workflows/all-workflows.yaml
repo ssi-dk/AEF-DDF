@@ -21,5 +21,4 @@ jobs:
 
       # code-coverage creates data bases for the tests. Here you can specify the schemas you need for the workflow
       schema_creation: '"CREATE SCHEMA test; CREATE SCHEMA \"test.one\";"'
-      repository: ${{ github.repository }}
     secrets: inherit
