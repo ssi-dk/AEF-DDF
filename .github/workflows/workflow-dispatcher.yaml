@@ -46,7 +46,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Detect changes to .R, tests/, man/, vignettes/, README.Rmd and DESCRIPTION
+      - name: Detect changes to R/, tests/, man/, vignettes/, README.Rmd and DESCRIPTION
         id: changed-files-yaml
         uses: tj-actions/changed-files@v40
         with:
@@ -66,12 +66,12 @@ jobs:
 
       - name: Report triggers
         run: |
-          echo "R files changed: ${{ steps.changed-files-yaml.outputs.R_any_changed }}"
-          echo "test files changed: ${{ steps.changed-files-yaml.outputs.test_any_changed }}"
-          echo "man files changed: ${{ steps.changed-files-yaml.outputs.man_any_changed }}"
-          echo "vignette files changed: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}"
-          echo "readme changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}"
-          echo "description changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}"
+          echo "R/ directory changes: ${{ steps.changed-files-yaml.outputs.R_any_changed }}"
+          echo "tests/ directory changes: ${{ steps.changed-files-yaml.outputs.test_any_changed }}"
+          echo "man/ directory changes: ${{ steps.changed-files-yaml.outputs.man_any_changed }}"
+          echo "vignettes/ directory changes: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}"
+          echo "README.Rmd changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}"
+          echo "DESCRIPTION changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}"
           echo "main branch affected: ${{ contains(inputs.main_branches, github.base_ref) }}"
 
   lint:
