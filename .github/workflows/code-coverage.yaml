@@ -3,12 +3,15 @@ on:
     inputs:
       schema_creation:
         type: string
-        default: none
+        default: ''
+      backend_skip:
+        type: string
+        default: ''
 
 
 jobs:
   code-coverage-sqlite:
-    name: 🧪 Running tests (sqlite)
+    name: 🧪 Running tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -49,6 +52,7 @@ jobs:
   code-coverage-postgres:
     name: 🧪 Running tests (postgres)
     runs-on: ubuntu-latest
+    if: ${{ !contains(inputs.backend_skip, 'postgres')}}
 
     services:
       postgres:

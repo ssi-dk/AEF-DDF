@@ -23,6 +23,9 @@ on:
       schema_creation:
         required: false
         type: string
+      backend_skip:
+        required: false
+        type: string
 
 
 jobs:

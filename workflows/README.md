@@ -15,9 +15,9 @@ If these workflows take arguments, they can also be passed to `all_workflows` wh
 workflows.
 
 #### Arguments
-`skip`: Comma-seperated string naming workflows to skip (optional) 
+`skip`: Comma-seperated string naming workflows to skip (optional)
 
-`main_branches`: Comma-seperated string naming main-branches to trigger on (optional) 
+`main_branches`: Comma-seperated string naming main-branches to trigger on (optional)
 
 ## lint.yaml
 #### Trigger
@@ -55,6 +55,8 @@ This enables you to add the code coverage badge to your `README.md`.
 
 #### Arguments
 `schema_creation`: String passed to the data base backend to create the required schemas
+
+`backend_skip`: Comma-seperated string naming data base backends to skip (optional)
 
 #### NOTE
 To conserve resoures, only the `code-coverage` workflow is configured with data bases.
