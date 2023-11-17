@@ -1,4 +1,4 @@
-# Github workflows for R-pacakges
+# Github workflows for R-packages
 In this folder will find a series of github workflows that you can copy to the `.github/workflows` directory of your
 R-package.
 These workflows calls the reusable workflows (which are stored in this repo' `.github/workflows` folder).
@@ -11,7 +11,7 @@ curate the selection of workflows being run on your package.
 
 Continue reading to learn what the individual workflows do.
 
-If these workflows take arguments, they can also be passed to `all_workflows` which will then pass it to the approriate
+If these workflows take arguments, they can also be passed to `all_workflows` which will then pass it to the appropriate
 workflows.
 
 | Arguments       | Description                             | Default       | Example         |
@@ -60,7 +60,7 @@ This enables you to add the code coverage badge to your `README.md`.
 
 
 > [!NOTE]
-> To conserve resoures, only the `code-coverage` workflow is configured with data bases.
+> To conserve resources, only the `code-coverage` workflow is configured with data bases.
 > This means that your `R-CMD-check` may not fail when `code-coverage` fails.
 > If this is the case, the cause is likely a data base specific issue in your code base.
 
