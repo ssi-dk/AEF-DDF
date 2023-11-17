@@ -115,3 +115,141 @@ jobs:
         with:
           name: coverage-test-failures
           path: ${{ runner.temp }}/package
+
+  # Option 1
+  # https://github.com/marketplace/actions/mssql-suite
+  code-coverage-mssql-1:
+    name: 🧪 Running tests (mssql-v1)
+    runs-on: ubuntu-latest
+    if: ${{ !contains(inputs.backend_skip, 'mssql')}}
+
+    steps:
+      - name: Install a SQL Server suite of tools
+        uses: potatoqualitee/mssqlsuite@v1.7
+        with:
+          install: sqlengine, sqlpackage
+
+      - name: Run sqlclient
+        run: sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "SELECT @@version;"
+
+      - name: Configure database
+        run: |
+          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE DATABASE TestDB;"
+          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
+          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "USE TestDB;"
+
+      - name: Setup testing schemata in SQL server
+        if: ${{ inputs.schema_creation != 'none' }}
+        run: |
+          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "${{ inputs.schema_creation }} GO"
+
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::covr
+          needs: coverage
+
+      # - name: Test coverage
+      #   run: |
+      #     covr::codecov(
+      #       quiet = FALSE,
+      #       clean = FALSE,
+      #       install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
+      #     )
+      #   shell: Rscript {0}
+
+      # - name: Show testthat output
+      #   if: always()
+      #   run: |
+      #     ## --------------------------------------------------------------------
+      #     find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
+      #   shell: bash
+
+      # - name: Upload test results
+      #   if: failure()
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: coverage-test-failures
+      #     path: ${{ runner.temp }}/package
+
+  # # Option 2
+  # code-coverage-mssql-2:
+  #   name: 🧪 Running tests (mssql-v2)
+  #   runs-on: ubuntu-latest
+  #   if: ${{ !contains(inputs.backend_skip, 'mssql')}}
+
+  #   services:
+  #     mssql:
+  #       image: mcr.microsoft.com/mssql/server:2022-latest
+  #       env:
+  #         MSSQL_SA_PASSWORD: test
+  #         ACCEPT_EULA: 'Y'
+  #       ports:
+  #         - 1433:1433s
+
+  #   env:
+  #     BACKEND: SQL Server
+  #     BACKEND_DRV: odbc::odbc
+  #     BACKEND_ARGS: ''
+
+  #     ConnectionStrings__MyConnString: "Server=localhost,1433;Initial Catalog=test;User Id=sa;Password=test;"
+
+  #   steps:
+
+  #     - name: Setup testing schemata in MSSQL
+  #       if: ${{ inputs.schema_creation != 'none' }}
+  #       shell: pwsh
+  #       run: |
+  #         # Set the path context to the local, default instance of SQL Server and get a reference to AdventureWorks2022
+  #         CD \sql\localhost\default\databases
+  #         $db = get-item AdventureWorks2022
+
+  #         # Define a schema object variable by supplying the parent database and name arguments in the constructor.
+  #         $sch  = New-Object -TypeName Microsoft.SqlServer.Management.SMO.Schema `
+  #         -argumentlist $db, "MySchema1"
+
+  #         # Set schema owner
+  #         $sch.Owner = "dbo"
+
+  #         # Create the schema on the instance of SQL Server.
+  #         $sch.Create()
+  #         # https://learn.microsoft.com/en-us/sql/relational-databases/server-management-objects-smo/tasks/creating-altering-and-removing-schemas?view=sql-server-ver16
+
+  #     - uses: actions/checkout@v4
+
+  #     - uses: r-lib/actions/setup-r@v2
+  #       with:
+  #         use-public-rspm: true
+
+  #     - uses: r-lib/actions/setup-r-dependencies@v2
+  #       with:
+  #         extra-packages: any::covr
+  #         needs: coverage
+
+  #     - name: Test coverage
+  #       run: |
+  #         covr::codecov(
+  #           quiet = FALSE,
+  #           clean = FALSE,
+  #           install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
+  #         )
+  #       shell: Rscript {0}
+
+  #     - name: Show testthat output
+  #       if: always()
+  #       run: |
+  #         ## --------------------------------------------------------------------
+  #         find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
+  #       shell: bash
+
+  #     - name: Upload test results
+  #       if: failure()
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: coverage-test-failures
+  #         path: ${{ runner.temp }}/package
