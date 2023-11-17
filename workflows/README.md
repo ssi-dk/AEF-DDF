@@ -14,10 +14,10 @@ Continue reading to learn what the individual workflows do.
 If these workflows take arguments, they can also be passed to `all_workflows` which will then pass it to the approriate
 workflows.
 
-#### Arguments
-`skip`: Comma-seperated string naming workflows to skip (optional)
-
-`main_branches`: Comma-seperated string naming main-branches to trigger on (optional)
+| Arguments       | Description                             | Default       | Example         |
+|-----------------|-----------------------------------------|---------------|-----------------|
+| `skip`          | Workflows to skip (optional)            | ''            | 'lint,document' |
+| `main_branches` | Main branches to trigger on (optional). | 'main,master' | 'main,develop'  |
 
 ## lint.yaml
 #### Trigger
@@ -53,15 +53,16 @@ Determine the degree of [code coverage](https://en.wikipedia.org/wiki/Code_cover
 Code coverage results are uploaded to [codecov.io](https://about.codecov.io/).
 This enables you to add the code coverage badge to your `README.md`.
 
-#### Arguments
-`schema_creation`: String passed to the data base backend to create the required schemas
+| Arguments         | Description                             | Default       | Example                 |
+|-------------------|-----------------------------------------|---------------|-------------------------|
+| `schema_creation` | SQL query to create schemas (optional)  | ''            | 'CREATE SCHEMA "test";' |
+| `backend_skip`    | data base backends to skip (optional)   | ''            | 'postgres'              |
 
-`backend_skip`: Comma-seperated string naming data base backends to skip (optional)
 
-#### NOTE
-To conserve resoures, only the `code-coverage` workflow is configured with data bases.
-This means that your `R-CMD-check` may not fail when `code-coverage` fails.
-If this is the case, the cause is likely a data base specific issue in your code base.
+> [!NOTE]
+> To conserve resoures, only the `code-coverage` workflow is configured with data bases.
+> This means that your `R-CMD-check` may not fail when `code-coverage` fails.
+> If this is the case, the cause is likely a data base specific issue in your code base.
 
 
 ## document.yaml
