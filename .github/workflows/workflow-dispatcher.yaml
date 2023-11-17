@@ -112,6 +112,7 @@ jobs:
     uses: ./.github/workflows/code-coverage.yaml
     with:
       schema_creation: ${{ inputs.schema_creation }}
+      backend_skip: ${{ inputs.backend_skip }}
     secrets: inherit
 
 
