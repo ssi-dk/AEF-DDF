@@ -16,9 +16,6 @@ on:
       run_id:
         required: true
         type: string
-      repository:
-        required: true
-        type: string
 
       schema_creation:
         required: false
@@ -115,7 +112,6 @@ jobs:
     uses: ./.github/workflows/code-coverage.yaml
     with:
       schema_creation: ${{ inputs.schema_creation }}
-      repository: ${{ inputs.repository }}
     secrets: inherit
 
 
