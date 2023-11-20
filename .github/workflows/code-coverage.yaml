@@ -81,7 +81,7 @@ jobs:
       - name: Setup testing schemata in PostgreSQL
         if: ${{ inputs.schemas != 'none' }}
         run: |
-          IFS=';' read -ra schemas <<< "${{ inputs.schemas }}"
+          IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
             psql test -c "CREATE SCHEMA \"$schema\";"
           done
@@ -145,7 +145,7 @@ jobs:
       - name: Setup testing schemata in SQL server
         if: ${{ inputs.schemas != 'none' }}
         run: |
-          IFS=';' read -ra schemas <<< "${{ inputs.schemas }}"
+          IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
             sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE SCHEMA \"$schema\"; GO"
           done
