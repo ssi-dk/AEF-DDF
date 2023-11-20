@@ -17,7 +17,7 @@ on:
         required: true
         type: string
 
-      schema_creation:
+      schemas:
         required: false
         type: string
       backend_skip:
@@ -111,7 +111,7 @@ jobs:
       needs.trigger.outputs.test_files_changed == 'true') }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
-      schema_creation: ${{ inputs.schema_creation }}
+      schemas: ${{ inputs.schemas }}
       backend_skip: ${{ inputs.backend_skip }}
     secrets: inherit
 

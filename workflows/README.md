@@ -14,10 +14,10 @@ Continue reading to learn what the individual workflows do.
 If these workflows take arguments, they can also be passed to `all_workflows` which will then pass it to the appropriate
 workflows.
 
-| Arguments       | Description                             | Default       | Example         |
-|-----------------|-----------------------------------------|---------------|-----------------|
-| `skip`          | Workflows to skip (optional)            | ''            | 'lint,document' |
-| `main_branches` | Main branches to trigger on (optional). | 'main,master' | 'main,develop'  |
+| Arguments       | Description                             | Default     | Example       |
+|-----------------|-----------------------------------------|-------------|---------------|
+| `skip`          | Workflows to skip (optional)            | ''          | lint,document |
+| `main_branches` | Main branches to trigger on (optional). | main,master | main,develop  |
 
 ## lint.yaml
 #### Trigger
@@ -53,10 +53,10 @@ Determine the degree of [code coverage](https://en.wikipedia.org/wiki/Code_cover
 Code coverage results are uploaded to [codecov.io](https://about.codecov.io/).
 This enables you to add the code coverage badge to your `README.md`.
 
-| Arguments         | Description                             | Default       | Example                 |
-|-------------------|-----------------------------------------|---------------|-------------------------|
-| `schema_creation` | SQL query to create schemas (optional)  | ''            | 'CREATE SCHEMA "test";' |
-| `backend_skip`    | data base backends to skip (optional)   | ''            | 'postgres'              |
+| Arguments      | Description                           | Default     | Example       |
+|----------------|---------------------------------------|-------------|---------------|
+| `schemas`      | Schemas to create (optional)          | ''          | test,test.one |
+| `backend_skip` | data base backends to skip (optional) | ''          | postgres      |
 
 
 > [!NOTE]
