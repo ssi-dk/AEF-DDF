@@ -1,0 +1,283 @@
+---
+title: "World reference scenario"
+author: "Rasmus Skytte Randløv"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(diseasy)
+```
+
+```{r oxford_dk}
+# Get the Oxford COVID-19 Government Restriction Tracker index for stringency
+oxford_data <- readr::read_csv(
+  "https://github.com/OxCGRT/covid-policy-tracker/raw/master/data/OxCGRT_nat_latest.csv",
+  col_types = list("Date" = "character"),
+  show_col_types = FALSE
+)
+
+# Extract the relevant data from the Oxford data set
+# We look only at the national level at the stringency and C* indices
+oxford_subset <- oxford_data |>
+  dplyr::filter(.data$Jurisdiction == "NAT_TOTAL") |>
+  dplyr::mutate(
+    "date" = as.Date(Date, "%Y%m%d"),
+    "country_name" = .data$CountryName,
+    "country_code" = countrycode::countrycode(.data$CountryName, origin = "country.name", destination = "iso2c"),
+    "stringency" = .data$StringencyIndex_Average) |>
+  dplyr::select("date", tidyselect::starts_with("country_"), "stringency", tidyselect::matches(r"{C\d.*}"))
+
+
+
+# Now we subdivide into stringency data (for order 0) and C* data (for order 1)
+stringency_data <- oxford_subset |>
+  dplyr::select("date", tidyselect::starts_with("country_"), "stringency") # Stringency is "weighted average"
+
+# For indices, we get the long form and group the flags by "school", "work", "home", and "other"
+# To compute the sub indices according to the Oxford formula, we need the maximal values of each
+# indicator and to know whether the indicator has a flag.
+indicator_info <- tibble::tibble(
+  indicator = c("C1",      "C2",      "C3",      "C4",      "C5",      "C6",      "C7",      "C8"),
+  max_value = c( 3,         3,         2,         4,         2,         3,         2,         4),
+  has_flag  = c( 1,         1,         1,         1,         1,         1,         1,         0),
+  arena     = c("school",  "work",    "other",   "other",   "other",   "home", "other",   "other")
+)
+
+# Converting to long form
+sub_index_data <- oxford_subset |>
+  dplyr::select(!"stringency") |>
+  tidyr::pivot_longer(!c("date", tidyselect::starts_with("country_")),
+                      names_to = c("indicator", "target_group", "indicator_text"),
+                      names_pattern = r"{(C\d)(\w*)_(.*)}")
+
+# Interlacing data so flag is associated with each corresponding indicator
+# (This could probably be done with a single pivot_longer above, but I could not
+# get it to work, so this will have to do.)
+sub_index_data <- dplyr::full_join(
+  sub_index_data |>
+    dplyr::filter(.data$indicator_text != "Flag"),
+  sub_index_data |>
+    dplyr::filter(.data$indicator_text == "Flag") |>
+    dplyr::select(!"indicator_text") |>
+    dplyr::rename("flag" = "value"),
+  by = c("date", "country_name", "country_code", "indicator",
+         "target_group")) |>
+  dplyr::left_join(indicator_info, by = "indicator")
+
+
+# According to Oxford, if a flag is NA it should not count towards the sub index value.
+# This is done by setting the value to the has_flag value if the flag is NA.
+# Similarly, if value is NA, it should count as zero
+sub_index_data <- sub_index_data |>
+  dplyr::mutate("flag" = dplyr::if_else(is.na(.data$flag), .data$has_flag, .data$flag),
+                "value" = dplyr::if_else(is.na(.data$value), 0, .data$value))
+
+
+# Now compute the sub index
+sub_index_data <- sub_index_data |>
+  dplyr::mutate("sub_index" = 100 * (value - 0.5 * (has_flag - flag)) / max_value)
+
+
+# Now take simple averages within each arena
+sub_index_data <- sub_index_data |>
+  dplyr::summarize(sub_index = mean(sub_index),
+                   .by = c("date", tidyselect::starts_with("country_"), "arena"))
+
+# The renaming mappings are the same for the two data sets, so we combine them for now
+metric <- list(stringency_data, sub_index_data)
+data_column <- c("stringency", "sub_index")
+
+
+# Store only changes
+metric_changes <- purrr::map2(metric, data_column, ~ {
+  . |>
+    dplyr::group_by(dplyr::across(tidyselect::any_of(c("arena")))) |>
+    dplyr::filter(.data[[.y]] != dplyr::lag(.data[[.y]]) | (dplyr::row_number() == 1 & .data[[.y]] > 0))
+})
+
+# We then extract the Danish metrics from our Oxford metrics
+dk_metric <- purrr::map2(metric_changes, data_column, ~ {
+  dplyr::filter(.x, .data$country_code == "DK") |>
+    dplyr::select("date", tidyselect::any_of(c("arena")), !!.y)
+})
+
+```
+
+
+```{r loading}
+world_reference_scenario_0 <- readRDS("world_reference_scenario_0.rds")
+world_reference_scenario_1 <- readRDS("world_reference_scenario_1.rds")
+
+
+dk_reference_scenario_0 <- world_reference_scenario_0$DK
+dk_act_0 <- diseasy::DiseasyActivity$new(contact_basis = diseasy::contact_basis$DK,
+                                       activity_units = diseasy::dk_activity_units)
+dk_act_0$change_activity(utils::head(dk_reference_scenario_0, 1))
+
+risk_df <- dk_reference_scenario_0 |>
+  dplyr::select("date", "risk") |>
+  dplyr::cross_join(data.frame(type = c("home", "work", "school", "other")))
+dk_act_0$change_risk(risk_df$date, risk_df$type, risk_df$risk)
+
+# Configure a Swedish activity scenario
+dk_reference_scenario_1 <- world_reference_scenario_1$DK
+dk_act_1 <- diseasy::DiseasyActivity$new(contact_basis = diseasy::contact_basis$DK,
+                                       activity_units = diseasy::dk_activity_units)
+dk_act_1$change_activity(utils::head(dk_reference_scenario_1, 1))
+
+risk_df <- dk_reference_scenario_1 |>
+  dplyr::select("date", tidyselect::starts_with("risk")) |>
+  tidyr::pivot_longer(!"date", names_to = "type", names_pattern = r"{risk_(\w*)}",
+                      values_to = "risk", values_transform = as.numeric)
+dk_act_1$change_risk(risk_df$date, risk_df$type, risk_df$risk)
+```
+
+
+
+```{r Danish activity scenario} 
+# Load the Danish activity scenario
+dk_act <- diseasy::DiseasyActivity$new(base_scenario = "dk_reference",
+                                       contact_basis = diseasy::contact_basis$DK,
+                                       activity_units = diseasy::dk_activity_units)
+
+```
+
+```{r Danish activity plot} 
+dk_scenario_freedom <- dk_act$get_scenario_openness(age_cuts_lower = 0, weights = c(1, 1, 1, 1))
+
+g <- purrr::map2(dk_scenario_freedom, names(dk_scenario_freedom), ~ {
+  tibble::enframe(.x, name = "arena", value = "freedom") |>
+    dplyr::transmute("date" = as.Date(.y), .data$arena, "freedom" = unlist(.data$freedom))
+}) |>
+  purrr::reduce(dplyr::union_all) |>
+  dplyr::select(!"arena") |>
+  ggplot2::ggplot(ggplot2::aes(x = date, y = freedom)) +
+  ggplot2::geom_step(linewidth = 1) +
+  ggplot2::labs(colour = ggplot2::element_blank(), y = "Activity") +
+  #ggplot2::coord_cartesian(expand = FALSE) +
+  ggplot2::expand_limits(y = c(0, 1)) +
+  ggplot2::theme(legend.position = "top")
+
+g
+```
+```{r Danish activity vs Oxford Stringency}
+
+ylim.prim <- c(0, 1)
+ylim.sec <- c(0, 100)
+
+b <- diff(ylim.prim)/diff(ylim.sec)
+a <- ylim.prim[1] - b*ylim.sec[1]
+
+tt <- dk_metric[[1]] |> 
+  dplyr::add_row(date = as.Date(max(names(dk_scenario_freedom))),
+                 stringency = tail(dk_metric[[1]]$stringency, 1)) |>
+  dplyr::mutate(arena = NA)
+
+g +
+  ggplot2::geom_step(ggplot2::aes(x = date, y = a + (100 - stringency) * b), 
+                     data = tt, linewidth = 1, colour = "blue") +
+  ggplot2::scale_y_continuous("Activity",
+                              sec.axis = ggplot2::sec_axis(~ (. - a) / b, name = "Oxford reciprocal strignency")) +
+  ggplot2::theme(axis.line.y.right = ggplot2::element_line(color = "blue"), 
+                 axis.ticks.y.right = ggplot2::element_line(color = "blue"),
+                 axis.text.y.right = ggplot2::element_text(color = "blue"), 
+                 axis.title.y.right = ggplot2::element_text(color = "blue"))
+```
+
+```{r Danish activity plot vs 0th order scenario} 
+dk_scenario_freedom_0 <- dk_act_0$get_scenario_openness(age_cuts_lower = 0, weights = c(1, 1, 1, 1))
+
+tt <- purrr::map2(dk_scenario_freedom_0, names(dk_scenario_freedom_0), ~ {
+  tibble::enframe(.x, name = "arena", value = "freedom") |>
+    dplyr::transmute("date" = as.Date(.y), .data$arena, "freedom" = unlist(.data$freedom))
+}) |>
+  purrr::reduce(dplyr::union_all) |>
+  dplyr::select(!"arena") 
+
+tt <- tt |>
+  dplyr::add_row(date = as.Date(max(names(dk_scenario_freedom))),
+                 freedom = tail(tt$freedom, 1))
+
+
+g + ggplot2::geom_step(data = tt, linewidth = 1, colour = "blue")
+```
+
+
+
+```{r Danish activity plot} 
+dk_scenario_freedom <- dk_act$get_scenario_openness(age_cuts_lower = 0)
+
+g <- purrr::map2(dk_scenario_freedom, names(dk_scenario_freedom), ~ {
+  tibble::enframe(.x, name = "arena", value = "freedom") |>
+    dplyr::transmute("date" = as.Date(.y), .data$arena, "freedom" = unlist(.data$freedom))
+}) |>
+  purrr::reduce(dplyr::union_all) |>
+  ggplot2::ggplot(ggplot2::aes(x = date, y = freedom, colour = arena)) +
+  ggplot2::geom_step(linewidth = 1) +
+  ggplot2::labs(colour = ggplot2::element_blank(), y = "Activity") +
+  #ggplot2::coord_cartesian(expand = FALSE) +
+  ggplot2::expand_limits(y = c(0, 1)) +
+  ggplot2::theme(legend.position = "top") + 
+  ggplot2::guides(color = "none") +
+  ggplot2::facet_wrap(~ arena) 
+
+g
+```
+
+``` {r}
+ylim.prim <- c(0, 1)
+ylim.sec <- c(0, 100)
+
+b <- diff(ylim.prim)/diff(ylim.sec)
+a <- ylim.prim[1] - b*ylim.sec[1]
+
+tt <- dplyr::union_all(
+  dk_metric[[2]],
+  dk_metric[[2]]|>
+    dplyr::group_by(arena) |> 
+    dplyr::slice_max(date) |>
+    dplyr::mutate(date = as.Date(min(names(dk_scenario_freedom))))
+)
+
+tt <- dplyr::union_all(
+  tt,
+  dk_metric[[2]]|>
+    dplyr::group_by(arena) |> 
+    dplyr::slice_min(date) |>
+    dplyr::mutate(date = as.Date(max(names(dk_scenario_freedom))),
+                  sub_index = 0)
+)
+
+g +
+  ggplot2::geom_step(ggplot2::aes(x = date, y = a + (100 - sub_index) * b), 
+                     data = tt, linewidth = 0.75, color = "blue") +
+  ggplot2::scale_y_continuous("Activity",
+                              sec.axis = ggplot2::sec_axis(~ (. - a) / b, name = "Oxford reciprocal sub-indicies")) +
+  ggplot2::theme(axis.line.y.right = ggplot2::element_line(color = "blue"), 
+                 axis.ticks.y.right = ggplot2::element_line(color = "blue"),
+                 axis.text.y.right = ggplot2::element_text(color = "blue"), 
+                 axis.title.y.right = ggplot2::element_text(color = "blue"))
+```
+
+
+```{r Danish activity plot vs 1th order scenario} 
+dk_scenario_freedom_1 <- dk_act_1$get_scenario_openness(age_cuts_lower = 0)
+
+tt <- purrr::map2(dk_scenario_freedom_1, names(dk_scenario_freedom_1), ~ {
+  tibble::enframe(.x, name = "arena", value = "freedom") |>
+    dplyr::transmute("date" = as.Date(.y), .data$arena, "freedom" = unlist(.data$freedom))
+}) |>
+  purrr::reduce(dplyr::union_all)
+
+tt <- dplyr::union_all(
+  tt,
+  tt |>
+    dplyr::group_by(arena) |> 
+    dplyr::slice_max(date) |>
+    dplyr::mutate(date = as.Date(max(names(dk_scenario_freedom))))
+)
+
+g + ggplot2::geom_step(data = tt, linewidth = 1, colour = "blue")
+```
