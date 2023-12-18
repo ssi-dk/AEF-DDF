@@ -54,10 +54,9 @@ jobs:
 
 
   code-coverage-postgres:
-    if: ${{ inputs.run }}
     name: 🧪 Running tests (postgres)
     runs-on: ubuntu-latest
-    if: ${{ !contains(inputs.backend_skip, 'postgres')}}
+    if: ${{ inputs.run && !contains(inputs.backend_skip, 'postgres')}}
 
     services:
       postgres:
@@ -127,10 +126,9 @@ jobs:
   # Option 1
   # https://github.com/marketplace/actions/mssql-suite
   code-coverage-mssql:
-    if: ${{ inputs.run }}
     name: 🧪 Running tests (mssql)
     runs-on: ubuntu-latest
-    if: ${{ !contains(inputs.backend_skip, 'mssql')}}
+    if: ${{ inputs.run && !contains(inputs.backend_skip, 'mssql')}}
 
     steps:
       - name: Install a SQL Server suite of tools
