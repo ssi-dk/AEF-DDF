@@ -11,7 +11,7 @@ name: CI
 
 jobs:
 
-  # We call the reuseable workflow that triggers all AEF-DDF workflows
+  # We call the reusable workflow that triggers all AEF-DDF workflows
   run-all-AEF-DFF-workflows:
     name: ⚙️ Dispatch
     uses: ssi-dk/AEF-DDF/.github/workflows/workflow-dispatcher.yaml@main
