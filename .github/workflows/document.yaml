@@ -3,9 +3,14 @@
 
 on:
   workflow_call:
+    inputs:
+      run:
+        type: string
+        default: true
 
 jobs:
   document:
+    if: ${{ inputs.run }}
     name: 📖 Check documentation is up to date
     runs-on: ubuntu-latest
     env:

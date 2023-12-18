@@ -3,9 +3,14 @@
 
 on:
   workflow_call:
+    inputs:
+      run:
+        type: string
+        default: true
 
 jobs:
   lint:
+    if: ${{ inputs.run }}
     name: 🖋️ Perform linting
     runs-on: ubuntu-latest
     env:

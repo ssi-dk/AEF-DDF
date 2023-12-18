@@ -1,6 +1,9 @@
 on:
   workflow_call:
     inputs:
+      run:
+        type: string
+        default: true
       schemas:
         type: string
         default: ''
@@ -11,6 +14,7 @@ on:
 
 jobs:
   code-coverage-sqlite:
+    if: ${{ inputs.run }}
     name: 🧪 Running tests
     runs-on: ubuntu-latest
     steps:
@@ -50,6 +54,7 @@ jobs:
 
 
   code-coverage-postgres:
+    if: ${{ inputs.run }}
     name: 🧪 Running tests (postgres)
     runs-on: ubuntu-latest
     if: ${{ !contains(inputs.backend_skip, 'postgres')}}
@@ -122,6 +127,7 @@ jobs:
   # Option 1
   # https://github.com/marketplace/actions/mssql-suite
   code-coverage-mssql:
+    if: ${{ inputs.run }}
     name: 🧪 Running tests (mssql)
     runs-on: ubuntu-latest
     if: ${{ !contains(inputs.backend_skip, 'mssql')}}

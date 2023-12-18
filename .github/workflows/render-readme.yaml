@@ -1,8 +1,13 @@
 on:
   workflow_call:
+    inputs:
+      run:
+        type: string
+        default: true
 
 jobs:
   render:
+    if: ${{ inputs.run }}
     name: 📖 Render README
     runs-on: ubuntu-latest
     steps:

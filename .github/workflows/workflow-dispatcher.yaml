@@ -76,41 +76,44 @@ jobs:
 
   lint:
     needs: trigger
-    if: ${{ !contains(inputs.skip, 'lint') && (
-      needs.trigger.outputs.R_files_changed == 'true' ||
-      needs.trigger.outputs.man_files_changed == 'true') }}
     uses: ./.github/workflows/lint.yaml
+    with:
+      run: ${{ !contains(inputs.skip, 'lint') && (
+        needs.trigger.outputs.R_files_changed == 'true' ||
+        needs.trigger.outputs.man_files_changed == 'true') }}
 
 
   spell-checker:
     needs: trigger
-    if: ${{ !contains(inputs.skip, 'spell-checker')  && (
-      needs.trigger.outputs.description_changed == 'true' ||
-      needs.trigger.outputs.man_files_changed == 'true' ||
-      needs.trigger.outputs.vignette_files_changed == 'true') }}
     uses: ./.github/workflows/spell-checker.yaml
+    with:
+      run: ${{ !contains(inputs.skip, 'spell-checker')  && (
+        needs.trigger.outputs.description_changed == 'true' ||
+        needs.trigger.outputs.man_files_changed == 'true' ||
+        needs.trigger.outputs.vignette_files_changed == 'true') }}
     secrets: inherit
 
 
   R-CMD-check:
     needs: trigger
-    if: ${{ !contains(inputs.skip, 'R-CMD-check') &&
-      needs.trigger.outputs.main_branch_affected == 'true' && (
-      needs.trigger.outputs.R_files_changed == 'true' ||
-      needs.trigger.outputs.test_files_changed == 'true' ||
-      needs.trigger.outputs.man_files_changed == 'true' ||
-      needs.trigger.outputs.vignette_files_changed == 'true') }}
     uses: ./.github/workflows/R-CMD-check.yaml
+    with:
+      run: ${{ !contains(inputs.skip, 'R-CMD-check') &&
+        needs.trigger.outputs.main_branch_affected == 'true' && (
+        needs.trigger.outputs.R_files_changed == 'true' ||
+        needs.trigger.outputs.test_files_changed == 'true' ||
+        needs.trigger.outputs.man_files_changed == 'true' ||
+        needs.trigger.outputs.vignette_files_changed == 'true') }}
     secrets: inherit
 
   code-coverage:
     needs: trigger
-    if: ${{ !contains(inputs.skip, 'code-coverage') &&
-      needs.trigger.outputs.main_branch_affected == 'true' && (
-      needs.trigger.outputs.R_files_changed == 'true' ||
-      needs.trigger.outputs.test_files_changed == 'true') }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
+      run: ${{ !contains(inputs.skip, 'code-coverage') &&
+        needs.trigger.outputs.main_branch_affected == 'true' && (
+        needs.trigger.outputs.R_files_changed == 'true' ||
+        needs.trigger.outputs.test_files_changed == 'true') }}
       schemas: ${{ inputs.schemas }}
       backend_skip: ${{ inputs.backend_skip }}
     secrets: inherit
@@ -118,29 +121,31 @@ jobs:
 
   document:
     needs: trigger
-    if: ${{ !contains(inputs.skip, 'document') && (
-      needs.trigger.outputs.R_files_changed == 'true') }}
     uses: ./.github/workflows/document.yaml
+    with:
+      run: ${{ !contains(inputs.skip, 'document') && (
+        needs.trigger.outputs.R_files_changed == 'true') }}
     secrets: inherit
 
 
   render-readme:
     needs: trigger
-    if: ${{ !contains(inputs.skip, 'render-readme') && (
-      needs.trigger.outputs.readme_files_changed == 'true') }}
     uses: ./.github/workflows/render-readme.yaml
+    with:
+      run: ${{ !contains(inputs.skip, 'render-readme') && (
+        needs.trigger.outputs.readme_files_changed == 'true') }}
     secrets: inherit
 
 
   pkgdown:
     needs: trigger
-    if: ${{ !contains(inputs.skip, 'pkgdown') &&
-      (needs.trigger.outputs.main_branch_affected == 'true' || inputs.event_name == 'release') && (
-      needs.trigger.outputs.R_files_changed == 'true' ||
-      needs.trigger.outputs.man_files_changed == 'true' ||
-      needs.trigger.outputs.vignette_files_changed == 'true') }}
     uses: ./.github/workflows/pkgdown.yaml
     with:
       event_name: ${{ inputs.event_name }}
       run_id: ${{ inputs.run_id }}
+      run: ${{ !contains(inputs.skip, 'pkgdown') &&
+        (needs.trigger.outputs.main_branch_affected == 'true' || inputs.event_name == 'release') && (
+        needs.trigger.outputs.R_files_changed == 'true' ||
+        needs.trigger.outputs.man_files_changed == 'true' ||
+        needs.trigger.outputs.vignette_files_changed == 'true') }}
     secrets: inherit

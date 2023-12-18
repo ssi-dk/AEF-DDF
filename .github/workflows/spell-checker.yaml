@@ -1,8 +1,13 @@
 on:
   workflow_call:
+    inputs:
+      run:
+        type: string
+        default: true
 
 jobs:
   check-spelling:
+    if: ${{ inputs.run }}
     name: 🔠 Check spelling
     runs-on: ubuntu-latest
     container:
