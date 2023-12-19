@@ -47,6 +47,7 @@ jobs:
           upload-snapshots: true
 
   R-CMD-check-hard:
+    if: ${{ inputs.run }}
     runs-on: ubuntu-latest
 
     name: 🔎 R-CMD-check ubuntu-latest (release, no dependencies)
