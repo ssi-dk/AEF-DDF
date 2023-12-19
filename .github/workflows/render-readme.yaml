@@ -7,10 +7,15 @@ on:
 
 jobs:
   render:
-    if: inputs.run
+    if: ${{ inputs.run }}
     name: 📖 Render README
     runs-on: ubuntu-latest
     steps:
+      - name: Report skipping
+        run: echo "${{ inputs.run }}"
+      - name: Test skipping
+        if: ${{ inputs.run }}
+        run: echo "Skipping works!"
       - uses: actions/checkout@v4
       - uses: r-lib/actions/setup-r@v2
       - uses: r-lib/actions/setup-pandoc@v2
