@@ -2,7 +2,7 @@ on:
   workflow_call:
     inputs:
       run:
-        type: string
+        type: boolean
         default: true
       schemas:
         type: string

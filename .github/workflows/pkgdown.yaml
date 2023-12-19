@@ -5,7 +5,7 @@ on:
   workflow_call:
     inputs:
       run:
-        type: string
+        type: boolean
         default: true
       event_name:
         required: true
