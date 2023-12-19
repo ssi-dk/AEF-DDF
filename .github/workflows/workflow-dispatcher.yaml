@@ -39,7 +39,7 @@ jobs:
       vignette_files_changed: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}
       readme_files_changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}
       description_changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}
-      main_branch_affected: ${{ (inputs.event_name == 'push' && contains(inputs.main_branches, github.ref)) ||
+      main_branch_affected: ${{ (inputs.event_name == 'push' && contains(inputs.main_branches, github.ref_name)) ||
         (inputs.event_name == 'pull_request' && contains(inputs.main_branches, github.base_ref)) }}
 
     steps:
