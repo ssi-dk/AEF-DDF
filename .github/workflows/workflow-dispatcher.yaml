@@ -81,7 +81,9 @@ jobs:
     with:
       run: ${{ !contains(inputs.skip, 'lint') && (
         needs.trigger.outputs.R_files_changed == 'true' ||
-        needs.trigger.outputs.man_files_changed == 'true') }}
+        needs.trigger.outputs.test_files_changed == 'true' ||
+        needs.trigger.outputs.man_files_changed == 'true' ||
+        needs.trigger.outputs.vignette_files_changed == 'true') }}
 
 
   spell-checker:
