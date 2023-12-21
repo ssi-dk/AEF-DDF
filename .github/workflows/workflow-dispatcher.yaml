@@ -111,6 +111,8 @@ jobs:
     secrets: inherit
 
   R-CMD-check-echo:
+    needs: trigger
+    runs-on: ubuntu-latest
     steps:
       - name: echo
         run: echo ${{ !contains(inputs.skip, 'R-CMD-check') &&
