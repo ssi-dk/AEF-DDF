@@ -1,0 +1,17 @@
+{
+    "cSpell.words": [
+        "codecov",
+        "covr",
+        "getenv",
+        "mssql",
+        "PGDATABASE",
+        "PGHOST",
+        "PGPASSWORD",
+        "PGPORT",
+        "PGUSER",
+        "psql",
+        "Rscript",
+        "rspm",
+        "testthat"
+    ]
+}
