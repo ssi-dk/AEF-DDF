@@ -111,13 +111,14 @@ jobs:
     secrets: inherit
 
   R-CMD-check-echo:
-    run: echo  ${{ !contains(inputs.skip, 'R-CMD-check') &&
-        needs.trigger.outputs.main_branch_affected == 'true' && (
-        needs.trigger.outputs.R_files_changed == 'true' ||
-        needs.trigger.outputs.test_files_changed == 'true' ||
-        needs.trigger.outputs.description_changed == 'true' ||
-        needs.trigger.outputs.man_files_changed == 'true' ||
-        needs.trigger.outputs.vignette_files_changed == 'true') }}
+    steps:
+      run: echo  ${{ !contains(inputs.skip, 'R-CMD-check') &&
+          needs.trigger.outputs.main_branch_affected == 'true' && (
+          needs.trigger.outputs.R_files_changed == 'true' ||
+          needs.trigger.outputs.test_files_changed == 'true' ||
+          needs.trigger.outputs.description_changed == 'true' ||
+          needs.trigger.outputs.man_files_changed == 'true' ||
+          needs.trigger.outputs.vignette_files_changed == 'true') }}
 
   code-coverage:
     needs: trigger
