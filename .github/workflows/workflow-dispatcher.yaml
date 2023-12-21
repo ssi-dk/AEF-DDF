@@ -40,6 +40,7 @@ jobs:
       readme_files_changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}
       description_changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}
       main_branch_affected: ${{ (inputs.event_name == 'push' && contains(inputs.main_branches, github.ref_name)) ||
+        (inputs.event_name == 'push' && contains(inputs.main_branches, github.base_ref)) ||
         (inputs.event_name == 'pull_request' && contains(inputs.main_branches, github.base_ref)) }}
 
     steps:
@@ -73,7 +74,9 @@ jobs:
           echo "vignettes/ directory changes: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}"
           echo "README.Rmd changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}"
           echo "DESCRIPTION changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}"
-          echo "main branch affected: ${{ contains(inputs.main_branches, github.base_ref) }}"
+          echo "main branch affected: ${{ (inputs.event_name == 'push' && contains(inputs.main_branches, github.ref_name)) ||
+        (inputs.event_name == 'push' && contains(inputs.main_branches, github.base_ref)) ||
+        (inputs.event_name == 'pull_request' && contains(inputs.main_branches, github.base_ref)) }}
 
   lint:
     needs: trigger
