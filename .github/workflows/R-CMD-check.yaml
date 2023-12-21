@@ -9,7 +9,7 @@ on:
 
 jobs:
   R-CMD-check:
-    #if: ${{ inputs.run }}
+    if: ${{ inputs.run }}
     name: 🔎 R-CMD-check ${{ matrix.config.os }} (${{ matrix.config.r }})
     runs-on: ${{ matrix.config.os }}
 
