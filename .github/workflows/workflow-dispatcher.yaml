@@ -105,6 +105,7 @@ jobs:
         needs.trigger.outputs.main_branch_affected == 'true' && (
         needs.trigger.outputs.R_files_changed == 'true' ||
         needs.trigger.outputs.test_files_changed == 'true' ||
+        needs.trigger.outputs.description_changed == 'true' ||
         needs.trigger.outputs.man_files_changed == 'true' ||
         needs.trigger.outputs.vignette_files_changed == 'true') }}
     secrets: inherit
@@ -116,7 +117,8 @@ jobs:
       run: ${{ !contains(inputs.skip, 'code-coverage') &&
         needs.trigger.outputs.main_branch_affected == 'true' && (
         needs.trigger.outputs.R_files_changed == 'true' ||
-        needs.trigger.outputs.test_files_changed == 'true') }}
+        needs.trigger.outputs.test_files_changed == 'true' ||
+        needs.trigger.outputs.description_changed == 'true') }}
       schemas: ${{ inputs.schemas }}
       backend_skip: ${{ inputs.backend_skip }}
     secrets: inherit
@@ -127,7 +129,8 @@ jobs:
     uses: ./.github/workflows/document.yaml
     with:
       run: ${{ !contains(inputs.skip, 'document') && (
-        needs.trigger.outputs.R_files_changed == 'true') }}
+        needs.trigger.outputs.R_files_changed == 'true' ||
+        needs.trigger.outputs.description_changed == 'true') }}
     secrets: inherit
 
 
@@ -149,6 +152,7 @@ jobs:
       run: ${{ !contains(inputs.skip, 'pkgdown') &&
         (needs.trigger.outputs.main_branch_affected == 'true' || inputs.event_name == 'release') && (
         needs.trigger.outputs.R_files_changed == 'true' ||
+        needs.trigger.outputs.description_changed == 'true' ||
         needs.trigger.outputs.man_files_changed == 'true' ||
         needs.trigger.outputs.vignette_files_changed == 'true') }}
     secrets: inherit
