@@ -48,5 +48,4 @@ jobs:
 
       - name: Push changes
         run: |
-          git pull origin ${{ github.head_ref || github.ref }} --ff-only
           git push origin ${{ github.head_ref || github.ref }}
