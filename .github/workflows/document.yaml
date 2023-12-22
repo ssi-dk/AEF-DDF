@@ -36,11 +36,17 @@ jobs:
         run: roxygen2::roxygenise()
         shell: Rscript {0}
 
-      - name: Commit and push changes
+      - name: Configure git
         run: |
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Commit changes
+        run: |
           git add man/\* NAMESPACE DESCRIPTION
           git commit -m "docs: update documentation" || echo "No changes to commit"
+
+      - name: Push changes
+        run: |
           git pull origin ${{ github.ref_name }} --ff-only
           git push origin ${{ github.ref_name }}
