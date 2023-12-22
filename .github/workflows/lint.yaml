@@ -11,7 +11,7 @@ on:
 jobs:
   lint:
     if: ${{ inputs.run }}
-    name: 🖋️ Perform linting
+    name: 🖋️ Lint
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}

@@ -17,7 +17,7 @@ on:
 jobs:
 
   cleanup:
-    name: "🧼 pkgdown: Clean up environment"
+    name: "🧼 pkgdown: Clean up"
     if: ${{ inputs.run && inputs.event_name == 'release' }}
     runs-on: ubuntu-latest
     permissions: write-all
@@ -32,7 +32,7 @@ jobs:
 
   pkgdown-build:
     if: ${{ inputs.run }}
-    name: "📖 pkgdown: Build site"
+    name: "📖 pkgdown: Build"
     runs-on: ubuntu-latest
     # Only restrict concurrency for non-PR jobs
     concurrency:
@@ -66,7 +66,7 @@ jobs:
           path: docs/
 
   deploy:
-    name: "🚀 pkgdown: Deploy to GitHub pages"
+    name: "🚀 pkgdown: Deploy"
     runs-on: ubuntu-latest
     if: ${{ inputs.run && inputs.event_name == 'release' }}
     needs: [cleanup, pkgdown-build]

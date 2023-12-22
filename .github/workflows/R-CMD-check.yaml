@@ -10,17 +10,17 @@ on:
 jobs:
   R-CMD-check:
     if: ${{ inputs.run }}
-    name: 🔎 R-CMD-check ${{ matrix.config.os }} (${{ matrix.config.r }})
-    runs-on: ${{ matrix.config.os }}
+    name: "🔎 Check: ${{ matrix.config.os }} (${{ matrix.config.r }})"
+    runs-on: ${{ matrix.config.os }}-latest
 
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: macos-latest,    r: 'release'}
-          - {os: windows-latest,  r: 'release'}
-          - {os: ubuntu-latest,   r: 'release'}
-          - {os: ubuntu-latest,   r: 'oldrel-1'}
+          - {os: macos,    r: 'release'}
+          - {os: windows,  r: 'release'}
+          - {os: ubuntu,   r: 'release'}
+          - {os: ubuntu,   r: 'oldrel-1'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -50,7 +50,7 @@ jobs:
     if: ${{ inputs.run }}
     runs-on: ubuntu-latest
 
-    name: 🔎 R-CMD-check ubuntu-latest (release, no dependencies)
+    name: "🔎 Check: ubuntu (release, no dependencies)"
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}

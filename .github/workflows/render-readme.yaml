@@ -8,7 +8,7 @@ on:
 jobs:
   render:
     if: ${{ inputs.run }}
-    name: 📖 Render README
+    name: 📖 README
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -11,7 +11,7 @@ on:
 jobs:
   document:
     if: ${{ inputs.run }}
-    name: 📖 Check documentation is up to date
+    name: 📖 Document
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}

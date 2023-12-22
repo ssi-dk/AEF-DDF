@@ -8,7 +8,7 @@ on:
 jobs:
   check-spelling:
     if: ${{ inputs.run }}
-    name: 🔠 Check spelling
+    name: 🔠 Spelling
     runs-on: ubuntu-latest
     container:
       image: rocker/tidyverse:4.1.2
