@@ -66,6 +66,12 @@ jobs:
             description:
               - DESCRIPTION
 
+      - name: Determine branch name
+        shell: bash
+        run: |
+          echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: determine_branch
+
       - name: Report triggers
         run: |
           echo "R/ directory changes: ${{ steps.changed-files-yaml.outputs.R_any_changed }}"
@@ -75,6 +81,7 @@ jobs:
           echo "README.Rmd changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}"
           echo "DESCRIPTION changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}"
           echo "main branch affected: ${{ (inputs.event_name == 'push' && contains(inputs.main_branches, github.ref_name)) || (inputs.event_name == 'push' && contains(inputs.main_branches, github.base_ref)) || (inputs.event_name == 'pull_request' && contains(inputs.main_branches, github.base_ref)) }}"
+          echo "branch name: ${{ steps.determine_branch.outputs.branch_name }}"
 
   lint:
     needs: trigger
@@ -128,20 +135,26 @@ jobs:
 
   document:
     needs: trigger
+    concurrency:
+      group: ${{needs.trigger.outputs.branch_name}}-push
     uses: ./.github/workflows/document.yaml
     with:
       run: ${{ !contains(inputs.skip, 'document') && (
         needs.trigger.outputs.R_files_changed == 'true' ||
         needs.trigger.outputs.description_changed == 'true') }}
+      branch_name: ${{needs.trigger.outputs.branch_name}}
     secrets: inherit
 
 
   render-readme:
     needs: trigger
+    concurrency:
+      group: ${{needs.trigger.outputs.branch_name}}-push
     uses: ./.github/workflows/render-readme.yaml
     with:
       run: ${{ !contains(inputs.skip, 'render-readme') && (
         needs.trigger.outputs.readme_files_changed == 'true') }}
+      branch_name: ${{needs.trigger.outputs.branch_name}}
     secrets: inherit
 
 
