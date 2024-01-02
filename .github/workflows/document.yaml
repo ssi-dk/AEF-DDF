@@ -46,6 +46,11 @@ jobs:
           git add man/\* NAMESPACE DESCRIPTION
           git commit -m "docs: update documentation" || echo "No changes to commit"
 
+      - name: Determine branch name
+        shell: bash
+        run: echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_BRANCH
+        id: determine_branch
+
       - name: Push changes
         run: |
-          git push origin HEAD:${{ github.head_ref || github.ref }}
+          git push origin ${{ steps.determine_branch.outputs.branch_name }}
