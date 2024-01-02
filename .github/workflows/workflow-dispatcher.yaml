@@ -42,6 +42,7 @@ jobs:
       main_branch_affected: ${{ (inputs.event_name == 'push' && contains(inputs.main_branches, github.ref_name)) ||
         (inputs.event_name == 'push' && contains(inputs.main_branches, github.base_ref)) ||
         (inputs.event_name == 'pull_request' && contains(inputs.main_branches, github.base_ref)) }}
+      branch name: ${{ steps.determine_branch.outputs.branch_name }}
 
     steps:
       - uses: actions/checkout@v4
@@ -136,7 +137,7 @@ jobs:
   document:
     needs: trigger
     concurrency:
-      group: ${{needs.trigger.outputs.branch_name}}-push
+      group: ${{ needs.trigger.outputs.branch_name }}-push
     uses: ./.github/workflows/document.yaml
     with:
       run: ${{ !contains(inputs.skip, 'document') && (
@@ -149,12 +150,12 @@ jobs:
   render-readme:
     needs: trigger
     concurrency:
-      group: ${{needs.trigger.outputs.branch_name}}-push
+      group: ${{ needs.trigger.outputs.branch_name }}-push
     uses: ./.github/workflows/render-readme.yaml
     with:
       run: ${{ !contains(inputs.skip, 'render-readme') && (
         needs.trigger.outputs.readme_files_changed == 'true') }}
-      branch_name: ${{needs.trigger.outputs.branch_name}}
+      branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
 
 
