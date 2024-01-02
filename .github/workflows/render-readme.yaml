@@ -30,15 +30,6 @@ jobs:
       - name: Render README
         run: Rscript -e 'rmarkdown::render("README.Rmd")'
 
-      - name: Configure git
-        run: |
-          git config --local user.name "$GITHUB_ACTOR"
-          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
-      - name: Commit changes
-        run: |
-          git commit README.md -m 'docs(README): Re-build README.Rmd' || echo "No changes to commit"
-
       - name: Determine branch name
         shell: bash
         run: |
@@ -47,6 +38,9 @@ jobs:
           git remote -v
         id: determine_branch
 
-      - name: Push changes
+      - name: Commit and push changes
         run: |
-          git push origin ${{ steps.determine_branch.outputs.branch_name }}
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git commit README.md -m 'docs(README): Re-build README.Rmd' || echo "No changes to commit"
+          git push origin "${{ steps.determine_branch.outputs.branch_name }}" || echo "No changes to commit"
