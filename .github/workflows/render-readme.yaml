@@ -41,7 +41,7 @@ jobs:
 
       - name: Determine branch name
         shell: bash
-        run: echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_BRANCH
+        run: echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
         id: determine_branch
 
       - name: Push changes
