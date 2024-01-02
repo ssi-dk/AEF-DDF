@@ -7,7 +7,7 @@ on:
       schemas:
         type: string
         default: ''
-      backend_skip:
+      backend_exclude:
         type: string
         default: ''
 
@@ -56,7 +56,7 @@ jobs:
   code-coverage-postgres:
     name: 🧪 Tests (postgres)
     runs-on: ubuntu-latest
-    if: ${{ inputs.run && !contains(inputs.backend_skip, 'postgres')}}
+    if: ${{ inputs.run && !contains(inputs.backend_exclude, 'postgres')}}
 
     services:
       postgres:
@@ -128,7 +128,7 @@ jobs:
   code-coverage-mssql:
     name: 🧪 Tests (mssql)
     runs-on: ubuntu-latest
-    if: ${{ inputs.run && !contains(inputs.backend_skip, 'mssql')}}
+    if: ${{ inputs.run && !contains(inputs.backend_exclude, 'mssql')}}
 
     steps:
       - name: Install a SQL Server suite of tools

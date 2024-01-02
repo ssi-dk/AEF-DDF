@@ -20,7 +20,7 @@ on:
       schemas:
         required: false
         type: string
-      backend_skip:
+      backend_exclude:
         required: false
         type: string
 
@@ -122,7 +122,7 @@ jobs:
         needs.trigger.outputs.test_files_changed == 'true' ||
         needs.trigger.outputs.description_changed == 'true') }}
       schemas: ${{ inputs.schemas }}
-      backend_skip: ${{ inputs.backend_skip }}
+      backend_exclude: ${{ inputs.backend_exclude }}
     secrets: inherit
 
 

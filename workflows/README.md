@@ -53,10 +53,10 @@ Determine the degree of [code coverage](https://en.wikipedia.org/wiki/Code_cover
 Code coverage results are uploaded to [codecov.io](https://about.codecov.io/).
 This enables you to add the code coverage badge to your `README.md`.
 
-| Arguments      | Description                           | Default     | Example       |
-|----------------|---------------------------------------|-------------|---------------|
-| `schemas`      | Schemas to create (optional)          | ''          | test,test.one |
-| `backend_skip` | data base backends to skip (optional) | ''          | postgres      |
+| Arguments         | Description                           | Default     | Example       |
+|-------------------|---------------------------------------|-------------|---------------|
+| `schemas`         | Schemas to create (optional)          | ''          | test,test.one |
+| `backend_exclude` | data base backends to skip (optional) | ''          | postgres      |
 
 
 > [!NOTE]
