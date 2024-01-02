@@ -44,7 +44,7 @@ jobs:
         run: |
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git switch ${{ inputs.branch_name }}
           git add man/\* NAMESPACE DESCRIPTION
           git commit -m "docs: update documentation" || echo "No changes to commit"
-          git push origin HEAD:${{ inputs.branch_name }}
-
+          git push
