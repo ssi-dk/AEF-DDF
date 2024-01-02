@@ -36,6 +36,7 @@ jobs:
           echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
           echo "$GITHUB_OUTPUT"
           git remote -v
+          git branch -v
         id: determine_branch
 
       - name: Commit and push changes
@@ -43,4 +44,4 @@ jobs:
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git commit README.md -m 'docs(README): Re-build README.Rmd' || echo "No changes to commit"
-          git push origin "${{ steps.determine_branch.outputs.branch_name }}" || echo "No changes to commit"
+          git push origin "${{ steps.determine_branch.outputs.branch_name }}"
