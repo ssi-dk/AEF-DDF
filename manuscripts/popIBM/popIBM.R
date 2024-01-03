@@ -155,12 +155,12 @@ set.seed(ifelse(exists("input_seed"), input_seed, 1))
 
 # this simulation was implemented at a time with uncertainties on delta variant parameters
 # therefore scenarios of different parameter values for delta are included
-sce_combi <- data.frame(par_id = 1:n_samples,
-                       sce_fac_cur_beta = sce_fac_cur_beta_vec,
-                       #irep = 1:n_samples, # Should be made obsolete
-                       delta_rec_red = 1 - runif(n_samples, min = 0.6, max = 0.8), # VE of infection
-                       red_vac_fac_trans = 1 - runif(n_samples, min = 0.5, max = 0.8), # Transmission
-                       rel_alpha_delta = runif(n_samples, min = 1.65, max = 1.95)
+sce_combi <- data.frame(
+  par_id = 1:n_samples,
+  sce_fac_cur_beta = sce_fac_cur_beta_vec,
+  delta_rec_red = 1 - runif(n_samples, min = 0.6, max = 0.8), # VE of infection
+  red_vac_fac_trans = 1 - runif(n_samples, min = 0.5, max = 0.8), # Transmission
+  rel_alpha_delta = runif(n_samples, min = 1.65, max = 1.95)
 )
 
 first_run <- ifelse(exists("input_start"), input_start, 1)
@@ -310,26 +310,22 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     # collect data on the number of test positives each day - by variant, age and vaccination status
     for (k in 1:n_variants) {
       sim_tp2[day, , k] <- ibm[tt_symp == 0L & variant == k, .N,
-                             by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$N
+                               by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$N
 
       sim_tp2_vac[day, , k, 1] <- ibm[tt_symp == 0L & variant == k &
-                                     (vac_time < br_vac_out[1] | is.na(vac_time)), .N,
-                                   by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$N
+                                        (vac_time < br_vac_out[1] | is.na(vac_time)), .N,
+                                      by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$N
       for (kk in 2:n_vac_gr_out) { #LAEC: 1 stik for sig
         sim_tp2_vac[day, , k, kk] <- ibm[tt_symp == 0L & variant == k & vac_time >= br_vac_out[kk - 1] & vac_time < br_vac_out[kk], .N,
-                                      by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$N
+                                         by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$N
       }
     }
 
     # collect number of test positives by parish
-    sim_sogn[day, ] <- ibm[tt_symp == 0L, .N,
-                          by = .(sognekode, age_groups)][, sum(N), by = sognekode][
-                            .(sognekode = u_sognekoder), on = "sognekode"]$V1
+    sim_sogn[day, ] <- ibm[tt_symp == 0L, .N, by = .(sognekode, age_groups)][, sum(N), by = sognekode][.(sognekode = u_sognekoder), on = "sognekode"]$V1
 
     # collect number of test positives by municipality
-    sim_kom[day, ] <- ibm[tt_symp == 0L, .N,
-                         by = .(kommunekode, age_groups)][, sum(N), by = kommunekode][
-                           .(kommunekode = u_kommunekoder), on = "kommunekode"]$V1
+    sim_kom[day, ] <- ibm[tt_symp == 0L, .N, by = .(kommunekode, age_groups)][, sum(N), by = kommunekode][.(kommunekode = u_kommunekoder), on = "kommunekode"]$V1
 
     # test positives isolate themselves
     ibm[tt_symp == 0L, non_iso := 0L]
@@ -337,17 +333,17 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     # collect probability of hospitalisation each day - by variant, age and vaccination status
     for (k in 1:n_variants) {
       sim_hos[day, , k] <- ibm[disease == 2L & tt == 0 & variant == k, sum(prob_hosp),
-                             by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
+                               by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
 
       sim_hos_vac[day, , k, 1] <- ibm[disease == 2L & tt == 0 & variant == k &
-                                     (vac_time < br_vac_out[1] | is.na(vac_time)),
-                                   sum(prob_hosp),
-                                   by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
+                                        (vac_time < br_vac_out[1] | is.na(vac_time)),
+                                      sum(prob_hosp),
+                                      by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
 
       for (kk in 2:n_vac_gr_out) {
         sim_hos_vac[day, , k, kk] <- ibm[disease == 2L & tt == 0 & variant == k & vac_time >= br_vac_out[kk - 1] & vac_time < br_vac_out[kk],
-                                      sum(prob_hosp),
-                                      by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
+                                         sum(prob_hosp),
+                                         by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
       }
 
 
@@ -359,11 +355,11 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     # when all age groups have same disease progression E-> I
     # also draw time to being symptomatic
     ibm[disease == 1L & tt == 0, `:=`(disease = 2L,
-                                 tt = pmax(1L, round(rgamma(.N, v_shape_i[1],
-                                                             scale = v_scale_i[1]))),
-                                 tt_symp = pmax(1L, round(rgamma(.N, v_shapett_symp[1],
-                                                                 scale = v_scalett_symp[1]))) *
-                                   sample(c(1L, NA_integer_), .N, replace = TRUE, prob = c(0.5, 0.5)))]
+                                      tt = pmax(1L, round(rgamma(.N, v_shape_i[1],
+                                                                 scale = v_scale_i[1]))),
+                                      tt_symp = pmax(1L, round(rgamma(.N, v_shapett_symp[1],
+                                                                      scale = v_scalett_symp[1]))) *
+                                        sample(c(1L, NA_integer_), .N, replace = TRUE, prob = c(0.5, 0.5)))]
 
     # do not double count people found in E states
     ibm[disease == 2L & non_iso == 0L & tt_symp > 0, tt_symp := -1L]
@@ -409,8 +405,8 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     for (k in 1:n_variants){
       # Calculate the infection pressure
       inf_pers_kom <- ibm[disease == 2L & variant == k,
-                        .(inf_pers = sum(lockdown_fac * non_iso * vac_fac_trans)),
-                        by = .(kommunekode, age_groups)][mfka, on = c("kommunekode", "age_groups")]
+                          .(inf_pers = sum(lockdown_fac * non_iso * vac_fac_trans)),
+                          by = .(kommunekode, age_groups)][mfka, on = c("kommunekode", "age_groups")]
       inf_pers_kom[is.na(inf_pers), inf_pers := 0]
       inf_perss_kom[, inf_pers := inf_pers * v_rel_beta[k]]
 
@@ -441,7 +437,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       ibm[disease == 0L & runif(.N) < prob_inf,
           `:=`(disease = 1L,
                tt = pmax(1L, round(rgamma(n = .N, shape = v_shape_e[age_groups],
-                                         scale = v_scale_e[age_groups]))),
+                                          scale = v_scale_e[age_groups]))),
                variant = k)]
     }
 
@@ -456,10 +452,10 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     # implement the effect of vaccination
     for (k in 1:n__vac){
 
-        ibm[vac_type == k & vac_time == v_vac_tt_effect[k],
-            `:=`(vacF_ec = delta_vac_effect[k],
-                 prob_hosp = delta_red_prob_hosp * prob_hosp,
-                 vac_fac_trans = red_vac_fac_trans)]
+      ibm[vac_type == k & vac_time == v_vac_tt_effect[k],
+          `:=`(vacF_ec = delta_vac_effect[k],
+               prob_hosp = delta_red_prob_hosp * prob_hosp,
+               vac_fac_trans = red_vac_fac_trans)]
 
     }
 
