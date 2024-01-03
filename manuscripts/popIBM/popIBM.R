@@ -20,9 +20,6 @@ library(data.table)
 #### Parameters that can be sensibly changed by user ####
 ##########################################################
 
-# set working directory
-# setwd("/ngc/projects / ssi_mg/kaagra/popIBM/n_test_effect")
-
 # number of repetitions - 100 in the publication
 n_samples <- 1
 
@@ -255,7 +252,6 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
     n_test <- n_testDK(as.Date(start_denmark, origin = "2020-01-01"), day)
     n_test_age <- n_testDK_age(as.Date(start_denmark, origin = "2020-01-01"), day)
     n_test_age_vac <- n_testDK_age_vac(as.Date(start_denmark, origin = "2020-01-01"), day)
-    #if (day> day_cor_pas_end) n_test_age <- n_testDK_age(as.Date(start_denmark, origin = "2020-01-01"), day, 0)
 
     # adjust number of test according to scenario
     n_test <- n_test * frac_n_tests
@@ -279,8 +275,6 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
         names(n_test_age_vac)[1] <- "age_groups"
         n_test_age_vac$age_groups <- as.integer(n_test_age_vac$age_groups)
 
-        #tmp[n_test_age_vac, , on = c("age_groups", "vac_status")]
-
         tmp_test <- tmp[n_test_age_vac, , on = c("age_groups", "vac_status")]
 
         tmp_test[, p_test_corr :=  wtest / t_pop]
@@ -294,8 +288,6 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
 
       tmp[, p_test_corr :=  p_test_corr * p_test_fac]
       tmp[, p_test_corr := p_test_corr * sum(n_test_age_vac$wtest) / sum(p_test_corr * pop)]
-
-      #tmp[, sum(p_test_corr * pop)]
 
       tmp[, vac_eff_dose := as.integer(vac_status)]
 
@@ -364,14 +356,6 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
 
     # recover from disease I -> R
     ibm[disease == 2L & tt == 0, disease := 3L]
-
-    # E -> I
-    # for (i in 1:n_age_groups)
-    # {
-    #   ibm[age_groups==i & disease==1L & tt == 0,':='(disease = 2L,
-    #                                            tt = pmax(1L, round( rgamma( .N, v_shape_i[i],
-    #                                                                        scale = v_scale_i[i]) )) )]
-    # }
 
     # when all age groups have same disease progression E-> I
     # also draw time to being symptomatic
