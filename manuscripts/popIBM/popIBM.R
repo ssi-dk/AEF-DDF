@@ -145,7 +145,7 @@ test_red_fac <- 1 # Internal copy of sce_test_red when paste date
 
 registerDoParallel(cores = use_cores)
 
-sce_fac_cur_beta_vec <- ifelse(exists("input_fac_beta"), input_fac_beta, c(1)) # Update if given as input
+sce_fac_cur_beta_vec <- ifelse(exists("input_fac_beta"), input_fac_beta, 1) # Update if given as input
 
 # maximal number of vaccination doses in the simulation - depend on endtime
 n_max_doses <- 3
@@ -170,7 +170,7 @@ n_runs <- ifelse(exists("input_n_runs"), input_n_runs, n_samples) # Run all if n
 tic <- Sys.time()
 
 # branch out to parrallel processes
-sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.table"), .verbose = TRUE) %dopar% {
+sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.table", .verbose = TRUE) %dopar% {
   tmp <- unlist(sce_combi[run_this, ])
   for (i in 1: length(tmp)){
     assign(x = names(tmp)[i], value = tmp[i])
@@ -283,7 +283,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
       tmp2 <- data.table(kommunekode = u_kommunekoder,
                          p_test_fac = p_test_corr)
 
-      tmp <- tmp_test[tmp2, , on = c("kommunekode")]
+      tmp <- tmp_test[tmp2, , on = "kommunekode"]
 
       tmp[, p_test_corr :=  p_test_corr * p_test_fac]
       tmp[, p_test_corr := p_test_corr * sum(n_test_age_vac$wtest) / sum(p_test_corr * pop)]
@@ -302,7 +302,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
     }
 
     # determine who is detected by tests
-    id_tp <- ibm[non_iso == 1L & (disease %in% c(1:2) | (disease == 3L & tt >= -5)) &
+    id_tp <- ibm[non_iso == 1L & (disease %in% 1:2 | (disease == 3L & tt >= -5)) &
                    (is.na(vac_type)  | vac_time < 14),
                  .(id, p_test)][runif(.N) < p_test, id]
     ibm[id %in% id_tp, tt_symp := 0L] # a little ugly but faster
