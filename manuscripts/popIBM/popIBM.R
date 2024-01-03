@@ -42,7 +42,7 @@ setDTthreads(1)
 load_info <- FALSE
 
 # the model cannot run without the input of data. - not submitted
-# many parameters enter through this file , and also the basic structure of the individuals
+# many parameters enter through this file, and also the basic structure of the individuals
 # load("./popibm_init.Rdata")
 
 # dates
@@ -92,14 +92,14 @@ u_sognekoder <- ibm[, unique(sognekode)]
 u_kommunekoder <- ibm[, unique(kommunekode)]
 
 # the population by parish and municipality - .N is data.table special character
-pop_sogn_kom <- ibm[,.N, keyby = .(sognekode, kommunekode)]
+pop_sogn_kom <- ibm[, .N, keyby = .(sognekode, kommunekode)]
 
 # the population by parish and municipality from alternative sources
-pop_sogn <- sogn[.(sognekode=u_sognekoder),`Indbyggertal i sogn`, on="sognekode"]
+pop_sogn <- sogn[.(sognekode=u_sognekoder), `Indbyggertal i sogn`, on="sognekode"]
 tmp <- sogn[, sum(`Indbyggertal i sogn`), by=.(kommunekode)]
 pop_kommune <- tmp[.(kommunekode=u_kommunekoder), V1, on="kommunekode"]
 pop_dk <- NROW(ibm)
-pop_age <- ibm[,.N, by=.(age_groups)]
+pop_age <- ibm[, .N, by=.(age_groups)]
 
 dt_pop_kom <- sogn[, sum(`Indbyggertal i sogn`), by=.(kommunekode)]
 names(dt_pop_kom)[2] <- "pop"
@@ -174,11 +174,11 @@ tic <- Sys.time()
 
 # branch out to parrallel processes
 sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.table"), .verbose = TRUE) %dopar%{
-  tmp <- unlist(sce_combi[run_this,])
+  tmp <- unlist(sce_combi[run_this, ])
   for (i in 1: length(tmp)){
     assign( x= names(tmp)[i], value = tmp[i])
   }
-  cat("\t run: ", run_this," ")
+  cat("\t run: ", run_this, " ")
   # start and end times are in init file
   delta_red_prob_hosp <- (1 - 0.9) * red_prob_hosp/delta_rec_red*2
   delta_vac_effect <- delta_rec_red*c(1, 1)
@@ -202,7 +202,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
 
   # make sure individual already vaccinated are correctly labelled
   ibm[, vac_fac_trans := 1.0]
-  ibm[vac_fac<1 , vac_fac_trans := red_vac_fac_trans]
+  ibm[vac_fac<1, vac_fac_trans := red_vac_fac_trans]
 
   ibm[, vac_eff_dose := 0L]
   ibm[vac_time>14, vac_eff_dose := 1L]
@@ -266,24 +266,24 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
 
     # when incidences are available, adjust test behaviour according to incidence
     if (day>7){
-      inc <- colSums(sim_kom[(day-7):(day-1),], na.rm=TRUE) / pop_kommune *1e5 #LAEC2: not including today
+      inc <- colSums(sim_kom[(day-7):(day-1), ], na.rm=TRUE) / pop_kommune *1e5 #LAEC2: not including today
       p_test_corr <- p_test_inc(inc)
 
       if (day <= day_fix_p_test) {
         # should maybe be done per kommune
-        tmp <- ibm[,.N, keyby=.(age_groups,!(vac_time<14 | is.na(vac_time)))]
-        t_pop_age_vac <- tmp[n_test_age_groups_int_vac,, on=c("age_groups","vac_time")]
+        tmp <- ibm[, .N, keyby=.(age_groups, !(vac_time<14 | is.na(vac_time)))]
+        t_pop_age_vac <- tmp[n_test_age_groups_int_vac, , on=c("age_groups", "vac_time")]
         t_pop_age_vac[is.na(N), N:=0]
 
-        tmp <- ibm[,.(pop=.N), keyby=.(kommunekode, age_groups,!(vac_time<14 | is.na(vac_time)))]
-        tmp <- tmp[t_pop_age_vac,, on=c("age_groups","vac_time")]
-        names(tmp)[c(3, 5)] <- c("vac_status","Tpop")
+        tmp <- ibm[, .(pop=.N), keyby=.(kommunekode, age_groups, !(vac_time<14 | is.na(vac_time)))]
+        tmp <- tmp[t_pop_age_vac, , on=c("age_groups", "vac_time")]
+        names(tmp)[c(3, 5)] <- c("vac_status", "Tpop")
         names(n_test_age_vac)[1] <- "age_groups"
         n_test_age_vac$age_groups <- as.integer(n_test_age_vac$age_groups)
 
-        #tmp[n_test_age_vac,, on=c("age_groups","vac_status")]
+        #tmp[n_test_age_vac, , on=c("age_groups", "vac_status")]
 
-        tmp_test <- tmp[n_test_age_vac,, on=c("age_groups","vac_status")]
+        tmp_test <- tmp[n_test_age_vac, , on=c("age_groups", "vac_status")]
 
         tmp_test[, p_test_corr :=  wtest/Tpop ]
 
@@ -292,7 +292,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
       tmp2 <- data.table(kommunekode=u_kommunekoder,
                          p_test_fac=p_test_corr)
 
-      tmp <- tmp_test[tmp2,, on=c("kommunekode")]
+      tmp <- tmp_test[tmp2, , on=c("kommunekode")]
 
       tmp[, p_test_corr :=  p_test_corr * p_test_fac]
       tmp[, p_test_corr := p_test_corr*sum(n_test_age_vac$wtest)/sum(p_test_corr*pop)]
@@ -301,12 +301,12 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
 
       tmp[, vac_eff_dose := as.integer(vac_status)]
 
-      tmp2 <- copy(tmp[vac_eff_dose==1L,])
+      tmp2 <- copy(tmp[vac_eff_dose==1L, ])
       tmp2[, vac_eff_dose := 2L]
 
       tmp <- rbindlist(list(tmp, tmp2))
 
-      ibm[tmp, on=c("kommunekode","age_groups","vac_eff_dose"), p_test:=p_test_corr]
+      ibm[tmp, on=c("kommunekode", "age_groups", "vac_eff_dose"), p_test:=p_test_corr]
 
     } else {
       ibm[, p_test := (n_test[1, 1]+0.5*n_test[2, 1])/pop_dk * test_red_fac]
@@ -320,25 +320,25 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
 
     # collect data on the number of test positives each day - by variant, age and vaccination status
     for (k in 1:n_variants) {
-      sim_tp2[day,, k] <- ibm[tt_symp==0L & variant==k,.N,
+      sim_tp2[day, , k] <- ibm[tt_symp==0L & variant==k, .N,
                              by=.(age_groups)][.(age_groups=1:9), on="age_groups"]$N
 
-      sim_tp2_vac[day,, k, 1] <- ibm[tt_symp==0L & variant==k &
-                                     (vac_time < br_vac_out[1] | is.na(vac_time)),.N,
+      sim_tp2_vac[day, , k, 1] <- ibm[tt_symp==0L & variant==k &
+                                     (vac_time < br_vac_out[1] | is.na(vac_time)), .N,
                                    by=.(age_groups)][.(age_groups=1:9), on="age_groups"]$N
       for (kk in 2:n_vac_gr_out) { #LAEC: 1 stik for sig
-        sim_tp2_vac[day,, k, kk] <- ibm[tt_symp==0L & variant==k & vac_time >= br_vac_out[kk-1] & vac_time < br_vac_out[kk],.N,
+        sim_tp2_vac[day, , k, kk] <- ibm[tt_symp==0L & variant==k & vac_time >= br_vac_out[kk-1] & vac_time < br_vac_out[kk], .N,
                                       by=.(age_groups)][.(age_groups=1:9), on="age_groups"]$N
       }
     }
 
     # collect number of test positives by parish
-    sim_sogn[day,] <- ibm[tt_symp==0L,.N,
+    sim_sogn[day, ] <- ibm[tt_symp==0L, .N,
                           by=.(sognekode, age_groups)][, sum(N), by=sognekode][
                             .(sognekode=u_sognekoder), on="sognekode"]$V1
 
     # collect number of test positives by municipality
-    sim_kom[day,] <- ibm[tt_symp==0L,.N,
+    sim_kom[day, ] <- ibm[tt_symp==0L, .N,
                          by=.(kommunekode, age_groups)][, sum(N), by=kommunekode][
                            .(kommunekode=u_kommunekoder), on="kommunekode"]$V1
 
@@ -347,16 +347,16 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
 
     # collect probability of hospitalisation each day - by variant, age and vaccination status
     for (k in 1:n_variants) {
-      sim_hos[day,, k] <- ibm[disease==2L & tt==0 & variant==k, sum(prob_hosp),
+      sim_hos[day, , k] <- ibm[disease==2L & tt==0 & variant==k, sum(prob_hosp),
                              by=.(age_groups)][.(age_groups=1:9), on="age_groups"]$V1
 
-      sim_hos_vac[day,, k, 1] <- ibm[disease==2L & tt==0 & variant==k &
+      sim_hos_vac[day, , k, 1] <- ibm[disease==2L & tt==0 & variant==k &
                                      (vac_time < br_vac_out[1] | is.na(vac_time)),
                                    sum(prob_hosp),
                                    by=.(age_groups)][.(age_groups=1:9), on="age_groups"]$V1
 
       for (kk in 2:n_vac_gr_out) {
-        sim_hos_vac[day,, k, kk] <- ibm[disease==2L & tt==0 & variant==k & vac_time >= br_vac_out[kk-1] & vac_time < br_vac_out[kk],
+        sim_hos_vac[day, , k, kk] <- ibm[disease==2L & tt==0 & variant==k & vac_time >= br_vac_out[kk-1] & vac_time < br_vac_out[kk],
                                       sum(prob_hosp),
                                       by=.(age_groups)][.(age_groups=1:9), on="age_groups"]$V1
       }
@@ -371,18 +371,18 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
     # for (i in 1:n_age_groups)
     # {
     #   ibm[age_groups==i & disease==1L & tt==0,':='(disease = 2L,
-    #                                            tt = pmax(1L, round( rgamma( .N , v_shape_i[i] ,
+    #                                            tt = pmax(1L, round( rgamma( .N, v_shape_i[i],
     #                                                                        scale = v_scale_i[i]) )) )]
     # }
 
     # when all age groups have same disease progression E-> I
     # also draw time to being symptomatic
-    ibm[disease==1L & tt==0,':='(disease = 2L,
-                                 tt = pmax(1L, round( rgamma( .N , v_shape_i[1] ,
+    ibm[disease==1L & tt==0, ':='(disease = 2L,
+                                 tt = pmax(1L, round( rgamma( .N, v_shape_i[1],
                                                              scale = v_scale_i[1]) )),
-                                 tt_symp = pmax(1L, round( rgamma( .N , v_shapett_symp[1] ,
+                                 tt_symp = pmax(1L, round( rgamma( .N, v_shapett_symp[1],
                                                                  scale = v_scalett_symp[1]) )) *
-                                   sample(c(1L, NA_integer_),.N, replace = TRUE, prob=c(.5,.5)) )]
+                                   sample(c(1L, NA_integer_), .N, replace = TRUE, prob=c(.5, .5)) )]
 
     # do not double count people found in E states
     ibm[disease==2L & non_iso==0L & tt_symp>0, tt_symp := -1L]
@@ -398,17 +398,17 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
         i_lock <- sum(day > day_lock_vec)
 
         # parish (sogn)
-        n_cases <- colSums(sim_sogn[(day-7):(day-1),], na.rm=TRUE)
+        n_cases <- colSums(sim_sogn[(day-7):(day-1), ], na.rm=TRUE)
 
-        inc_his_sogn[day,] <- (n_cases>=20) * n_cases / pop_sogn * 1e5
+        inc_his_sogn[day, ] <- (n_cases>=20) * n_cases / pop_sogn * 1e5
 
-        max_7d_inc <- apply(inc_his_sogn[(day-6):day,], 2, max, na.rm = TRUE)
+        max_7d_inc <- apply(inc_his_sogn[(day-6):day, ], 2, max, na.rm = TRUE)
         ld_sogn_fac <- ld_sogn_fun[[i_lock]](max_7d_inc)
 
         # municipality (kommune)
 
-        inc_his_kom[day,] <- colSums(sim_kom[(day-7):(day-1),], na.rm=TRUE) / pop_kommune * 1e5
-        max_7d_inc <- apply(inc_his_kom[(day-6):day,], 2, max, na.rm = TRUE)
+        inc_his_kom[day, ] <- colSums(sim_kom[(day-7):(day-1), ], na.rm=TRUE) / pop_kommune * 1e5
+        max_7d_inc <- apply(inc_his_kom[(day-6):day, ], 2, max, na.rm = TRUE)
         ld_kom_fac <- ld_kom_fun[[i_lock]](max_7d_inc)
 
         pop_sogn_kom[data.table(sognekode = u_sognekoder, ld_sogn_fac), on = "sognekode", sogn_fac := ld_sogn_fac]
@@ -429,29 +429,29 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
       # Calculate the infection pressure
       inf_pers_kom <- ibm[disease == 2L & variant == k,
                         .(inf_pers=sum(lockdown_fac*non_iso*vac_fac_trans)),
-                        by = .(kommunekode, age_groups)][mfka, on=c("kommunekode","age_groups")]
+                        by = .(kommunekode, age_groups)][mfka, on=c("kommunekode", "age_groups")]
       inf_pers_kom[is.na(inf_pers), inf_pers:=0]
       inf_perss_kom[, inf_pers:=inf_pers*v_rel_beta[k]]
 
       inf_pres <- inf_pers_kom[, cur_beta%*%inf_pers, by=.(kommunekode)][, age_groups:=rep(1:9, n_kommuner)]
       names(inf_pres)[2] <- "rinfkom"
 
-      inf_pres <- dt_pop_kom[inf_pres,, on="kommunekode"]
+      inf_pres <- dt_pop_kom[inf_pres, , on="kommunekode"]
       inf_pres[, rinfkom:=rinfkom/pop]
 
-      inf_pers <- inf_pers_kom[,.(inf_pers=sum(inf_pers)), by=.(age_groups)]
+      inf_pers <- inf_pers_kom[, .(inf_pers=sum(inf_pers)), by=.(age_groups)]
 
       tmp <- inf_pers$inf_pers
-      inf_pres_dk <- inf_pers[,.(rinfDK=sum( cur_beta[age_groups,]*tmp/pop_dk )), by=.(age_groups)]
+      inf_pres_dk <- inf_pers[, .(rinfDK=sum( cur_beta[age_groups, ]*tmp/pop_dk )), by=.(age_groups)]
 
-      inf_prestot <- inf_pres_dk[inf_pres,, on="age_groups"]
+      inf_prestot <- inf_pres_dk[inf_pres, , on="age_groups"]
       inf_prestot[, prob_inf:=(1-exp(-(1-w_kom)*rinfDK - w_kom*rinfkom))]
 
       tmp2 <- inf_prestot[, c(1, 3, 6)]
       names(tmp2)[3] <- "prob_inf_new"
 
       # Evaluate probability of infection
-      ibm[tmp2, on=c("kommunekode","age_groups"), prob_inf:=prob_inf_new]
+      ibm[tmp2, on=c("kommunekode", "age_groups"), prob_inf:=prob_inf_new]
 
       # NB for future use - should maybe include a check on reasonable values [0;1]
       ibm[, prob_inf := prob_inf * vac_fac * rel_risk_sogn * lockdown_fac ]
@@ -489,8 +489,8 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
   }
 
   #})
-  return(list(tp2 = sim_tp2[,,], tp2_vac = sim_tp2_vac[,,,], hos=sim_hos[,,],
-              hos_vac=sim_hos_vac[,,,], sogn = sim_sogn[,], kom = sim_kom[,], par_id = par_id))
+  return(list(tp2 = sim_tp2[, , ], tp2_vac = sim_tp2_vac[, , , ], hos=sim_hos[, , ],
+              hos_vac=sim_hos_vac[, , , ], sogn = sim_sogn[, ], kom = sim_kom[, ], par_id = par_id))
 }
 gc()
 toc <- Sys.time()
@@ -500,7 +500,7 @@ toc-tic
 stopImplicitCluster()
 
 rm(ibm)
-par_string <- paste0("popIBM", substr(Sys.time(), 1, 10),"rep", n_samples,"perT", frac_n_tests*100)
+par_string <- paste0("popIBM", substr(Sys.time(), 1, 10), "rep", n_samples, "perT", frac_n_tests*100)
 
 # save output together with parameters
-save.image(file=paste0("./", par_string,".RData") )
+save.image(file=paste0("./", par_string, ".RData") )
