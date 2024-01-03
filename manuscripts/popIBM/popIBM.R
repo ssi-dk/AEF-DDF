@@ -33,7 +33,7 @@ activate_lockdown <- TRUE
 frac_n_tests <- .1
 
 # choose number of cores to be used by do par
-use_cores = 1
+use_cores <- 1
 
 # choose number of threads to be used by data.table, likely do not work well with doParallel
 setDTthreads(1)
