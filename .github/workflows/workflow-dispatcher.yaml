@@ -1,0 +1,174 @@
+on:
+  workflow_call:
+    inputs:
+      skip:
+        required: false
+        type: string
+        default: ''
+      main_branches:
+        required: false
+        type: string
+        default: 'main,master'
+
+      event_name:
+        required: true
+        type: string
+      run_id:
+        required: true
+        type: string
+
+      schemas:
+        required: false
+        type: string
+      backend_exclude:
+        required: false
+        type: string
+
+
+jobs:
+
+  # To give granular control of when workflows should execute, we determine which "categories" of files has changed
+  trigger:
+    name: ⚙️ Determine downstream workflow triggers
+    runs-on: ubuntu-latest
+
+    outputs:
+      R_files_changed: ${{ steps.changed-files-yaml.outputs.R_any_changed }}
+      test_files_changed: ${{ steps.changed-files-yaml.outputs.test_any_changed }}
+      man_files_changed: ${{ steps.changed-files-yaml.outputs.man_any_changed }}
+      vignette_files_changed: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}
+      readme_files_changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}
+      description_changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}
+      main_branch_affected: ${{ (inputs.event_name == 'push' && contains(inputs.main_branches, github.ref_name)) ||
+        (inputs.event_name == 'push' && contains(inputs.main_branches, github.base_ref)) ||
+        (inputs.event_name == 'pull_request' && contains(inputs.main_branches, github.base_ref)) }}
+      branch_name: ${{ steps.determine_branch.outputs.branch_name }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changes to R/, tests/, man/, vignettes/, README.Rmd and DESCRIPTION
+        id: changed-files-yaml
+        uses: tj-actions/changed-files@v40
+        with:
+          files_yaml: |
+            R:
+              - R/**
+            test:
+              - tests/**
+            man:
+              - man/**
+            vignette:
+              - vignettes/**
+            readme:
+              - README.Rmd
+            description:
+              - DESCRIPTION
+
+      - name: Determine branch name
+        shell: bash
+        run: |
+          echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: determine_branch
+
+      - name: Report triggers
+        run: |
+          echo "R/ directory changes: ${{ steps.changed-files-yaml.outputs.R_any_changed }}"
+          echo "tests/ directory changes: ${{ steps.changed-files-yaml.outputs.test_any_changed }}"
+          echo "man/ directory changes: ${{ steps.changed-files-yaml.outputs.man_any_changed }}"
+          echo "vignettes/ directory changes: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}"
+          echo "README.Rmd changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}"
+          echo "DESCRIPTION changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}"
+          echo "main branch affected: ${{ (inputs.event_name == 'push' && contains(inputs.main_branches, github.ref_name)) || (inputs.event_name == 'push' && contains(inputs.main_branches, github.base_ref)) || (inputs.event_name == 'pull_request' && contains(inputs.main_branches, github.base_ref)) }}"
+          echo "branch name: ${{ steps.determine_branch.outputs.branch_name }}"
+
+  lint:
+    needs: trigger
+    uses: ./.github/workflows/lint.yaml
+    with:
+      run: ${{ !contains(inputs.skip, 'lint') && (
+        needs.trigger.outputs.R_files_changed == 'true' ||
+        needs.trigger.outputs.test_files_changed == 'true' ||
+        needs.trigger.outputs.man_files_changed == 'true' ||
+        needs.trigger.outputs.vignette_files_changed == 'true') }}
+
+
+  spell-checker:
+    needs: trigger
+    uses: ./.github/workflows/spell-checker.yaml
+    with:
+      run: ${{ !contains(inputs.skip, 'spell-checker')  && (
+        needs.trigger.outputs.description_changed == 'true' ||
+        needs.trigger.outputs.man_files_changed == 'true' ||
+        needs.trigger.outputs.vignette_files_changed == 'true') }}
+    secrets: inherit
+
+
+  R-CMD-check:
+    needs: trigger
+    uses: ./.github/workflows/R-CMD-check.yaml
+    with:
+      run: ${{ !contains(inputs.skip, 'R-CMD-check') &&
+        needs.trigger.outputs.main_branch_affected == 'true' && (
+        needs.trigger.outputs.R_files_changed == 'true' ||
+        needs.trigger.outputs.test_files_changed == 'true' ||
+        needs.trigger.outputs.description_changed == 'true' ||
+        needs.trigger.outputs.man_files_changed == 'true' ||
+        needs.trigger.outputs.vignette_files_changed == 'true') }}
+    secrets: inherit
+
+
+  code-coverage:
+    needs: trigger
+    uses: ./.github/workflows/code-coverage.yaml
+    with:
+      run: ${{ !contains(inputs.skip, 'code-coverage') &&
+        needs.trigger.outputs.main_branch_affected == 'true' && (
+        needs.trigger.outputs.R_files_changed == 'true' ||
+        needs.trigger.outputs.test_files_changed == 'true' ||
+        needs.trigger.outputs.description_changed == 'true') }}
+      schemas: ${{ inputs.schemas }}
+      backend_exclude: ${{ inputs.backend_exclude }}
+    secrets: inherit
+
+
+  document:
+    needs: trigger
+    concurrency:
+      group: ${{ needs.trigger.outputs.branch_name }}-push
+    uses: ./.github/workflows/document.yaml
+    with:
+      run: ${{ !contains(inputs.skip, 'document') && (
+        needs.trigger.outputs.R_files_changed == 'true' ||
+        needs.trigger.outputs.description_changed == 'true') }}
+      branch_name: ${{needs.trigger.outputs.branch_name}}
+    secrets: inherit
+
+
+  render-readme:
+    needs: trigger
+    concurrency:
+      group: ${{ needs.trigger.outputs.branch_name }}-push
+    uses: ./.github/workflows/render-readme.yaml
+    with:
+      run: ${{ !contains(inputs.skip, 'render-readme') && (
+        needs.trigger.outputs.readme_files_changed == 'true') }}
+      branch_name: ${{ needs.trigger.outputs.branch_name }}
+    secrets: inherit
+
+
+  pkgdown:
+    needs: trigger
+    uses: ./.github/workflows/pkgdown.yaml
+    with:
+      event_name: ${{ inputs.event_name }}
+      run_id: ${{ inputs.run_id }}
+      run: ${{ !contains(inputs.skip, 'pkgdown') &&
+        (needs.trigger.outputs.main_branch_affected == 'true' || inputs.event_name == 'release') && (
+        needs.trigger.outputs.R_files_changed == 'true' ||
+        needs.trigger.outputs.description_changed == 'true' ||
+        needs.trigger.outputs.man_files_changed == 'true' ||
+        needs.trigger.outputs.vignette_files_changed == 'true') }}
+    secrets: inherit

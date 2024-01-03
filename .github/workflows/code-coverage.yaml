@@ -1,0 +1,188 @@
+on:
+  workflow_call:
+    inputs:
+      run:
+        type: boolean
+        default: true
+      schemas:
+        type: string
+        default: ''
+      backend_exclude:
+        type: string
+        default: ''
+
+
+jobs:
+  code-coverage-sqlite:
+    if: ${{ inputs.run }}
+    name: 🧪 Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::covr
+          needs: coverage
+
+      - name: Test coverage
+        run: |
+          covr::codecov(
+            quiet = FALSE,
+            clean = FALSE,
+            install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
+          )
+        shell: Rscript {0}
+
+      - name: Show testthat output
+        if: always()
+        run: |
+          ## --------------------------------------------------------------------
+          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-test-failures
+          path: ${{ runner.temp }}/package
+
+
+  code-coverage-postgres:
+    name: 🧪 Tests (postgres)
+    runs-on: ubuntu-latest
+    if: ${{ inputs.run && !contains(inputs.backend_exclude, 'postgres')}}
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd "pg_isready -U postgres" --health-interval 10s --health-timeout 5s --health-retries 5
+
+    env:
+      BACKEND: PostgreSQL
+      BACKEND_DRV: RPostgres::Postgres
+      BACKEND_ARGS: ''
+
+      PGHOST: localhost
+      PGPORT: 5432
+      PGDATABASE: test
+      PGUSER: postgres
+      PGPASSWORD: postgres
+
+    steps:
+      - name: Setup testing schemata in PostgreSQL
+        if: ${{ inputs.schemas != 'none' }}
+        run: |
+          IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
+          for schema in "${schemas[@]}"; do
+            psql test -c "CREATE SCHEMA \"$schema\";"
+          done
+
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::covr
+          needs: coverage
+
+      - name: Test coverage
+        run: |
+          covr::codecov(
+            quiet = FALSE,
+            clean = FALSE,
+            install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
+          )
+        shell: Rscript {0}
+
+      - name: Show testthat output
+        if: always()
+        run: |
+          ## --------------------------------------------------------------------
+          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-test-failures
+          path: ${{ runner.temp }}/package
+
+  # Option 1
+  # https://github.com/marketplace/actions/mssql-suite
+  code-coverage-mssql:
+    name: 🧪 Tests (mssql)
+    runs-on: ubuntu-latest
+    if: ${{ inputs.run && !contains(inputs.backend_exclude, 'mssql')}}
+
+    steps:
+      - name: Install a SQL Server suite of tools
+        uses: potatoqualitee/mssqlsuite@v1.7
+        with:
+          install: sqlengine, sqlpackage
+
+      - name: Run sqlclient
+        run: sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "SELECT @@version;"
+
+      - name: Configure database
+        run: |
+          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE DATABASE TestDB;"
+          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
+          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "USE TestDB;"
+
+      - name: Setup testing schemata in SQL server
+        if: ${{ inputs.schemas != 'none' }}
+        run: |
+          IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
+          for schema in "${schemas[@]}"; do
+            sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE SCHEMA \"$schema\"; GO"
+          done
+
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::covr
+          needs: coverage
+
+      - name: Test coverage
+        run: |
+          covr::codecov(
+            quiet = FALSE,
+            clean = FALSE,
+            install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
+          )
+        shell: Rscript {0}
+
+      - name: Show testthat output
+        if: always()
+        run: |
+          ## --------------------------------------------------------------------
+          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-test-failures
+          path: ${{ runner.temp }}/package

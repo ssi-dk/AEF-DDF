@@ -1,0 +1,20 @@
+on:
+  workflow_call:
+    inputs:
+      run:
+        type: boolean
+        default: true
+
+jobs:
+  check-spelling:
+    if: ${{ inputs.run }}
+    name: 🔠 Spelling
+    runs-on: ubuntu-latest
+    container:
+      image: rocker/tidyverse:4.1.2
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run Spelling Check test
+        uses: insightsengineering/r-spellcheck-action@v2
