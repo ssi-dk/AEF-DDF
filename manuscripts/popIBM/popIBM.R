@@ -71,7 +71,7 @@ sim_hos <-  array(0L, dim = c(length(times), n_age_groups, n_variants))#, n_rep)
 sim_tp2_vac <- array(0L, dim = c(length(times), n_age_groups, n_variants,         n_vac_gr_out))
 sim_hos_vac <-  array(0, dim = c(length(times), n_age_groups, n_variants, n_vac_gr_out))
 
-# individuals are stored in the data.table called 'ibm'
+# individuals are stored in the data.table called "ibm"
 # a data.table is equivalent to a data.frame but has additional functionality
 # each line in the data.table i equivalent to a person
 
@@ -229,7 +229,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
   # time loop
   for (day in 1:length(times)) {
 
-    # set 'beta' based on restriction levels and seasonal change
+    # set "beta" based on restriction levels and seasonal change
     if (day > day_cha[1]) {
       i_beta <- max(which(day_cha <= day))
       cur_beta <- (1 - season_fac * (1 - seasonal_rel_beta(as.Date(start_denmark, origin = "2020-01-01"), day))) *
@@ -358,7 +358,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
 
     # when all age groups have same disease progression E-> I
     # also draw time to being symptomatic
-    ibm[disease == 1L & tt == 0, ':='(disease = 2L,
+    ibm[disease == 1L & tt == 0, `:=`(disease = 2L,
                                  tt = pmax(1L, round(rgamma(.N, v_shape_i[1],
                                                              scale = v_scale_i[1]))),
                                  tt_symp = pmax(1L, round(rgamma(.N, v_shapett_symp[1],
@@ -439,7 +439,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
 
       # Randomly infect some individuals based on probability
       ibm[disease == 0L & runif(.N) < prob_inf,
-          ':='(disease = 1L,
+          `:=`(disease = 1L,
                tt = pmax(1L, round(rgamma(n = .N, shape = v_shape_e[age_groups],
                                          scale = v_scale_e[age_groups]))),
                variant = k)]
@@ -457,7 +457,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
     for (k in 1:n__vac){
 
         ibm[vac_type == k & vac_time == v_vac_tt_effect[k],
-            ':='(vacF_ec = delta_vac_effect[k],
+            `:=`(vacF_ec = delta_vac_effect[k],
                  prob_hosp = delta_red_prob_hosp * prob_hosp,
                  vac_fac_trans = red_vac_fac_trans)]
 
