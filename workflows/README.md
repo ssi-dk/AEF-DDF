@@ -24,11 +24,15 @@ workflows.
 Changes to any file in the `R/` or `man/` folders.
 
 #### Function
-Checks for style issues in your package.
+Checks for style issues in your code base.
 
 #### Outcome
-If issues any are found, the workflow will give an error.
+The workflow will produce a list of lints (i.e. suspected style issues) detected in your code base.
 
+Click on the workflow and look for the "Lint" tab to see the detected issues.
+
+#### Exit status
+If any lints are produced, the workflow will give an error.
 
 ## R-CMD-check.yaml
 #### Trigger
@@ -36,11 +40,17 @@ Pushes or pull requests to the main branch if there are changes to any file in t
 folders.
 
 #### Function
-Runs `R-CMD-check` on your package using various operating systems (ubuntu, windows, macOS).
+Runs `rcmdcheck::rcmdcheck` on your package using various operating systems (ubuntu, windows, macOS).
+
+Furthermore, the checks are run on ubuntu using the previous release of R (`oldrel-1`) and without loading the packages specified in `Suggests:`.
 
 #### Outcome
-If issues any are found, the workflow will give an error.
+The workflow will post the output of `rcmdcheck::rcmdcheck`.
 
+Click on the workflow and look for the "Run r-lib/actions/check-r-package@v2" tab to see the output.
+
+#### Exit status
+If any issues are found, the workflow will give an error.
 
 ## code-coverage.yaml
 #### Trigger
@@ -64,6 +74,8 @@ This enables you to add the code coverage badge to your `README.md`.
 > This means that your `R-CMD-check` may not fail when `code-coverage` fails.
 > If this is the case, the cause is likely a data base specific issue in your code base.
 
+#### Exit status
+If any tests fail to run, the workflow will give an error.
 
 ## document.yaml
 #### Trigger
@@ -110,4 +122,9 @@ Changes to `DESCRIPTION` or any file in the `man/` or `vignette/` folders.
 Runs `spelling::spell_check_package` on the code base.
 
 #### Outcome
+The workflow will post the output of `spelling::spell_check_package`.
+
+Click on the workflow and look for the "Run Spelling Check test" tab to see the output.
+
+#### Exit status
 If any spelling mistakes are found, the workflow will give an error.
