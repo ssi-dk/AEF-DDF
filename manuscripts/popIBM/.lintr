@@ -1,4 +1,7 @@
-linters: all_linters(
+linters: c(
+  line_length_linter(120),
+  all_linters(
+      line_length_linter = NULL,
       cyclocomp_linter = NULL,            # Not required in diseasy style guide
       keyword_quote_linter = NULL,        # Not required in diseasy style guide
       implicit_integer_linter = NULL,     # Not required in diseasy style guide
@@ -9,3 +12,4 @@ linters: all_linters(
       strings_as_factors_linter = NULL,   # Seems to be some backwards compatibility stuff.
       expect_identical_linter = NULL      # Seems a little aggressive to require this.
     )
+  )
