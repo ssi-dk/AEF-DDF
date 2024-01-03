@@ -67,7 +67,7 @@ n_vac_gr_out <- 3
 br_vac_out <- c(14, 14 + 28, Inf)
 
 # data collection arrays
-sim_tp2 <- array(0L, dim = c(length(times), n_age_groups, n_variants ))#, n_rep))
+sim_tp2 <- array(0L, dim = c(length(times), n_age_groups, n_variants))#, n_rep))
 sim_hos <-  array(0L, dim = c(length(times), n_age_groups, n_variants))#, n_rep))
 
 # data collection arrays that include vaccination status
@@ -154,7 +154,7 @@ sce_fac_cur_beta_vec <- ifelse(exists("input_fac_beta"), input_fac_beta, c(1)) #
 n_max_doses <- 3
 
 # Set seed for generating parameter combinations
-set.seed( ifelse(exists("input_seed"), input_seed, 1 ))
+set.seed(ifelse(exists("input_seed"), input_seed, 1))
 
 # this simulation was implemented at a time with uncertainties on delta variant parameters
 # therefore scenarios of different parameter values for delta are included
@@ -166,8 +166,8 @@ sce_combi <- data.frame(par_id = 1:n_samples,
                        rel_alpha_delta = runif(n_samples, min = 1.65, max = 1.95)
 )
 
-first_run <- ifelse(exists("input_start"), input_start, 1 )
-n_runs <- ifelse(exists("input_n_runs"), input_n_runs, n_samples ) # Run all if not specified
+first_run <- ifelse(exists("input_start"), input_start, 1)
+n_runs <- ifelse(exists("input_n_runs"), input_n_runs, n_samples) # Run all if not specified
 
 
 tic <- Sys.time()
@@ -176,7 +176,7 @@ tic <- Sys.time()
 sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.table"), .verbose = TRUE) %dopar% {
   tmp <- unlist(sce_combi[run_this, ])
   for (i in 1: length(tmp)){
-    assign( x = names(tmp)[i], value = tmp[i])
+    assign(x = names(tmp)[i], value = tmp[i])
   }
   cat("\t run: ", run_this, " ")
   # start and end times are in init file
@@ -283,7 +283,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
 
         tmp_test <- tmp[n_test_age_vac, , on = c("age_groups", "vac_status")]
 
-        tmp_test[, p_test_corr :=  wtest / t_pop ]
+        tmp_test[, p_test_corr :=  wtest / t_pop]
 
       }
 
@@ -376,11 +376,11 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
     # when all age groups have same disease progression E-> I
     # also draw time to being symptomatic
     ibm[disease == 1L & tt == 0, ':='(disease = 2L,
-                                 tt = pmax(1L, round( rgamma( .N, v_shape_i[1],
-                                                             scale = v_scale_i[1]) )),
-                                 tt_symp = pmax(1L, round( rgamma( .N, v_shapett_symp[1],
-                                                                 scale = v_scalett_symp[1]) )) *
-                                   sample(c(1L, NA_integer_), .N, replace = TRUE, prob = c(0.5, 0.5)) )]
+                                 tt = pmax(1L, round(rgamma(.N, v_shape_i[1],
+                                                             scale = v_scale_i[1]))),
+                                 tt_symp = pmax(1L, round(rgamma(.N, v_shapett_symp[1],
+                                                                 scale = v_scalett_symp[1]))) *
+                                   sample(c(1L, NA_integer_), .N, replace = TRUE, prob = c(0.5, 0.5)))]
 
     # do not double count people found in E states
     ibm[disease == 2L & non_iso == 0L & tt_symp > 0, tt_symp := -1L]
@@ -440,7 +440,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
       inf_pers <- inf_pers_kom[, .(inf_pers = sum(inf_pers)), by = .(age_groups)]
 
       tmp <- inf_pers$inf_pers
-      inf_pres_dk <- inf_pers[, .(r_inf_dK = sum( cur_beta[age_groups, ] * tmp / pop_dk )), by = .(age_groups)]
+      inf_pres_dk <- inf_pers[, .(r_inf_dK = sum(cur_beta[age_groups, ] * tmp / pop_dk)), by = .(age_groups)]
 
       inf_prestot <- inf_pres_dk[inf_pres, , on = "age_groups"]
       inf_prestot[, prob_inf := (1 - exp(-(1 - w_kom) * r_inf_dK - w_kom * r_inf_kom))]
@@ -452,7 +452,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
       ibm[tmp2, on = c("kommunekode", "age_groups"), prob_inf := prob_inf_new]
 
       # NB for future use - should maybe include a check on reasonable values [0;1]
-      ibm[, prob_inf := prob_inf * vac_fac * rel_risk_sogn * lockdown_fac ]
+      ibm[, prob_inf := prob_inf * vac_fac * rel_risk_sogn * lockdown_fac]
 
       # Randomly infect some individuals based on probability
       ibm[disease == 0L & runif(.N) < prob_inf,
@@ -501,4 +501,4 @@ rm(ibm)
 par_string <- paste0("popIBM", substr(Sys.time(), 1, 10), "rep", n_samples, "perT", frac_n_tests * 100)
 
 # save output together with parameters
-save.image(file = paste0("./", par_string, ".RData") )
+save.image(file = paste0("./", par_string, ".RData"))
