@@ -172,7 +172,7 @@ tic <- Sys.time()
 # branch out to parrallel processes
 sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.table", .verbose = TRUE) %dopar% {
   tmp <- unlist(sce_combi[run_this, ])
-  for (i in 1: length(tmp)){
+  for (i in seq_along(tmp)) {
     assign(x = names(tmp)[i], value = tmp[i])
   }
   cat("\t run: ", run_this, " ")
@@ -227,7 +227,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
   # profvis({
 
   # time loop
-  for (day in 1:length(times)) {
+  for (day in seq_along(times)) {
 
     # set "beta" based on restriction levels and seasonal change
     if (day > day_cha[1]) {
