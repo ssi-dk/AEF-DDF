@@ -29,8 +29,8 @@ n_samples <- 1
 # are automatic lockdowns activated in the model
 activate_lockdown <- TRUE
 
-# fraction of tests available compared to observed, 1=mass test, .1=limited test
-frac_n_tests <- .1
+# fraction of tests available compared to observed, 1=mass test, 0.1=limited test
+frac_n_tests <- 0.1
 
 # choose number of cores to be used by do par
 use_cores <- 1
@@ -52,10 +52,10 @@ times <- seq(start_denmark, end_times, 1)
 xdates <- as.Date(times, origin = "2020-01-01")
 
 # Proportion of transmission within municipality
-w_kom <- .9
+w_kom <- 0.9
 
 # Seasonal factor (relative to estimate from Sweden)
-season_fac <- .8
+season_fac <- 0.8
 
 ##############################################################
 #### parameters beyond this point should NOT be changed #######
@@ -237,11 +237,11 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
     if (day > day_cha[1]){
       i_beta <- max(which(day_cha <= day))
       cur_beta <- (1 - season_fac * (1 - seasonal_rel_beta(as.Date(start_denmark, origin = "2020-01-01"), day))) *
-        r_ref * .35 * list_beta[[i_beta]]
+        r_ref * 0.35 * list_beta[[i_beta]]
       lockdown_factor <- sqrt(eigen(list_beta[[1]])$values[1] / eigen(list_beta[[i_beta]])$values[1])
     } else {
       cur_beta <-  (1 - season_fac * (1 - seasonal_rel_beta(as.Date(start_denmark, origin = "2020-01-01"), day))) *
-        r_ref * .35 * list_beta[[1]]
+        r_ref * 0.35 * list_beta[[1]]
 
     }
 
@@ -380,7 +380,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
                                                              scale = v_scale_i[1]) )),
                                  tt_symp = pmax(1L, round( rgamma( .N, v_shapett_symp[1],
                                                                  scale = v_scalett_symp[1]) )) *
-                                   sample(c(1L, NA_integer_), .N, replace = TRUE, prob = c(.5, .5)) )]
+                                   sample(c(1L, NA_integer_), .N, replace = TRUE, prob = c(0.5, 0.5)) )]
 
     # do not double count people found in E states
     ibm[disease == 2L & non_iso == 0L & tt_symp > 0, tt_symp := -1L]
