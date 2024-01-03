@@ -227,11 +227,10 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
   # profvis({
 
   # time loop
-  for (day in 1:length(times))
-  {
+  for (day in 1:length(times)) {
 
     # set 'beta' based on restriction levels and seasonal change
-    if (day > day_cha[1]){
+    if (day > day_cha[1]) {
       i_beta <- max(which(day_cha <= day))
       cur_beta <- (1 - season_fac * (1 - seasonal_rel_beta(as.Date(start_denmark, origin = "2020-01-01"), day))) *
         r_ref * 0.35 * list_beta[[i_beta]]
@@ -244,7 +243,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
 
 
     ## Change some to delta variant
-    if (day == day_delta_intro_sce & prob_delta_intro > 0){
+    if (day == day_delta_intro_sce & prob_delta_intro > 0) {
       ibm[variant == 2, variant := sample(c(2, variant_id_delta), size = .N, replace = TRUE, prob = c(1 - prob_delta_intro, prob_delta_intro))]
     }
 
@@ -259,7 +258,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
     n_test_age_vac$wtest <- n_test_age_vac$wtest * frac_n_tests
 
     # when incidences are available, adjust test behaviour according to incidence
-    if (day > 7){
+    if (day > 7) {
       inc <- colSums(sim_kom[(day - 7):(day - 1), ], na.rm = TRUE) / pop_kommune * 1e5 #LAEC2: not including today
       p_test_corr <- p_test_inc(inc)
 
@@ -374,7 +373,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = c("data.t
     if (activate_lockdown) {
 
       # determine if there should be lockdown!
-      if (day > day_lock_vec[1]){
+      if (day > day_lock_vec[1]) {
 
         # lockdown
         i_lock <- sum(day > day_lock_vec)
