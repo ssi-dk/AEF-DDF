@@ -128,7 +128,7 @@ lockdown_municipality_fun <- list(approxfun(x = c(150, 200), y = c(0, 0.5), ylef
                    approxfun(x = c(400, 1600), y = c(0, 0.2), yleft = 0, yright = 0.5))
 
 # Automatic for last date i data (ntal)
-day_fix_p_test <- as.numeric(ntal[, as.Date(max(pr_date))] - as.Date("2020-01-01")) - start_denmark  #Update
+day_fix_p_test <- as.numeric(ntal[, as.Date(max(pr_date))] - as.Date("2020-01-01")) - start_denmark  # Update
 
 #
 red_vac_fac_trans <- ifelse(exists("input_red_vac_fac_trans"), input_red_vac_fac_trans, 0.1) # reduction factor on transmission when effectively vaccinated # .1 / .2 / .3
@@ -147,7 +147,7 @@ registerDoParallel(cores = use_cores)
 
 sce_fac_cur_beta_vec <- ifelse(exists("input_fac_beta"), input_fac_beta, 1) # Update if given as input
 
-# maximal number of vaccination doses in the simulation - depend on endtime
+# maximal number of vaccination doses in the simulation - depend on end time
 n_max_doses <- 3
 
 # Set seed for generating parameter combinations
@@ -169,7 +169,7 @@ n_runs <- ifelse(exists("input_n_runs"), input_n_runs, n_samples) # Run all if n
 
 tic <- Sys.time()
 
-# branch out to parrallel processes
+# branch out to parallel processes
 sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.table", .verbose = TRUE) %dopar% {
   tmp <- unlist(sce_combi[run_this, ])
   for (i in seq_along(tmp)) {
@@ -188,7 +188,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
   times <- seq(start_denmark, end_times, 1)
   xdates <- as.Date(times, origin = "2020-01-01")
 
-  # intialise spatial heterogeneity in parishes
+  # initialise spatial heterogeneity in parishes
   ibm[, lockdown_fac := 1.]
   ibm[, rel_risk_parish := rel_risk_parish^(1 / 3)]
   ibm[, rel_risk_parish := rel_risk_parish * .N / sum(rel_risk_parish)]
@@ -247,7 +247,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       ibm[variant == 2, variant := sample(c(2, variant_id_delta), size = .N, replace = TRUE, prob = c(1 - prob_delta_intro, prob_delta_intro))]
     }
 
-    # make p_test ~ 7 day incidense
+    # make p_test ~ 7 day incidence
     n_test <- n_test_dk(as.Date(start_denmark, origin = "2020-01-01"), day)
     n_test_age <- n_test_dk_age(as.Date(start_denmark, origin = "2020-01-01"), day)
     n_test_age_vac <- n_test_dk_age_vac(as.Date(start_denmark, origin = "2020-01-01"), day)
@@ -259,7 +259,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
     # when incidences are available, adjust test behaviour according to incidence
     if (day > 7) {
-      inc <- colSums(sim_municipality[(day - 7):(day - 1), ], na.rm = TRUE) / pop_municipality * 1e5 #LAEC2: not including today
+      inc <- colSums(sim_municipality[(day - 7):(day - 1), ], na.rm = TRUE) / pop_municipality * 1e5 # LAEC2: not including today
       p_test_corr <- p_test_inc(inc)
 
       if (day <= day_fix_p_test) {
@@ -315,7 +315,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       sim_tp2_vac[day, , k, 1] <- ibm[tt_symp == 0L & variant == k &
                                         (vac_time < br_vac_out[1] | is.na(vac_time)), .N,
                                       by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$N
-      for (kk in 2:n_vac_gr_out) { #LAEC: 1 stik for sig
+      for (kk in 2:n_vac_gr_out) { # LAEC: 1 stik for sig
         sim_tp2_vac[day, , k, kk] <- ibm[tt_symp == 0L & variant == k & vac_time >= br_vac_out[kk - 1] & vac_time < br_vac_out[kk], .N,
                                          by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$N
       }
@@ -374,7 +374,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
         # lockdown
         i_lock <- sum(day > day_lock_vec)
 
-        # parish (parish)
+        # parish
         n_cases <- colSums(sim_parish[(day - 7):(day - 1), ], na.rm = TRUE)
 
         inc_his_parish[day, ] <- (n_cases >= 20) * n_cases / pop_parish * 1e5
@@ -382,8 +382,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
         max_7d_inc <- apply(inc_his_parish[(day - 6):day, ], 2, max, na.rm = TRUE)
         lockdown_parish_fac <- lockdown_parish_fun[[i_lock]](max_7d_inc)
 
-        # municipality (municipality)
-
+        # municipality
         inc_his_municipality[day, ] <- colSums(sim_municipality[(day - 7):(day - 1), ], na.rm = TRUE) / pop_municipality * 1e5
         max_7d_inc <- apply(inc_his_municipality[(day - 6):day, ], 2, max, na.rm = TRUE)
         lockdown_municipality_fac <- lockdown_municipality_fun[[i_lock]](max_7d_inc)
@@ -401,7 +400,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
     }
 
-    #Infected individuals with different strains
+    # Infected individuals with different strains
     for (k in 1:n_variants){
       # Calculate the infection pressure
       inf_pers_municipality <- ibm[disease == 2L & variant == k,
