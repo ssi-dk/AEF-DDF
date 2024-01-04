@@ -113,19 +113,23 @@ list_beta <- lockdown_sce_beta_list$Fyn$S5.3$list_beta
 day_lock_vec <- as.numeric(as.Date(c("2021-03-01", "2021-04-30", "2021-05-28", "2021-07-16", "2021-09-10", "2021-11-15")) - as.Date("2020-01-01")) - start_denmark
 
 # functions for lockdown:
-lockdown_parish_fun <- list(approxfun(x = c(300, 400), y = c(0, 0.5), yleft = 0, yright = 1),
-                    approxfun(x = c(375, 500), y = c(0, 0.5), yleft = 0, yright = 1),
-                    approxfun(x = c(450, 600), y = c(0, 0.5), yleft = 0, yright = 1),
-                    approxfun(x = c(750, 1000), y = c(0, 0.5), yleft = 0, yright = 1),
-                    approxfun(x = c(1000, 4000), y = c(0, 0.2), yleft = 0, yright = 0.5),
-                    approxfun(x = c(800, 3200), y = c(0, 0.2), yleft = 0, yright = 0.5))
+lockdown_parish_fun <- list(
+  approxfun(x = c(300, 400), y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(375, 500), y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(450, 600), y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(750, 1000), y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(1000, 4000), y = c(0, 0.2), yleft = 0, yright = 0.5),
+  approxfun(x = c(800, 3200), y = c(0, 0.2), yleft = 0, yright = 0.5)
+)
 
-lockdown_municipality_fun <- list(approxfun(x = c(150, 200), y = c(0, 0.5), yleft = 0, yright = 1),
-                   approxfun(x = c(188, 250), y = c(0, 0.5), yleft = 0, yright = 1),
-                   approxfun(x = c(225, 300), y = c(0, 0.5), yleft = 0, yright = 1),
-                   approxfun(x = c(375, 500), y = c(0, 0.5), yleft = 0, yright = 1),
-                   approxfun(x = c(500, 2000), y = c(0, 0.2), yleft = 0, yright = 0.5),
-                   approxfun(x = c(400, 1600), y = c(0, 0.2), yleft = 0, yright = 0.5))
+lockdown_municipality_fun <- list(
+  approxfun(x = c(150, 200), y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(188, 250), y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(225, 300), y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(375, 500), y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(500, 2000), y = c(0, 0.2), yleft = 0, yright = 0.5),
+  approxfun(x = c(400, 1600), y = c(0, 0.2), yleft = 0, yright = 0.5)
+)
 
 # Automatic for last date i data (ntal)
 day_fix_p_test <- as.numeric(ntal[, as.Date(max(pr_date))] - as.Date("2020-01-01")) - start_denmark  # Update
@@ -243,7 +247,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
 
     ## Change some to delta variant
-    if (day == day_delta_intro_sce & prob_delta_intro > 0) {
+    if (day == day_delta_intro_sce && prob_delta_intro > 0) {
       ibm[variant == 2, variant := sample(c(2, variant_id_delta), size = .N, replace = TRUE, prob = c(1 - prob_delta_intro, prob_delta_intro))]
     }
 
@@ -333,17 +337,16 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     # collect probability of hospitalisation each day - by variant, age and vaccination status
     for (k in 1:n_variants) {
       sim_hospital[day, , k] <- ibm[disease == 2L & tt == 0 & variant == k, sum(prob_hospital),
-                               by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
+                                    by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
 
-      sim_hospital_vac[day, , k, 1] <- ibm[disease == 2L & tt == 0 & variant == k &
-                                        (vac_time < br_vac_out[1] | is.na(vac_time)),
-                                      sum(prob_hospital),
-                                      by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
+      sim_hospital_vac[day, , k, 1] <- ibm[disease == 2L & tt == 0 & variant == k & (vac_time < br_vac_out[1] | is.na(vac_time)),
+                                           sum(prob_hospital),
+                                           by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
 
       for (kk in 2:n_vac_gr_out) {
         sim_hospital_vac[day, , k, kk] <- ibm[disease == 2L & tt == 0 & variant == k & vac_time >= br_vac_out[kk - 1] & vac_time < br_vac_out[kk],
-                                         sum(prob_hospital),
-                                         by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
+                                              sum(prob_hospital),
+                                              by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
       }
 
 
@@ -354,14 +357,15 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
     # when all age groups have same disease progression E-> I
     # also draw time to being symptomatic
-    ibm[disease == 1L & tt == 0,
-        `:=`(
-          disease = 2L,
-          tt = pmax(1L, round(rgamma(.N, v_shape_i[1], scale = v_scale_i[1]))),
-          tt_symp = pmax(1L, round(rgamma(.N, v_shape_tt_symp[1], scale = v_scale_tt_symp[1]))) *
-                                        sample(c(1L, NA_integer_), .N, replace = TRUE, prob = c(0.5, 0.5))
-        )
-      ]
+    ibm[
+      disease == 1L & tt == 0,
+      `:=`(
+        disease = 2L,
+        tt = pmax(1L, round(rgamma(.N, v_shape_i[1], scale = v_scale_i[1]))),
+        tt_symp = pmax(1L, round(rgamma(.N, v_shape_tt_symp[1], scale = v_scale_tt_symp[1]))) *
+          sample(c(1L, NA_integer_), .N, replace = TRUE, prob = c(0.5, 0.5))
+      )
+    ]
 
     # do not double count people found in E states
     ibm[disease == 2L & non_iso == 0L & tt_symp > 0, tt_symp := -1L]
@@ -398,11 +402,11 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     }
 
     # Infected individuals with different strains
-    for (k in 1:n_variants){
+    for (k in 1:n_variants) {
       # Calculate the infection pressure
       inf_pers_municipality <- ibm[disease == 2L & variant == k,
-                          .(inf_pers = sum(lockdown_fac * non_iso * vac_fac_trans)),
-                          by = .(municipality_id, age_groups)][mfka, on = c("municipality_id", "age_groups")]
+                                   .(inf_pers = sum(lockdown_fac * non_iso * vac_fac_trans)),
+                                   by = .(municipality_id, age_groups)][mfka, on = c("municipality_id", "age_groups")]
       inf_pers_municipality[is.na(inf_pers), inf_pers := 0]
       inf_perss_municipality[, inf_pers := inf_pers * v_rel_beta[k]]
 
