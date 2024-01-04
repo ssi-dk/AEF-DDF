@@ -354,12 +354,14 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
     # when all age groups have same disease progression E-> I
     # also draw time to being symptomatic
-    ibm[disease == 1L & tt == 0, `:=`(disease = 2L,
-                                      tt = pmax(1L, round(rgamma(.N, v_shape_i[1],
-                                                                 scale = v_scale_i[1]))),
-                                      tt_symp = pmax(1L, round(rgamma(.N, v_shapett_symp[1],
-                                                                      scale = v_scalett_symp[1]))) *
-                                        sample(c(1L, NA_integer_), .N, replace = TRUE, prob = c(0.5, 0.5)))]
+    ibm[disease == 1L & tt == 0,
+        `:=`(
+          disease = 2L,
+          tt = pmax(1L, round(rgamma(.N, v_shape_i[1], scale = v_scale_i[1]))),
+          tt_symp = pmax(1L, round(rgamma(.N, v_shape_tt_symp[1], scale = v_scale_tt_symp[1]))) *
+                                        sample(c(1L, NA_integer_), .N, replace = TRUE, prob = c(0.5, 0.5))
+        )
+      ]
 
     # do not double count people found in E states
     ibm[disease == 2L & non_iso == 0L & tt_symp > 0, tt_symp := -1L]
