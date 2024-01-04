@@ -366,37 +366,32 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
 
     # implement the effects of local lockdown
-    if (activate_lockdown) {
+    if (activate_lockdown && day > day_lock_vec[1]) {
 
-      # determine if there should be lockdown!
-      if (day > day_lock_vec[1]) {
+      # lockdown
+      i_lock <- sum(day > day_lock_vec)
 
-        # lockdown
-        i_lock <- sum(day > day_lock_vec)
+      # parish
+      n_cases <- colSums(sim_parish[(day - 7):(day - 1), ], na.rm = TRUE)
 
-        # parish
-        n_cases <- colSums(sim_parish[(day - 7):(day - 1), ], na.rm = TRUE)
+      inc_his_parish[day, ] <- (n_cases >= 20) * n_cases / pop_parish * 1e5
 
-        inc_his_parish[day, ] <- (n_cases >= 20) * n_cases / pop_parish * 1e5
+      max_7d_inc <- apply(inc_his_parish[(day - 6):day, ], 2, max, na.rm = TRUE)
+      lockdown_parish_fac <- lockdown_parish_fun[[i_lock]](max_7d_inc)
 
-        max_7d_inc <- apply(inc_his_parish[(day - 6):day, ], 2, max, na.rm = TRUE)
-        lockdown_parish_fac <- lockdown_parish_fun[[i_lock]](max_7d_inc)
+      # municipality
+      inc_his_municipality[day, ] <- colSums(sim_municipality[(day - 7):(day - 1), ], na.rm = TRUE) / pop_municipality * 1e5
+      max_7d_inc <- apply(inc_his_municipality[(day - 6):day, ], 2, max, na.rm = TRUE)
+      lockdown_municipality_fac <- lockdown_municipality_fun[[i_lock]](max_7d_inc)
 
-        # municipality
-        inc_his_municipality[day, ] <- colSums(sim_municipality[(day - 7):(day - 1), ], na.rm = TRUE) / pop_municipality * 1e5
-        max_7d_inc <- apply(inc_his_municipality[(day - 6):day, ], 2, max, na.rm = TRUE)
-        lockdown_municipality_fac <- lockdown_municipality_fun[[i_lock]](max_7d_inc)
+      population[data.table(parish_id = u_parish_ids, lockdown_parish_fac), on = "parish_id", parish_fac := lockdown_parish_fac]
+      population[data.table(municipality_id = u_municipality_ids, lockdown_municipality_fac), on = "municipality_id", kom_fac := lockdown_municipality_fac]
 
-        population[data.table(parish_id = u_parish_ids, lockdown_parish_fac), on = "parish_id", parish_fac := lockdown_parish_fac]
-        population[data.table(municipality_id = u_municipality_ids, lockdown_municipality_fac), on = "municipality_id", kom_fac := lockdown_municipality_fac]
+      population[, lockdown_max := pmax(parish_fac, kom_fac)]
+      population[, lockdown_fac := 1 * (1 - lockdown_max) + lockdown_factor * lockdown_max] # weighted sum as lockdown factor
 
-        population[, lockdown_max := pmax(parish_fac, kom_fac)]
-        population[, lockdown_fac := 1 * (1 - lockdown_max) + lockdown_factor * lockdown_max] # weighted sum as lockdown factor
-
-        # Merging on ibm:
-        ibm[population, on = c("parish_id", "municipality_id"), lockdown_fac := lockdown_fac]
-
-      }
+      # Merging on ibm:
+      ibm[population, on = c("parish_id", "municipality_id"), lockdown_fac := lockdown_fac]
 
     }
 
