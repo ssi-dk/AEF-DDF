@@ -63,7 +63,9 @@ jobs:
             vignette:
               - vignettes/**
             readme:
+              - README.md
               - README.Rmd
+              - .github/templates/README_template.Rmd
             description:
               - DESCRIPTION
 
