@@ -66,6 +66,7 @@ jobs:
               - README.md
               - README.Rmd
               - .github/templates/README_template.Rmd
+              - man/figures/logo.png
             description:
               - DESCRIPTION
 
