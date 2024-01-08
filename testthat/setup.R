@@ -48,6 +48,9 @@ get_test_conns <- function() {
       purrr::map(~ eval(parse(text = .)))
   }
 
+  # Add any conn_args stored in CONN_ARGS_JSON
+  conn_args <- c(conn_args, jsonlite::fromJSON(Sys.getenv("CONN_ARGS_JSON", unset = "{}")))
+
 
   get_driver <- function(x = character(), ...) {                                                                        # nolint: object_usage_linter
     if (!grepl(".*::.*", x)) stop("Package must be specified with namespace (e.g. RSQLite::SQLite)!\n",
