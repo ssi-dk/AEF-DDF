@@ -54,11 +54,7 @@ get_test_conns <- function() {
                                   "Received: ", x)
     parts <- strsplit(x, "::", fixed = TRUE)[[1]]
 
-    # Skip unavailable packages
-    if (!requireNamespace(parts[1], quietly = TRUE)) {
-      return()
-    }
-
+    # Ensure the driver is installed
     drv <- getExportedValue(parts[1], parts[2])
 
     conn <- tryCatch(
