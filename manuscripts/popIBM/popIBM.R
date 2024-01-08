@@ -248,7 +248,8 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
     ## Change some to delta variant
     if (day == day_delta_intro_sce && prob_delta_intro > 0) {
-      ibm[variant == 2, variant := sample(c(2, variant_id_delta), size = .N, replace = TRUE, prob = c(1 - prob_delta_intro, prob_delta_intro))]
+      prob <- c(1 - prob_delta_intro, prob_delta_intro)
+      ibm[variant == 2, variant := sample(c(2, variant_id_delta), size = .N, replace = TRUE, prob = prob)]
     }
 
     # make p_test ~ 7 day incidence
@@ -263,7 +264,8 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
     # when incidences are available, adjust test behaviour according to incidence
     if (day > 7) {
-      inc <- colSums(sim_municipality[(day - 7):(day - 1), ], na.rm = TRUE) / pop_municipality * 1e5 # LAEC2: not including today
+      # LAEC2: not including today
+      inc <- colSums(sim_municipality[(day - 7):(day - 1), ], na.rm = TRUE) / pop_municipality * 1e5
       p_test_corr <- p_test_inc(inc)
 
       if (day <= day_fix_p_test) {
@@ -313,23 +315,32 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
     # collect data on the number of test positives each day - by variant, age and vaccination status
     for (k in 1:n_variants) {
-      sim_tp2[day, , k] <- ibm[tt_symp == 0L & variant == k, .N,
-                               by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$N
+      sim_tp2[day, , k] <- ibm[
+        tt_symp == 0L & variant == k, .N, by = .(age_groups)
+      ][.(age_groups = 1:9), on = "age_groups"]$N
 
       sim_tp2_vac[day, , k, 1] <- ibm[tt_symp == 0L & variant == k &
                                         (vac_time < br_vac_out[1] | is.na(vac_time)), .N,
                                       by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$N
-      for (kk in 2:n_vac_gr_out) { # LAEC: 1 stik for sig
-        sim_tp2_vac[day, , k, kk] <- ibm[tt_symp == 0L & variant == k & vac_time >= br_vac_out[kk - 1] & vac_time < br_vac_out[kk], .N,
-                                         by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$N
+      for (kk in 2:n_vac_groups_out) { # LAEC: 1 stik for sig
+        sim_tp2_vac[day, , k, kk] <- ibm[
+          tt_symp == 0L & variant == k & vac_time >= br_vac_out[kk - 1] & vac_time < br_vac_out[kk], .N,
+          by = .(age_groups)
+        ][.(age_groups = 1:9), on = "age_groups"]$N
       }
     }
 
     # collect number of test positives by parish
-    sim_parish[day, ] <- ibm[tt_symp == 0L, .N, by = .(parish_id, age_groups)][, sum(N), by = parish_id][.(parish_id = u_parish_ids), on = "parish_id"]$V1
+    sim_parish[day, ] <- ibm[
+      tt_symp == 0L, .N, by = .(parish_id, age_groups)
+    ][, sum(N), by = parish_id
+    ][.(parish_id = u_parish_ids), on = "parish_id"]$V1
 
     # collect number of test positives by municipality
-    sim_municipality[day, ] <- ibm[tt_symp == 0L, .N, by = .(municipality_id, age_groups)][, sum(N), by = municipality_id][.(municipality_id = u_municipality_ids), on = "municipality_id"]$V1
+    sim_municipality[day, ] <- ibm[
+      tt_symp == 0L, .N, by = .(municipality_id, age_groups)
+    ][, sum(N), by = municipality_id
+    ][.(municipality_id = u_municipality_ids), on = "municipality_id"]$V1
 
     # test positives isolate themselves
     ibm[tt_symp == 0L, non_iso := 0L]
@@ -339,14 +350,18 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       sim_hospital[day, , k] <- ibm[disease == 2L & tt == 0 & variant == k, sum(prob_hospital),
                                     by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
 
-      sim_hospital_vac[day, , k, 1] <- ibm[disease == 2L & tt == 0 & variant == k & (vac_time < br_vac_out[1] | is.na(vac_time)),
-                                           sum(prob_hospital),
-                                           by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
+      sim_hospital_vac[day, , k, 1] <- ibm[
+        disease == 2L & tt == 0 & variant == k & (vac_time < br_vac_out[1] | is.na(vac_time)),
+        sum(prob_hospital),
+        by = .(age_groups)
+      ][.(age_groups = 1:9), on = "age_groups"]$V1
 
-      for (kk in 2:n_vac_gr_out) {
-        sim_hospital_vac[day, , k, kk] <- ibm[disease == 2L & tt == 0 & variant == k & vac_time >= br_vac_out[kk - 1] & vac_time < br_vac_out[kk],
-                                              sum(prob_hospital),
-                                              by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
+      for (kk in 2:n_vac_groups_out) {
+        sim_hospital_vac[day, , k, kk] <- ibm[
+          disease == 2L & tt == 0 & variant == k & vac_time >= br_vac_out[kk - 1] & vac_time < br_vac_out[kk],
+          sum(prob_hospital),
+          by = .(age_groups)
+        ][.(age_groups = 1:9), on = "age_groups"]$V1
       }
 
 
@@ -386,15 +401,27 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       lockdown_parish_fac <- lockdown_parish_fun[[i_lock]](max_7d_inc)
 
       # municipality
-      inc_his_municipality[day, ] <- colSums(sim_municipality[(day - 7):(day - 1), ], na.rm = TRUE) / pop_municipality * 1e5
+      inc_his_municipality[day, ] <- sim_municipality[(day - 7):(day - 1), ] |>
+        colSums(na.rm = TRUE) / pop_municipality * 1e5
       max_7d_inc <- apply(inc_his_municipality[(day - 6):day, ], 2, max, na.rm = TRUE)
       lockdown_municipality_fac <- lockdown_municipality_fun[[i_lock]](max_7d_inc)
 
-      population[data.table(parish_id = u_parish_ids, lockdown_parish_fac), on = "parish_id", parish_fac := lockdown_parish_fac]
-      population[data.table(municipality_id = u_municipality_ids, lockdown_municipality_fac), on = "municipality_id", kom_fac := lockdown_municipality_fac]
+      population[
+        data.table(parish_id = u_parish_ids, lockdown_parish_fac),
+        on = "parish_id",
+        parish_fac := lockdown_parish_fac
+      ]
+
+      population[
+        data.table(municipality_id = u_municipality_ids, lockdown_municipality_fac),
+        on = "municipality_id",
+        kom_fac := lockdown_municipality_fac
+      ]
 
       population[, lockdown_max := pmax(parish_fac, kom_fac)]
-      population[, lockdown_fac := 1 * (1 - lockdown_max) + lockdown_factor * lockdown_max] # weighted sum as lockdown factor
+
+      # Weighted sum as lockdown factor
+      population[, lockdown_fac := 1 * (1 - lockdown_max) + lockdown_factor * lockdown_max]
 
       # Merging on ibm:
       ibm[population, on = c("parish_id", "municipality_id"), lockdown_fac := lockdown_fac]
@@ -408,9 +435,12 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
                                    .(inf_pers = sum(lockdown_fac * non_iso * vac_fac_trans)),
                                    by = .(municipality_id, age_groups)][mfka, on = c("municipality_id", "age_groups")]
       inf_pers_municipality[is.na(inf_pers), inf_pers := 0]
-      inf_perss_municipality[, inf_pers := inf_pers * v_rel_beta[k]]
+      inf_pers_municipality[, inf_pers := inf_pers * v_rel_beta[k]]
 
-      inf_pres <- inf_pers_municipality[, cur_beta %*% inf_pers, by = .(municipality_id)][, age_groups := rep(1:9, n_municipality)]
+      inf_pres <- inf_pers_municipality[
+        , cur_beta %*% inf_pers, by = .(municipality_id)
+      ][, age_groups := rep(1:9, n_municipality)]
+
       names(inf_pres)[2] <- "r_inf_municipality"
 
       inf_pres <- dt_pop_municipality[inf_pres, , on = "municipality_id"]
