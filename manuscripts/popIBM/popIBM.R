@@ -10,7 +10,7 @@
 # Denmark tested ten times more than median country in EU during alpha wave
 # local lockdown was based on observed 7 day incidence in parish/municipality
 
-# please note that the model is coded using data.table
+# Please note that the model is coded using data.table
 # this has a specific syntax, please see: r-datatable.com for an introduction
 
 library(doParallel)
@@ -20,29 +20,29 @@ library(data.table)
 #### Parameters that can be sensibly changed by user ####
 ##########################################################
 
-# number of repetitions - 100 in the publication
+# The number of repetitions - 100 in the publication
 n_samples <- 1
 
-# are automatic lockdowns activated in the model
+# Are automatic lockdowns activated in the model?
 activate_lockdown <- TRUE
 
-# fraction of tests available compared to observed, 1=mass test, 0.1=limited test
+# Fraction of tests available compared to observed, 1 = mass testing, 0.1 = limited testing
 frac_n_tests <- 0.1
 
 # Set number of cores to be used by the foreach package
 registerDoParallel(cores = 1)
 
-# choose number of threads to be used by data.table, likely do not work well with doParallel
+# Set number of threads to be used by data.table, likely do not work well with doParallel
 setDTthreads(1)
 
 # Print which elements are loaded
 load_info <- FALSE
 
-# the model cannot run without the input of data. - not submitted
-# many parameters enter through this file, and also the basic structure of the individuals
+# The model cannot run without the input of data. - not submitted
+# many parameters enter through this file -- including the basic structure of the individuals (a data.table)
 # load("./popibm_init.Rdata")
 
-# dates
+# Simulation dates
 new_end_times <- as.Date("2021-06-30")
 end_times <- as.numeric(new_end_times) - as.numeric(as.Date("2020-01-01"))
 times <- seq(start_denmark, end_times, 1)
@@ -55,7 +55,7 @@ w_municipality <- 0.9
 season_fac <- 0.8
 
 ##############################################################
-#### parameters beyond this point should NOT be changed #######
+#### Parameters beyond this point should NOT be changed ######
 ##############################################################
 
 # vaccination groups to output
@@ -63,35 +63,35 @@ n_vac_gr_out <- 3
 # days after vaccination groups are divided into
 br_vac_out <- c(14, 14 + 28, Inf)
 
-# data collection arrays
+# Data collection arrays
 sim_tp2      <- array(0L, dim = c(length(times), n_age_groups, n_variants))
 sim_hospital <- array(0L, dim = c(length(times), n_age_groups, n_variants))
 
 # data collection arrays that include vaccination status
-sim_tp2_vac      <- array(0L, dim = c(length(times), n_age_groups, n_variants, n_vac_gr_out))
-sim_hospital_vac <- array(0L, dim = c(length(times), n_age_groups, n_variants, n_vac_gr_out))
+sim_tp2_vac      <- array(0L, dim = c(length(times), n_age_groups, n_variants, n_vac_groups_out))
+sim_hospital_vac <- array(0L, dim = c(length(times), n_age_groups, n_variants, n_vac_groups_out))
 
-# individuals are stored in the data.table called "ibm"
-# a data.table is equivalent to a data.frame but has additional functionality
-# each line in the data.table i equivalent to a person
+# Individuals are stored in the data.table called "ibm"
+# Each line in the data.table is equivalent to a person
 
-# number of parishes in the input
+# Number of parishes in the input
 n_parish <- ibm[, uniqueN(parish_id)]
-# number of municipalities in the input
+
+# Number of municipalities in the input
 n_municipality <- ibm[, uniqueN(municipality_id)]
 
-# data collection arrays
+# Data collection arrays that include geographical information
 sim_parish       <- array(0L, dim = c(length(times), n_parish))
 sim_municipality <- array(0L, dim = c(length(times), n_municipality))
 
-# ids of the parish and municipalities
+# Ids of the parish and municipalities
 u_parish_ids       <- ibm[, unique(parish_id)]
 u_municipality_ids <- ibm[, unique(municipality_id)]
 
-# the population by parish and municipality - .N is data.table special character
+# The population by parish and municipality - .N is data.table special character
 population <- ibm[, .N, keyby = .(parish_id, municipality_id)]
 
-# the population by parish and municipality from alternative sources
+# The population by parish and municipality from alternative sources
 pop_parish <- parish[.(parish_id = u_parish_ids), `Indbyggertal i sogn`, on = "parish_id"]
 tmp <- parish[, sum(`Indbyggertal i sogn`), by = .(municipality_id)]
 pop_municipality <- tmp[.(municipality_id = u_municipality_ids), V1, on = "municipality_id"]
@@ -112,21 +112,21 @@ list_beta <- lockdown_sce_beta_list$Fyn$S5.3$list_beta
 # dates of changing incidence limits for imposing local lockdown
 day_lock_vec <- as.numeric(as.Date(c("2021-03-01", "2021-04-30", "2021-05-28", "2021-07-16", "2021-09-10", "2021-11-15")) - as.Date("2020-01-01")) - start_denmark
 
-# functions for lockdown:
+# Functions for lockdown (corresponding to Danish policy):
 lockdown_parish_fun <- list(
-  approxfun(x = c(300, 400), y = c(0, 0.5), yleft = 0, yright = 1),
-  approxfun(x = c(375, 500), y = c(0, 0.5), yleft = 0, yright = 1),
-  approxfun(x = c(450, 600), y = c(0, 0.5), yleft = 0, yright = 1),
-  approxfun(x = c(750, 1000), y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(300, 400),   y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(375, 500),   y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(450, 600),   y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(750, 1000),  y = c(0, 0.5), yleft = 0, yright = 1),
   approxfun(x = c(1000, 4000), y = c(0, 0.2), yleft = 0, yright = 0.5),
-  approxfun(x = c(800, 3200), y = c(0, 0.2), yleft = 0, yright = 0.5)
+  approxfun(x = c(800, 3200),  y = c(0, 0.2), yleft = 0, yright = 0.5)
 )
 
 lockdown_municipality_fun <- list(
-  approxfun(x = c(150, 200), y = c(0, 0.5), yleft = 0, yright = 1),
-  approxfun(x = c(188, 250), y = c(0, 0.5), yleft = 0, yright = 1),
-  approxfun(x = c(225, 300), y = c(0, 0.5), yleft = 0, yright = 1),
-  approxfun(x = c(375, 500), y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(150, 200),  y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(188, 250),  y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(225, 300),  y = c(0, 0.5), yleft = 0, yright = 1),
+  approxfun(x = c(375, 500),  y = c(0, 0.5), yleft = 0, yright = 1),
   approxfun(x = c(500, 2000), y = c(0, 0.2), yleft = 0, yright = 0.5),
   approxfun(x = c(400, 1600), y = c(0, 0.2), yleft = 0, yright = 0.5)
 )
@@ -138,7 +138,7 @@ day_fix_p_test <- as.numeric(ntal[, as.Date(max(pr_date))] - as.Date("2020-01-01
 red_vac_fac_trans <- ifelse(exists("input_red_vac_fac_trans"), input_red_vac_fac_trans, 0.1) # reduction factor on transmission when effectively vaccinated # .1 / .2 / .3
 red_prob_hospital <- 0.25 # reduction factor on risk going to hospital when effectively vaccinated
 
-# introducing delta variant in simulation
+# Introducing delta variant in simulation
 day_delta_intro_sce <- as.numeric(as.Date("2021-06-01") - as.Date("2020-01-01")) - start_denmark
 prob_delta_intro <- 0.02 # Converting X% of infected to delta variant on this day
 variant_id_delta <- 3 # Variant id for delta
@@ -149,14 +149,14 @@ test_red_fac <- 1 # Internal copy of sce_test_red when paste date
 
 sce_fac_cur_beta_vec <- ifelse(exists("input_fac_beta"), input_fac_beta, 1) # Update if given as input
 
-# maximal number of vaccination doses in the simulation - depend on end time
+# Maximal number of vaccination doses in the simulation - depend on end time
 n_max_doses <- 3
 
 # Set seed for generating parameter combinations
 set.seed(ifelse(exists("input_seed"), input_seed, 1))
 
-# this simulation was implemented at a time with uncertainties on delta variant parameters
-# therefore scenarios of different parameter values for delta are included
+# This simulation was implemented at a time with uncertainties on delta variant parameters
+# Therefore scenarios of different parameter values for delta are included
 sce_combi <- data.frame(
   par_id = 1:n_samples,
   sce_fac_cur_beta = sce_fac_cur_beta_vec,
@@ -171,19 +171,20 @@ n_runs <- ifelse(exists("input_n_runs"), input_n_runs, n_samples) # Run all if n
 
 tic <- Sys.time()
 
-# branch out to parallel processes
+# Branch out to parallel processes
 sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.table", .verbose = TRUE) %dopar% {
   tmp <- unlist(sce_combi[run_this, ])
   for (i in seq_along(tmp)) {
     assign(x = names(tmp)[i], value = tmp[i])
   }
   cat("\t run: ", run_this, " ")
-  # start and end times are in init file
-  delta_red_prob_hospital <- (1 - 0.9) * red_prob_hospital / delta_rec_red * 2
+
+  # Start and end times are in init file
+  delta_red_hospital_risk <- (1 - 0.9) * red_hospital_risk / delta_rec_red * 2
   delta_vac_effect <- delta_rec_red * c(1, 1)
 
   rm("ibm")
-  # make sure parameters are loaded fresh onto all cores
+  # Make sure parameters are loaded fresh onto all cores
   load("./popibm_init.Rdata")
 
   end_times <- as.numeric(new_end_times) - as.numeric(as.Date("2020-01-01"))
@@ -328,7 +329,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       }
     }
 
-    # collect number of test positives by parish
+    # Collect number of test positives by parish
     sim_parish[day, ] <- ibm[
       tt_symp == 0L, .N, by = .(parish_id, age_groups)
     ][, sum(N), by = parish_id
@@ -340,10 +341,10 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     ][, sum(N), by = municipality_id
     ][.(municipality_id = u_municipality_ids), on = "municipality_id"]$V1
 
-    # test positives isolate themselves
+    # Test positives isolate themselves
     ibm[tt_symp == 0L, non_iso := 0L]
 
-    # collect probability of hospitalisation each day - by variant, age and vaccination status
+    # Collect probability of hospitalisation each day - by variant, age and vaccination status
     for (k in 1:n_variants) {
       sim_hospital[day, , k] <- ibm[disease == 2L & tt == 0 & variant == k, sum(prob_hospital),
                                     by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
@@ -390,7 +391,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       # lockdown
       i_lock <- sum(day > day_lock_vec)
 
-      # parish
+      # Parish
       n_cases <- colSums(sim_parish[(day - 7):(day - 1), ], na.rm = TRUE)
 
       inc_his_parish[day, ] <- (n_cases >= 20) * n_cases / pop_parish * 1e5
@@ -398,7 +399,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       max_7d_inc <- apply(inc_his_parish[(day - 6):day, ], 2, max, na.rm = TRUE)
       lockdown_parish_fac <- lockdown_parish_fun[[i_lock]](max_7d_inc)
 
-      # municipality
+      # Municipality
       inc_his_municipality[day, ] <- sim_municipality[(day - 7):(day - 1), ] |>
         colSums(na.rm = TRUE) / pop_municipality * 1e5
       max_7d_inc <- apply(inc_his_municipality[(day - 6):day, ], 2, max, na.rm = TRUE)
