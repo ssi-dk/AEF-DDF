@@ -92,13 +92,13 @@ u_municipality_ids <- ibm[, unique(municipality_id)]
 population <- ibm[, .N, keyby = .(parish_id, municipality_id)]
 
 # the population by parish and municipality from alternative sources
-pop_parish <- parish[.(parish_id = u_parish_ids), `population - parish`, on = "parish_id"]
-tmp <- parish[, sum(`population - parish`), by = .(municipality_id)]
+pop_parish <- parish[.(parish_id = u_parish_ids), `Indbyggertal i sogn`, on = "parish_id"]
+tmp <- parish[, sum(`Indbyggertal i sogn`), by = .(municipality_id)]
 pop_municipality <- tmp[.(municipality_id = u_municipality_ids), V1, on = "municipality_id"]
 pop_dk <- NROW(ibm)
 pop_age <- ibm[, .N, by = .(age_groups)]
 
-dt_pop_municipality <- parish[, sum(`population - parish`), by = .(municipality_id)]
+dt_pop_municipality <- parish[, sum(`Indbyggertal i sogn`), by = .(municipality_id)]
 names(dt_pop_municipality)[2] <- "pop"
 
 mfka <- data.table(municipality_id = rep(u_municipality_ids, each = 9), age_groups = 1:9)
