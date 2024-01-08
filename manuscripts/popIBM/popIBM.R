@@ -29,8 +29,8 @@ activate_lockdown <- TRUE
 # fraction of tests available compared to observed, 1=mass test, 0.1=limited test
 frac_n_tests <- 0.1
 
-# choose number of cores to be used by do par
-use_cores <- 1
+# Set number of cores to be used by the foreach package
+registerDoParallel(cores = 1)
 
 # choose number of threads to be used by data.table, likely do not work well with doParallel
 setDTthreads(1)
@@ -146,8 +146,6 @@ variant_id_delta <- 3 # Variant id for delta
 sce_fac_cur_beta <- 1 # should be 1.05 if 5% increase, 0.95 if 5% decrease
 sce_test_red <- 1 # Factor for probability of taking a test
 test_red_fac <- 1 # Internal copy of sce_test_red when paste date
-
-registerDoParallel(cores = use_cores)
 
 sce_fac_cur_beta_vec <- ifelse(exists("input_fac_beta"), input_fac_beta, 1) # Update if given as input
 
