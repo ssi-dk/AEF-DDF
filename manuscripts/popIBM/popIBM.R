@@ -440,30 +440,32 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     # Infected individuals with different strains
     for (k in 1:n_variants) {
       # Calculate the infection pressure
-      inf_pers_municipality <- ibm[disease == 2L & variant == k,
-                                   .(inf_pers = sum(lockdown_fac * non_iso * vac_fac_trans)),
-                                   by = .(municipality_id, age_groups)][mfka, on = c("municipality_id", "age_groups")]
-      inf_pers_municipality[is.na(inf_pers), inf_pers := 0]
-      inf_pers_municipality[, inf_pers := inf_pers * v_rel_beta[k]]
+      inf_persons_municipality <- ibm[
+        disease == 2L & variant == k,
+        .(inf_persons = sum(lockdown_fac * non_iso * vac_fac_trans)),
+        by = .(municipality_id, age_groups)][mfka, on = c("municipality_id", "age_groups")
+      ]
+      inf_persons_municipality[is.na(inf_persons), inf_persons := 0]
+      inf_persons_municipality[, inf_persons := inf_persons * v_rel_beta[k]]
 
-      inf_pres <- inf_pers_municipality[
-        , cur_beta %*% inf_pers, by = .(municipality_id)
+      inf_pressure <- inf_persons_municipality[
+        , cur_beta %*% inf_persons, by = .(municipality_id)
       ][, age_groups := rep(1:9, n_municipality)]
 
-      names(inf_pres)[2] <- "r_inf_municipality"
+      names(inf_pressure)[2] <- "r_inf_municipality"
 
-      inf_pres <- dt_pop_municipality[inf_pres, , on = "municipality_id"]
-      inf_pres[, r_inf_municipality := r_inf_municipality / pop]
+      inf_pressure <- dt_pop_municipality[inf_pressure, , on = "municipality_id"]
+      inf_pressure[, r_inf_municipality := r_inf_municipality / pop]
 
-      inf_pers <- inf_pers_municipality[, .(inf_pers = sum(inf_pers)), by = .(age_groups)]
+      inf_persons <- inf_persons_municipality[, .(inf_persons = sum(inf_persons)), by = .(age_groups)]
 
-      tmp <- inf_pers$inf_pers
-      inf_pres_dk <- inf_pers[, .(r_inf_dK = sum(cur_beta[age_groups, ] * tmp / pop_dk)), by = .(age_groups)]
+      tmp <- inf_persons$inf_persons
+      inf_pres_dk <- inf_persons[, .(r_inf_dK = sum(cur_beta[age_groups, ] * tmp / pop_dk)), by = .(age_groups)]
 
-      inf_prestot <- inf_pres_dk[inf_pres, , on = "age_groups"]
-      inf_prestot[, prob_inf := (1 - exp(-(1 - w_municipality) * r_inf_dK - w_municipality * r_inf_municipality))]
+      inf_pres_total <- inf_pres_dk[inf_pressure, , on = "age_groups"]
+      inf_pres_total[, prob_inf := (1 - exp(-(1 - w_municipality) * r_inf_dK - w_municipality * r_inf_municipality))]
 
-      tmp2 <- inf_prestot[, c(1, 3, 6)]
+      tmp2 <- inf_pres_total[, c(1, 3, 6)]
       names(tmp2)[3] <- "prob_inf_new"
 
       # Evaluate probability of infection
