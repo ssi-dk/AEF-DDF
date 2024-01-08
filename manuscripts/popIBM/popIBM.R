@@ -153,7 +153,7 @@ day_delta_intro_sce <- as.numeric(as.Date("2021-06-01") - as.Date("2020-01-01"))
 prob_delta_intro <- 0.02 # Converting X% of infected to delta variant on this day
 variant_id_delta <- 3 # Variant id for delta
 
-sce_fac_cur_beta <- 1 # should be 1.05 if 5% increase, 0.95 if 5% decrease
+sce_fac_cur_beta <- 1 # Should be 1.05 if 5% increase, 0.95 if 5% decrease
 sce_test_red <- 1 # Factor for probability of taking a test
 test_red_fac <- 1 # Internal copy of sce_test_red when paste date
 
@@ -201,16 +201,16 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
   times <- seq(start_denmark, end_times, 1)
   xdates <- as.Date(times, origin = "2020-01-01")
 
-  # initialise spatial heterogeneity in parishes
+  # Initialise spatial heterogeneity in parishes
   ibm[, lockdown_fac := 1.]
   ibm[, rel_risk_parish := rel_risk_parish^(1 / 3)]
   ibm[, rel_risk_parish := rel_risk_parish * .N / sum(rel_risk_parish)]
 
-  # set initial parameters, that will change over time
+  # Set initial parameters, that will change over time
   ibm[, non_iso := 1L]
   ibm[, p_test := 2e5 / pop_dk]
 
-  # make sure individual already vaccinated are correctly labelled
+  # Make sure individual already vaccinated are correctly labelled
   ibm[, vac_fac_trans := 1.0]
   ibm[vac_fac < 1, vac_fac_trans := red_transmission_vac]
 
@@ -221,28 +221,28 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
   # Setting seed per rep
   set.seed(123456 + run_this - 1)
 
-  # change some params
+  # Change some params
   v_rel_beta <- c(1, 1.55, 1.55 * rel_alpha_delta)
   v_scale_i <- rep(5.3, 9) / v_shape_i
   ibm[disease == 2L, tt := tt + round(rexp(.N, 1 / 2))]
 
-  # get history of incidence in parish/municipality
+  # Get history of incidence in parish/municipality
   inc_his_parish <- array(0, dim = c(length(times), n_parish))
   inc_his_municipality <- array(0, dim = c(length(times), n_municipality))
 
-  # index individuals for faster runtime
+  # Index individuals for faster runtime
   setkey(ibm, municipality_id, parish_id, age_groups, vac_maal_gr)
 
-  # reference transmission risk scaling - fitted prior
+  # Reference transmission risk scaling - fitted prior
   r_ref <- 0.7
 
-  # profiler for testing bottlenecks in code - only for test runs
+  # Profiler for testing bottlenecks in code - only for test runs
   # profvis({
 
-  # time loop
+  # Time loop
   for (day in seq_along(times)) {
 
-    # set "beta" based on restriction levels and seasonal change
+    # Set "beta" based on restriction levels and seasonal change
     if (day > day_restriction_change[1]) {
       i_beta <- max(which(day_restriction_change <= day))
       cur_beta <- (1 - season_fac * (1 - seasonal_rel_beta(as.Date(start_denmark, origin = "2020-01-01"), day))) *
@@ -255,30 +255,30 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     }
 
 
-    ## Change some to delta variant
+    # Change some to delta variant
     if (day == day_delta_intro_sce && prob_delta_intro > 0) {
       prob <- c(1 - prob_delta_intro, prob_delta_intro)
       ibm[variant == 2, variant := sample(c(2, variant_id_delta), size = .N, replace = TRUE, prob = prob)]
     }
 
-    # make p_test ~ 7 day incidence
+    # Make p_test ~ 7 day incidence
     n_test <- n_test_dk(as.Date(start_denmark, origin = "2020-01-01"), day)
     n_test_age <- n_test_dk_age(as.Date(start_denmark, origin = "2020-01-01"), day)
     n_test_age_vac <- n_test_dk_age_vac(as.Date(start_denmark, origin = "2020-01-01"), day)
 
-    # adjust number of test according to scenario
+    # Adjust number of test according to scenario
     n_test <- n_test * frac_n_tests
     n_test_age$w_test <- n_test_age$w_test * frac_n_tests
     n_test_age_vac$w_test <- n_test_age_vac$w_test * frac_n_tests
 
-    # when incidences are available, adjust test behaviour according to incidence
+    # When incidences are available, adjust test behaviour according to incidence
     if (day > 7) {
       # LAEC2: not including today
       inc <- colSums(sim_municipality[(day - 7):(day - 1), ], na.rm = TRUE) / pop_municipality * 1e5
       p_test_corr <- p_test_inc(inc)
 
       if (day <= day_fix_p_test) {
-        # should maybe be done per municipality
+        # Should maybe be done per municipality
         tmp <- ibm[, .N, keyby = .(age_groups, !(vac_time < 14 | is.na(vac_time)))]
         t_pop_age_vac <- tmp[n_test_age_groups_int_vac, , on = c("age_groups", "vac_time")]
         t_pop_age_vac[is.na(N), N := 0]
@@ -316,13 +316,13 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       ibm[, p_test := (n_test[1, 1] + 0.5 * n_test[2, 1]) / pop_dk * test_red_fac]
     }
 
-    # determine who is detected by tests
+    # Determine who is detected by tests
     id_tp <- ibm[non_iso == 1L & (disease %in% 1:2 | (disease == 3L & tt >= -5)) &
                    (is.na(vac_type)  | vac_time < 14),
                  .(id, p_test)][runif(.N) < p_test, id]
-    ibm[id %in% id_tp, tt_symp := 0L] # a little ugly but faster
+    ibm[id %in% id_tp, tt_symp := 0L] # A little ugly but faster
 
-    # collect data on the number of test positives each day - by variant, age and vaccination status
+    # Collect data on the number of test positives each day - by variant, age and vaccination status
     for (k in 1:n_variants) {
       sim_tp2[day, , k] <- ibm[
         tt_symp == 0L & variant == k, .N, by = .(age_groups)
@@ -345,7 +345,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     ][, sum(N), by = parish_id
     ][.(parish_id = u_parish_ids), on = "parish_id"]$V1
 
-    # collect number of test positives by municipality
+    # Collect number of test positives by municipality
     sim_municipality[day, ] <- ibm[
       tt_symp == 0L, .N, by = .(municipality_id, age_groups)
     ][, sum(N), by = municipality_id
@@ -376,11 +376,11 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
     }
 
-    # recover from disease I -> R
+    # Recover from disease I -> R
     ibm[disease == 2L & tt == 0, disease := 3L]
 
-    # when all age groups have same disease progression E-> I
-    # also draw time to being symptomatic
+    # When all age groups have same disease progression E-> I
+    # Also draw time to being symptomatic
     ibm[
       disease == 1L & tt == 0,
       `:=`(
@@ -391,14 +391,14 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       )
     ]
 
-    # do not double count people found in E states
+    # Do not double count people found in E states
     ibm[disease == 2L & non_iso == 0L & tt_symp > 0, tt_symp := -1L]
 
 
-    # implement the effects of local lockdown
+    # Implement the effects of local lockdown
     if (activate_lockdown && day > day_lockdown_change[1]) {
 
-      # lockdown
+      # Lockdown
       i_lock <- sum(day > day_lockdown_change)
 
       # Parish
@@ -482,15 +482,15 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
                variant = k)]
     }
 
-    # count down to change in disease state or symptoms
+    # Count down to change in disease state or symptoms
     ibm[, tt := tt - 1L]
     ibm[, tt_symp := tt_symp - 1L]
 
-    # count up to vaccination time
+    # Count up to vaccination time
     ibm[, vac_time := vac_time + 1L]
 
 
-    # implement the effect of vaccination
+    # Implement the effect of vaccination
     for (k in 1:n__vac){
 
       ibm[vac_type == k & vac_time == v_vac_tt_effect[k],
@@ -500,7 +500,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
     }
 
-    # vaccination doses takes effect - TODO move parameters to input file
+    # Vaccination doses takes effect - TODO move parameters to input file
     ibm[vac_time == br_vac_out[[1]] + 1, vac_eff_dose := 1L]
     ibm[vac_time == br_vac_out[[2]] + 1, vac_eff_dose := 2L]
 
@@ -520,5 +520,5 @@ stopImplicitCluster()
 rm(ibm)
 par_string <- paste0("popIBM", substr(Sys.time(), 1, 10), "rep", n_samples, "perT", frac_n_tests * 100)
 
-# save output together with parameters
+# Save output together with parameters
 save.image(file = paste0("./", par_string, ".RData"))
