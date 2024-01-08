@@ -126,7 +126,7 @@ jobs:
   # Option 1
   # https://github.com/marketplace/actions/mssql-suite
   code-coverage-mssql:
-    name: 🧪 Tests (mssql)
+    name: 🧪 Tests (SQL Server 2019)
     runs-on: ubuntu-latest
     if: ${{ inputs.run && !contains(inputs.backend_exclude, 'mssql')}}
 
@@ -142,9 +142,6 @@ jobs:
         uses: potatoqualitee/mssqlsuite@v1.7
         with:
           install: sqlengine, sqlpackage
-
-      - name: Run sqlclient
-        run: sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "SELECT @@version;"
 
       - name: Configure database
         run: |
