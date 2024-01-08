@@ -130,6 +130,13 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ inputs.run && !contains(inputs.backend_exclude, 'mssql')}}
 
+    env:
+      BACKEND: MSSQL
+      BACKEND_DRV: odbc::odbc
+      BACKEND_ARGS: ''
+
+      SCDB_ODBC_JSON: '{"MSSQL": {"driver": "SQL Server", "server": "localhost", "database": "TestDB", "trusted_connection": "true"}}'
+
     steps:
       - name: Install a SQL Server suite of tools
         uses: potatoqualitee/mssqlsuite@v1.7
