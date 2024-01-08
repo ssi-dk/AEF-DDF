@@ -106,11 +106,15 @@ names(dt_pop_municipality)[2] <- "pop"
 
 mfka <- data.table(municipality_id = rep(u_municipality_ids, each = 9), age_groups = 1:9)
 
-# dates of changing restriction
-day_restriction_change   <- as.numeric(c(lockdown_sce_beta_list$Fyn$S5.3$list_beta_dates) - as.Date("2020-01-01")) - start_denmark
+# Load the activity scenario (changes in restrictions over time)
+activity_sce <- lockdown_sce_beta_list$Fyn$S5.3
 
-# list of activity matrices - age stratified
-list_beta <- lockdown_sce_beta_list$Fyn$S5.3$list_beta
+# Days of changing restriction (relative to start date)
+day_restriction_change  <- as.numeric(c(activity_sce$list_beta_dates) - as.Date("2020-01-01")) - start_denmark
+
+
+# List of activity matrices - age stratified
+list_beta <- activity_sce$list_beta
 
 # Days of changing incidence limits for imposing local lockdown (relative to start date)
 day_lockdown_change <- c("2021-03-01", "2021-04-30", "2021-05-28", "2021-07-16", "2021-09-10", "2021-11-15")
@@ -211,8 +215,8 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
   ibm[vac_fac < 1, vac_fac_trans := red_transmission_vac]
 
   ibm[, vac_eff_dose := 0L]
-  ibm[vac_time > 14, vac_eff_dose := 1L]
-  ibm[vac_time > (14 + 28), vac_eff_dose := 2L]
+  ibm[vac_time > br_vac_out[[1]], vac_eff_dose := 1L]
+  ibm[vac_time > br_vac_out[[2]], vac_eff_dose := 2L]
 
   # Setting seed per rep
   set.seed(123456 + run_this - 1)
