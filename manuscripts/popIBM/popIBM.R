@@ -58,10 +58,13 @@ season_fac <- 0.8
 #### Parameters beyond this point should NOT be changed ######
 ##############################################################
 
-# vaccination groups to output
-n_vac_gr_out <- 3
-# days after vaccination groups are divided into
+# Relative time of vaccination effects:
+# First dose reaches effectiveness after 14 days
+# Second dose is administered such that it takes effect 28 days after first dose
 br_vac_out <- c(14, 14 + 28, Inf)
+
+# Vaccination groups to output
+n_vac_groups_out <- length(br_vac_out)
 
 # Data collection arrays
 sim_tp2      <- array(0L, dim = c(length(times), n_age_groups, n_variants))
@@ -104,13 +107,14 @@ names(dt_pop_municipality)[2] <- "pop"
 mfka <- data.table(municipality_id = rep(u_municipality_ids, each = 9), age_groups = 1:9)
 
 # dates of changing restriction
-day_cha   <- as.numeric(c(lockdown_sce_beta_list$Fyn$S5.3$list_beta_dates) - as.Date("2020-01-01")) - start_denmark
+day_restriction_change   <- as.numeric(c(lockdown_sce_beta_list$Fyn$S5.3$list_beta_dates) - as.Date("2020-01-01")) - start_denmark
 
 # list of activity matrices - age stratified
 list_beta <- lockdown_sce_beta_list$Fyn$S5.3$list_beta
 
-# dates of changing incidence limits for imposing local lockdown
-day_lock_vec <- as.numeric(as.Date(c("2021-03-01", "2021-04-30", "2021-05-28", "2021-07-16", "2021-09-10", "2021-11-15")) - as.Date("2020-01-01")) - start_denmark
+# Days of changing incidence limits for imposing local lockdown (relative to start date)
+day_lockdown_change <- c("2021-03-01", "2021-04-30", "2021-05-28", "2021-07-16", "2021-09-10", "2021-11-15")
+day_lockdown_change <- as.numeric(as.Date(day_lockdown_change) - as.Date("2020-01-01")) - start_denmark
 
 # Functions for lockdown (corresponding to Danish policy):
 lockdown_parish_fun <- list(
@@ -132,11 +136,13 @@ lockdown_municipality_fun <- list(
 )
 
 # Automatic for last date i data (ntal)
-day_fix_p_test <- as.numeric(ntal[, as.Date(max(pr_date))] - as.Date("2020-01-01")) - start_denmark  # Update
+day_fix_p_test <- as.numeric(ntal[, as.Date(max(pr_date))] - as.Date("2020-01-01")) - start_denmark
 
-#
-red_vac_fac_trans <- ifelse(exists("input_red_vac_fac_trans"), input_red_vac_fac_trans, 0.1) # reduction factor on transmission when effectively vaccinated # .1 / .2 / .3
-red_prob_hospital <- 0.25 # reduction factor on risk going to hospital when effectively vaccinated
+# Reduction factor on transmission when effectively vaccinated
+red_transmission_vac <- ifelse(exists("input_red_transmission_vac"), input_red_transmission_vac, 0.1)
+
+# Reduction factor on risk going to hospital when effectively vaccinated
+red_hospital_risk <- 0.25
 
 # Introducing delta variant in simulation
 day_delta_intro_sce <- as.numeric(as.Date("2021-06-01") - as.Date("2020-01-01")) - start_denmark
@@ -161,7 +167,7 @@ sce_combi <- data.frame(
   par_id = 1:n_samples,
   sce_fac_cur_beta = sce_fac_cur_beta_vec,
   delta_rec_red = 1 - runif(n_samples, min = 0.6, max = 0.8), # VE of infection
-  red_vac_fac_trans = 1 - runif(n_samples, min = 0.5, max = 0.8), # Transmission
+  red_transmission_vac = 1 - runif(n_samples, min = 0.5, max = 0.8), # Transmission
   rel_alpha_delta = runif(n_samples, min = 1.65, max = 1.95)
 )
 
@@ -202,7 +208,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
   # make sure individual already vaccinated are correctly labelled
   ibm[, vac_fac_trans := 1.0]
-  ibm[vac_fac < 1, vac_fac_trans := red_vac_fac_trans]
+  ibm[vac_fac < 1, vac_fac_trans := red_transmission_vac]
 
   ibm[, vac_eff_dose := 0L]
   ibm[vac_time > 14, vac_eff_dose := 1L]
@@ -233,8 +239,8 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
   for (day in seq_along(times)) {
 
     # set "beta" based on restriction levels and seasonal change
-    if (day > day_cha[1]) {
-      i_beta <- max(which(day_cha <= day))
+    if (day > day_restriction_change[1]) {
+      i_beta <- max(which(day_restriction_change <= day))
       cur_beta <- (1 - season_fac * (1 - seasonal_rel_beta(as.Date(start_denmark, origin = "2020-01-01"), day))) *
         r_ref * 0.35 * list_beta[[i_beta]]
       lockdown_factor <- sqrt(eigen(list_beta[[1]])$values[1] / eigen(list_beta[[i_beta]])$values[1])
@@ -386,10 +392,10 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
 
     # implement the effects of local lockdown
-    if (activate_lockdown && day > day_lock_vec[1]) {
+    if (activate_lockdown && day > day_lockdown_change[1]) {
 
       # lockdown
-      i_lock <- sum(day > day_lock_vec)
+      i_lock <- sum(day > day_lockdown_change)
 
       # Parish
       n_cases <- colSums(sim_parish[(day - 7):(day - 1), ], na.rm = TRUE)
@@ -483,8 +489,8 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
       ibm[vac_type == k & vac_time == v_vac_tt_effect[k],
           `:=`(vacF_ec = delta_vac_effect[k],
-               prob_hospital = delta_red_prob_hospital * prob_hospital,
-               vac_fac_trans = red_vac_fac_trans)]
+               prob_hospital = delta_red_hospital_risk * prob_hospital,
+               vac_fac_trans = red_transmission_vac)]
 
     }
 
