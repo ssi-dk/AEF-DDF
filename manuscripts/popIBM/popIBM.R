@@ -499,8 +499,8 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     }
 
     # vaccination doses takes effect - TODO move parameters to input file
-    ibm[vac_time == 15, vac_eff_dose := 1L]
-    ibm[vac_time == (14 + 28 + 1), vac_eff_dose := 2L]
+    ibm[vac_time == br_vac_out[[1]] + 1, vac_eff_dose := 1L]
+    ibm[vac_time == br_vac_out[[2]] + 1, vac_eff_dose := 2L]
 
   }
 
