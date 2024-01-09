@@ -145,16 +145,16 @@ jobs:
 
       - name: Configure database
         run: |
-          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE DATABASE TestDB;"
-          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
-          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "USE TestDB;"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE DATABASE TestDB;"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "USE TestDB;"
 
       - name: Setup testing schemata in SQL server
         if: ${{ inputs.schemas != 'none' }}
         run: |
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
-            sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE SCHEMA $schema; GO"
+            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE SCHEMA $schema; GO"
           done
 
       - uses: actions/checkout@v4
