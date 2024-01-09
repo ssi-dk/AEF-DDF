@@ -61,17 +61,17 @@ season_fac <- 0.8
 # Relative time of vaccination effects:
 # First dose reaches effectiveness after 14 days
 # Second dose is administered such that it takes effect 28 days after first dose
-br_vac_out <- c(14, 14 + 28, Inf)
+breaks_vac <- c(14, 14 + 28, Inf)
 
 # Vaccination groups to output
-n_vac_groups_out <- length(br_vac_out)
+n_vac_groups_out <- length(breaks_vac)
 
 # Data collection arrays
-sim_tp2      <- array(0L, dim = c(length(times), n_age_groups, n_variants))
+sim_test_positive <- array(0L, dim = c(length(times), n_age_groups, n_variants))
 sim_hospital <- array(0L, dim = c(length(times), n_age_groups, n_variants))
 
 # data collection arrays that include vaccination status
-sim_tp2_vac      <- array(0L, dim = c(length(times), n_age_groups, n_variants, n_vac_groups_out))
+sim_test_positive_vac <- array(0L, dim = c(length(times), n_age_groups, n_variants, n_vac_groups_out))
 sim_hospital_vac <- array(0L, dim = c(length(times), n_age_groups, n_variants, n_vac_groups_out))
 
 # Individuals are stored in the data.table called "ibm"
@@ -98,23 +98,23 @@ population <- ibm[, .N, keyby = .(parish_id, municipality_id)]
 pop_parish <- parish[.(parish_id = u_parish_ids), `Indbyggertal i sogn`, on = "parish_id"]
 tmp <- parish[, sum(`Indbyggertal i sogn`), by = .(municipality_id)]
 pop_municipality <- tmp[.(municipality_id = u_municipality_ids), V1, on = "municipality_id"]
-pop_dk <- NROW(ibm)
+pop_denmark <- NROW(ibm)
 pop_age <- ibm[, .N, by = .(age_groups)]
 
 dt_pop_municipality <- parish[, sum(`Indbyggertal i sogn`), by = .(municipality_id)]
 names(dt_pop_municipality)[2] <- "pop"
 
-mfka <- data.table(municipality_id = rep(u_municipality_ids, each = 9), age_groups = 1:9)
+all_pop_combi <- data.table(municipality_id = rep(u_municipality_ids, each = 9), age_groups = 1:9)
 
 # Load the activity scenario (changes in restrictions over time)
-activity_sce <- lockdown_sce_beta_list$Fyn$S5.3
+activity_scenario <- lockdown_sce_beta_list$Fyn$S5.3
 
 # Days of changing restriction (relative to start date)
-day_restriction_change  <- as.numeric(c(activity_sce$list_beta_dates) - as.Date("2020-01-01")) - start_denmark
+day_restriction_change  <- as.numeric(c(activity_scenario$list_beta_dates) - as.Date("2020-01-01")) - start_denmark
 
 
 # List of activity matrices - age stratified
-list_beta <- activity_sce$list_beta
+list_beta <- activity_scenario$list_beta
 
 # Days of changing incidence limits for imposing local lockdown (relative to start date)
 day_lockdown_change <- c("2021-03-01", "2021-04-30", "2021-05-28", "2021-07-16", "2021-09-10", "2021-11-15")
@@ -208,15 +208,15 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
   # Set initial parameters, that will change over time
   ibm[, non_iso := 1L]
-  ibm[, p_test := 2e5 / pop_dk]
+  ibm[, p_test := 2e5 / pop_denmark]
 
   # Make sure individual already vaccinated are correctly labelled
   ibm[, vac_fac_trans := 1.0]
   ibm[vac_fac < 1, vac_fac_trans := red_transmission_vac]
 
   ibm[, vac_eff_dose := 0L]
-  ibm[vac_time > br_vac_out[[1]], vac_eff_dose := 1L]
-  ibm[vac_time > br_vac_out[[2]], vac_eff_dose := 2L]
+  ibm[vac_time > breaks_vac[[1]], vac_eff_dose := 1L]
+  ibm[vac_time > breaks_vac[[2]], vac_eff_dose := 2L]
 
   # Setting seed per rep
   set.seed(123456 + run_this - 1)
@@ -315,27 +315,32 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       ibm[tmp, on = c("municipality_id", "age_groups", "vac_eff_dose"), p_test := p_test_corr]
 
     } else {
-      ibm[, p_test := (n_test[1, 1] + 0.5 * n_test[2, 1]) / pop_dk * test_red_fac]
+      ibm[, p_test := (n_test[1, 1] + 0.5 * n_test[2, 1]) / pop_denmark * test_red_fac]
     }
 
     # Determine who is detected by tests
-    id_tp <- ibm[non_iso == 1L & (disease %in% 1:2 | (disease == 3L & tt >= -5)) &
-                   (is.na(vac_type)  | vac_time < 14),
-                 .(id, p_test)][runif(.N) < p_test, id]
-    ibm[id %in% id_tp, tt_symp := 0L] # A little ugly but faster
+    id_test_positive <- ibm[
+      non_iso == 1L & (disease %in% 1:2 | (disease == 3L & tt >= -5)) & (is.na(vac_type)  | vac_time < 14),
+      .(id, p_test)
+    ][runif(.N) < p_test, id]
+
+    ibm[id %in% id_test_positive, tt_symp := 0L] # A little ugly but faster
 
     # Collect data on the number of test positives each day - by variant, age and vaccination status
     for (k in 1:n_variants) {
-      sim_tp2[day, , k] <- ibm[
+      sim_test_positive[day, , k] <- ibm[
         tt_symp == 0L & variant == k, .N, by = .(age_groups)
       ][.(age_groups = 1:9), on = "age_groups"]$N
 
-      sim_tp2_vac[day, , k, 1] <- ibm[tt_symp == 0L & variant == k &
-                                        (vac_time < br_vac_out[1] | is.na(vac_time)), .N,
-                                      by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$N
+      sim_test_positive_vac[day, , k, 1] <- ibm[
+        tt_symp == 0L & variant == k & (vac_time < breaks_vac[1] | is.na(vac_time)),
+        .N,
+        by = .(age_groups)
+      ][.(age_groups = 1:9), on = "age_groups"]$N
+
       for (kk in 2:n_vac_groups_out) { # LAEC: 1 stik for sig
-        sim_tp2_vac[day, , k, kk] <- ibm[
-          tt_symp == 0L & variant == k & vac_time >= br_vac_out[kk - 1] & vac_time < br_vac_out[kk], .N,
+        sim_test_positive_vac[day, , k, kk] <- ibm[
+          tt_symp == 0L & variant == k & vac_time >= breaks_vac[kk - 1] & vac_time < breaks_vac[kk], .N,
           by = .(age_groups)
         ][.(age_groups = 1:9), on = "age_groups"]$N
       }
@@ -362,14 +367,14 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
                                     by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
 
       sim_hospital_vac[day, , k, 1] <- ibm[
-        disease == 2L & tt == 0 & variant == k & (vac_time < br_vac_out[1] | is.na(vac_time)),
+        disease == 2L & tt == 0 & variant == k & (vac_time < breaks_vac[1] | is.na(vac_time)),
         sum(prob_hospital),
         by = .(age_groups)
       ][.(age_groups = 1:9), on = "age_groups"]$V1
 
       for (kk in 2:n_vac_groups_out) {
         sim_hospital_vac[day, , k, kk] <- ibm[
-          disease == 2L & tt == 0 & variant == k & vac_time >= br_vac_out[kk - 1] & vac_time < br_vac_out[kk],
+          disease == 2L & tt == 0 & variant == k & vac_time >= breaks_vac[kk - 1] & vac_time < breaks_vac[kk],
           sum(prob_hospital),
           by = .(age_groups)
         ][.(age_groups = 1:9), on = "age_groups"]$V1
@@ -445,8 +450,9 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       inf_persons_municipality <- ibm[
         disease == 2L & variant == k,
         .(inf_persons = sum(lockdown_fac * non_iso * vac_fac_trans)),
-        by = .(municipality_id, age_groups)][mfka, on = c("municipality_id", "age_groups")
-      ]
+        by = .(municipality_id, age_groups)
+      ][all_pop_combi, on = c("municipality_id", "age_groups")]
+
       inf_persons_municipality[is.na(inf_persons), inf_persons := 0]
       inf_persons_municipality[, inf_persons := inf_persons * v_rel_beta[k]]
 
@@ -462,7 +468,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       inf_persons <- inf_persons_municipality[, .(inf_persons = sum(inf_persons)), by = .(age_groups)]
 
       tmp <- inf_persons$inf_persons
-      inf_pres_dk <- inf_persons[, .(r_inf_dK = sum(cur_beta[age_groups, ] * tmp / pop_dk)), by = .(age_groups)]
+      inf_pres_dk <- inf_persons[, .(r_inf_dK = sum(cur_beta[age_groups, ] * tmp / pop_denmark)), by = .(age_groups)]
 
       inf_pres_total <- inf_pres_dk[inf_pressure, , on = "age_groups"]
       inf_pres_total[, prob_inf := (1 - exp(-(1 - w_municipality) * r_inf_dK - w_municipality * r_inf_municipality))]
@@ -503,14 +509,15 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     }
 
     # Vaccination doses takes effect - TODO move parameters to input file
-    ibm[vac_time == br_vac_out[[1]] + 1, vac_eff_dose := 1L]
-    ibm[vac_time == br_vac_out[[2]] + 1, vac_eff_dose := 2L]
+    ibm[vac_time == breaks_vac[[1]] + 1, vac_eff_dose := 1L]
+    ibm[vac_time == breaks_vac[[2]] + 1, vac_eff_dose := 2L]
 
   }
 
   #})
-  return(list(tp2 = sim_tp2[, , ], tp2_vac = sim_tp2_vac[, , , ], hospital = sim_hospital[, , ],
-              hos_vac = sim_hospital_vac[, , , ], parish = sim_parish[, ], kom = sim_municipality[, ], par_id = par_id))
+  return(list(test_positive = sim_test_positive[, , ], test_positive_vac = sim_test_positive_vac[, , , ],
+              hospital = sim_hospital[, , ], hos_vac = sim_hospital_vac[, , , ],
+              parish = sim_parish[, ], kom = sim_municipality[, ], par_id = par_id))
 }
 gc()
 toc <- Sys.time()
