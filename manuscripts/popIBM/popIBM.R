@@ -46,7 +46,6 @@ load_info <- FALSE
 new_end_date <- as.Date("2021-06-30")
 end_times <- as.numeric(new_end_date) - as.numeric(as.Date("2020-01-01"))
 times <- seq(start_denmark, end_times, 1)
-xdates <- as.Date(times, origin = "2020-01-01")
 
 # Proportion of transmission within municipality
 w_municipality <- 0.9
