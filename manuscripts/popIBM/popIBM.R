@@ -43,8 +43,8 @@ load_info <- FALSE
 # load("./popibm_init.Rdata")
 
 # Simulation dates
-new_end_times <- as.Date("2021-06-30")
-end_times <- as.numeric(new_end_times) - as.numeric(as.Date("2020-01-01"))
+new_end_date <- as.Date("2021-06-30")
+end_times <- as.numeric(new_end_date) - as.numeric(as.Date("2020-01-01"))
 times <- seq(start_denmark, end_times, 1)
 xdates <- as.Date(times, origin = "2020-01-01")
 
@@ -58,6 +58,8 @@ season_fac <- 0.8
 #### Parameters beyond this point should NOT be changed ######
 ##############################################################
 
+## Parameters related to vaccines ###################
+
 # Relative time of vaccination effects:
 # First dose reaches effectiveness after 14 days
 # Second dose is administered such that it takes effect 28 days after first dose
@@ -66,13 +68,18 @@ breaks_vac <- c(14, 14 + 28, Inf)
 # Vaccination groups to output
 n_vac_groups_out <- length(breaks_vac)
 
-# Data collection arrays
-sim_test_positive <- array(0L, dim = c(length(times), n_age_groups, n_variants))
-sim_hospital <- array(0L, dim = c(length(times), n_age_groups, n_variants))
+# Reduction factor on transmission when effectively vaccinated
+red_transmission_vac <- ifelse(exists("input_red_transmission_vac"), input_red_transmission_vac, 0.1)
 
-# data collection arrays that include vaccination status
-sim_test_positive_vac <- array(0L, dim = c(length(times), n_age_groups, n_variants, n_vac_groups_out))
-sim_hospital_vac <- array(0L, dim = c(length(times), n_age_groups, n_variants, n_vac_groups_out))
+# Reduction factor on risk going to hospital when effectively vaccinated
+red_hospital_risk <- 0.25
+
+# Maximal number of vaccination doses in the simulation - depend on end time
+n_max_doses <- 3
+
+
+
+## Demographics #####################################
 
 # Individuals are stored in the data.table called "ibm"
 # Each line in the data.table is equivalent to a person
@@ -83,15 +90,12 @@ n_parish <- ibm[, uniqueN(parish_id)]
 # Number of municipalities in the input
 n_municipality <- ibm[, uniqueN(municipality_id)]
 
-# Data collection arrays that include geographical information
-sim_parish       <- array(0L, dim = c(length(times), n_parish))
-sim_municipality <- array(0L, dim = c(length(times), n_municipality))
 
 # Ids of the parish and municipalities
 u_parish_ids       <- ibm[, unique(parish_id)]
 u_municipality_ids <- ibm[, unique(municipality_id)]
 
-# The population by parish and municipality - .N is data.table special character
+# The population by parish and municipality in the model - .N is data.table special character
 population <- ibm[, .N, keyby = .(parish_id, municipality_id)]
 
 # The population by parish and municipality from alternative sources
@@ -106,12 +110,18 @@ names(dt_pop_municipality)[2] <- "pop"
 
 all_pop_combi <- data.table(municipality_id = rep(u_municipality_ids, each = 9), age_groups = 1:9)
 
+
+
+## Activity and restrictions ########################
+
+sce_fac_cur_beta <- 1 # Should be 1.05 if 5% increase, 0.95 if 5% decrease
+sce_fac_cur_beta_vec <- ifelse(exists("input_fac_beta"), input_fac_beta, 1) # Update if given as input
+
 # Load the activity scenario (changes in restrictions over time)
 activity_scenario <- lockdown_sce_beta_list$Fyn$S5.3
 
 # Days of changing restriction (relative to start date)
 day_restriction_change  <- as.numeric(c(activity_scenario$list_beta_dates) - as.Date("2020-01-01")) - start_denmark
-
 
 # List of activity matrices - age stratified
 list_beta <- activity_scenario$list_beta
@@ -139,28 +149,26 @@ lockdown_municipality_fun <- list(
   approxfun(x = c(400, 1600), y = c(0, 0.2), yleft = 0, yright = 0.5)
 )
 
+
+
+## Parameters controlling Delta #####################
+day_delta_intro_sce <- as.numeric(as.Date("2021-06-01") - as.Date("2020-01-01")) - start_denmark
+prob_delta_intro <- 0.02 # Converting X % of infected to delta variant on this day
+variant_id_delta <- 3 # Variant id for delta
+
+
+
+## Parameters related to testing ####################
+
 # Automatic for last date i data (ntal)
 day_fix_p_test <- as.numeric(ntal[, as.Date(max(pr_date))] - as.Date("2020-01-01")) - start_denmark
 
-# Reduction factor on transmission when effectively vaccinated
-red_transmission_vac <- ifelse(exists("input_red_transmission_vac"), input_red_transmission_vac, 0.1)
-
-# Reduction factor on risk going to hospital when effectively vaccinated
-red_hospital_risk <- 0.25
-
-# Introducing delta variant in simulation
-day_delta_intro_sce <- as.numeric(as.Date("2021-06-01") - as.Date("2020-01-01")) - start_denmark
-prob_delta_intro <- 0.02 # Converting X% of infected to delta variant on this day
-variant_id_delta <- 3 # Variant id for delta
-
-sce_fac_cur_beta <- 1 # Should be 1.05 if 5% increase, 0.95 if 5% decrease
 sce_test_red <- 1 # Factor for probability of taking a test
 test_red_fac <- 1 # Internal copy of sce_test_red when paste date
 
-sce_fac_cur_beta_vec <- ifelse(exists("input_fac_beta"), input_fac_beta, 1) # Update if given as input
 
-# Maximal number of vaccination doses in the simulation - depend on end time
-n_max_doses <- 3
+
+## Configure the simulation runs ####################
 
 # Set seed for generating parameter combinations
 set.seed(ifelse(exists("input_seed"), input_seed, 1))
@@ -177,6 +185,21 @@ sce_combi <- data.frame(
 
 first_run <- ifelse(exists("input_start"), input_start, 1)
 n_runs <- ifelse(exists("input_n_runs"), input_n_runs, n_samples) # Run all if not specified
+
+
+
+## Data collection arrays ###########
+# Data collection arrays without vaccination status
+sim_test_positive <- array(0L, dim = c(length(times), n_age_groups, n_variants))
+sim_hospital <- array(0L, dim = c(length(times), n_age_groups, n_variants))
+
+# Data collection arrays that include vaccination status
+sim_test_positive_vac <- array(0L, dim = c(length(times), n_age_groups, n_variants, n_vac_groups_out))
+sim_hospital_vac <- array(0L, dim = c(length(times), n_age_groups, n_variants, n_vac_groups_out))
+
+# Data collection arrays that include geographical information
+sim_parish       <- array(0L, dim = c(length(times), n_parish))
+sim_municipality <- array(0L, dim = c(length(times), n_municipality))
 
 
 tic <- Sys.time()
@@ -197,7 +220,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
   # Make sure parameters are loaded fresh onto all cores
   load("./popibm_init.Rdata")
 
-  end_times <- as.numeric(new_end_times) - as.numeric(as.Date("2020-01-01"))
+  end_times <- as.numeric(new_end_date) - as.numeric(as.Date("2020-01-01"))
   times <- seq(start_denmark, end_times, 1)
   xdates <- as.Date(times, origin = "2020-01-01")
 
