@@ -154,7 +154,7 @@ jobs:
         run: |
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
-            sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE SCHEMA \"$schema\"; GO"
+            sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE SCHEMA $schema; GO"
           done
 
       - uses: actions/checkout@v4
