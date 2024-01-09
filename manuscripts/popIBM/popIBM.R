@@ -40,7 +40,7 @@ load_info <- FALSE
 
 # The model cannot run without the input of data. - not submitted
 # many parameters enter through this file -- including the basic structure of the individuals (a data.table)
-# load("./popibm_init.Rdata")
+# load("./popibm_init.Rdata", verbose = load_info)
 
 # Simulation dates
 new_end_date <- as.Date("2021-06-30")
@@ -217,7 +217,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
   rm("ibm")
   # Make sure parameters are loaded fresh onto all cores
-  load("./popibm_init.Rdata")
+  load("./popibm_init.Rdata", verbose = load_info)
 
   end_times <- as.numeric(new_end_date) - as.numeric(as.Date("2020-01-01"))
   times <- seq(start_denmark, end_times, 1)
