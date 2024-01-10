@@ -110,4 +110,4 @@ message(sprintf("  %s\n", names(conns)))
 message("#####")
 
 # Disconnect
-purrr::walk(conns, ~ DBI::dbDisconnect)
+purrr::walk(conns, DBI::dbDisconnect)
