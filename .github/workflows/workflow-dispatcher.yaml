@@ -44,10 +44,8 @@ jobs:
       vignette_files_changed: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}
       readme_files_changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}
       description_changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}
-      main_branch_affected: ${{
-        (inputs.event_name != 'pull_request' && contains(inputs.main_branches, github.ref_name)) ||
-        (inputs.event_name == 'pull_request' && contains(inputs.main_branches, github.base_ref)) }}
-      branch_name: ${{ steps.determine_branch.outputs.branch_name }}
+      main_branch_affected: ${{ steps.main_branch_affected.outputs.main_branch_affected }}
+      branch_name: ${{ steps.branch_name.outputs.branch_name }}
 
     steps:
       - uses: actions/checkout@v4
@@ -75,10 +73,25 @@ jobs:
               - DESCRIPTION
 
       - name: Determine branch name
+        id: branch_name
         shell: bash
         run: |
           echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: determine_branch
+
+      - name: Determine main branch involvement
+        id: main_branch_affected
+        shell: bash
+        run: |
+          if [[ $INPUT_EVENT_NAME == "pull_request" ]] && [[ "$INPUT_MAIN_BRANCHES" == *"$GITHUB_BASE_REF"* ]]; then
+            # Pull request event to a main branch
+            echo "main_branch_affected=true" >> $GITHUB_OUTPUT
+          elif [[ $INPUT_EVENT_NAME != "pull_request" ]] && [[ "$INPUT_MAIN_BRANCHES" == *"$GITHUB_REF_NAME"* ]]; then
+            # Non pull request event to a main branch
+            echo "main_branch_affected=true" >> $GITHUB_OUTPUT
+          else
+            # All other cases
+            echo "main_branch_affected=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Report triggers
         run: |
@@ -88,8 +101,8 @@ jobs:
           echo "vignettes/ directory changes: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}"
           echo "README.Rmd changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}"
           echo "DESCRIPTION changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}"
-          echo "main branch affected: ${{ (inputs.event_name != 'pull_request' && contains(inputs.main_branches, github.ref_name)) || (inputs.event_name == 'pull_request' && contains(inputs.main_branches, github.base_ref)) }}"
-          echo "branch name: ${{ steps.determine_branch.outputs.branch_name }}"
+          echo "main branch affected: ${{ steps.main_branch_affected.outputs.main_branch_affected }}"
+          echo "branch name: ${{ steps.branch_name.outputs.branch_name }}"
 
   lint:
     needs: trigger
