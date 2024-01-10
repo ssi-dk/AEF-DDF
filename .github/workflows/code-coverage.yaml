@@ -17,6 +17,12 @@ jobs:
     if: ${{ inputs.run }}
     name: 🧪 Tests
     runs-on: ubuntu-latest
+
+    env:
+      BACKEND: SQLite
+      BACKEND_DRV: RSQLite::SQLite
+      BACKEND_ARGS: list(dbname = tempfile())
+
     steps:
       - uses: actions/checkout@v4
 
