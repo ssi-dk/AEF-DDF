@@ -6,6 +6,9 @@ on:
       run:
         type: boolean
         default: true
+      rcmdcheck_args:
+        type: string
+        default: 'c("--no-manual", "--as-cran", "--no-tests")' 
 
 jobs:
   R-CMD-check:
@@ -45,6 +48,7 @@ jobs:
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
+          args: ${{ inputs.rcmdcheck_args }}
 
   R-CMD-check-hard:
     if: ${{ inputs.run }}

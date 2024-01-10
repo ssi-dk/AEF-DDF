@@ -17,6 +17,11 @@ on:
         required: true
         type: string
 
+      rcmdcheck_args:
+        required: false
+        type: string
+        default: 'c("--no-manual", "--as-cran", "--no-tests")'
+
       schemas:
         required: false
         type: string
@@ -114,6 +119,7 @@ jobs:
     needs: trigger
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
+      rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
       run: ${{ !contains(inputs.skip, 'R-CMD-check') &&
         needs.trigger.outputs.main_branch_affected == 'true' && (
         needs.trigger.outputs.R_files_changed == 'true' ||
