@@ -13,15 +13,30 @@ on:
 
 
 jobs:
-  code-coverage:
-    if: ${{ inputs.run }}
-    name: 🧪 Tests
+  code-coverage-sqlite:
+    if: ${{ inputs.run && !contains(inputs.backend_exclude, 'sqlite')}}
+    name: 🧪 Tests (${{ matrix.config.backend }})
     runs-on: ubuntu-latest
 
-    env:
-      BACKEND: SQLite
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - backend: SQLite - no schemas
+            args: 'list(dbname = file.path(tempdir(), "SQLite"))'
+            post_connect: ''
+
+          - backend: SQLite - w. schemas
+            args: 'list(dbname = file.path(tempdir(), "SQLite_schemas"))'
+            post_connect: >
+              list(paste0("ATTACH '", file.path(tempdir(), "SQLite_schemas_test"), "' AS 'test'"),
+                   paste0("ATTACH '", file.path(tempdir(), "SQLite_schemas_test_one"), "' AS 'test.one'"))
+    
+    env:        
+      BACKEND: ${{ matrix.config.backend }}
       BACKEND_DRV: RSQLite::SQLite
-      BACKEND_ARGS: list(dbname = tempfile())
+      BACKEND_ARGS: ${{ matrix.config.args }}
+      BACKEND_POST_CONNECT: ${{ matrix.config.post_connect }}
 
     steps:
       - uses: actions/checkout@v4
