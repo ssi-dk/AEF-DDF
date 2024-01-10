@@ -19,16 +19,16 @@ get_test_conns <- function() {
     # Define our local connection backends
     conn_list <- list(
       # Backend string = package::function
-      "SQLite"     = "RSQLite::SQLite",
-      "PostgreSQL" = "RPostgres::Postgres"
+      "SQLite"     = "RSQLite::SQLite"
     )
 
   } else {
+
     # Use the connection configured by the remote
-    conn_list <- tibble::lst(
-      !!Sys.getenv("BACKEND", unset = "SQLite") := !!Sys.getenv("BACKEND_DRV", unset = "RSQLite::SQLite")               # nolint: object_name_linter
-    )
+    conn_list <- tibble::lst(!!Sys.getenv("BACKEND") := !!Sys.getenv("BACKEND_DRV"))                                    # nolint: object_name_linter
+
   }
+
 
   # Define list of args to conns
   if (running_locally) {
@@ -40,13 +40,23 @@ get_test_conns <- function() {
     )
 
   } else {
+
     # Use the connection configured by the remote
-    conn_args <- tibble::lst(
-      !!Sys.getenv("BACKEND", unset = "SQLite") :=                                                                      # nolint: object_name_linter
-        !!Sys.getenv("BACKEND_ARGS", unset = "list(dbname = tempfile())")                                               # nolint: object_name_linter
-    ) |>
+    conn_args <- tibble::lst(!!Sys.getenv("BACKEND") := Sys.getenv("BACKEND_ARGS")) |>                                  # nolint: object_name_linter
+      purrr::discard(~ identical(., "")) |>
       purrr::map(~ eval(parse(text = .)))
+
   }
+
+
+  # Parse any conn_args stored in CONN_ARGS_JSON
+  conn_args_json <- jsonlite::fromJSON(Sys.getenv("CONN_ARGS_JSON", unset = "{}"))
+
+  # Combine all arguments
+  backends <- unique(c(names(conn_list), names(conn_args), names(conn_args_json)))
+  conn_args <- backends |>
+    purrr::map(~ c(purrr::pluck(conn_args, .), purrr::pluck(conn_args_json, .))) |>
+    stats::setNames(backends)
 
 
   get_driver <- function(x = character(), ...) {                                                                        # nolint: object_usage_linter
@@ -78,16 +88,12 @@ get_test_conns <- function() {
     return(conn)
   }
 
-  # Create connection generator
-  conn_configuration <- dplyr::left_join(
-    tibble::tibble(backend = names(conn_list), conn_list = unname(unlist(conn_list))),
-    tibble::tibble(backend = names(conn_args), conn_args),
-    by = "backend"
-  )
+  # Check all conn_args have associated entry in conn_list
+  checkmate::assert_subset(names(conn_args), names(conn_list))
 
-  test_conns <- purrr::pmap(conn_configuration, ~ purrr::partial(get_driver, x = !!..2, !!!..3)())
-  names(test_conns) <- conn_configuration$backend
-  test_conns <- purrr::discard(test_conns, is.null)
+  test_conns <- names(conn_list) |>
+    purrr::map(~ do.call(get_driver, c(list(x = purrr::pluck(conn_list, .)), purrr::pluck(conn_args, .)))) |>
+    stats::setNames(names(conn_list))
 
   return(test_conns)
 }
@@ -104,4 +110,4 @@ message(sprintf("  %s\n", names(conns)))
 message("#####")
 
 # Disconnect
-purrr::walk(conns, ~ DBI::dbDisconnect)
+purrr::walk(conns, DBI::dbDisconnect)

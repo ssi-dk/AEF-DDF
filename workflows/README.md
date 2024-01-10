@@ -42,12 +42,22 @@ folders.
 #### Function
 Runs `rcmdcheck::rcmdcheck` on your package using various operating systems (ubuntu, windows, macOS).
 
+> [!IMPORTANT]
+> To conserve resources, these R-CMD-checks will not run the tests.
+> These tests are instead being run by code-coverage.yaml
+
 Furthermore, the checks are run on ubuntu using the previous release of R (`oldrel-1`) and without loading the packages specified in `Suggests:`.
+> [!IMPORTANT]
+> The check for R-CMD-checks without dependencies will not run the tests to check for potential issues.
 
 #### Outcome
 The workflow will post the output of `rcmdcheck::rcmdcheck`.
 
 Click on the workflow and look for the "Run r-lib/actions/check-r-package@v2" tab to see the output.
+
+| Arguments        | Description                      | Default                                     | Example                       |
+|------------------|----------------------------------|---------------------------------------------|-------------------------------|
+| `rcmdcheck-args` | Arguments passed to R-CMD-check. | c("--no-manual", "--as-cran", "--no-tests") | c("--no-manual", "--as-cran") |
 
 #### Exit status
 If any issues are found, the workflow will give an error.

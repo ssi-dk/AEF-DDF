@@ -13,10 +13,16 @@ on:
 
 
 jobs:
-  code-coverage-sqlite:
+  code-coverage:
     if: ${{ inputs.run }}
     name: 🧪 Tests
     runs-on: ubuntu-latest
+
+    env:
+      BACKEND: SQLite
+      BACKEND_DRV: RSQLite::SQLite
+      BACKEND_ARGS: list(dbname = tempfile())
+
     steps:
       - uses: actions/checkout@v4
 
@@ -84,6 +90,7 @@ jobs:
       - name: Setup testing schemata in PostgreSQL
         if: ${{ inputs.schemas != 'none' }}
         run: |
+          set -o xtrace
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
             psql test -c "CREATE SCHEMA \"$schema\";"
@@ -113,7 +120,13 @@ jobs:
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
+          TESTTHAT_OUT=$(find ${{ runner.temp }}/package -name 'testthat.Rout*')
+
+          cat $TESTTHAT_OUT
+
+          # Throw errors on failures or warnings
+          grep -Fxq "FAIL 0" $TESTTHAT_OUT || { echo "Test failures found";  exit 1; }
+          grep -Fxq "WARN 0" $TESTTHAT_OUT || { echo "Test warnings found";  exit 1; }
         shell: bash
 
       - name: Upload test results
@@ -123,12 +136,18 @@ jobs:
           name: coverage-test-failures
           path: ${{ runner.temp }}/package
 
-  # Option 1
-  # https://github.com/marketplace/actions/mssql-suite
+
   code-coverage-mssql:
-    name: 🧪 Tests (mssql)
+    name: 🧪 Tests (SQL Server 2019)
     runs-on: ubuntu-latest
     if: ${{ inputs.run && !contains(inputs.backend_exclude, 'mssql')}}
+
+    env:
+      BACKEND: MSSQL
+      BACKEND_DRV: odbc::odbc
+      BACKEND_ARGS: ''
+
+      CONN_ARGS_JSON: '{"MSSQL": {"driver": "SQL Server", "server": "localhost", "database": "TestDB", "trusted_connection": "true"}}'
 
     steps:
       - name: Install a SQL Server suite of tools
@@ -136,21 +155,21 @@ jobs:
         with:
           install: sqlengine, sqlpackage
 
-      - name: Run sqlclient
-        run: sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "SELECT @@version;"
-
       - name: Configure database
         run: |
-          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE DATABASE TestDB;"
-          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
-          sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "USE TestDB;"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE DATABASE TestDB;"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "USE TestDB;"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
 
       - name: Setup testing schemata in SQL server
         if: ${{ inputs.schemas != 'none' }}
         run: |
+          set -o xtrace
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
-            sqlcmd -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE SCHEMA \"$schema\"; GO"
+            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE SCHEMA [$schema];"
+            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
           done
 
       - uses: actions/checkout@v4
