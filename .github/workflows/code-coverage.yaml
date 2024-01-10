@@ -114,7 +114,13 @@ jobs:
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
+          TESTTHAT_OUT=$(find ${{ runner.temp }}/package -name 'testthat.Rout*')
+
+          cat $TESTTHAT_OUT
+
+          # Throw errors on failures or warnings
+          grep -Fxq "FAIL 0" $TESTTHAT_OUT || { echo "Test failures found";  exit 1; }
+          grep -Fxq "WARN 0" $TESTTHAT_OUT || { echo "Test warnings found";  exit 1; }
         shell: bash
 
       - name: Upload test results
