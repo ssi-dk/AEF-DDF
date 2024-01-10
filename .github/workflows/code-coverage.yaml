@@ -48,7 +48,13 @@ jobs:
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
+          TESTTHAT_OUT=$(find ${{ runner.temp }}/package -name 'testthat.Rout*')
+
+          cat $TESTTHAT_OUT
+
+          # Throw errors on failures or warnings
+          [[ "$TESTTHAT_OUT" =~ FAIL" "0 ]] || { echo "Test failures found";  exit 1; }
+          [[ "$TESTTHAT_OUT" =~ WARN" "0 ]] || { echo "Test warnings found";  exit 1; }
         shell: bash
 
       - name: Upload test results
@@ -196,7 +202,13 @@ jobs:
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
+          TESTTHAT_OUT=$(find ${{ runner.temp }}/package -name 'testthat.Rout*')
+
+          cat $TESTTHAT_OUT
+
+          # Throw errors on failures or warnings
+          [[ "$TESTTHAT_OUT" =~ FAIL" "0 ]] || { echo "Test failures found";  exit 1; }
+          [[ "$TESTTHAT_OUT" =~ WARN" "0 ]] || { echo "Test warnings found";  exit 1; }
         shell: bash
 
       - name: Upload test results
