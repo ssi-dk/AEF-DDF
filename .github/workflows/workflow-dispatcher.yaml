@@ -82,10 +82,15 @@ jobs:
         id: main_branch_affected
         shell: bash
         run: |
-          if [[ $INPUT_EVENT_NAME == "pull_request" ]] && [[ "$INPUT_MAIN_BRANCHES" == *"$GITHUB_BASE_REF"* ]]; then
+          echo "INPUT_EVENT_NAME: $INPUT_EVENT_NAME"
+          echo "INPUT_MAIN_BRANCHES: $INPUT_MAIN_BRANCHES"
+          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
+          echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
+
+          if [ "$INPUT_EVENT_NAME" == "pull_request" ] && [[ "$INPUT_MAIN_BRANCHES" == *"$GITHUB_BASE_REF"* ]]; then
             # Pull request event to a main branch
             echo "main_branch_affected=true" >> $GITHUB_OUTPUT
-          elif [[ $INPUT_EVENT_NAME != "pull_request" ]] && [[ "$INPUT_MAIN_BRANCHES" == *"$GITHUB_REF_NAME"* ]]; then
+          elif [ "$INPUT_EVENT_NAME" != "pull_request" ] && [[ "$INPUT_MAIN_BRANCHES" == *"$GITHUB_REF_NAME"* ]]; then
             # Non pull request event to a main branch
             echo "main_branch_affected=true" >> $GITHUB_OUTPUT
           else
