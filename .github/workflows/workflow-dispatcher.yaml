@@ -129,7 +129,9 @@ jobs:
         needs.trigger.outputs.vignette_files_changed == 'true' ||
         inputs.event_name == 'workflow_dispatch') }}
     secrets: inherit
-
+    concurrency:
+      group: R-CMD-check-${{ needs.trigger.outputs.branch_name }}
+      cancel-in-progress: true
 
   code-coverage:
     needs: trigger
@@ -144,26 +146,25 @@ jobs:
       schemas: ${{ inputs.schemas }}
       backend_exclude: ${{ inputs.backend_exclude }}
     secrets: inherit
-
+    concurrency:
+      group: code-coverage-${{ needs.trigger.outputs.branch_name }}
+      cancel-in-progress: true
 
   document:
     needs: trigger
-    concurrency:
-      group: ${{ needs.trigger.outputs.branch_name }}-push
     uses: ./.github/workflows/document.yaml
     with:
       run: ${{ !contains(inputs.skip, 'document') && (
         needs.trigger.outputs.R_files_changed == 'true' ||
         needs.trigger.outputs.description_changed == 'true' ||
         inputs.event_name == 'workflow_dispatch') }}
-      branch_name: ${{needs.trigger.outputs.branch_name}}
+      branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
-
+    concurrency:
+      group: push-${{ needs.trigger.outputs.branch_name }}
 
   render-readme:
     needs: trigger
-    concurrency:
-      group: ${{ needs.trigger.outputs.branch_name }}-push
     uses: ./.github/workflows/render-readme.yaml
     with:
       run: ${{ !contains(inputs.skip, 'render-readme') && (
@@ -171,7 +172,8 @@ jobs:
         inputs.event_name == 'workflow_dispatch') }}
       branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
-
+    concurrency:
+      group: push-${{ needs.trigger.outputs.branch_name }}
 
   pkgdown:
     needs: trigger
@@ -187,3 +189,6 @@ jobs:
         needs.trigger.outputs.vignette_files_changed == 'true' ||
         inputs.event_name == 'workflow_dispatch') }}
     secrets: inherit
+    concurrency:
+      group: pkgdown-${{ needs.trigger.outputs.branch_name }}
+      cancel-in-progress: true
