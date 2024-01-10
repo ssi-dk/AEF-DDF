@@ -1,7 +1,7 @@
 # Test setup
-In this folder will find a [testthat](https://testthat.r-lib.org/) `setup.R` file designed to work with the github workflows stored in this repo.
+This folder contains a [testthat](https://testthat.r-lib.org/) `setup.R` file designed to work with the GitHub workflows stored in this repo.
 
-These workflow configure a number of data base backends and sets environment variables that this `setup.R` file picks up and uses to connect to the data bases.
+The workflows configure a number of database backends and set environment variables that this `setup.R` file picks up and uses to connect to the databases.
 
 The `setup.R` file will detect whether it is running locally (on your machine) or remotely (as part of Github CI) and connect to data bases accordingly.
 
