@@ -141,7 +141,7 @@ jobs:
       BACKEND_DRV: odbc::odbc
       BACKEND_ARGS: ''
 
-      SCDB_ODBC_JSON: '{"MSSQL": {"driver": "SQL Server", "server": "localhost", "database": "TestDB", "trusted_connection": "true"}}'
+      CONN_ARGS_JSON: '{"MSSQL": {"driver": "SQL Server", "server": "localhost", "database": "TestDB", "trusted_connection": "true"}}'
 
     steps:
       - name: Install a SQL Server suite of tools
