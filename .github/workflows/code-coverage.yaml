@@ -202,6 +202,11 @@ jobs:
             sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
           done
 
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "SELECT * FROM sys.schemas"
+
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = 'test'"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = 'test.one'"
+
       - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-r@v2
