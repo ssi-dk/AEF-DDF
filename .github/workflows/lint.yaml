@@ -10,11 +10,13 @@ on:
 
 jobs:
   lint:
-    if: ${{ inputs.run }}
     name: 🖋️ Lint
+    if: ${{ inputs.run }}
     runs-on: ubuntu-latest
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - uses: actions/checkout@v3
 
