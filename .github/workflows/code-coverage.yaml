@@ -175,8 +175,7 @@ jobs:
             "server": "localhost",
             "database": "TestDB",
             "UID": "SA",
-            "PWD": "dbatools.I0",
-            "trusted_connection": "yes"
+            "PWD": "dbatools.I0"
           }
         }
 
