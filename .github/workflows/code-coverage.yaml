@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - backend: SQLite - no schemas
+          - backend: SQLite
             args: 'list(dbname = file.path(tempdir(), "SQLite.SQLite"))'
             post_connect: ''
 
