@@ -517,12 +517,19 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       inf_persons <- inf_persons_municipality[, .(inf_persons = sum(inf_persons)), by = .(age_groups)]
 
       tmp <- inf_persons$inf_persons
-      inf_pres_dk <- inf_persons[, .(r_inf_dK = sum(cur_beta[age_groups, ] * tmp / pop_denmark)), by = .(age_groups)]
+      inf_pressure_dk <- inf_persons[
+        ,
+        .(r_inf_denmark = sum(cur_beta[age_groups, ] * tmp / pop_denmark)),
+        by = .(age_groups)
+      ]
 
-      inf_pres_total <- inf_pres_dk[inf_pressure, , on = "age_groups"]
-      inf_pres_total[, prob_inf := (1 - exp(-(1 - w_municipality) * r_inf_dK - w_municipality * r_inf_municipality))]
+      inf_pressure_total <- inf_pressure_dk[inf_pressure, , on = "age_groups"]
+      inf_pressure_total[
+        ,
+        prob_inf := (1 - exp(-(1 - w_municipality) * r_inf_denmark - w_municipality * r_inf_municipality))
+      ]
 
-      tmp2 <- inf_pres_total[, c(1, 3, 6)]
+      tmp2 <- inf_pressure_total[, c(1, 3, 6)]
       names(tmp2)[3] <- "prob_inf_new"
 
       # Evaluate probability of infection
