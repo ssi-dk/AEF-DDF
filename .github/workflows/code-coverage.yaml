@@ -81,7 +81,7 @@ jobs:
 
 
   code-coverage-postgres:
-    name: 🧪 Tests (postgres)
+    name: 🧪 Tests (PostgreSQL)
     runs-on: ubuntu-latest
     if: ${{ inputs.run && !contains(inputs.backend_exclude, 'postgres')}}
 
