@@ -8,7 +8,7 @@ on:
         default: true
       rcmdcheck_args:
         type: string
-        default: 'c("--no-manual", "--as-cran", "--no-tests")' 
+        default: 'c("--no-manual", "--as-cran", "--no-tests")'
 
 jobs:
   R-CMD-check:
@@ -78,6 +78,35 @@ jobs:
             any::testthat
             any::knitr
             any::rmarkdown
+          needs: check
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
+
+
+  R-CMD-check-devel:
+    if: ${{ inputs.run }}
+    runs-on: ubuntu-latest
+
+    name: "🔎 Check: ubuntu (r-devel)"
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
