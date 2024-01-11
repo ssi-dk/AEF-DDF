@@ -23,16 +23,16 @@ jobs:
       matrix:
         config:
           - backend: SQLite - no schemas
-            args: 'list(dbname = file.path(tempdir(), "SQLite"))'
+            args: 'list(dbname = file.path(tempdir(), "SQLite.SQLite"))'
             post_connect: ''
 
           - backend: SQLite - w. schemas
-            args: 'list(dbname = file.path(tempdir(), "SQLite_schemas"))'
+            args: 'list(dbname = file.path(tempdir(), "SQLite_schemas.SQLite"))'
             post_connect: >
-              list(paste0("ATTACH '", file.path(tempdir(), "SQLite_schemas_test"), "' AS 'test'"),
-                   paste0("ATTACH '", file.path(tempdir(), "SQLite_schemas_test_one"), "' AS 'test.one'"))
-    
-    env:        
+              list(paste0("ATTACH '", file.path(tempdir(), "SQLite_schemas_test.SQLite"), "' AS 'test'"),
+                   paste0("ATTACH '", file.path(tempdir(), "SQLite_schemas_test_one.SQLite"), "' AS 'test.one'"))
+
+    env:
       BACKEND: ${{ matrix.config.backend }}
       BACKEND_DRV: RSQLite::SQLite
       BACKEND_ARGS: ${{ matrix.config.args }}
