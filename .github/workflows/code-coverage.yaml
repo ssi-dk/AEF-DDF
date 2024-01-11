@@ -182,7 +182,7 @@ jobs:
       - name: Install a SQL Server suite of tools
         uses: potatoqualitee/mssqlsuite@v1.7
         with:
-          install: sqlengine, sqlpackage
+          install: sqlengine, sqlpackage, sqlclient
 
       - name: Configure database
         run: |
