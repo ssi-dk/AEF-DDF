@@ -80,12 +80,12 @@ jobs:
           cat $TESTTHAT_OUT
 
           # Throw errors on failures or warnings
-          if [ $(grep -c "FAIL 0" $TESTTHAT_OUT) -eq 1 ]; then
+          if [ $(grep -c "FAIL 0" $TESTTHAT_OUT) -eq 0 ]; then
             echo "Test failures found"
             exit 1
           fi
 
-          if [ $(grep -c "WARN 0" $TESTTHAT_OUT) -eq 1 ]; then
+          if [ $(grep -c "WARN 0" $TESTTHAT_OUT) -eq 0 ]; then
             echo "Test warnings found"
             exit 1
           fi
@@ -165,12 +165,12 @@ jobs:
           cat $TESTTHAT_OUT
 
           # Throw errors on failures or warnings
-          if [ $(grep -c "FAIL 0" $TESTTHAT_OUT) -eq 1 ]; then
+          if [ $(grep -c "FAIL 0" $TESTTHAT_OUT) -eq 0 ]; then
             echo "Test failures found"
             exit 1
           fi
 
-          if [ $(grep -c "WARN 0" $TESTTHAT_OUT) -eq 1 ]; then
+          if [ $(grep -c "WARN 0" $TESTTHAT_OUT) -eq 0 ]; then
             echo "Test warnings found"
             exit 1
           fi
@@ -255,12 +255,12 @@ jobs:
           cat $TESTTHAT_OUT
 
           # Throw errors on failures or warnings
-          if [ $(grep -c "FAIL 0" $TESTTHAT_OUT) -eq 1 ]; then
+          if [ $(grep -c "FAIL 0" $TESTTHAT_OUT) -eq 0 ]; then
             echo "Test failures found"
             exit 1
           fi
 
-          if [ $(grep -c "WARN 0" $TESTTHAT_OUT) -eq 1 ]; then
+          if [ $(grep -c "WARN 0" $TESTTHAT_OUT) -eq 0 ]; then
             echo "Test warnings found"
             exit 1
           fi
