@@ -173,7 +173,7 @@ jobs:
           "MSSQL": {
             "driver": "ODBC Driver 17 for SQL Server",
             "server": "localhost",
-            "database": "TestDB",
+            "database": "tempdb",
             "UID": "SA",
             "PWD": "dbatools.I0"
           }
@@ -184,13 +184,6 @@ jobs:
         uses: potatoqualitee/mssqlsuite@v1.7
         with:
           install: sqlengine, sqlpackage, sqlclient
-
-      - name: Configure database
-        run: |
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE DATABASE TestDB;"
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "USE TestDB;"
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
 
       - name: Setup testing schemata in SQL server
         if: ${{ inputs.schemas != 'none' }}
