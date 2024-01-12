@@ -126,8 +126,8 @@ day_restriction_change  <- as.numeric(c(activity_scenario$list_beta_dates) - as.
 list_beta <- activity_scenario$list_beta
 
 # Days of changing incidence limits for imposing local lockdown (relative to start date)
-day_lockdown_change <- c("2021-03-01", "2021-04-30", "2021-05-28", "2021-07-16", "2021-09-10", "2021-11-15")
-day_lockdown_change <- as.numeric(as.Date(day_lockdown_change) - as.Date("2020-01-01")) - start_denmark
+day_limit_change <- c("2021-03-01", "2021-04-30", "2021-05-28", "2021-07-16", "2021-09-10", "2021-11-15")
+day_limit_change <- as.numeric(as.Date(day_limit_change) - as.Date("2020-01-01")) - start_denmark
 
 # Functions for lockdown (corresponding to Danish policy):
 lockdown_parish_fun <- list(
@@ -465,10 +465,10 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
 
     # Implement the effects of local lockdown
-    if (activate_lockdown && day > day_lockdown_change[1]) {
+    if (activate_lockdown && day > day_limit_change[1]) {
 
       # Lockdown
-      i_lock <- sum(day > day_lockdown_change)
+      i_lock <- sum(day > day_limit_change)
 
        # Compute and store the incidences for the local lockdown rules.
       # 1) Compute 7-day incidences per 100k leading up to current day
