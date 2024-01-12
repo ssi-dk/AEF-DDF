@@ -24,19 +24,16 @@ jobs:
         config:
           - backend: SQLite
             args: 'list(dbname = file.path(tempdir(), "SQLite.SQLite"))'
-            post_connect: ''
+            schemas: ''
 
           - backend: SQLite - w. schemas
             args: 'list(dbname = file.path(tempdir(), "SQLite_schemas.SQLite"))'
-            post_connect: >
-              list(paste0("ATTACH '", file.path(tempdir(), "SQLite_schemas_test.SQLite"), "' AS 'test'"),
-                   paste0("ATTACH '", file.path(tempdir(), "SQLite_schemas_test_one.SQLite"), "' AS 'test.one'"))
+            schemas: ${{ inputs.schemas }}
 
     env:
       BACKEND: ${{ matrix.config.backend }}
       BACKEND_DRV: RSQLite::SQLite
       BACKEND_ARGS: ${{ matrix.config.args }}
-      BACKEND_POST_CONNECT: ${{ matrix.config.post_connect }}
 
     steps:
       - uses: actions/checkout@v4
@@ -49,6 +46,21 @@ jobs:
         with:
           extra-packages: any::covr
           needs: coverage
+
+      - name: Setup BACKEND_POST_CONNECT
+        if: ${{ matrix.config.schemas != '' }}
+        run: |
+          set -o xtrace
+          IFS=',' read -ra schemas <<< "${{ matrix.config.schemas }}"
+
+          CONN_POST_CONNECT="list("
+          for schema in "${schemas[@]}"; do
+            CONN_POST_CONNECT+="paste0(\"ATTACH '\", file.path(tempdir(), \"SQLite_schemas_${schema}.SQLite\"), \"' AS '${schema}'\"), "
+          done
+          CONN_POST_CONNECT=${CONN_POST_CONNECT%??}
+          CONN_POST_CONNECT+=")"
+
+          echo "BACKEND_POST_CONNECT=$CONN_POST_CONNECT" >> $GITHUB_ENV
 
       - name: Test coverage
         run: |
