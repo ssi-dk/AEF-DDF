@@ -113,8 +113,8 @@ all_pop_combi <- data.table(municipality_id = rep(u_municipality_ids, each = 9),
 
 ## Activity and restrictions ########################
 
-sce_fac_cur_beta <- 1 # Should be 1.05 if 5% increase, 0.95 if 5% decrease
-sce_fac_cur_beta_vec <- ifelse(exists("input_fac_beta"), input_fac_beta, 1) # Update if given as input
+sce_fac_current_beta <- 1 # Should be 1.05 if 5% increase, 0.95 if 5% decrease
+sce_fac_current_beta_vec <- ifelse(exists("input_fac_beta"), input_fac_beta, 1) # Update if given as input
 
 # Load the activity scenario (changes in restrictions over time)
 activity_scenario <- lockdown_sce_beta_list$Fyn$S5.3
@@ -177,7 +177,7 @@ set.seed(ifelse(exists("input_seed"), input_seed, 1))
 # Therefore scenarios of different parameter values for delta are included
 sce_combi <- data.frame(
   par_id = 1:n_samples,
-  sce_fac_cur_beta = sce_fac_cur_beta_vec,
+  sce_fac_current_beta = sce_fac_current_beta_vec,
   delta_rec_red = 1 - runif(n_samples, min = 0.6, max = 0.8), # VE of infection
   red_transmission_vac = 1 - runif(n_samples, min = 0.5, max = 0.8), # Transmission
   rel_alpha_delta = runif(n_samples, min = 1.65, max = 1.95)
@@ -274,12 +274,12 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     if (day > day_restriction_change[1]) { # Activity different from initial activity (restriction change)
       i_beta <- max(which(day_restriction_change <= day))
 
-      cur_beta <- beta_season * r_ref * 0.35 * list_beta[[i_beta]]
+      current_beta <- beta_season * r_ref * 0.35 * list_beta[[i_beta]]
 
       lockdown_factor <- sqrt(eigen(list_beta[[1]])$values[1] / eigen(list_beta[[i_beta]])$values[1])
 
     } else { # Initial activity level
-      cur_beta <- beta_season * r_ref * 0.35 * list_beta[[1]]
+      current_beta <- beta_season * r_ref * 0.35 * list_beta[[1]]
     }
 
 
@@ -506,7 +506,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       inf_persons_municipality[, inf_persons := inf_persons * v_rel_beta[k]]
 
       inf_pressure <- inf_persons_municipality[
-        , cur_beta %*% inf_persons, by = .(municipality_id)
+        , current_beta %*% inf_persons, by = .(municipality_id)
       ][, age_groups := rep(1:9, n_municipality)]
 
       names(inf_pressure)[2] <- "r_inf_municipality"
@@ -519,7 +519,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       tmp <- inf_persons$inf_persons
       inf_pressure_dk <- inf_persons[
         ,
-        .(r_inf_denmark = sum(cur_beta[age_groups, ] * tmp / pop_denmark)),
+        .(r_inf_denmark = sum(current_beta[age_groups, ] * tmp / pop_denmark)),
         by = .(age_groups)
       ]
 
