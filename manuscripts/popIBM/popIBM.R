@@ -226,8 +226,14 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
   times <- seq(start_denmark, end_times, 1)
   xdates <- as.Date(times, origin = "2020-01-01")
 
-  # Initialise spatial heterogeneity in parishes
-
+  # Initialise spatial heterogeneity in parishes.
+  # During initialisation, rel_risk_parish is set to the observed cumulative incidence from begining of epidemic until 26 April 2021.
+  # However, distribution of risks  ....
+  #
+  # For reference, see
+  # Græsbøll, K., Eriksen, R. S., Kirkeby, C., & Christiansen, L. E., & (2023).
+  #   Mass testing and local lockdowns effectively controls COVID-19. Manuscript
+  #   accepted for publication in Communications Medicine
   ibm[, rel_risk_parish := rel_risk_parish^(1 / 3)]
   ibm[, rel_risk_parish := rel_risk_parish * .N / sum(rel_risk_parish)]
 
@@ -314,10 +320,14 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       # The compute the probability of test when adjusting for the number of tests
       p_test_corr <- p_test_inc(inc)
 
-      if (day <= day_fix_p_test) { # The number of tests is known
+      if (day <= day_fix_p_test) { # The number of tests is known until this date
 
         # Group population by age group and vaccinated / un-vaccinated
         tmp <- ibm[, .N, keyby = .(age_groups, !(vac_time < breaks_vac[[1]] | is.na(vac_time)))]
+
+        # Then merge population counts with testing behavior in age and vaccine groups (n_test_age_groups_int_vac).
+        # This gives the ???
+        # (n_test_age_groups_int_vac is loaded as part of init)
         t_pop_age_vac <- tmp[n_test_age_groups_int_vac, , on = c("age_groups", "vac_time")]
         t_pop_age_vac[is.na(N), N := 0]
 
@@ -435,8 +445,10 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     # Recover from disease I -> R
     ibm[disease == 2L & tt == 0, disease := 3L]
 
-    # When all age groups have same disease progression E-> I
-    # Also draw time to being symptomatic
+     # All age groups have same disease progression E-> I (disease states 1L -> 2L).
+    # Upon entering the I state, the time to recovery (tt) and time to symptoms (tt_symp) are drawn.
+    # Around 50% of infected people don't develop symptoms to the degree that they take a test.
+    # Therefore, we set tt_symp to NA for 50% of infected.
     ibm[
       disease == 1L & tt == 0,
       `:=`(
@@ -447,7 +459,8 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       )
     ]
 
-    # Do not double count people found in E states
+    # Persons already isolated (non_isolated == 0) are assumed to not test themselves again once they develop symptoms.
+    # We therefore set tt_symp to -1L to prevent such tests.
     ibm[disease == 2L & non_isolated == 0L & tt_symp > 0, tt_symp := -1L]
 
 
@@ -457,19 +470,33 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       # Lockdown
       i_lock <- sum(day > day_lockdown_change)
 
-      # Parish
-      n_cases <- colSums(sim_parish[(day - 7):(day - 1), ], na.rm = TRUE)
+       # Compute and store the incidences for the local lockdown rules.
+      # 1) Compute 7-day incidences per 100k leading up to current day
+      # 2) Store the incidence in the history tracker
+      # 3) Compute maximum 7-day incidence over the last 7 days
+      # 4) Apply the current lockdown thresholds given this max incidence
 
-      inc_his_parish[day, ] <- (n_cases >= 20) * n_cases / pop_parish * 1e5
+      ## Parish
+      n_7d_cases_parish <- colSums(sim_parish[(day - 7):(day - 1), ], na.rm = TRUE)
+
+      # NOTE: for parishes, local lockdown required at least 20 positive cases in the parish.
+      # We therefore record incidences as 0 in these cases.
+      inc_his_parish[day, ] <- (n_7d_cases_parish >= 20) * n_7d_cases_parish / pop_parish * 1e5
 
       max_7d_inc <- apply(inc_his_parish[(day - 6):day, ], 2, max, na.rm = TRUE)
+
       lockdown_parish_fac <- lockdown_parish_fun[[i_lock]](max_7d_inc)
 
-      # Municipality
+
+      ## Municipality
       inc_his_municipality[day, ] <- sim_municipality[(day - 7):(day - 1), ] |>
         colSums(na.rm = TRUE) / pop_municipality * 1e5
+
       max_7d_inc <- apply(inc_his_municipality[(day - 6):day, ], 2, max, na.rm = TRUE)
+
       lockdown_municipality_fac <- lockdown_municipality_fun[[i_lock]](max_7d_inc)
+
+
 
       population[
         data.table(parish_id = u_parish_ids, lockdown_parish_fac),
