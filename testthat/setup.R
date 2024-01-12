@@ -19,7 +19,19 @@ get_test_conns <- function() {
     # Define our local connection backends
     conn_list <- list(
       # Backend string = package::function
-      "SQLite"     = "RSQLite::SQLite"
+      "SQLite" = "RSQLite::SQLite"
+    )
+
+    # Define our local connection arguments
+    conn_args <- list(
+      # Backend string = list(named args)
+      "SQLite" = list(dbname = file.path(tempdir(), "SQLite.SQLite"))
+    )
+
+    # Define post connection commands to run
+    conn_post_connect <- list(
+      # Backend string = list(named args)
+      )
     )
 
   } else {
@@ -27,27 +39,17 @@ get_test_conns <- function() {
     # Use the connection configured by the remote
     conn_list <- tibble::lst(!!Sys.getenv("BACKEND") := !!Sys.getenv("BACKEND_DRV"))                                    # nolint: object_name_linter
 
-  }
-
-
-  # Define list of args to conns
-  if (running_locally) {
-
-    # Define our local connection arguments
-    conn_args <- list(
-      # Backend string = list(named args)
-      "SQLite" = list(dbname = tempfile())
-    )
-
-  } else {
-
     # Use the connection configured by the remote
     conn_args <- tibble::lst(!!Sys.getenv("BACKEND") := Sys.getenv("BACKEND_ARGS")) |>                                  # nolint: object_name_linter
       purrr::discard(~ identical(., "")) |>
       purrr::map(~ eval(parse(text = .)))
 
-  }
+    # Use the connection configured by the remote
+    conn_post_connect <- tibble::lst(!!Sys.getenv("BACKEND") := Sys.getenv("BACKEND_POST_CONNECT")) |>                  # nolint: object_name_linter
+      purrr::discard(~ identical(., "")) |>
+      purrr::map(~ eval(parse(text = .)))
 
+  }
 
   # Parse any conn_args stored in CONN_ARGS_JSON
   conn_args_json <- jsonlite::fromJSON(Sys.getenv("CONN_ARGS_JSON", unset = "{}"))
@@ -78,11 +80,10 @@ get_test_conns <- function() {
       }
     )
 
-
     # SQLite back end gives an error in SCDB if there are no tables (it assumes a bad configuration)
     # We create a table to suppress this warning
     if (checkmate::test_class(conn, "SQLiteConnection")) {
-      DBI::dbWriteTable(conn, "iris", iris)
+      DBI::dbWriteTable(conn, "iris", iris, overwrite = TRUE)
     }
 
     return(conn)
@@ -91,9 +92,14 @@ get_test_conns <- function() {
   # Check all conn_args have associated entry in conn_list
   checkmate::assert_subset(names(conn_args), names(conn_list))
 
+  # Open connections
   test_conns <- names(conn_list) |>
     purrr::map(~ do.call(get_driver, c(list(x = purrr::pluck(conn_list, .)), purrr::pluck(conn_args, .)))) |>
     stats::setNames(names(conn_list))
+
+  # Run post_connect commands on the connections
+  purrr::walk2(test_conns, names(conn_list),
+               \(conn, conn_name) purrr::walk(purrr::pluck(conn_post_connect, conn_name), ~ DBI::dbExecute(conn, .)))
 
   return(test_conns)
 }

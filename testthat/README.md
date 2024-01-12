@@ -16,7 +16,10 @@ See section [Configuring data base connections](#configuring-data-base-connectio
 
 # Configuring data base connections
 
-Connection to data bases in `setup.R` consists of two parts, a named list of connection drivers `conn_list` and a named list of connection arguments `conn_args`.
+Connection to data bases in `setup.R` consists of three parts
+1) `conn_list`: a named list of connection drivers,
+2) `conn_args`: a named list of connection arguments,
+2) `conn_post_connect`: a named list of commands to execute after connecting.
 
 `setup.R` first detects whether or not it is running locally.
 
