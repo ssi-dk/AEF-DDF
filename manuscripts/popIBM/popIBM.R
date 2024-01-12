@@ -290,7 +290,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     }
 
     # Set probability of test in accordance with 7 day test-incidence
-    # n_test_dk* loaded from init file
+    # n_test_dk* files loaded from init file
     n_test         <- n_test_dk(as.Date(start_denmark, origin = "2020-01-01"), day)
     n_test_age     <- n_test_dk_age(as.Date(start_denmark, origin = "2020-01-01"), day)
     n_test_age_vac <- n_test_dk_age_vac(as.Date(start_denmark, origin = "2020-01-01"), day)
@@ -358,8 +358,9 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     }
 
 
-    # Determine who is detected by tests
-    # Assuming non-isolated, non-vaccinated, and ... are elligble for testing positive
+    # Determine who is detected by tests.
+    # Assuming non-isolated, non-vaccinated, infected or newly-recovered (within 5 days) are eligible for
+    # testing positive
     id_test_positive <- ibm[
       non_isolated == 1L & (disease %in% 1:2 | (disease == 3L & tt >= -5)) &
         (is.na(vac_type) | vac_time < breaks_vac[[1]]),
