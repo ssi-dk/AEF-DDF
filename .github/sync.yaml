@@ -1,0 +1,32 @@
+group:
+  repos: |
+    ssi-dk/SCDB
+    ssi-dk/diseasystore
+    ssi-dk/diseasy
+    
+  files:
+    - source: testthat/helper-setup.R
+      dest: tests/testthat/helper-setup.R
+
+
+group:
+  repos: |
+    ssi-dk/SCDB
+
+  files:
+    - source: workflows/all-workflows.yaml
+      dest: .github/workflows/all-workflows.yaml
+      template: 
+        schemas: test,test.one
+
+
+group:
+  repos: |
+    ssi-dk/diseasystore
+    ssi-dk/diseasy
+
+  files:
+    - source: workflows/all-workflows.yaml
+      dest: .github/workflows/all-workflows.yaml
+      template: 
+        schemas: test_ds,not_test_ds
