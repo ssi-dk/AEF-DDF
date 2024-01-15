@@ -46,6 +46,7 @@ jobs:
       description_changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}
       main_branch_affected: ${{ steps.main_branch_affected.outputs.main_branch_affected }}
       branch_name: ${{ steps.branch_name.outputs.branch_name }}
+      cache_version: ${{ steps.cache_version.outputs.cache_version }}
 
     steps:
       - uses: actions/checkout@v4
@@ -93,6 +94,12 @@ jobs:
             echo "main_branch_affected=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Invalidate cache on workflow_dispatch
+        id: cache_version
+        shell: bash
+        run: |
+          if [ $GITHUB_EVENT_NAME == 'workflow_dispatch' ]; then echo '0'; else echo '1'; fi >> GITHUB_OUTPUT
+
       - name: Report triggers
         run: |
           echo "R/ directory changes: ${{ steps.changed-files-yaml.outputs.R_any_changed }}"
@@ -103,6 +110,7 @@ jobs:
           echo "DESCRIPTION changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}"
           echo "main branch affected: ${{ steps.main_branch_affected.outputs.main_branch_affected }}"
           echo "branch name: ${{ steps.branch_name.outputs.branch_name }}"
+          echo "cache_version: ${{ steps.cache_version.outputs.cache_version }}"
 
   lint:
     needs: trigger
@@ -133,7 +141,7 @@ jobs:
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
       rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
-      cache_version: ${{ inputs.event_name == 'workflow_dispatch' && 0 || 1 }}
+      cache_version: ${{ needs.trigger.outputs.cache_version }}
       run: ${{ !contains(inputs.skip, 'R-CMD-check') && (
         inputs.event_name == 'workflow_dispatch' || (
         needs.trigger.outputs.main_branch_affected == 'true' && (
@@ -151,7 +159,7 @@ jobs:
     needs: trigger
     uses: ./.github/workflows/code-coverage.yaml
     with:
-      cache_version: ${{ inputs.event_name == 'workflow_dispatch' && 0 || 1 }}
+      cache_version: ${{ needs.trigger.outputs.cache_version }}
       run: ${{ !contains(inputs.skip, 'code-coverage') && (
         inputs.event_name == 'workflow_dispatch' || (
         needs.trigger.outputs.main_branch_affected == 'true' && (
