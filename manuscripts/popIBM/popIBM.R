@@ -447,7 +447,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
 
 
-    # Recover from disease I -> R
+    # Recover from disease I -> R (disease states 2L -> 3L)
     ibm[disease == 2L & tt == 0, disease := 3L]
 
     # All age groups have same disease progression E-> I (disease states 1L -> 2L).
@@ -502,7 +502,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       lockdown_municipality_fac <- lockdown_municipality_fun[[i_lock]](max_7d_inc)
 
 
-
+      # Transfer degree of local lockdown (lockdown_fac) to population tracker
       population[
         data.table(parish_id = u_parish_ids, lockdown_parish_fac),
         on = "parish_id",
