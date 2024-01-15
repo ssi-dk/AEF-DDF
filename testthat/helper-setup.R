@@ -101,19 +101,21 @@ get_test_conns <- function() {
   purrr::walk2(test_conns, names(conn_list),
                \(conn, conn_name) purrr::walk(purrr::pluck(conn_post_connect, conn_name), ~ DBI::dbExecute(conn, .)))
 
+
+  # Inform the user about the tested back ends:
+  msg <- paste(sep = "\n",
+    "#####",
+    "Following backends will be tested:",
+    paste("  ", names(test_conns), collapse = "\n"),
+    "####"
+  )
+
+  # Message the user only once within this session
+  rlang::inform(
+    message = msg,
+    .frequency = c("once"),
+    .frequency_id = msg
+  )
+
   return(test_conns)
 }
-
-# Report testing environment to the user
-message(
-  "#####\n\n",
-  "Following drivers will be tested:",
-  sep = ""
-)
-
-conns <- get_test_conns()
-message(sprintf("  %s\n", names(conns)))
-message("#####")
-
-# Disconnect
-purrr::walk(conns, DBI::dbDisconnect)
