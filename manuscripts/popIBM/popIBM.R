@@ -208,8 +208,8 @@ tic <- Sys.time()
 sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.table", .verbose = TRUE) %dopar% {
 
   scenario <- unlist(sce_combi[run_this, ])
-  for (i in seq_along(scenario)) {
-    assign(x = names(scenario)[i], value = scenario[i])
+  for (scenario_id in seq_along(scenario)) {
+    assign(x = names(scenario)[scenario_id], value = scenario[scenario_id])
   }
   cat("\t run: ", run_this, " ")
 
@@ -386,21 +386,22 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
 
     # Collect data on the number of test positives each day - by variant, age and vaccination status
-    for (k in 1:n_variants) {
+    for (variant_id in 1:n_variants) {
 
-      sim_test_positive[day, , k] <- ibm[
-        tt_symp == 0L & variant == k, .N, by = .(age_groups)
+      sim_test_positive[day, , variant_id] <- ibm[
+        tt_symp == 0L & variant == variant_id, .N, by = .(age_groups)
       ][.(age_groups = 1:9), on = "age_groups"]$N
 
-      sim_test_positive_vac[day, , k, 1] <- ibm[
-        tt_symp == 0L & variant == k & (vac_time < breaks_vac[1] | is.na(vac_time)),
+      sim_test_positive_vac[day, , variant_id, 1] <- ibm[
+        tt_symp == 0L & variant == variant_id & (vac_time < breaks_vac[1] | is.na(vac_time)),
         .N,
         by = .(age_groups)
       ][.(age_groups = 1:9), on = "age_groups"]$N
 
-      for (kk in 2:n_vac_groups_out) {
-        sim_test_positive_vac[day, , k, kk] <- ibm[
-          tt_symp == 0L & variant == k & vac_time >= breaks_vac[kk - 1] & vac_time < breaks_vac[kk], .N,
+      for (vac_id in 2:n_vac_groups_out) {
+        sim_test_positive_vac[day, , variant_id, vac_id] <- ibm[
+          tt_symp == 0L & variant == variant_id & vac_time >= breaks_vac[vac_id - 1] & vac_time < breaks_vac[vac_id],
+          .N,
           by = .(age_groups)
         ][.(age_groups = 1:9), on = "age_groups"]$N
       }
@@ -420,19 +421,20 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
 
     # Collect probability of hospitalisation each day - by variant, age and vaccination status
-    for (k in 1:n_variants) {
-      sim_hospital[day, , k] <- ibm[disease == 2L & tt == 0 & variant == k, sum(prob_hospital),
+    for (variant_id in 1:n_variants) {
+      sim_hospital[day, , variant_id] <- ibm[disease == 2L & tt == 0 & variant == variant_id, sum(prob_hospital),
                                     by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
 
-      sim_hospital_vac[day, , k, 1] <- ibm[
-        disease == 2L & tt == 0 & variant == k & (vac_time < breaks_vac[1] | is.na(vac_time)),
+      sim_hospital_vac[day, , variant_id, 1] <- ibm[
+        disease == 2L & tt == 0 & variant == variant_id & (vac_time < breaks_vac[1] | is.na(vac_time)),
         sum(prob_hospital),
         by = .(age_groups)
       ][.(age_groups = 1:9), on = "age_groups"]$V1
 
-      for (kk in 2:n_vac_groups_out) {
-        sim_hospital_vac[day, , k, kk] <- ibm[
-          disease == 2L & tt == 0 & variant == k & vac_time >= breaks_vac[kk - 1] & vac_time < breaks_vac[kk],
+      for (vac_id in 2:n_vac_groups_out) {
+        sim_hospital_vac[day, , variant_id, vac_id] <- ibm[
+          disease == 2L & tt == 0 & variant == variant_id &
+            vac_time >= breaks_vac[vac_id - 1] & vac_time < breaks_vac[vac_id],
           sum(prob_hospital),
           by = .(age_groups)
         ][.(age_groups = 1:9), on = "age_groups"]$V1
@@ -521,17 +523,17 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     }
 
     # Infected individuals with different strains
-    for (k in 1:n_variants) {
+    for (variant_id in 1:n_variants) {
 
       # Calculate the infection pressure
       inf_persons_municipality <- ibm[
-        disease == 2L & variant == k,
+        disease == 2L & variant == variant_id,
         .(inf_persons = sum(lockdown_fac * non_isolated * vac_fac_trans)),
         by = .(municipality_id, age_groups)
       ][all_pop_combi, on = c("municipality_id", "age_groups")]
 
       inf_persons_municipality[is.na(inf_persons), inf_persons := 0]
-      inf_persons_municipality[, inf_persons := inf_persons * v_rel_beta[k]]
+      inf_persons_municipality[, inf_persons := inf_persons * v_rel_beta[variant_id]]
 
       inf_pressure <- inf_persons_municipality[
         , current_beta %*% inf_persons, by = .(municipality_id)
@@ -571,7 +573,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
           `:=`(disease = 1L,
                tt = pmax(1L, round(rgamma(n = .N, shape = v_shape_e[age_groups],
                                           scale = v_scale_e[age_groups]))),
-               variant = k)]
+               variant = variant_id)]
     }
 
     # Count down to change in disease state or symptoms
@@ -583,10 +585,10 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
 
     # Implement the effect of vaccination
-    for (k in 1:n__vac){
+    for (vac_id in 1:n_vac){
 
-      ibm[vac_type == k & vac_time == v_vac_tt_effect[k],
-          `:=`(vacF_ec = delta_vac_effect[k],
+      ibm[vac_type == vac_id & vac_time == v_vac_tt_effect[vac_id],
+          `:=`(vacF_ec = delta_vac_effect[vac_id],
                prob_hospital = delta_red_hospital_risk * prob_hospital,
                vac_fac_trans = red_transmission_vac)]
 
