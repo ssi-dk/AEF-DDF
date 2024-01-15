@@ -45,7 +45,7 @@ load_info <- FALSE
 # Simulation dates
 new_end_date <- as.Date("2021-06-30")
 end_times <- as.numeric(new_end_date) - as.numeric(as.Date("2020-01-01"))
-times <- seq(start_denmark, end_times, 1)
+times <- seq(start_denmark, end_times, 1)  # start_denmark is simulation start date (loaded in init file)
 
 # Proportion of transmission within municipality
 w_municipality <- 0.9
@@ -161,6 +161,7 @@ variant_id_delta <- 3 # Variant id for delta
 
 # Determine the last day where the number of tests is known
 # after this day, we fix p_test to the last known value
+# ntal is loaded in init file
 day_fix_p_test <- as.numeric(ntal[, as.Date(max(pr_date))] - as.Date("2020-01-01")) - start_denmark
 
 sce_test_red <- 1 # Factor for probability of taking a test
@@ -324,6 +325,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       inc <- colSums(sim_municipality[(day - 7):(day - 1), ], na.rm = TRUE) / pop_municipality * 1e5
 
       # The compute the probability of test when adjusting for the number of tests
+      # p_test_inc loaded from init
       p_test_corr <- p_test_inc(inc)
 
       if (day <= day_fix_p_test) { # The number of tests is known
