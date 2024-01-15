@@ -450,7 +450,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     # Recover from disease I -> R
     ibm[disease == 2L & tt == 0, disease := 3L]
 
-     # All age groups have same disease progression E-> I (disease states 1L -> 2L).
+    # All age groups have same disease progression E-> I (disease states 1L -> 2L).
     # Upon entering the I state, the time to recovery (tt) and time to symptoms (tt_symp) are drawn.
     # Around 50% of infected people don't develop symptoms to the degree that they take a test.
     # Therefore, we set tt_symp to NA for 50% of infected.
@@ -475,7 +475,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       # Lockdown
       i_lock <- sum(day > day_limit_change)
 
-       # Compute and store the incidences for the local lockdown rules.
+      # Compute and store the incidences for the local lockdown rules.
       # 1) Compute 7-day incidences per 100k leading up to current day
       # 2) Store the incidence in the history tracker
       # 3) Compute maximum 7-day incidence over the last 7 days
