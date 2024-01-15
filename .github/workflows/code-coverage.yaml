@@ -1,9 +1,9 @@
 on:
   workflow_call:
     inputs:
-      event_name:
-        required: true
-        type: string
+      cache_version:
+        type: number
+        default: 1
       run:
         type: boolean
         default: true
@@ -35,7 +35,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          cache: ${{ inputs.event_name != 'workflow_dispatch' }}
+          cache-version: ${{ inputs.cache_version }}
           extra-packages: any::covr
           needs: coverage
 
