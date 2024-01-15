@@ -422,8 +422,11 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
     # Collect probability of hospitalisation each day - by variant, age and vaccination status
     for (variant_id in 1:n_variants) {
-      sim_hospital[day, , variant_id] <- ibm[disease == 2L & tt == 0 & variant == variant_id, sum(prob_hospital),
-                                    by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
+      sim_hospital[day, , variant_id] <- ibm[
+        disease == 2L & tt == 0 & variant == variant_id,
+        sum(prob_hospital),
+        by = .(age_groups)
+      ][.(age_groups = 1:9), on = "age_groups"]$V1
 
       sim_hospital_vac[day, , variant_id, 1] <- ibm[
         disease == 2L & tt == 0 & variant == variant_id & (vac_time < breaks_vac[1] | is.na(vac_time)),
