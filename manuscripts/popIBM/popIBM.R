@@ -320,7 +320,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       # The compute the probability of test when adjusting for the number of tests
       p_test_corr <- p_test_inc(inc)
 
-      if (day <= day_fix_p_test) { # The number of tests is known until this date
+      if (day <= day_fix_p_test) { # The number of tests is known
 
         # Group population by age group and vaccinated / un-vaccinated
         tmp <- ibm[, .N, keyby = .(age_groups, !(vac_time < breaks_vac[[1]] | is.na(vac_time)))]
