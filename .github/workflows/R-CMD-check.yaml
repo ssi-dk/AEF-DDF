@@ -110,7 +110,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          cache: ${{ inputs.event_name != 'workflow_dispatch' }}
+          cache-version: ${{ inputs.cache_version }}
           extra-packages: any::rcmdcheck
           needs: check
 
