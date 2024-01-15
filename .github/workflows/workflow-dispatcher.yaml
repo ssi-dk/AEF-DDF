@@ -98,7 +98,12 @@ jobs:
         id: cache_version
         shell: bash
         run: |
-          if [ $GITHUB_EVENT_NAME == 'workflow_dispatch' ]; then echo '0'; else echo '1'; fi >> GITHUB_OUTPUT
+          if [ "${{ inputs.event_name }}" == "workflow_dispatch" ] ; then
+            echo "cache_version=0" >> $GITHUB_OUTPUT
+          else
+            echo "cache_version=1" >> $GITHUB_OUTPUT
+          fi
+
 
       - name: Report triggers
         run: |
