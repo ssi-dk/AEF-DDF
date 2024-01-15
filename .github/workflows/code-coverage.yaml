@@ -1,6 +1,9 @@
 on:
   workflow_call:
     inputs:
+      cache-version:
+        type: number
+        default: 1
       run:
         type: boolean
         default: true
@@ -32,6 +35,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          cache-version: ${{ inputs.cache-version }}
           extra-packages: any::covr
           needs: coverage
 
@@ -104,6 +108,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          cache-version: ${{ inputs.cache-version }}
           extra-packages: any::covr
           needs: coverage
 
@@ -180,6 +185,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          cache-version: ${{ inputs.cache-version }}
           extra-packages: any::covr
           needs: coverage
 
