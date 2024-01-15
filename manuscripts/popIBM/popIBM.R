@@ -512,10 +512,10 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       population[
         data.table(municipality_id = u_municipality_ids, lockdown_municipality_fac),
         on = "municipality_id",
-        kom_fac := lockdown_municipality_fac
+        municipality_fac := lockdown_municipality_fac
       ]
 
-      population[, lockdown_max := pmax(parish_fac, kom_fac)]
+      population[, lockdown_max := pmax(parish_fac, municipality_fac)]
 
       # Weighted sum as lockdown factor
       population[, lockdown_fac := 1 * (1 - lockdown_max) + lockdown_factor * lockdown_max]
