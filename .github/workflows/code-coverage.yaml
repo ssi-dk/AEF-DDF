@@ -57,6 +57,7 @@ jobs:
           for schema in "${schemas[@]}"; do
             CONN_POST_CONNECT+="paste0(\"ATTACH '\", file.path(tempdir(), \"SQLite_schemas_${schema}.SQLite\"), \"' AS '${schema}'\"), "
           done
+          # Trim trailing ", " from CONN_POST_CONNECT
           CONN_POST_CONNECT=${CONN_POST_CONNECT%??}
           CONN_POST_CONNECT+=")"
 
