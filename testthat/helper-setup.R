@@ -31,7 +31,6 @@ get_test_conns <- function() {
     # Define post connection commands to run
     conn_post_connect <- list(
       # Backend string = list(named args)
-      )
     )
 
   } else {
