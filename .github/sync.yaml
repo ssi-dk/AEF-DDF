@@ -1,17 +1,6 @@
 group:
   repos: |
     ssi-dk/SCDB
-    ssi-dk/diseasystore
-    ssi-dk/diseasy
-
-  files:
-    - source: testthat/helper-setup.R
-      dest: tests/testthat/helper-setup.R
-
-
-group:
-  repos: |
-    ssi-dk/SCDB
 
   files:
     - source: workflows/all-workflows.yaml
@@ -19,6 +8,20 @@ group:
       template:
         schemas: test,test.one
 
+    - source: testthat/helper-setup.R
+      dest: tests/testthat/helper-setup.R
+      template:
+        conn_list: |
+          "SQLite"              = "RSQLite::SQLite",
+          "SQLite - w. schemas" = "RSQLite::SQLite"
+        conn_args: |
+          "SQLite"              = list(dbname = file.path(tempdir(), "SQLite.SQLite")),
+          "SQLite - w. schemas" = list(dbname = file.path(tempdir(), "SQLite_schemas.SQLite"))
+        conn_post_connect: |
+          "SQLite - w. schemas" = list(
+            paste0("ATTACH '", file.path(tempdir(), "SQLite_test.SQLite"), "' AS 'test'"),
+            paste0("ATTACH '", file.path(tempdir(), "SQLite_test_one.SQLite"), "' AS 'test.one'")
+          )
 
 group:
   repos: |
@@ -30,3 +33,11 @@ group:
       dest: .github/workflows/all-workflows.yaml
       template:
         schemas: test_ds,not_test_ds
+
+    - source: testthat/helper-setup.R
+      dest: tests/testthat/helper-setup.R
+      template:
+        conn_list:
+          "SQLite" = "RSQLite::SQLite"
+        conn_args:
+          "SQLite" = list(dbname = file.path(tempdir(), "SQLite.SQLite"))

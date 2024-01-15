@@ -19,18 +19,19 @@ get_test_conns <- function() {
     # Define our local connection backends
     conn_list <- list(
       # Backend string = package::function
-      "SQLite" = "RSQLite::SQLite"
+      {{ conn_list }}
     )
 
     # Define our local connection arguments
     conn_args <- list(
       # Backend string = list(named args)
-      "SQLite" = list(dbname = file.path(tempdir(), "SQLite.SQLite"))
+      {{ conn_args }}
     )
 
     # Define post connection commands to run
     conn_post_connect <- list(
       # Backend string = list(named args)
+      {{ conn_post_connect }}
     )
 
   } else {
