@@ -2,8 +2,8 @@ on:
   workflow_call:
     inputs:
       cache_version:
-        type: number
-        default: 1
+        type: boolean
+        default: true
       run:
         type: boolean
         default: true
