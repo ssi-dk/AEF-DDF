@@ -334,7 +334,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
         tmp <- ibm[, .N, keyby = .(age_groups, !(vac_time < breaks_vac[[1]] | is.na(vac_time)))]
 
         # Then merge population counts with testing behavior in age and vaccine groups (n_test_age_groups_int_vac).
-        # This gives the ???
+        # This merge is to be able to make groups with zeroes (.N ignores them)
         # (n_test_age_groups_int_vac is loaded as part of init)
         t_pop_age_vac <- tmp[n_test_age_groups_int_vac, , on = c("age_groups", "vac_time")]
         t_pop_age_vac[is.na(N), N := 0]
@@ -523,6 +523,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
         municipality_fac := lockdown_municipality_fac
       ]
 
+      # an individual is affected by the biggest lockdown either in parish or municipality
       population[, lockdown_max := pmax(parish_fac, municipality_fac)]
 
       # Weighted sum as lockdown factor
@@ -533,10 +534,10 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
     }
 
-    # Infected individuals with different strains
+    # Infected individuals with different variants
     for (variant_id in 1:n_variants) {
 
-      # Calculate the infection pressure
+      # Calculate the number of infected persons per municipality + age_group
       inf_persons_municipality <- ibm[
         disease == 2L & variant == variant_id,
         .(inf_persons = sum(lockdown_fac * non_isolated * vac_fac_trans)),
@@ -546,6 +547,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       inf_persons_municipality[is.na(inf_persons), inf_persons := 0]
       inf_persons_municipality[, inf_persons := inf_persons * v_rel_beta[variant_id]]
 
+      # Calculate the infection pressure by multiplying betas onto inf_persons
       inf_pressure <- inf_persons_municipality[
         , current_beta %*% inf_persons, by = .(municipality_id)
       ][, age_groups := rep(1:9, n_municipality)]
@@ -555,8 +557,10 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       inf_pressure <- dt_pop_municipality[inf_pressure, , on = "municipality_id"]
       inf_pressure[, r_inf_municipality := r_inf_municipality / pop]
 
+      # calculate infected persons nationwide
       inf_persons <- inf_persons_municipality[, .(inf_persons = sum(inf_persons)), by = .(age_groups)]
 
+      # calculate nationwide infection pressure
       tmp <- inf_persons$inf_persons
       inf_pressure_dk <- inf_persons[
         ,
@@ -564,19 +568,22 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
         by = .(age_groups)
       ]
 
+      # weigth nationwide and municipal infection pressure together
+      # each age_groups and municipality now have a risk of infection
       inf_pressure_total <- inf_pressure_dk[inf_pressure, , on = "age_groups"]
       inf_pressure_total[
         ,
         prob_inf := (1 - exp(-(1 - w_municipality) * r_inf_denmark - w_municipality * r_inf_municipality))
       ]
 
+      # TODO replace indices c(1, 3, 6) with names
       tmp2 <- inf_pressure_total[, c(1, 3, 6)]
       names(tmp2)[3] <- "prob_inf_new"
 
-      # Evaluate probability of infection
+      # merge probability of infection to the individual
+      # NB for future use - should maybe include a check on reasonable values [0;1]
       ibm[tmp2, on = c("municipality_id", "age_groups"), prob_inf := prob_inf_new]
 
-      # NB for future use - should maybe include a check on reasonable values [0;1]
       ibm[, prob_inf := prob_inf * vac_fac * rel_risk_parish * lockdown_fac]
 
       # Randomly infect some individuals based on probability
@@ -598,10 +605,12 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     # Implement the effect of vaccination
     for (vac_id in 1:n_vac) {
 
+      # this is binary vaccination effect, works for alpha variant, from delta should be different
       ibm[vac_type == vac_id & vac_time == v_vac_tt_effect[vac_id],
-          `:=`(vacF_ec = delta_vac_effect[vac_id],
-               prob_hospital = delta_red_hospital_risk * prob_hospital,
-               vac_fac_trans = red_transmission_vac)]
+          ':='(vac_fac = sample( c(1,0) , .N , prob = 
+                                  c(1-v_vac_effect[vac_id],v_vac_effect[vac_id]),replace=TRUE),
+               prob_hospital = red_hospital_risk * prob_hospital,
+               vac_fac_trans = red_transmission_vac)] 
 
     }
 
