@@ -81,15 +81,8 @@ jobs:
           cat $TESTTHAT_OUT
 
           # Throw errors on failures or warnings
-          if [ $(grep -c "FAIL 0" $TESTTHAT_OUT) -eq 0 ]; then
-            echo "Test failures found"
-            exit 1
-          fi
-
-          if [ $(grep -c "WARN 0" $TESTTHAT_OUT) -eq 0 ]; then
-            echo "Test warnings found"
-            exit 1
-          fi
+          [[ $(grep -q "FAIL 0" $TESTTHAT_OUT) ]] || { echo "Test failures found"; exit 1; }
+          [[ $(grep -q "WARN 0" $TESTTHAT_OUT) ]] || { echo "Test warnings found"; exit 1; }
         shell: bash
 
       - name: Upload test results
@@ -166,15 +159,8 @@ jobs:
           cat $TESTTHAT_OUT
 
           # Throw errors on failures or warnings
-          if [ $(grep -c "FAIL 0" $TESTTHAT_OUT) -eq 0 ]; then
-            echo "Test failures found"
-            exit 1
-          fi
-
-          if [ $(grep -c "WARN 0" $TESTTHAT_OUT) -eq 0 ]; then
-            echo "Test warnings found"
-            exit 1
-          fi
+          [[ $(grep -q "FAIL 0" $TESTTHAT_OUT) ]] || { echo "Test failures found"; exit 1; }
+          [[ $(grep -q "WARN 0" $TESTTHAT_OUT) ]] || { echo "Test warnings found"; exit 1; }
         shell: bash
 
       - name: Upload test results
@@ -256,15 +242,8 @@ jobs:
           cat $TESTTHAT_OUT
 
           # Throw errors on failures or warnings
-          if [ $(grep -c "FAIL 0" $TESTTHAT_OUT) -eq 0 ]; then
-            echo "Test failures found"
-            exit 1
-          fi
-
-          if [ $(grep -c "WARN 0" $TESTTHAT_OUT) -eq 0 ]; then
-            echo "Test warnings found"
-            exit 1
-          fi
+          [[ $(grep "FAIL 0" $TESTTHAT_OUT) ]] || { echo "Test failures found"; exit 1; }
+          [[ $(grep "WARN 0" $TESTTHAT_OUT) ]] || { echo "Test warnings found"; exit 1; }
         shell: bash
 
       - name: Upload test results
