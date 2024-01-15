@@ -133,7 +133,7 @@ jobs:
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
       rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
-      cache_version: ${{ inputs.event_name == 'workflow_dispatch' && 0 || 1 }}
+      cache_version: ${{ inputs.event_name == 'workflow_dispatch' && '0' || '1' }}
       run: ${{ !contains(inputs.skip, 'R-CMD-check') && (
         inputs.event_name == 'workflow_dispatch' || (
         needs.trigger.outputs.main_branch_affected == 'true' && (
@@ -151,7 +151,7 @@ jobs:
     needs: trigger
     uses: ./.github/workflows/code-coverage.yaml
     with:
-      cache_version: ${{ inputs.event_name == 'workflow_dispatch' && 0 || 1 }}
+      cache_version: ${{ inputs.event_name == 'workflow_dispatch' && '0' || '1' }}
       run: ${{ !contains(inputs.skip, 'code-coverage') && (
         inputs.event_name == 'workflow_dispatch' || (
         needs.trigger.outputs.main_branch_affected == 'true' && (
