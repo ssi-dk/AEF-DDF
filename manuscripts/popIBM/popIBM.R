@@ -277,11 +277,17 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     # Set "beta" based on restriction levels and seasonal change
     beta_season <- (1 - season_fac * (1 - seasonal_rel_beta(as.Date(start_denmark, origin = "2020-01-01"), day)))
 
-    if (day > day_restriction_change[1]) { # Activity different from initial activity (restriction change)
+    # When activity is different from initial activity (i.e, due to an restriction change)
+    # We store some helper variables
+    if (day > day_restriction_change[1]) 0{
+
+      # Index for current beta matrix
       i_beta <- max(which(day_restriction_change <= day))
 
+      # Value of current beta
       current_beta <- beta_season * r_ref * 0.35 * list_beta[[i_beta]]
 
+      # Factor needed to reduce activity to the initial level (i.e. full lockdown)
       lockdown_factor <- sqrt(eigen(list_beta[[1]])$values[1] / eigen(list_beta[[i_beta]])$values[1])
 
     } else { # Initial activity level
