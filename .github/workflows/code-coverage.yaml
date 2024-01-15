@@ -16,15 +16,27 @@ on:
 
 
 jobs:
-  code-coverage:
-    if: ${{ inputs.run }}
-    name: 🧪 Tests
+  code-coverage-sqlite:
+    if: ${{ inputs.run && !contains(inputs.backend_exclude, 'sqlite')}}
+    name: 🧪 Tests (${{ matrix.config.backend }})
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - backend: SQLite
+            args: 'list(dbname = file.path(tempdir(), "SQLite.SQLite"))'
+            schemas: ''
+
+          - backend: SQLite - w. schemas
+            args: 'list(dbname = file.path(tempdir(), "SQLite_schemas.SQLite"))'
+            schemas: ${{ inputs.schemas }}
+
     env:
-      BACKEND: SQLite
+      BACKEND: ${{ matrix.config.backend }}
       BACKEND_DRV: RSQLite::SQLite
-      BACKEND_ARGS: list(dbname = tempfile())
+      BACKEND_ARGS: ${{ matrix.config.args }}
 
     steps:
       - uses: actions/checkout@v4
@@ -39,6 +51,22 @@ jobs:
           extra-packages: any::covr
           needs: coverage
 
+      - name: Setup BACKEND_POST_CONNECT
+        if: ${{ matrix.config.schemas != '' }}
+        run: |
+          set -o xtrace
+          IFS=',' read -ra schemas <<< "${{ matrix.config.schemas }}"
+
+          CONN_POST_CONNECT="list("
+          for schema in "${schemas[@]}"; do
+            CONN_POST_CONNECT+="paste0(\"ATTACH '\", file.path(tempdir(), \"SQLite_schemas_${schema}.SQLite\"), \"' AS '${schema}'\"), "
+          done
+          # Trim trailing ", " from CONN_POST_CONNECT
+          CONN_POST_CONNECT=${CONN_POST_CONNECT%??}
+          CONN_POST_CONNECT+=")"
+
+          echo "BACKEND_POST_CONNECT=$CONN_POST_CONNECT" >> $GITHUB_ENV
+
       - name: Test coverage
         run: |
           covr::codecov(
@@ -52,7 +80,13 @@ jobs:
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
+          TESTTHAT_OUT=$(find ${{ runner.temp }}/package -name 'testthat.Rout*')
+
+          cat $TESTTHAT_OUT
+
+          # Throw errors on failures or warnings
+          [[ $(grep -q "FAIL 0" $TESTTHAT_OUT) ]] || { echo "Test failures found"; exit 1; }
+          [[ $(grep -q "WARN 0" $TESTTHAT_OUT) ]] || { echo "Test warnings found"; exit 1; }
         shell: bash
 
       - name: Upload test results
@@ -64,7 +98,7 @@ jobs:
 
 
   code-coverage-postgres:
-    name: 🧪 Tests (postgres)
+    name: 🧪 Tests (PostgreSQL)
     runs-on: ubuntu-latest
     if: ${{ inputs.run && !contains(inputs.backend_exclude, 'postgres')}}
 
@@ -130,8 +164,8 @@ jobs:
           cat $TESTTHAT_OUT
 
           # Throw errors on failures or warnings
-          grep -Fxq "FAIL 0" $TESTTHAT_OUT || { echo "Test failures found";  exit 1; }
-          grep -Fxq "WARN 0" $TESTTHAT_OUT || { echo "Test warnings found";  exit 1; }
+          [[ $(grep -q "FAIL 0" $TESTTHAT_OUT) ]] || { echo "Test failures found"; exit 1; }
+          [[ $(grep -q "WARN 0" $TESTTHAT_OUT) ]] || { echo "Test warnings found"; exit 1; }
         shell: bash
 
       - name: Upload test results
@@ -152,20 +186,22 @@ jobs:
       BACKEND_DRV: odbc::odbc
       BACKEND_ARGS: ''
 
-      CONN_ARGS_JSON: '{"MSSQL": {"driver": "SQL Server", "server": "localhost", "database": "TestDB", "trusted_connection": "true"}}'
+      CONN_ARGS_JSON: >
+        {
+          "MSSQL": {
+            "driver": "ODBC Driver 17 for SQL Server",
+            "server": "localhost",
+            "database": "tempdb",
+            "UID": "SA",
+            "PWD": "dbatools.I0"
+          }
+        }
 
     steps:
       - name: Install a SQL Server suite of tools
         uses: potatoqualitee/mssqlsuite@v1.7
         with:
-          install: sqlengine, sqlpackage
-
-      - name: Configure database
-        run: |
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE DATABASE TestDB;"
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "USE TestDB;"
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
+          install: sqlengine, sqlpackage, sqlclient
 
       - name: Setup testing schemata in SQL server
         if: ${{ inputs.schemas != 'none' }}
@@ -176,6 +212,11 @@ jobs:
             sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE SCHEMA [$schema];"
             sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
           done
+
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "SELECT * FROM sys.schemas"
+
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = 'test'"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = 'test.one'"
 
       - uses: actions/checkout@v4
 
@@ -202,7 +243,13 @@ jobs:
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
+          TESTTHAT_OUT=$(find ${{ runner.temp }}/package -name 'testthat.Rout*')
+
+          cat $TESTTHAT_OUT
+
+          # Throw errors on failures or warnings
+          [[ $(grep "FAIL 0" $TESTTHAT_OUT) ]] || { echo "Test failures found"; exit 1; }
+          [[ $(grep "WARN 0" $TESTTHAT_OUT) ]] || { echo "Test warnings found"; exit 1; }
         shell: bash
 
       - name: Upload test results
