@@ -3,9 +3,9 @@
 on:
   workflow_call:
     inputs:
-      cache_version:
-        type: number
-        default: 1
+      event_name:
+        required: true
+        type: string
       run:
         type: boolean
         default: true
@@ -45,7 +45,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          cache-version: ${{ inputs.cache_version }}
+          cache: ${{ inputs.event_name != 'workflow_dispatch' }}
           extra-packages: any::rcmdcheck
           needs: check
 
