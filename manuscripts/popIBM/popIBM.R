@@ -280,7 +280,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
     # When activity is different from initial activity (i.e, due to an restriction change)
     # We store some helper variables
-    if (day > day_restriction_change[1]) 0{
+    if (day > day_restriction_change[1]) {
 
       # Index for current beta matrix
       i_beta <- max(which(day_restriction_change <= day))
@@ -596,7 +596,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
 
     # Implement the effect of vaccination
-    for (vac_id in 1:n_vac){
+    for (vac_id in 1:n_vac) {
 
       ibm[vac_type == vac_id & vac_time == v_vac_tt_effect[vac_id],
           `:=`(vacF_ec = delta_vac_effect[vac_id],
