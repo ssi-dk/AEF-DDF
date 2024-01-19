@@ -18,7 +18,7 @@ get_test_conns <- function() {
 
     # Define our local connection backends
     conn_list <- list(
-      # Backend string = list(named args)
+      # Backend string = package::function
       {{ conn_list }}
     )
 
