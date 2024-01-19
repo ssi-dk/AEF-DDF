@@ -33,5 +33,5 @@ jobs:
       run_id: ${{ github.run_id }}
 
       # code-coverage creates data bases for the tests. Here you can specify the schemas you need for the workflow
-      schemas: {{ schemas }}
+      schemas: <$ schemas $>
     secrets: inherit
