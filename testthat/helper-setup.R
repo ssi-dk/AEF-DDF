@@ -16,22 +16,22 @@ get_test_conns <- function() {
   # Define list of connections to check
   if (running_locally) {
 
-    # All lists follows the pattern of:
-    # Backend string = package::function
-
     # Define our local connection backends
     conn_list <- list(
+      # Backend string = package::function
       {{ conn_list }}
     )
 
     # Define our local connection arguments
     conn_args <- list(
+      # Backend string = package::function
       {{ conn_args }}
     )
 
     # Define post connection commands to run
     {% if conn_post_connect %}
     conn_post_connect <- list(
+      # Backend string = package::function
       {{ conn_post_connect }}
     )
     {% endif %}
