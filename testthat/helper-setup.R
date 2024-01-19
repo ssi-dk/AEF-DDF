@@ -21,18 +21,23 @@ get_test_conns <- function() {
 
     # Define our local connection backends
     conn_list <- list(
-      {{ conn_list -}}
+      {{ conn_list }}
     )
 
     # Define our local connection arguments
     conn_args <- list(
-      {{ conn_args -}}
+      {{ conn_args }}
     )
 
     # Define post connection commands to run
+    {% if conn_post_connect %}
     conn_post_connect <- list(
-      {{ conn_post_connect -}}
+      {{ conn_post_connect }}
     )
+    {% endif %}
+    {% if not conn_post_connect %}
+    conn_post_connect <- list()
+    {% endif %}
 
   } else {
 
