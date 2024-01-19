@@ -19,15 +19,15 @@ group:
         template:
           conn_list: |-
             "SQLite"              = "RSQLite::SQLite",
-            "SQLite - w. schemas" = "RSQLite::SQLite"
+                  "SQLite - w. schemas" = "RSQLite::SQLite"
           conn_args: |-
             "SQLite"              = list(dbname = file.path(tempdir(), "SQLite.SQLite")),
-            "SQLite - w. schemas" = list(dbname = file.path(tempdir(), "SQLite_schemas.SQLite"))
+                  "SQLite - w. schemas" = list(dbname = file.path(tempdir(), "SQLite_schemas.SQLite"))
           conn_post_connect: |-
             "SQLite - w. schemas" = list(
-              paste0("ATTACH '", file.path(tempdir(), "SQLite_test.SQLite"), "' AS 'test'"),
-              paste0("ATTACH '", file.path(tempdir(), "SQLite_test_one.SQLite"), "' AS 'test.one'")
-            )
+                    paste0("ATTACH '", file.path(tempdir(), "SQLite_test.SQLite"), "' AS 'test'"),
+                    paste0("ATTACH '", file.path(tempdir(), "SQLite_test_one.SQLite"), "' AS 'test.one'")
+                  )
         config:
           autoescape: false
 
