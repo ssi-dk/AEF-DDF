@@ -342,35 +342,40 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
         # Count population by municipality, age group and vaccinated / un-vaccinated
         tmp <- ibm[, .(pop = .N), keyby = .(municipality_id, age_groups, !(vac_time < breaks_vac[[1]] | is.na(vac_time)))]
 
+        # ensure that there are no missing groups with zero + naming
         tmp <- tmp[t_pop_age_vac, , on = c("age_groups", "vac_time")]
         names(tmp)[c(3, 5)] <- c("vac_status", "t_pop")
         names(n_test_age_vac)[1] <- "age_groups"
+        
+        # round numbers of test
         n_test_age_vac$age_groups <- as.integer(n_test_age_vac$age_groups)
 
+        # merge number of tests onto subpopulations
         tmp_test <- tmp[n_test_age_vac, , on = c("age_groups", "vac_status")]
 
+        # calculate test probability
         tmp_test[, p_test_corr :=  w_test / t_pop]
 
       }
 
-
-
-
+      # ensure that there are no missing groups with zero
       tmp2 <- data.table(municipality_id = u_municipality_ids,
                          p_test_fac = p_test_corr)
-
       tmp <- tmp_test[tmp2, , on = "municipality_id"]
 
+      # adjust test probability and ensure number of test match expected
       tmp[, p_test_corr :=  p_test_corr * p_test_fac]
       tmp[, p_test_corr := p_test_corr * sum(n_test_age_vac$w_test) / sum(p_test_corr * pop)]
 
       tmp[, vac_eff_dose := as.integer(vac_status)]
 
+      # tests must be distributed to both 1 and 2 dose vaccinated
       tmp2 <- copy(tmp[vac_eff_dose == 1L, ])
       tmp2[, vac_eff_dose := 2L]
 
       tmp <- rbindlist(list(tmp, tmp2))
 
+      # merge test probability onto individuals
       ibm[tmp, on = c("municipality_id", "age_groups", "vac_eff_dose"), p_test := p_test_corr]
 
     }
@@ -526,8 +531,8 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       # an individual is affected by the biggest lockdown either in parish or municipality
       population[, lockdown_max := pmax(parish_fac, municipality_fac)]
 
-      # Weighted sum as lockdown factor
-      population[, lockdown_fac := 1 * (1 - lockdown_max) + lockdown_factor * lockdown_max]
+      # local lockdown reduces activity, but proportionally more when national restriction are low
+      population[, lockdown_fac := 1 - lockdown_max * (1 - lockdown_factor) ]
 
       # Merging on ibm:
       ibm[population, on = c("parish_id", "municipality_id"), lockdown_fac := lockdown_fac]
@@ -537,7 +542,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     # Infected individuals with different variants
     for (variant_id in 1:n_variants) {
 
-      # Calculate the number of infected persons per municipality + age_group
+      # Calculate the number of effectively infectious persons per municipality + age_group
       inf_persons_municipality <- ibm[
         disease == 2L & variant == variant_id,
         .(inf_persons = sum(lockdown_fac * non_isolated * vac_fac_trans)),
@@ -545,6 +550,8 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       ][all_pop_combi, on = c("municipality_id", "age_groups")]
 
       inf_persons_municipality[is.na(inf_persons), inf_persons := 0]
+      
+      # accounting for variant transmissibility
       inf_persons_municipality[, inf_persons := inf_persons * v_rel_beta[variant_id]]
 
       # Calculate the infection pressure by multiplying betas onto inf_persons
@@ -555,9 +562,11 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       names(inf_pressure)[2] <- "r_inf_municipality"
 
       inf_pressure <- dt_pop_municipality[inf_pressure, , on = "municipality_id"]
+      
+      # convert to true rate by adjusting for population size
       inf_pressure[, r_inf_municipality := r_inf_municipality / pop]
 
-      # calculate infected persons nationwide
+      # calculate effectively infectious persons nationwide
       inf_persons <- inf_persons_municipality[, .(inf_persons = sum(inf_persons)), by = .(age_groups)]
 
       # calculate nationwide infection pressure
