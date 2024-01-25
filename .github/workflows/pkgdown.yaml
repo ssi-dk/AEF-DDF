@@ -42,7 +42,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -60,7 +60,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pkgdown
           path: docs/
@@ -71,7 +71,7 @@ jobs:
     if: ${{ inputs.run && inputs.event_name == 'release' }}
     needs: [cleanup, pkgdown-build]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Download pkgdown output
         uses: actions/download-artifact@v3
