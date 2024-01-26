@@ -45,7 +45,7 @@ load_info <- FALSE
 # Simulation dates
 new_end_date <- as.Date("2021-06-30")
 end_times <- as.numeric(new_end_date) - as.numeric(as.Date("2020-01-01"))
-times <- seq(start_denmark, end_times, 1)
+times <- seq(start_denmark, end_times, 1)  # start_denmark is simulation start date (loaded in init file)
 
 # Proportion of transmission within municipality
 w_municipality <- 0.9
@@ -126,8 +126,8 @@ day_restriction_change  <- as.numeric(c(activity_scenario$list_beta_dates) - as.
 list_beta <- activity_scenario$list_beta
 
 # Days of changing incidence limits for imposing local lockdown (relative to start date)
-day_lockdown_change <- c("2021-03-01", "2021-04-30", "2021-05-28", "2021-07-16", "2021-09-10", "2021-11-15")
-day_lockdown_change <- as.numeric(as.Date(day_lockdown_change) - as.Date("2020-01-01")) - start_denmark
+day_limit_change <- c("2021-03-01", "2021-04-30", "2021-05-28", "2021-07-16", "2021-09-10", "2021-11-15")
+day_limit_change <- as.numeric(as.Date(day_limit_change) - as.Date("2020-01-01")) - start_denmark
 
 # Functions for lockdown (corresponding to Danish policy):
 lockdown_parish_fun <- list(
@@ -161,6 +161,7 @@ variant_id_delta <- 3 # Variant id for delta
 
 # Determine the last day where the number of tests is known
 # after this day, we fix p_test to the last known value
+# ntal is loaded in init file
 day_fix_p_test <- as.numeric(ntal[, as.Date(max(pr_date))] - as.Date("2020-01-01")) - start_denmark
 
 sce_test_red <- 1 # Factor for probability of taking a test
@@ -208,8 +209,8 @@ tic <- Sys.time()
 sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.table", .verbose = TRUE) %dopar% {
 
   scenario <- unlist(sce_combi[run_this, ])
-  for (i in seq_along(scenario)) {
-    assign(x = names(scenario)[i], value = scenario[i])
+  for (scenario_id in seq_along(scenario)) {
+    assign(x = names(scenario)[scenario_id], value = scenario[scenario_id])
   }
   cat("\t run: ", run_this, " ")
 
@@ -226,8 +227,14 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
   times <- seq(start_denmark, end_times, 1)
   xdates <- as.Date(times, origin = "2020-01-01")
 
-  # Initialise spatial heterogeneity in parishes
-
+  # Initialise spatial heterogeneity in parishes.
+  # During initialisation, rel_risk_parish is set to the observed cumulative incidence from begining of epidemic until 26 April 2021.
+  # However, distribution of risks  ....
+  #
+  # For reference, see
+  # Græsbøll, K., Eriksen, R. S., Kirkeby, C., & Christiansen, L. E., & (2023).
+  #   Mass testing and local lockdowns effectively controls COVID-19. Manuscript
+  #   accepted for publication in Communications Medicine
   ibm[, rel_risk_parish := rel_risk_parish^(1 / 3)]
   ibm[, rel_risk_parish := rel_risk_parish * .N / sum(rel_risk_parish)]
 
@@ -271,11 +278,17 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
     # Set "beta" based on restriction levels and seasonal change
     beta_season <- (1 - season_fac * (1 - seasonal_rel_beta(as.Date(start_denmark, origin = "2020-01-01"), day)))
 
-    if (day > day_restriction_change[1]) { # Activity different from initial activity (restriction change)
+    # When activity is different from initial activity (i.e, due to an restriction change)
+    # We store some helper variables
+    if (day > day_restriction_change[1]) {
+
+      # Index for current beta matrix
       i_beta <- max(which(day_restriction_change <= day))
 
+      # Value of current beta
       current_beta <- beta_season * r_ref * 0.35 * list_beta[[i_beta]]
 
+      # Factor needed to reduce activity to the initial level (i.e. full lockdown)
       lockdown_factor <- sqrt(eigen(list_beta[[1]])$values[1] / eigen(list_beta[[i_beta]])$values[1])
 
     } else { # Initial activity level
@@ -312,47 +325,57 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       inc <- colSums(sim_municipality[(day - 7):(day - 1), ], na.rm = TRUE) / pop_municipality * 1e5
 
       # The compute the probability of test when adjusting for the number of tests
+      # p_test_inc loaded from init
       p_test_corr <- p_test_inc(inc)
 
       if (day <= day_fix_p_test) { # The number of tests is known
 
         # Group population by age group and vaccinated / un-vaccinated
         tmp <- ibm[, .N, keyby = .(age_groups, !(vac_time < breaks_vac[[1]] | is.na(vac_time)))]
+
+        # Then merge population counts with testing behavior in age and vaccine groups (n_test_age_groups_int_vac).
+        # This merge is to be able to make groups with zeroes (.N ignores them)
+        # (n_test_age_groups_int_vac is loaded as part of init)
         t_pop_age_vac <- tmp[n_test_age_groups_int_vac, , on = c("age_groups", "vac_time")]
         t_pop_age_vac[is.na(N), N := 0]
 
         # Count population by municipality, age group and vaccinated / un-vaccinated
         tmp <- ibm[, .(pop = .N), keyby = .(municipality_id, age_groups, !(vac_time < breaks_vac[[1]] | is.na(vac_time)))]
 
+        # ensure that there are no missing groups with zero + naming
         tmp <- tmp[t_pop_age_vac, , on = c("age_groups", "vac_time")]
         names(tmp)[c(3, 5)] <- c("vac_status", "t_pop")
         names(n_test_age_vac)[1] <- "age_groups"
+        
+        # round numbers of test
         n_test_age_vac$age_groups <- as.integer(n_test_age_vac$age_groups)
 
+        # merge number of tests onto subpopulations
         tmp_test <- tmp[n_test_age_vac, , on = c("age_groups", "vac_status")]
 
+        # calculate test probability
         tmp_test[, p_test_corr :=  w_test / t_pop]
 
       }
 
-
-
-
+      # ensure that there are no missing groups with zero
       tmp2 <- data.table(municipality_id = u_municipality_ids,
                          p_test_fac = p_test_corr)
-
       tmp <- tmp_test[tmp2, , on = "municipality_id"]
 
+      # adjust test probability and ensure number of test match expected
       tmp[, p_test_corr :=  p_test_corr * p_test_fac]
       tmp[, p_test_corr := p_test_corr * sum(n_test_age_vac$w_test) / sum(p_test_corr * pop)]
 
       tmp[, vac_eff_dose := as.integer(vac_status)]
 
+      # tests must be distributed to both 1 and 2 dose vaccinated
       tmp2 <- copy(tmp[vac_eff_dose == 1L, ])
       tmp2[, vac_eff_dose := 2L]
 
       tmp <- rbindlist(list(tmp, tmp2))
 
+      # merge test probability onto individuals
       ibm[tmp, on = c("municipality_id", "age_groups", "vac_eff_dose"), p_test := p_test_corr]
 
     }
@@ -376,21 +399,22 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
 
     # Collect data on the number of test positives each day - by variant, age and vaccination status
-    for (k in 1:n_variants) {
+    for (variant_id in 1:n_variants) {
 
-      sim_test_positive[day, , k] <- ibm[
-        tt_symp == 0L & variant == k, .N, by = .(age_groups)
+      sim_test_positive[day, , variant_id] <- ibm[
+        tt_symp == 0L & variant == variant_id, .N, by = .(age_groups)
       ][.(age_groups = 1:9), on = "age_groups"]$N
 
-      sim_test_positive_vac[day, , k, 1] <- ibm[
-        tt_symp == 0L & variant == k & (vac_time < breaks_vac[1] | is.na(vac_time)),
+      sim_test_positive_vac[day, , variant_id, 1] <- ibm[
+        tt_symp == 0L & variant == variant_id & (vac_time < breaks_vac[1] | is.na(vac_time)),
         .N,
         by = .(age_groups)
       ][.(age_groups = 1:9), on = "age_groups"]$N
 
-      for (kk in 2:n_vac_groups_out) {
-        sim_test_positive_vac[day, , k, kk] <- ibm[
-          tt_symp == 0L & variant == k & vac_time >= breaks_vac[kk - 1] & vac_time < breaks_vac[kk], .N,
+      for (vac_id in 2:n_vac_groups_out) {
+        sim_test_positive_vac[day, , variant_id, vac_id] <- ibm[
+          tt_symp == 0L & variant == variant_id & vac_time >= breaks_vac[vac_id - 1] & vac_time < breaks_vac[vac_id],
+          .N,
           by = .(age_groups)
         ][.(age_groups = 1:9), on = "age_groups"]$N
       }
@@ -410,19 +434,23 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
 
     # Collect probability of hospitalisation each day - by variant, age and vaccination status
-    for (k in 1:n_variants) {
-      sim_hospital[day, , k] <- ibm[disease == 2L & tt == 0 & variant == k, sum(prob_hospital),
-                                    by = .(age_groups)][.(age_groups = 1:9), on = "age_groups"]$V1
-
-      sim_hospital_vac[day, , k, 1] <- ibm[
-        disease == 2L & tt == 0 & variant == k & (vac_time < breaks_vac[1] | is.na(vac_time)),
+    for (variant_id in 1:n_variants) {
+      sim_hospital[day, , variant_id] <- ibm[
+        disease == 2L & tt == 0 & variant == variant_id,
         sum(prob_hospital),
         by = .(age_groups)
       ][.(age_groups = 1:9), on = "age_groups"]$V1
 
-      for (kk in 2:n_vac_groups_out) {
-        sim_hospital_vac[day, , k, kk] <- ibm[
-          disease == 2L & tt == 0 & variant == k & vac_time >= breaks_vac[kk - 1] & vac_time < breaks_vac[kk],
+      sim_hospital_vac[day, , variant_id, 1] <- ibm[
+        disease == 2L & tt == 0 & variant == variant_id & (vac_time < breaks_vac[1] | is.na(vac_time)),
+        sum(prob_hospital),
+        by = .(age_groups)
+      ][.(age_groups = 1:9), on = "age_groups"]$V1
+
+      for (vac_id in 2:n_vac_groups_out) {
+        sim_hospital_vac[day, , variant_id, vac_id] <- ibm[
+          disease == 2L & tt == 0 & variant == variant_id &
+            vac_time >= breaks_vac[vac_id - 1] & vac_time < breaks_vac[vac_id],
           sum(prob_hospital),
           by = .(age_groups)
         ][.(age_groups = 1:9), on = "age_groups"]$V1
@@ -432,11 +460,13 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
 
 
-    # Recover from disease I -> R
+    # Recover from disease I -> R (disease states 2L -> 3L)
     ibm[disease == 2L & tt == 0, disease := 3L]
 
-    # When all age groups have same disease progression E-> I
-    # Also draw time to being symptomatic
+    # All age groups have same disease progression E-> I (disease states 1L -> 2L).
+    # Upon entering the I state, the time to recovery (tt) and time to symptoms (tt_symp) are drawn.
+    # Around 50% of infected people don't develop symptoms to the degree that they take a test.
+    # Therefore, we set tt_symp to NA for 50% of infected.
     ibm[
       disease == 1L & tt == 0,
       `:=`(
@@ -447,30 +477,45 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       )
     ]
 
-    # Do not double count people found in E states
+    # Persons already isolated (non_isolated == 0) are assumed to not test themselves again once they develop symptoms.
+    # We therefore set tt_symp to -1L to prevent such tests.
     ibm[disease == 2L & non_isolated == 0L & tt_symp > 0, tt_symp := -1L]
 
 
     # Implement the effects of local lockdown
-    if (activate_lockdown && day > day_lockdown_change[1]) {
+    if (activate_lockdown && day > day_limit_change[1]) {
 
       # Lockdown
-      i_lock <- sum(day > day_lockdown_change)
+      i_lock <- sum(day > day_limit_change)
 
-      # Parish
-      n_cases <- colSums(sim_parish[(day - 7):(day - 1), ], na.rm = TRUE)
+      # Compute and store the incidences for the local lockdown rules.
+      # 1) Compute 7-day incidences per 100k leading up to current day
+      # 2) Store the incidence in the history tracker
+      # 3) Compute maximum 7-day incidence over the last 7 days
+      # 4) Apply the current lockdown thresholds given this max incidence
 
-      inc_his_parish[day, ] <- (n_cases >= 20) * n_cases / pop_parish * 1e5
+      ## Parish
+      n_7d_cases_parish <- colSums(sim_parish[(day - 7):(day - 1), ], na.rm = TRUE)
+
+      # NOTE: for parishes, local lockdown required at least 20 positive cases in the parish.
+      # We therefore record incidences as 0 in these cases.
+      inc_his_parish[day, ] <- (n_7d_cases_parish >= 20) * n_7d_cases_parish / pop_parish * 1e5
 
       max_7d_inc <- apply(inc_his_parish[(day - 6):day, ], 2, max, na.rm = TRUE)
+
       lockdown_parish_fac <- lockdown_parish_fun[[i_lock]](max_7d_inc)
 
-      # Municipality
+
+      ## Municipality
       inc_his_municipality[day, ] <- sim_municipality[(day - 7):(day - 1), ] |>
         colSums(na.rm = TRUE) / pop_municipality * 1e5
+
       max_7d_inc <- apply(inc_his_municipality[(day - 6):day, ], 2, max, na.rm = TRUE)
+
       lockdown_municipality_fac <- lockdown_municipality_fun[[i_lock]](max_7d_inc)
 
+
+      # Transfer degree of local lockdown (lockdown_fac) to population tracker
       population[
         data.table(parish_id = u_parish_ids, lockdown_parish_fac),
         on = "parish_id",
@@ -480,32 +525,36 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       population[
         data.table(municipality_id = u_municipality_ids, lockdown_municipality_fac),
         on = "municipality_id",
-        kom_fac := lockdown_municipality_fac
+        municipality_fac := lockdown_municipality_fac
       ]
 
-      population[, lockdown_max := pmax(parish_fac, kom_fac)]
+      # an individual is affected by the biggest lockdown either in parish or municipality
+      population[, lockdown_max := pmax(parish_fac, municipality_fac)]
 
-      # Weighted sum as lockdown factor
-      population[, lockdown_fac := 1 * (1 - lockdown_max) + lockdown_factor * lockdown_max]
+      # local lockdown reduces activity, but proportionally more when national restriction are low
+      population[, lockdown_fac := 1 - lockdown_max * (1 - lockdown_factor) ]
 
       # Merging on ibm:
       ibm[population, on = c("parish_id", "municipality_id"), lockdown_fac := lockdown_fac]
 
     }
 
-    # Infected individuals with different strains
-    for (k in 1:n_variants) {
+    # Infected individuals with different variants
+    for (variant_id in 1:n_variants) {
 
-      # Calculate the infection pressure
+      # Calculate the number of effectively infectious persons per municipality + age_group
       inf_persons_municipality <- ibm[
-        disease == 2L & variant == k,
+        disease == 2L & variant == variant_id,
         .(inf_persons = sum(lockdown_fac * non_isolated * vac_fac_trans)),
         by = .(municipality_id, age_groups)
       ][all_pop_combi, on = c("municipality_id", "age_groups")]
 
       inf_persons_municipality[is.na(inf_persons), inf_persons := 0]
-      inf_persons_municipality[, inf_persons := inf_persons * v_rel_beta[k]]
+      
+      # accounting for variant transmissibility
+      inf_persons_municipality[, inf_persons := inf_persons * v_rel_beta[variant_id]]
 
+      # Calculate the infection pressure by multiplying betas onto inf_persons
       inf_pressure <- inf_persons_municipality[
         , current_beta %*% inf_persons, by = .(municipality_id)
       ][, age_groups := rep(1:9, n_municipality)]
@@ -513,10 +562,14 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
       names(inf_pressure)[2] <- "r_inf_municipality"
 
       inf_pressure <- dt_pop_municipality[inf_pressure, , on = "municipality_id"]
+      
+      # convert to true rate by adjusting for population size
       inf_pressure[, r_inf_municipality := r_inf_municipality / pop]
 
+      # calculate effectively infectious persons nationwide
       inf_persons <- inf_persons_municipality[, .(inf_persons = sum(inf_persons)), by = .(age_groups)]
 
+      # calculate nationwide infection pressure
       tmp <- inf_persons$inf_persons
       inf_pressure_dk <- inf_persons[
         ,
@@ -524,19 +577,22 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
         by = .(age_groups)
       ]
 
+      # weigth nationwide and municipal infection pressure together
+      # each age_groups and municipality now have a risk of infection
       inf_pressure_total <- inf_pressure_dk[inf_pressure, , on = "age_groups"]
       inf_pressure_total[
         ,
         prob_inf := (1 - exp(-(1 - w_municipality) * r_inf_denmark - w_municipality * r_inf_municipality))
       ]
 
+      # TODO replace indices c(1, 3, 6) with names
       tmp2 <- inf_pressure_total[, c(1, 3, 6)]
       names(tmp2)[3] <- "prob_inf_new"
 
-      # Evaluate probability of infection
+      # merge probability of infection to the individual
+      # NB for future use - should maybe include a check on reasonable values [0;1]
       ibm[tmp2, on = c("municipality_id", "age_groups"), prob_inf := prob_inf_new]
 
-      # NB for future use - should maybe include a check on reasonable values [0;1]
       ibm[, prob_inf := prob_inf * vac_fac * rel_risk_parish * lockdown_fac]
 
       # Randomly infect some individuals based on probability
@@ -544,7 +600,7 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
           `:=`(disease = 1L,
                tt = pmax(1L, round(rgamma(n = .N, shape = v_shape_e[age_groups],
                                           scale = v_scale_e[age_groups]))),
-               variant = k)]
+               variant = variant_id)]
     }
 
     # Count down to change in disease state or symptoms
@@ -556,12 +612,14 @@ sim_list <- foreach(run_this = (first_run - 1 + 1:n_runs), .packages = "data.tab
 
 
     # Implement the effect of vaccination
-    for (k in 1:n__vac){
+    for (vac_id in 1:n_vac) {
 
-      ibm[vac_type == k & vac_time == v_vac_tt_effect[k],
-          `:=`(vacF_ec = delta_vac_effect[k],
-               prob_hospital = delta_red_hospital_risk * prob_hospital,
-               vac_fac_trans = red_transmission_vac)]
+      # this is binary vaccination effect, works for alpha variant, from delta should be different
+      ibm[vac_type == vac_id & vac_time == v_vac_tt_effect[vac_id],
+          ':='(vac_fac = sample( c(1,0) , .N , prob = 
+                                  c(1-v_vac_effect[vac_id],v_vac_effect[vac_id]),replace=TRUE),
+               prob_hospital = red_hospital_risk * prob_hospital,
+               vac_fac_trans = red_transmission_vac)] 
 
     }
 
