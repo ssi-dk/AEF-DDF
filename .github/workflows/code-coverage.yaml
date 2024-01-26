@@ -26,10 +26,12 @@ jobs:
       matrix:
         config:
           - backend: SQLite
+            id: sqlite
             args: 'list(dbname = file.path(tempdir(), "SQLite.SQLite"))'
             schemas: ''
 
           - backend: SQLite - w. schemas
+            id: sqlite-schemas
             args: 'list(dbname = file.path(tempdir(), "SQLite_schemas.SQLite"))'
             schemas: ${{ inputs.schemas }}
 
@@ -93,7 +95,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-test-failures
+          name: coverage-test-failures-${{ matrix.config.id }}
           path: ${{ runner.temp }}/package
 
 
@@ -173,7 +175,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-test-failures
+          name: coverage-test-failures-postgres
           path: ${{ runner.temp }}/package
 
 
@@ -257,5 +259,5 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-test-failures
+          name: coverage-test-failures-mssql
           path: ${{ runner.temp }}/package
