@@ -104,6 +104,12 @@ ssi-dk/SCDB:
       repo:
         name: SCDB
 
+  - source: templates/feature_request.md
+    dest: .github/ISSUE_TEMPLATE/feature_request.md
+    template:
+      repo:
+        name: SCDB
+
 
 ssi-dk/diseasy:
   - source: templates/_pkgdown.yml
@@ -118,6 +124,12 @@ ssi-dk/diseasy:
       repo:
         name: diseasy
 
+  - source: templates/feature_request.md
+    dest: .github/ISSUE_TEMPLATE/feature_request.md
+    template:
+      repo:
+        name: diseasy
+
 
 ssi-dk/diseasystore:
   - source: templates/_pkgdown.yml
@@ -128,6 +140,12 @@ ssi-dk/diseasystore:
 
   - source: templates/bug_report.md
     dest: .github/ISSUE_TEMPLATE/bug_report.md
+    template:
+      repo:
+        name: diseasystore
+
+  - source: templates/feature_request.md
+    dest: .github/ISSUE_TEMPLATE/feature_request.md
     template:
       repo:
         name: diseasystore
