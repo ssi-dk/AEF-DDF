@@ -24,7 +24,7 @@ jobs:
 
 
   sync-reverse:
-    if: github.repository != "ssi-dk/AEF-DDF"
+    if: ${{ github.repository != 'ssi-dk/AEF-DDF' }}
     name: 🔄 Synchronise AEF-DDF files back to AEF-DDF
     runs-on: ubuntu-latest
     permissions: write-all
