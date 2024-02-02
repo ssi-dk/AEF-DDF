@@ -21,3 +21,21 @@ jobs:
           COMMIT_PREFIX: "chore: "
           PR_BODY: Automatically synchronise AEF-DDF files between repositories
           COMMIT_EACH_FILE: false
+
+
+  sync-reverse:
+    if: github.repository != "ssi-dk/AEF-DDF"
+    name: 🔄 Synchronise AEF-DDF files back to AEF-DDF
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@master
+      - name: Run GitHub File Sync
+        uses: RasmusSkytte/repo-file-sync-action@master
+        with:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          CONFIG_PATH: .github/sync_reverse.yaml
+          COMMIT_PREFIX: "chore: "
+          PR_BODY: Automatically synchronise AEF-DDF files between repositories
+          COMMIT_EACH_FILE: false

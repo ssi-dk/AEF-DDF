@@ -1,4 +1,36 @@
 group:
+  # All repos
+  - repos: |
+      ssi-dk/SCDB
+      ssi-dk/diseasystore
+      ssi-dk/diseasy
+
+    files:
+    - source: templates/README_template.Rmd
+      dest: .github/templates/README_template.Rmd
+
+    - source: templates/PULL_REQUEST_TEMPLATE.md
+      dest: .github/PULL_REQUEST_TEMPLATE.md
+
+    - source: testthat/test-0_rd_files.R
+      dest: tests/testthat/test-0_rd_files.R
+
+    # Lintr related files
+    - source: linting/.lintr
+      dest: .lintr
+    - source: linting/0_linters.R
+      dest: R/0_linters.R
+    - source: linting/test-0_linters.R
+      dest: tests/testthat/test-0_linters.R
+
+    # File syncing
+    - source: .github/workflows/synchronise-files.yaml
+      dest: .github/workflows/synchronise-files.yaml
+
+    - source: .github/sync_reverse.yaml
+      dest: .github/sync_reverse.yaml
+
+
   # SCDB
   - repos: |
       ssi-dk/SCDB
@@ -57,3 +89,45 @@ group:
             "SQLite" = list(dbname = file.path(tempdir(), "SQLite.SQLite"))
         config:
           autoescape: false
+
+
+ssi-dk/SCDB:
+  - source: templates/_pkgdown.yml
+    dest: _pkgdown.yml
+    template:
+      repo:
+        name: SCDB
+
+  - source: templates/bug_report.md
+    dest: .github/ISSUE_TEMPLATE/bug_report.md
+    template:
+      repo:
+        name: SCDB
+
+
+ssi-dk/diseasy:
+  - source: templates/_pkgdown.yml
+    dest: _pkgdown.yml
+    template:
+      repo:
+        name: diseasy
+
+  - source: templates/bug_report.md
+    dest: .github/ISSUE_TEMPLATE/bug_report.md
+    template:
+      repo:
+        name: diseasy
+
+
+ssi-dk/diseasystore:
+  - source: templates/_pkgdown.yml
+    dest: _pkgdown.yml
+    template:
+      repo:
+        name: diseasystore
+
+  - source: templates/bug_report.md
+    dest: .github/ISSUE_TEMPLATE/bug_report.md
+    template:
+      repo:
+        name: diseasystore
