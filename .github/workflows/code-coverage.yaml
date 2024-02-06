@@ -178,6 +178,18 @@ jobs:
           name: coverage-test-failures-postgres
           path: ${{ runner.temp }}/package
 
+      - name: Collect docker logs
+        uses: jwalton/gh-docker-logs@v1
+        with:
+          dest: './logs-docs'
+
+      - name: Check docker logs for PostgreSQL errors
+        if: always()
+        run: |
+          ## --------------------------------------------------------------------
+          logs=$(find ${{ runner.workspace }}/logs-docs/ -name 'postgres*.log')
+
+          cat $logs
 
   code-coverage-mssql:
     name: 🧪 Tests (SQL Server 2019)
