@@ -190,7 +190,7 @@ jobs:
           ## --------------------------------------------------------------------
           log=$(find ./logs-docs/ -name 'postgres*.log')
 
-          awk '/ERROR:|STATEMENT:/{flag=1;next}/LOG:|^[^ ]|^ $/{flag=0}flag' $log
+          awk '/ERROR:|STATEMENT:/{flag=1;next}/LOG:|^[^ ]|^ $/{flag=0}flag && {print $0}' $log
 
           # Throw errors on ERRORs
           grep -qv "ERROR" $log || { echo "PostgreSQL backend threw ERRORs"; exit 1; }
