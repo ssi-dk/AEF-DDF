@@ -184,16 +184,16 @@ jobs:
         with:
           dest: './logs-docs'
 
-      - name: Check docker logs for PostgreSQL errors
+      - name: Check docker logs for PostgreSQL ERRORs
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          logs=$(find ${{ runner.workspace }}/logs-docs/ -name 'postgres*.log')
+          log=$(find ${{ runner.workspace }}/logs-docs/ -name 'postgres*.log')
 
-          cat $logs
+          awk '/ERROR:|STATEMENT:/{flag=1;next}/LOG:|^[^ ]|^ $/{flag=0}flag' $log
 
           # Throw errors on ERRORs
-          grep -qv "ERROR" $logs || { echo "PostgreSQL backend threw ERRORs"; exit 1; }
+          grep -qv "ERROR" $log || { echo "PostgreSQL backend threw ERRORs"; exit 1; }
 
   code-coverage-mssql:
     name: 🧪 Tests (SQL Server 2019)
