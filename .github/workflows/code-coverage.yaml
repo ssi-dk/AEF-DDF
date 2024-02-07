@@ -191,6 +191,9 @@ jobs:
 
           cat $logs
 
+          # Throw errors on ERRORs
+          grep -qv "ERROR" $logs || { echo "PostgreSQL backend threw ERRORs"; exit 1; }
+
   code-coverage-mssql:
     name: 🧪 Tests (SQL Server 2019)
     runs-on: ubuntu-latest
