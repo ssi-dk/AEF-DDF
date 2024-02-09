@@ -215,7 +215,7 @@ jobs:
           "MSSQL": {
             "driver": "ODBC Driver 17 for SQL Server",
             "server": "localhost",
-            "database": "tempdb",
+            "database": "master",
             "UID": "SA",
             "PWD": "dbatools.I0"
           }
@@ -232,16 +232,20 @@ jobs:
         if: ${{ inputs.schemas != 'none' }}
         run: |
           set -o xtrace
+
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -Q "CREATE DATABASE master;"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -Q "ALTER LOGIN SA WITH DEFAULT_DATABASE = master;"
+
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
-            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "CREATE SCHEMA [$schema];"
-            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "GO"
+            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "CREATE SCHEMA [$schema];"
+            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "GO"
           done
 
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "SELECT * FROM sys.schemas"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "SELECT * FROM sys.schemas"
 
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = 'test'"
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d tempdb -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = 'test.one'"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = 'test'"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = 'test.one'"
 
       - uses: actions/checkout@v4
 
