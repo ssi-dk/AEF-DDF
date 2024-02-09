@@ -233,7 +233,6 @@ jobs:
         run: |
           set -o xtrace
 
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -Q "CREATE DATABASE master;"
           sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -Q "ALTER LOGIN SA WITH DEFAULT_DATABASE = master;"
 
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
