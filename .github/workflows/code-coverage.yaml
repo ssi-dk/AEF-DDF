@@ -18,7 +18,7 @@ on:
 jobs:
   code-coverage-sqlite:
     if: ${{ inputs.run && !contains(inputs.backend_exclude, 'sqlite')}}
-    name: 🧪 Tests (${{ matrix.config.backend }})
+    name: "🧪 Tests: ${{ matrix.config.backend }}"
     runs-on: ubuntu-latest
 
     strategy:
@@ -106,7 +106,7 @@ jobs:
 
 
   code-coverage-postgres:
-    name: 🧪 Tests (PostgreSQL)
+    name: "🧪 Tests: PostgreSQL"
     runs-on: ubuntu-latest
     if: ${{ inputs.run && !contains(inputs.backend_exclude, 'postgres')}}
 
@@ -212,7 +212,7 @@ jobs:
           fi
 
   code-coverage-mssql:
-    name: 🧪 Tests (SQL Server 2019)
+    name: "🧪 Tests: SQL Server 2019"
     runs-on: ubuntu-latest
     if: ${{ inputs.run && !contains(inputs.backend_exclude, 'mssql')}}
 
