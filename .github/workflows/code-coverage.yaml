@@ -89,6 +89,12 @@ jobs:
           # Throw errors on failures or warnings
           grep -q "FAIL 0" $TESTTHAT_OUT || { echo "Test failures found"; exit 1; }
           grep -q "WARN 0" $TESTTHAT_OUT || { echo "Test warnings found"; exit 1; }
+
+          # Throw error if error: are found
+          if grep -q "Error:" $TESTTHAT_OUT; then
+            echo "Error: found"
+            exit 1
+          fi
         shell: bash
 
       - name: Upload test results
@@ -169,6 +175,11 @@ jobs:
           grep -q "FAIL 0" $TESTTHAT_OUT || { echo "Test failures found"; exit 1; }
           grep -q "WARN 0" $TESTTHAT_OUT || { echo "Test warnings found"; exit 1; }
 
+          # Throw error if error: are found
+          if grep -q "Error:" $TESTTHAT_OUT; then
+            echo "Error: found"
+            exit 1
+          fi
         shell: bash
 
       - name: Upload test results
@@ -278,6 +289,12 @@ jobs:
           # Throw errors on failures or warnings
           grep -q "FAIL 0" $TESTTHAT_OUT || { echo "Test failures found"; exit 1; }
           grep -q "WARN 0" $TESTTHAT_OUT || { echo "Test warnings found"; exit 1; }
+
+          # Throw error if error: are found
+          if grep -q "Error:" $TESTTHAT_OUT; then
+            echo "Error: found"
+            exit 1
+          fi
         shell: bash
 
       - name: Upload test results
