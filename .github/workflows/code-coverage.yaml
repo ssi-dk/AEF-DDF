@@ -267,7 +267,7 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
-          extra-packages: any::covr
+          extra-packages: any::covr, any::odbc
           needs: coverage
 
       - name: Test coverage
