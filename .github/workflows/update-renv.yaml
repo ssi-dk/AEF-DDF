@@ -12,13 +12,12 @@ on:
         required: true
 
 jobs:
-  lint:
+  update-renv:
     name: 🛠️ Store dependency versions
     if: ${{ inputs.run }}
     runs-on: ubuntu-latest
-
     env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PAT: ${{ secrets.GH_PAT }}
 
     steps:
       - uses: actions/checkout@v4

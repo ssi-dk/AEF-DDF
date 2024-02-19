@@ -13,6 +13,8 @@ jobs:
     if: ${{ inputs.run }}
     name: 📖 README
     runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GH_PAT }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4

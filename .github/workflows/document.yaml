@@ -18,7 +18,7 @@ jobs:
     name: 📖 Document
     runs-on: ubuntu-latest
     env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PAT: ${{ secrets.GH_PAT }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4

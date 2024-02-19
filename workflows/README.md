@@ -4,6 +4,8 @@ R-package.
 These workflows calls the reusable workflows (which are stored in this repo' `.github/workflows` folder).
 
 Below is an overview of the workflows available to you.
+
+
 ## all-workflows.yaml
 This workflow calls is a convenience wrapper for all the individual workflows stored in this repo.
 If you do not want granular control of the workflows being run, you can copy this single file to your repo and let us
@@ -19,6 +21,7 @@ workflows.
 | `skip`          | Workflows to skip (optional)            | ''          | lint,document |
 | `main_branches` | Main branches to trigger on (optional). | main,master | main,develop  |
 
+
 ## lint.yaml
 #### Trigger
 Changes to any file in the `R/` or `man/` folders.
@@ -33,6 +36,7 @@ Click on the workflow and look for the "Lint" tab to see the detected issues.
 
 #### Exit status
 If any lints are produced, the workflow will give an error.
+
 
 ## R-CMD-check.yaml
 #### Trigger
@@ -62,6 +66,7 @@ Click on the workflow and look for the "Run r-lib/actions/check-r-package@v2" ta
 #### Exit status
 If any issues are found, the workflow will give an error.
 
+
 ## code-coverage.yaml
 #### Trigger
 Pushes or pull requests to the main branch if there are changes to the `DESCRIPTION`, or any file in the `R/` or
@@ -88,6 +93,7 @@ This enables you to add the code coverage badge to your `README.md`.
 #### Exit status
 If any tests fail to run, the workflow will give an error.
 
+
 ## document.yaml
 #### Trigger
 Changes to any file in the `R/` folder.
@@ -97,6 +103,12 @@ Renders the `roxygen` documentation for your package.
 
 #### Outcome
 If this generate changes the `.Rd` files, it will commit the updated documentation to the repository.
+
+> [!IMPORTANT]
+> To use this workflow, you need to have configure GitHub
+> [secret](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) called "GH_PAT" that
+> contains a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
+> which has write access to the repository.
 
 
 ## pkgdown.yaml
@@ -123,6 +135,12 @@ Knits `README.md` from `README.Rmd`.
 
 #### Outcome
 If this generates changes to `README.md`, it will commit the updated README to the repository.
+
+> [!IMPORTANT]
+> To use this workflow, you need to have configure GitHub
+> [secret](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) called "GH_PAT" that
+> contains a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
+> which has write access to the repository.
 
 
 ## spell-checker.yaml
@@ -151,3 +169,9 @@ Runs `renv::snapshot()` on the code base and commits results.
 
 #### Outcome
 The function will update the `renv.lock` file of the repository match the testing environment.
+
+> [!IMPORTANT]
+> To use this workflow, you need to have configure GitHub
+> [secret](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) called "GH_PAT" that
+> contains a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
+> which has write access to the repository.
