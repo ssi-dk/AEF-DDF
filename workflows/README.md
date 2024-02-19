@@ -64,7 +64,8 @@ If any issues are found, the workflow will give an error.
 
 ## code-coverage.yaml
 #### Trigger
-Pushes or pull requests to the main branch if there are changes to any file in the `R/` or `tests/` folders.
+Pushes or pull requests to the main branch if there are changes to the `DESCRIPTION`, or any file in the `R/` or
+`tests/` folders.
 
 #### Function
 Determine the degree of [code coverage](https://en.wikipedia.org/wiki/Code_coverage) in your code base.
@@ -121,7 +122,7 @@ Changes to `README.Rmd`.
 Knits `README.md` from `README.Rmd`.
 
 #### Outcome
-If this generates changes to `README.md`, it it will commit the updated README to the repository.
+If this generates changes to `README.md`, it will commit the updated README to the repository.
 
 
 ## spell-checker.yaml
@@ -138,3 +139,15 @@ Click on the workflow and look for the "Run Spelling Check test" tab to see the 
 
 #### Exit status
 If any spelling mistakes are found, the workflow will give an error.
+
+
+## update-renv.yaml
+#### Trigger
+Pushes or pull requests to the main branch if there are changes to the `DESCRIPTION`, or any file in the `R/` or
+`tests/` folders.
+
+#### Function
+Runs `renv::snapshot()` on the code base and commits results.
+
+#### Outcome
+The function will update the `renv.lock` file of the repository match the testing environment.

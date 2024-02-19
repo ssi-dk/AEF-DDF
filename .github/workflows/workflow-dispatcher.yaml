@@ -220,3 +220,19 @@ jobs:
     concurrency:
       group: pkgdown-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
+
+  update-renv:
+    needs: trigger
+    uses: ./.github/workflows/update-renv.yaml
+    with:
+      cache_version: ${{ needs.trigger.outputs.cache_version }}
+      run: ${{ !contains(inputs.skip, 'update-renv') && (
+        inputs.event_name == 'workflow_dispatch' || (
+        needs.trigger.outputs.main_branch_affected == 'true' && (
+        needs.trigger.outputs.R_files_changed == 'true' ||
+        needs.trigger.outputs.test_files_changed == 'true' ||
+        needs.trigger.outputs.description_changed == 'true'))) }}
+      branch_name: ${{ needs.trigger.outputs.branch_name }}
+    secrets: inherit
+    concurrency:
+      group: push-${{ needs.trigger.outputs.branch_name }}
