@@ -16,8 +16,6 @@ jobs:
     name: 🛠️ Store dependency versions
     if: ${{ inputs.run }}
     runs-on: ubuntu-latest
-    env:
-      GH_PAT: ${{ secrets.GH_PAT }}
 
     steps:
       - name: Checkout repo
@@ -48,4 +46,5 @@ jobs:
           git switch ${{ inputs.branch_name }}
           git add pak.lock
           git commit -m "chore: update pak.lock" || echo "No changes to commit"
-          git push
+          git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
+          git push origin ${{ inputs.branch_name }}
