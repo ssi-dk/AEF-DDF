@@ -159,16 +159,16 @@ Click on the workflow and look for the "Run Spelling Check test" tab to see the 
 If any spelling mistakes are found, the workflow will give an error.
 
 
-## update-renv.yaml
+## update-lockfile.yaml
 #### Trigger
 Pushes or pull requests to the main branch if there are changes to the `DESCRIPTION`, or any file in the `R/` or
 `tests/` folders.
 
 #### Function
-Runs `renv::snapshot()` on the code base and commits results.
+Runs `pak::lockfile_create()` on the code base and commits results.
 
 #### Outcome
-The function will update the `renv.lock` file of the repository match the testing environment.
+The function will update the `pkg.lock` file of the repository match the testing environment.
 
 > [!IMPORTANT]
 > To use this workflow, you need to have configure GitHub

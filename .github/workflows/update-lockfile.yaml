@@ -12,7 +12,7 @@ on:
         required: true
 
 jobs:
-  update-renv:
+  update-lockfile:
     name: 🛠️ Store dependency versions
     if: ${{ inputs.run }}
     runs-on: ubuntu-latest
@@ -29,10 +29,10 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
-          extra-packages: any::renv
+          extra-packages: any::pak
 
-      - name: Update the renv.lock file
-        run: renv::snapshot(prompt = FALSE)
+      - name: Update the pkg.lock file
+        run: pak::lockfile_create(".")
         shell: Rscript {0}
 
       - name: Commit and push changes
@@ -41,5 +41,5 @@ jobs:
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git switch ${{ inputs.branch_name }}
           git add man/\* NAMESPACE DESCRIPTION
-          git commit -m "chore: update renv.lock" || echo "No changes to commit"
+          git commit -m "chore: update pkg.lock" || echo "No changes to commit"
           git push

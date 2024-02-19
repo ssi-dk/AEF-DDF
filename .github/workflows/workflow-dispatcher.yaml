@@ -221,12 +221,12 @@ jobs:
       group: pkgdown-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
 
-  update-renv:
+  update-lockfile:
     needs: trigger
-    uses: ./.github/workflows/update-renv.yaml
+    uses: ./.github/workflows/update-lockfile.yaml
     with:
       cache_version: ${{ needs.trigger.outputs.cache_version }}
-      run: ${{ !contains(inputs.skip, 'update-renv') && (
+      run: ${{ !contains(inputs.skip, 'update-lockfile') && (
         inputs.event_name == 'workflow_dispatch' || (
         needs.trigger.outputs.main_branch_affected == 'true' && (
         needs.trigger.outputs.R_files_changed == 'true' ||
