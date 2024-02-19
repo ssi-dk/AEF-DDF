@@ -168,7 +168,7 @@ Pushes or pull requests to the main branch if there are changes to the `DESCRIPT
 Runs `pak::lockfile_create()` on the code base and commits results.
 
 #### Outcome
-The function will update the `pkg.lock` file of the repository match the testing environment.
+The function will update the `pak.lock` file of the repository match the testing environment.
 
 > [!IMPORTANT]
 > To use this workflow, you need to have configure GitHub
