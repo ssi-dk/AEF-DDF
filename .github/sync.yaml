@@ -92,11 +92,6 @@ group:
 
 
 ssi-dk/SCDB:
-  - source: templates/_pkgdown.yml
-    dest: _pkgdown.yml
-    template:
-      repo:
-        name: SCDB
 
   - source: templates/bug_report.md
     dest: .github/ISSUE_TEMPLATE/bug_report.md
@@ -112,12 +107,6 @@ ssi-dk/SCDB:
 
 
 ssi-dk/diseasy:
-  - source: templates/_pkgdown.yml
-    dest: _pkgdown.yml
-    template:
-      repo:
-        name: diseasy
-
   - source: templates/bug_report.md
     dest: .github/ISSUE_TEMPLATE/bug_report.md
     template:
@@ -132,12 +121,6 @@ ssi-dk/diseasy:
 
 
 ssi-dk/diseasystore:
-  - source: templates/_pkgdown.yml
-    dest: _pkgdown.yml
-    template:
-      repo:
-        name: diseasystore
-
   - source: templates/bug_report.md
     dest: .github/ISSUE_TEMPLATE/bug_report.md
     template:
