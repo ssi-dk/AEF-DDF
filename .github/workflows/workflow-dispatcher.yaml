@@ -117,6 +117,7 @@ jobs:
           echo "branch name: ${{ steps.branch_name.outputs.branch_name }}"
           echo "cache_version: ${{ steps.cache_version.outputs.cache_version }}"
 
+
   lint:
     needs: trigger
     uses: ./.github/workflows/lint.yaml
@@ -160,6 +161,7 @@ jobs:
       group: R-CMD-check-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
 
+
   code-coverage:
     needs: trigger
     uses: ./.github/workflows/code-coverage.yaml
@@ -178,6 +180,7 @@ jobs:
       group: code-coverage-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
 
+
   document:
     needs: trigger
     uses: ./.github/workflows/document.yaml
@@ -188,8 +191,7 @@ jobs:
         needs.trigger.outputs.description_changed == 'true')) }}
       branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
-    concurrency:
-      group: push-${{ needs.trigger.outputs.branch_name }}
+
 
   render-readme:
     needs: trigger
@@ -200,8 +202,7 @@ jobs:
         needs.trigger.outputs.readme_files_changed == 'true') }}
       branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
-    concurrency:
-      group: push-${{ needs.trigger.outputs.branch_name }}
+
 
   pkgdown:
     needs: trigger
@@ -221,6 +222,7 @@ jobs:
       group: pkgdown-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
 
+
   update-lockfile:
     needs: trigger
     uses: ./.github/workflows/update-lockfile.yaml
@@ -234,5 +236,3 @@ jobs:
         needs.trigger.outputs.description_changed == 'true'))) }}
       branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
-    concurrency:
-      group: push-${{ needs.trigger.outputs.branch_name }}
