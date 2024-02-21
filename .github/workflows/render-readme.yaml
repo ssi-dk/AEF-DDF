@@ -62,6 +62,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git commit README.md -m 'docs(README): Re-build README.Rmd' || echo "No changes to commit"
           git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
+          git pull --rebase origin ${{ inputs.branch_name }}
+          git commit README.md -m 'docs(README): Re-build README.Rmd' || echo "No changes to commit"
           git push origin ${{ inputs.branch_name }}
