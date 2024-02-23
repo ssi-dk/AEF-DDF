@@ -66,7 +66,7 @@ jobs:
 
           # Modify the index.html file to fix the formatting
           # Using sed, we add missing parentheses to the function names
-          sed -i 's/<code><a href="\(\w\+\)\.html">\1<\/a><\/code>/<code><a href="\1.html">\1()<\/a><\/code>/g' docs/reference/index.html
+          sed -i 's/<code><a href="\(\w\+\)\.html">\(\w\+\)<\/a><\/code>/<code><a href="\1.html">\2()<\/a><\/code>/g' docs/reference/index.html
 
 
           # We also remove the surplus entry for the classes with spaces
