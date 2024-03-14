@@ -39,6 +39,7 @@ jobs:
       BACKEND: ${{ matrix.config.backend }}
       BACKEND_DRV: RSQLite::SQLite
       BACKEND_ARGS: ${{ matrix.config.args }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -114,6 +115,7 @@ jobs:
       BACKEND: DuckDB
       BACKEND_DRV: duckdb::duckdb
       BACKEND_ARGS: 'list(dbdir = file.path(tempdir(), "DuckDB.duckdb"))'
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -199,6 +201,7 @@ jobs:
       BACKEND: PostgreSQL
       BACKEND_DRV: RPostgres::Postgres
       BACKEND_ARGS: ''
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
       PGHOST: localhost
       PGPORT: 5432
@@ -295,6 +298,7 @@ jobs:
       BACKEND: MSSQL
       BACKEND_DRV: odbc::odbc
       BACKEND_ARGS: ''
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
       CONN_ARGS_JSON: >
         {
