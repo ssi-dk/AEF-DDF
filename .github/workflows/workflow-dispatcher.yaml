@@ -149,7 +149,8 @@ jobs:
       rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       run: ${{ !contains(inputs.skip, 'R-CMD-check') && (
-        inputs.event_name == 'workflow_dispatch' || (
+        inputs.event_name == 'workflow_dispatch' ||
+        inputs.event_name == 'release' || (
         needs.trigger.outputs.main_branch_affected == 'true' && (
         needs.trigger.outputs.R_files_changed == 'true' ||
         needs.trigger.outputs.test_files_changed == 'true' ||
@@ -168,7 +169,8 @@ jobs:
     with:
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       run: ${{ !contains(inputs.skip, 'code-coverage') && (
-        inputs.event_name == 'workflow_dispatch' || (
+        inputs.event_name == 'workflow_dispatch' ||
+        inputs.event_name == 'release' || (
         needs.trigger.outputs.main_branch_affected == 'true' && (
         needs.trigger.outputs.R_files_changed == 'true' ||
         needs.trigger.outputs.test_files_changed == 'true' ||
@@ -186,7 +188,8 @@ jobs:
     uses: ./.github/workflows/document.yaml
     with:
       run: ${{ !contains(inputs.skip, 'document') && (
-        inputs.event_name == 'workflow_dispatch' || (
+        inputs.event_name == 'workflow_dispatch' ||
+        inputs.event_name != 'release' && (
         needs.trigger.outputs.R_files_changed == 'true' ||
         needs.trigger.outputs.description_changed == 'true')) }}
       branch_name: ${{ needs.trigger.outputs.branch_name }}
@@ -201,6 +204,7 @@ jobs:
     with:
       run: ${{ !contains(inputs.skip, 'render-readme') && (
         inputs.event_name == 'workflow_dispatch' ||
+        inputs.event_name != 'release' &&
         needs.trigger.outputs.readme_files_changed == 'true') }}
       branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
@@ -215,8 +219,9 @@ jobs:
       event_name: ${{ inputs.event_name }}
       run_id: ${{ inputs.run_id }}
       run: ${{ !contains(inputs.skip, 'pkgdown') && (
-        inputs.event_name == 'workflow_dispatch' || (
-        (needs.trigger.outputs.main_branch_affected == 'true' || inputs.event_name == 'release') && (
+        inputs.event_name == 'workflow_dispatch' ||
+        inputs.event_name == 'release' || (
+        (needs.trigger.outputs.main_branch_affected == 'true') && (
         needs.trigger.outputs.R_files_changed == 'true' ||
         needs.trigger.outputs.description_changed == 'true' ||
         needs.trigger.outputs.man_files_changed == 'true' ||
