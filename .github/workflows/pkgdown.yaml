@@ -96,10 +96,9 @@ jobs:
 
           # Check if the version is less than 0.1
           if [ $(echo "$version < 0.1" | bc) -eq 1 ]; then
-            echo "pre_release=true" >> $GITHUB_ENV
-            echo "::set-output name=pre_release::true"
+            echo "pre_release=true" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=pre_release::false"
+            echo "pre_release=false" >> $GITHUB_OUTPUT
           fi
 
   deploy:
