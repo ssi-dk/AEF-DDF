@@ -96,8 +96,11 @@ jobs:
           # Get the version from the DESCRIPTION file
           version=$(awk -F': ' '/^Version: / {print $2}' DESCRIPTION)
 
+          # Split the version into its components
+          IFS='.' read -ra version_parts <<< "$version"
+
           # Check if the version is less than 0.1
-          if [ $(echo "$version < 0.1" | bc) -eq 1 ]; then
+          if [[ ${version_parts[0]} -eq 0 && ${version_parts[1]} -lt 1 ]]; then
             echo "pre_release=true" >> $GITHUB_OUTPUT
           else
             echo "pre_release=false" >> $GITHUB_OUTPUT
