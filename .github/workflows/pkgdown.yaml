@@ -91,6 +91,8 @@ jobs:
       - name: Determine if pre-release
         id: determine-pre-release
         run: |
+          set -o xtrace
+
           # Get the version from the DESCRIPTION file
           version=$(awk -F': ' '/^Version: / {print $2}' DESCRIPTION)
 
