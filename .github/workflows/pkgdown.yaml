@@ -78,11 +78,35 @@ jobs:
           name: pkgdown
           path: docs/
 
+  # Determine if the R-package version is before first release ( < 0.1 )
+  determine-pre-release:
+    name: "🔍 Determine if pre-release"
+    runs-on: ubuntu-latest
+    if: ${{ inputs.run }}
+    outputs:
+      pre_release: ${{ steps.determine-pre-release.outputs.pre_release }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine if pre-release
+        id: determine-pre-release
+        run: |
+          # Get the version from the DESCRIPTION file
+          version=$(awk -F': ' '/^Version: / {print $2}' DESCRIPTION)
+
+          # Check if the version is less than 0.1
+          if [ $(echo "$version < 0.1" | bc) -eq 1 ]; then
+            echo "pre_release=true" >> $GITHUB_ENV
+            echo "::set-output name=pre_release::true"
+          else
+            echo "::set-output name=pre_release::false"
+          fi
+
   deploy:
     name: "🚀 pkgdown: Deploy"
     runs-on: ubuntu-latest
-    if: ${{ inputs.run && inputs.event_name == 'release' }}
-    needs: [cleanup, pkgdown-build]
+    if: ${{ inputs.run && (inputs.event_name == 'release' || needs.determine-pre-release.outputs.pre_release == 'true') }}
+    needs: [cleanup, pkgdown-build, determine-pre-release]
     steps:
       - uses: actions/checkout@v4
 
