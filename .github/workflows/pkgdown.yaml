@@ -80,7 +80,7 @@ jobs:
 
   # Determine if the R-package version is before first release ( < 0.1 )
   determine-pre-release:
-    name: "🔍 Determine if pre-release"
+    name: "🔍 pkgdown: Determine if pre-release"
     runs-on: ubuntu-latest
     if: ${{ inputs.run }}
     outputs:
