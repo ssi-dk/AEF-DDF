@@ -56,6 +56,8 @@ jobs:
         with:
           upload-snapshots: true
           args: ${{ inputs.rcmdcheck_args }}
+          error-on: '"note"'
+
 
   R-CMD-check-hard:
     if: ${{ inputs.run }}
@@ -93,6 +95,7 @@ jobs:
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
+          error-on: '"note"'
 
 
   R-CMD-check-devel:
@@ -126,3 +129,4 @@ jobs:
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
+          error-on: '"note"'
