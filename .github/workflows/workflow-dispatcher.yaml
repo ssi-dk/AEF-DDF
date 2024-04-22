@@ -192,7 +192,7 @@ jobs:
     secrets: inherit
     concurrency:
       group: R-CMD-check-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
+      cancel-in-progress: ${{ needs.trigger.outputs.branch_name != "main" }}
 
 
   code-coverage:
@@ -206,7 +206,7 @@ jobs:
     secrets: inherit
     concurrency:
       group: code-coverage-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
+      cancel-in-progress: ${{ needs.trigger.outputs.branch_name != "main" }}
 
 
   document:
@@ -218,7 +218,7 @@ jobs:
     secrets: inherit
     concurrency:
       group: document-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
+      cancel-in-progress: ${{ needs.trigger.outputs.branch_name != "main" }}
 
 
   render-readme:
@@ -230,7 +230,7 @@ jobs:
     secrets: inherit
     concurrency:
       group: render-readme-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
+      cancel-in-progress: ${{ needs.trigger.outputs.branch_name != "main" }}
 
 
   pkgdown:
@@ -243,7 +243,7 @@ jobs:
     secrets: inherit
     concurrency:
       group: pkgdown-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
+      cancel-in-progress: ${{ needs.trigger.outputs.branch_name != "main" }}
 
 
   update-lockfile:
@@ -256,4 +256,4 @@ jobs:
     secrets: inherit
     concurrency:
       group: update-lockfile-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
+      cancel-in-progress: ${{ needs.trigger.outputs.branch_name != "main" }}
