@@ -1,16 +1,12 @@
 on:
   workflow_call:
     inputs:
-      run:
-        type: boolean
-        default: true
       branch_name:
         type: string
         required: true
 
 jobs:
   render:
-    if: ${{ inputs.run }}
     name: 📖 README
     runs-on: ubuntu-latest
 

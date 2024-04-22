@@ -4,9 +4,6 @@
 on:
   workflow_call:
     inputs:
-      run:
-        type: boolean
-        default: true
       branch_name:
         type: string
         required: true
@@ -14,7 +11,6 @@ on:
 
 jobs:
   document:
-    if: ${{ inputs.run }}
     name: 📖 Document
     runs-on: ubuntu-latest
 

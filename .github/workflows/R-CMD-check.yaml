@@ -6,16 +6,12 @@ on:
       cache_version:
         type: string
         default: '1'
-      run:
-        type: boolean
-        default: true
       rcmdcheck_args:
         type: string
         default: 'c("--no-manual", "--as-cran", "--no-tests")'
 
 jobs:
   R-CMD-check:
-    if: ${{ inputs.run }}
     name: "🔎 Check: ${{ matrix.config.os }} (${{ matrix.config.r }})"
     runs-on: ${{ matrix.config.os }}-latest
 
@@ -60,7 +56,6 @@ jobs:
 
 
   R-CMD-check-hard:
-    if: ${{ inputs.run }}
     runs-on: ubuntu-latest
 
     name: "🔎 Check: ubuntu (release, no dependencies)"
@@ -98,7 +93,6 @@ jobs:
 
 
   R-CMD-check-devel:
-    if: ${{ inputs.run }}
     runs-on: ubuntu-latest
 
     name: "🔎 Check: ubuntu (r-devel)"

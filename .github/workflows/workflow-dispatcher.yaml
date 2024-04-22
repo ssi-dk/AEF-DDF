@@ -38,15 +38,67 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      R_files_changed: ${{ steps.changed-files-yaml.outputs.R_any_changed }}
-      test_files_changed: ${{ steps.changed-files-yaml.outputs.test_any_changed }}
-      man_files_changed: ${{ steps.changed-files-yaml.outputs.man_any_changed }}
-      vignette_files_changed: ${{ steps.changed-files-yaml.outputs.vignette_any_changed }}
-      readme_files_changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}
-      description_changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}
       main_branch_affected: ${{ steps.main_branch_affected.outputs.main_branch_affected }}
       branch_name: ${{ steps.branch_name.outputs.branch_name }}
       cache_version: ${{ steps.cache_version.outputs.cache_version }}
+
+      lint: ${{ !contains(inputs.skip, 'lint') && (
+        inputs.event_name == 'workflow_dispatch' || (
+        steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.vignette_any_changed == 'true')) }}
+
+      spell-checker: ${{ !contains(inputs.skip, 'spell-checker') && (
+        inputs.event_name == 'workflow_dispatch' || (
+        steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.vignette_any_changed == 'true')) }}
+
+      R-CMD-check: ${{ !contains(inputs.skip, 'R-CMD-check') && (
+        inputs.event_name == 'workflow_dispatch' ||
+        inputs.event_name == 'release' || (
+        steps.main_branch_affected.outputs.main_branch_affected == 'true' && (
+        steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.vignette_any_changed == 'true'))) }}
+
+      code-coverage: ${{ !contains(inputs.skip, 'code-coverage') && (
+        inputs.event_name == 'workflow_dispatch' ||
+        inputs.event_name == 'release' || (
+        steps.main_branch_affected.outputs.main_branch_affected == 'true' && (
+        steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.description_any_changed == 'true'))) }}
+
+      document: ${{ !contains(inputs.skip, 'document') && (
+        inputs.event_name == 'workflow_dispatch' ||
+        inputs.event_name != 'release' && (
+        steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.description_any_changed == 'true')) }}
+
+      render-readme: ${{ !contains(inputs.skip, 'render-readme') && (
+        inputs.event_name == 'workflow_dispatch' ||
+        inputs.event_name != 'release' &&
+        needs.trigger.outputs.readme_files_changed == 'true') }}
+
+      pkgdown: ${{ !contains(inputs.skip, 'pkgdown') && (
+        inputs.event_name == 'workflow_dispatch' ||
+        inputs.event_name == 'release' || (
+        (steps.main_branch_affected.outputs.main_branch_affected == 'true') && (
+        steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.vignette_any_changed == 'true'))) }}
+
+      update-lockfile: ${{ !contains(inputs.skip, 'update-lockfile') && (
+        inputs.event_name == 'workflow_dispatch' || (
+        steps.main_branch_affected.outputs.main_branch_affected == 'true' && (
+        steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
+        steps.changed-files-yaml.outputs.description_any_changed == 'true'))) }}
 
     steps:
       - uses: actions/checkout@v4
@@ -104,7 +156,6 @@ jobs:
             echo "cache_version=1" >> $GITHUB_OUTPUT
           fi
 
-
       - name: Report triggers
         run: |
           echo "R/ directory changes: ${{ steps.changed-files-yaml.outputs.R_any_changed }}"
@@ -120,43 +171,24 @@ jobs:
 
   lint:
     needs: trigger
+    if: ${{ needs.trigger.outputs.lint }}
     uses: ./.github/workflows/lint.yaml
-    with:
-      run: ${{ !contains(inputs.skip, 'lint') && (
-        inputs.event_name == 'workflow_dispatch' || (
-        needs.trigger.outputs.R_files_changed == 'true' ||
-        needs.trigger.outputs.test_files_changed == 'true' ||
-        needs.trigger.outputs.man_files_changed == 'true' ||
-        needs.trigger.outputs.vignette_files_changed == 'true')) }}
 
 
   spell-checker:
     needs: trigger
+    if: ${{ needs.trigger.outputs.spell-checker }}
     uses: ./.github/workflows/spell-checker.yaml
-    with:
-      run: ${{ !contains(inputs.skip, 'spell-checker') && (
-        inputs.event_name == 'workflow_dispatch' || (
-        needs.trigger.outputs.description_changed == 'true' ||
-        needs.trigger.outputs.man_files_changed == 'true' ||
-        needs.trigger.outputs.vignette_files_changed == 'true')) }}
     secrets: inherit
 
 
   R-CMD-check:
     needs: trigger
+    if: ${{ needs.trigger.outputs.R-CMD-check }}
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
       rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
-      run: ${{ !contains(inputs.skip, 'R-CMD-check') && (
-        inputs.event_name == 'workflow_dispatch' ||
-        inputs.event_name == 'release' || (
-        needs.trigger.outputs.main_branch_affected == 'true' && (
-        needs.trigger.outputs.R_files_changed == 'true' ||
-        needs.trigger.outputs.test_files_changed == 'true' ||
-        needs.trigger.outputs.description_changed == 'true' ||
-        needs.trigger.outputs.man_files_changed == 'true' ||
-        needs.trigger.outputs.vignette_files_changed == 'true'))) }}
     secrets: inherit
     concurrency:
       group: R-CMD-check-${{ needs.trigger.outputs.branch_name }}
@@ -165,16 +197,10 @@ jobs:
 
   code-coverage:
     needs: trigger
+    if: ${{ needs.trigger.outputs.code-coverage }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
       cache_version: ${{ needs.trigger.outputs.cache_version }}
-      run: ${{ !contains(inputs.skip, 'code-coverage') && (
-        inputs.event_name == 'workflow_dispatch' ||
-        inputs.event_name == 'release' || (
-        needs.trigger.outputs.main_branch_affected == 'true' && (
-        needs.trigger.outputs.R_files_changed == 'true' ||
-        needs.trigger.outputs.test_files_changed == 'true' ||
-        needs.trigger.outputs.description_changed == 'true'))) }}
       schemas: ${{ inputs.schemas }}
       backend_exclude: ${{ inputs.backend_exclude }}
     secrets: inherit
@@ -185,47 +211,35 @@ jobs:
 
   document:
     needs: trigger
+    if: ${{ needs.trigger.outputs.document }}
     uses: ./.github/workflows/document.yaml
     with:
-      run: ${{ !contains(inputs.skip, 'document') && (
-        inputs.event_name == 'workflow_dispatch' ||
-        inputs.event_name != 'release' && (
-        needs.trigger.outputs.R_files_changed == 'true' ||
-        needs.trigger.outputs.description_changed == 'true')) }}
       branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
     concurrency:
       group: document-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
 
+
   render-readme:
     needs: trigger
+    if: ${{ needs.trigger.outputs.render-readme }}
     uses: ./.github/workflows/render-readme.yaml
     with:
-      run: ${{ !contains(inputs.skip, 'render-readme') && (
-        inputs.event_name == 'workflow_dispatch' ||
-        inputs.event_name != 'release' &&
-        needs.trigger.outputs.readme_files_changed == 'true') }}
       branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
     concurrency:
       group: render-readme-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
 
+
   pkgdown:
     needs: trigger
+    if: ${{ needs.trigger.outputs.pkgdown }}
     uses: ./.github/workflows/pkgdown.yaml
     with:
       event_name: ${{ inputs.event_name }}
       run_id: ${{ inputs.run_id }}
-      run: ${{ !contains(inputs.skip, 'pkgdown') && (
-        inputs.event_name == 'workflow_dispatch' ||
-        inputs.event_name == 'release' || (
-        (needs.trigger.outputs.main_branch_affected == 'true') && (
-        needs.trigger.outputs.R_files_changed == 'true' ||
-        needs.trigger.outputs.description_changed == 'true' ||
-        needs.trigger.outputs.man_files_changed == 'true' ||
-        needs.trigger.outputs.vignette_files_changed == 'true'))) }}
     secrets: inherit
     concurrency:
       group: pkgdown-${{ needs.trigger.outputs.branch_name }}
@@ -234,15 +248,10 @@ jobs:
 
   update-lockfile:
     needs: trigger
+    if: ${{ needs.trigger.outputs.update-lockfile }}
     uses: ./.github/workflows/update-lockfile.yaml
     with:
       cache_version: ${{ needs.trigger.outputs.cache_version }}
-      run: ${{ !contains(inputs.skip, 'update-lockfile') && (
-        inputs.event_name == 'workflow_dispatch' || (
-        needs.trigger.outputs.main_branch_affected == 'true' && (
-        needs.trigger.outputs.R_files_changed == 'true' ||
-        needs.trigger.outputs.test_files_changed == 'true' ||
-        needs.trigger.outputs.description_changed == 'true'))) }}
       branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
     concurrency:

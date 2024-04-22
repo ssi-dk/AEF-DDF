@@ -4,9 +4,6 @@ on:
       cache_version:
         type: string
         default: '1'
-      run:
-        type: boolean
-        default: true
       schemas:
         type: string
         default: ''
@@ -17,7 +14,7 @@ on:
 
 jobs:
   code-coverage-sqlite:
-    if: ${{ inputs.run && !contains(inputs.backend_exclude, 'sqlite')}}
+    if: ${{ !contains(inputs.backend_exclude, 'sqlite')}}
     name: "🧪 Tests: ${{ matrix.config.backend }}"
     runs-on: ubuntu-latest
 
@@ -107,7 +104,7 @@ jobs:
 
 
   code-coverage-duckdb:
-    if: ${{ inputs.run && !contains(inputs.backend_exclude, 'duckdb')}}
+    if: ${{ !contains(inputs.backend_exclude, 'duckdb')}}
     name: "🧪 Tests: DuckDB"
     runs-on: ubuntu-latest
 
@@ -184,7 +181,7 @@ jobs:
   code-coverage-postgres:
     name: "🧪 Tests: PostgreSQL"
     runs-on: ubuntu-latest
-    if: ${{ inputs.run && !contains(inputs.backend_exclude, 'postgres')}}
+    if: ${{ !contains(inputs.backend_exclude, 'postgres')}}
 
     services:
       postgres:
@@ -292,7 +289,7 @@ jobs:
   code-coverage-mssql:
     name: "🧪 Tests: SQL Server 2019"
     runs-on: ubuntu-latest
-    if: ${{ inputs.run && !contains(inputs.backend_exclude, 'mssql')}}
+    if: ${{ !contains(inputs.backend_exclude, 'mssql')}}
 
     env:
       BACKEND: MSSQL

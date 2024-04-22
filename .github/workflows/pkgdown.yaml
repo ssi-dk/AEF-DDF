@@ -4,9 +4,6 @@
 on:
   workflow_call:
     inputs:
-      run:
-        type: boolean
-        default: true
       event_name:
         required: true
         type: string
@@ -18,7 +15,7 @@ jobs:
 
   cleanup:
     name: "🧼 pkgdown: Clean up"
-    if: ${{ inputs.run && inputs.event_name == 'release' }}
+    if: ${{ inputs.event_name == 'release' }}
     runs-on: ubuntu-latest
     permissions: write-all
 
@@ -31,7 +28,6 @@ jobs:
           onlyRemoveDeployments: true
 
   pkgdown-build:
-    if: ${{ inputs.run }}
     name: "📖 pkgdown: Build"
     runs-on: ubuntu-latest
     # Only restrict concurrency for non-PR jobs
@@ -82,7 +78,6 @@ jobs:
   determine-pre-release:
     name: "🔍 pkgdown: Determine if pre-release"
     runs-on: ubuntu-latest
-    if: ${{ inputs.run }}
     outputs:
       pre_release: ${{ steps.determine-pre-release.outputs.pre_release }}
     steps:
@@ -109,7 +104,7 @@ jobs:
   deploy:
     name: "🚀 pkgdown: Deploy"
     runs-on: ubuntu-latest
-    if: ${{ inputs.run && (inputs.event_name == 'release' || needs.determine-pre-release.outputs.pre_release == 'true') }}
+    if: ${{ (inputs.event_name == 'release' || needs.determine-pre-release.outputs.pre_release == 'true') }}
     needs: [cleanup, pkgdown-build, determine-pre-release]
     steps:
       - uses: actions/checkout@v4

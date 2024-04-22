@@ -4,9 +4,6 @@ on:
       cache_version:
         type: string
         default: '1'
-      run:
-        type: boolean
-        default: true
       branch_name:
         type: string
         required: true
@@ -14,7 +11,6 @@ on:
 jobs:
   update-lockfile:
     name: 🛠️ Store dependency versions
-    if: ${{ inputs.run }}
     runs-on: ubuntu-latest
 
     steps:
