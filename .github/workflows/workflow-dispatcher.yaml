@@ -242,7 +242,7 @@ jobs:
       run_id: ${{ inputs.run_id }}
     secrets: inherit
     concurrency:
-      group: pkgdown-${{ needs.trigger.outputs.branch_name }}
+      group: pkgdown-${{ needs.trigger.outputs.branch_name }}${{ github.event_name == 'release' && '-release' || '' }}
       cancel-in-progress: ${{ needs.trigger.outputs.branch_name != "main" }}
 
 
