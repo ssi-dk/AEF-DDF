@@ -169,6 +169,25 @@ jobs:
           echo "cache_version: ${{ steps.cache_version.outputs.cache_version }}"
 
 
+  inspect-trigger-output:
+    needs: trigger
+    name: 🐞 Inspect trigger output
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "main_branch_affected: ${{ needs.trigger.outputs.main_branch_affected }}"
+          echo "branch_name: ${{ needs.trigger.outputs.branch_name }}"
+          echo "cache_version: ${{ needs.trigger.outputs.cache_version }}"
+          echo "lint: ${{ needs.trigger.outputs.lint }}"
+          echo "spell-checker: ${{ needs.trigger.outputs.spell-checker }}"
+          echo "R-CMD-check: ${{ needs.trigger.outputs.R-CMD-check }}"
+          echo "code-coverage: ${{ needs.trigger.outputs.code-coverage }}"
+          echo "document: ${{ needs.trigger.outputs.document }}"
+          echo "render-readme: ${{ needs.trigger.outputs.render-readme }}"
+          echo "pkgdown: ${{ needs.trigger.outputs.pkgdown }}"
+          echo "update-lockfile: ${{ needs.trigger.outputs.update-lockfile }}"
+
+
   lint:
     needs: trigger
     if: ${{ needs.trigger.outputs.lint }}
