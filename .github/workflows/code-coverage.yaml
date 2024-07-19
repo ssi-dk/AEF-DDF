@@ -402,7 +402,7 @@ jobs:
 
 
   combine-and-upload-coverage:
-    name: "Test: 📊 Combine and Upload Coverage Reports"
+    name: "Test: 📊 Upload to Codecov.io"
     needs: [code-coverage-sqlite, code-coverage-duckdb, code-coverage-postgres, code-coverage-mssql]
     runs-on: ubuntu-latest
     steps:
