@@ -72,7 +72,7 @@ jobs:
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
-            clean = FALSE
+            clean = FALSE,
             install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
           )
           saveRDS(coverage, "coverage_results.Rda")
@@ -148,7 +148,7 @@ jobs:
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
-            clean = FALSE
+            clean = FALSE,
             install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
           )
           saveRDS(coverage, "coverage_results.Rda")
@@ -235,7 +235,7 @@ jobs:
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
-            clean = FALSE
+            clean = FALSE,
             install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
           )
           saveRDS(coverage, "coverage_results.Rda")
@@ -355,7 +355,7 @@ jobs:
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
-            clean = FALSE
+            clean = FALSE,
             install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
           )
           saveRDS(coverage, "coverage_results.Rda")
