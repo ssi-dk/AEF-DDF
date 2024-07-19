@@ -68,14 +68,21 @@ jobs:
 
           echo "BACKEND_POST_CONNECT=$CONN_POST_CONNECT" >> $GITHUB_ENV
 
-      - name: Test coverage
+      - name: Generate and Save Coverage Report
         run: |
-          covr::codecov(
+          coverage <- covr::package_coverage(
             quiet = FALSE,
-            clean = FALSE,
+            clean = FALSE
             install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
           )
+          saveRDS(coverage, "coverage_results.Rda")
         shell: Rscript {0}
+
+      - name: Upload Coverage Report Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-${{ matrix.config.id }}
+          path: coverage_results.Rda
 
       - name: Show testthat output
         if: always()
@@ -137,14 +144,21 @@ jobs:
 
           echo "BACKEND_POST_CONNECT=$CONN_POST_CONNECT" >> $GITHUB_ENV
 
-      - name: Test coverage
+      - name: Generate and Save Coverage Report
         run: |
-          covr::codecov(
+          coverage <- covr::package_coverage(
             quiet = FALSE,
-            clean = FALSE,
+            clean = FALSE
             install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
           )
+          saveRDS(coverage, "coverage_results.Rda")
         shell: Rscript {0}
+
+      - name: Upload Coverage Report Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-${{ matrix.config.id }}
+          path: coverage_results.Rda
 
       - name: Show testthat output
         if: always()
@@ -217,14 +231,21 @@ jobs:
           extra-packages: any::covr
           needs: coverage
 
-      - name: Test coverage
+      - name: Generate and Save Coverage Report
         run: |
-          covr::codecov(
+          coverage <- covr::package_coverage(
             quiet = FALSE,
-            clean = FALSE,
+            clean = FALSE
             install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
           )
+          saveRDS(coverage, "coverage_results.Rda")
         shell: Rscript {0}
+
+      - name: Upload Coverage Report Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-${{ matrix.config.id }}
+          path: coverage_results.Rda
 
       - name: Show testthat output
         if: always()
@@ -330,14 +351,21 @@ jobs:
           extra-packages: any::covr
           needs: coverage
 
-      - name: Test coverage
+      - name: Generate and Save Coverage Report
         run: |
-          covr::codecov(
+          coverage <- covr::package_coverage(
             quiet = FALSE,
-            clean = FALSE,
+            clean = FALSE
             install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
           )
+          saveRDS(coverage, "coverage_results.Rda")
         shell: Rscript {0}
+
+      - name: Upload Coverage Report Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-${{ matrix.config.id }}
+          path: coverage_results.Rda
 
       - name: Show testthat output
         if: always()
@@ -371,3 +399,29 @@ jobs:
           log=$(find ${{ runner.workspace }}/logs-docker/ -name 'sql.log')
 
           cat "$log"
+
+
+combine-and-upload-coverage:
+  needs: [code-coverage-sqlite, code-coverage-duckdb, code-coverage-postgres, code-coverage-mssql]
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/download-artifact@v2
+      with:
+        path: coverage-reports
+
+    - name: Combine Coverage Reports and upload to codecov.io
+      run: |
+        files <- list.files("coverage-reports", full.names = TRUE, pattern = "\\.Rda$")
+        coverages <- purrr::map(files, readRDS)
+
+        combined_coverage <- purrr::reduce(coverages, c)
+
+        attr(combined_coverage, "class") <- attr(coverages[[1]], "class")
+        attr(combined_coverage, "package") <- attr(coverages[[1]], "package")
+        attr(combined_coverage, "relative") <- attr(coverages[[1]], "relative")
+
+        covr::codecov(coverage = combined_coverage)
+
+      shell: Rscript {0}
