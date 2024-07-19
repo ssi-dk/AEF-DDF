@@ -422,9 +422,15 @@ jobs:
         with:
           path: coverage-reports
 
+      - name: List downloaded artifacts
+        run: ls -R coverage-reports
+        shell: bash
+
       - name: Combine Coverage Reports and upload to codecov.io
         run: |
-          files <- list.files("coverage-reports", full.names = TRUE, pattern = "\\.Rda$")
+          files <- list.files("coverage-reports", full.names = TRUE, pattern = "\\.Rda$", recursive = TRUE)
+
+          print(files)
           coverages <- purrr::map(files, readRDS)
 
           combined_coverage <- purrr::reduce(coverages, c)
