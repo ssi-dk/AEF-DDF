@@ -401,27 +401,28 @@ jobs:
           cat "$log"
 
 
-combine-and-upload-coverage:
-  needs: [code-coverage-sqlite, code-coverage-duckdb, code-coverage-postgres, code-coverage-mssql]
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v4
+  combine-and-upload-coverage:
+    name: "📊 Combine and Upload Coverage Reports"
+    needs: [code-coverage-sqlite, code-coverage-duckdb, code-coverage-postgres, code-coverage-mssql]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-    - uses: actions/download-artifact@v2
-      with:
-        path: coverage-reports
+      - uses: actions/download-artifact@v2
+        with:
+          path: coverage-reports
 
-    - name: Combine Coverage Reports and upload to codecov.io
-      run: |
-        files <- list.files("coverage-reports", full.names = TRUE, pattern = "\\.Rda$")
-        coverages <- purrr::map(files, readRDS)
+      - name: Combine Coverage Reports and upload to codecov.io
+        run: |
+          files <- list.files("coverage-reports", full.names = TRUE, pattern = "\\.Rda$")
+          coverages <- purrr::map(files, readRDS)
 
-        combined_coverage <- purrr::reduce(coverages, c)
+          combined_coverage <- purrr::reduce(coverages, c)
 
-        attr(combined_coverage, "class") <- attr(coverages[[1]], "class")
-        attr(combined_coverage, "package") <- attr(coverages[[1]], "package")
-        attr(combined_coverage, "relative") <- attr(coverages[[1]], "relative")
+          attr(combined_coverage, "class") <- attr(coverages[[1]], "class")
+          attr(combined_coverage, "package") <- attr(coverages[[1]], "package")
+          attr(combined_coverage, "relative") <- attr(coverages[[1]], "relative")
 
-        covr::codecov(coverage = combined_coverage)
+          covr::codecov(coverage = combined_coverage)
 
-      shell: Rscript {0}
+        shell: Rscript {0}
