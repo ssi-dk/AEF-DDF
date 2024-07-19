@@ -96,13 +96,6 @@ jobs:
           fi
         shell: bash
 
-      - name: Upload test results
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-test-failures-${{ matrix.config.id }}
-          path: ${{ runner.temp }}/package
-
 
   code-coverage-duckdb:
     if: ${{ !contains(inputs.backend_exclude, 'duckdb')}}
@@ -171,13 +164,6 @@ jobs:
             exit 1
           fi
         shell: bash
-
-      - name: Upload test results
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-test-failures-${{ matrix.config.id }}
-          path: ${{ runner.temp }}/package
 
 
   code-coverage-postgres:
@@ -259,12 +245,6 @@ jobs:
           fi
         shell: bash
 
-      - name: Upload test results
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-test-failures-postgres
-          path: ${{ runner.temp }}/package
 
       - name: Collect docker logs
         if: always()
@@ -377,13 +357,6 @@ jobs:
             exit 1
           fi
         shell: bash
-
-      - name: Upload test results
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-test-failures-mssql
-          path: ${{ runner.temp }}/package
 
       - name: Collect docker logs
         if: always()
