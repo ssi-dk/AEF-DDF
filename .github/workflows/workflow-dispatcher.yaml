@@ -188,8 +188,21 @@ jobs:
           echo "update-lockfile: ${{ needs.trigger.outputs.update-lockfile }}"
 
 
-  document:
+  update-lockfile:
     needs: trigger
+    if: ${{ needs.trigger.outputs.update-lockfile }}
+    uses: ./.github/workflows/update-lockfile.yaml
+    with:
+      cache_version: ${{ needs.trigger.outputs.cache_version }}
+      branch_name: ${{ needs.trigger.outputs.branch_name }}
+    secrets: inherit
+    concurrency:
+      group: update-lockfile-${{ needs.trigger.outputs.branch_name }}
+      cancel-in-progress: true
+
+
+  document:
+    needs: update-lockfile
     if: ${{ needs.trigger.outputs.document }}
     uses: ./.github/workflows/document.yaml
     with:
@@ -201,7 +214,7 @@ jobs:
 
 
   render-readme:
-    needs: trigger
+    needs: update-lockfile
     if: ${{ needs.trigger.outputs.render-readme }}
     uses: ./.github/workflows/render-readme.yaml
     with:
@@ -209,19 +222,6 @@ jobs:
     secrets: inherit
     concurrency:
       group: render-readme-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
-
-
-  update-lockfile:
-    needs: trigger
-    if: ${{ needs.trigger.outputs.update-lockfile }}
-    uses: ./.github/workflows/update-lockfile.yaml
-    with:
-      cache_version: ${{ needs.trigger.outputs.cache_version }}
-      branch_name: ${{ needs.trigger.outputs.branch_name }}
-    secrets: inherit
-    concurrency:
-      group: update-lockfile-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
 
 
