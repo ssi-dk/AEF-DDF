@@ -188,46 +188,6 @@ jobs:
           echo "update-lockfile: ${{ needs.trigger.outputs.update-lockfile }}"
 
 
-  lint:
-    needs: trigger
-    if: ${{ needs.trigger.outputs.lint }}
-    uses: ./.github/workflows/lint.yaml
-
-
-  spell-checker:
-    needs: trigger
-    if: ${{ needs.trigger.outputs.spell-checker }}
-    uses: ./.github/workflows/spell-checker.yaml
-    secrets: inherit
-
-
-  R-CMD-check:
-    needs: trigger
-    if: ${{ needs.trigger.outputs.R-CMD-check }}
-    uses: ./.github/workflows/R-CMD-check.yaml
-    with:
-      rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
-      cache_version: ${{ needs.trigger.outputs.cache_version }}
-    secrets: inherit
-    concurrency:
-      group: R-CMD-check-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
-
-
-  code-coverage:
-    needs: trigger
-    if: ${{ needs.trigger.outputs.code-coverage }}
-    uses: ./.github/workflows/code-coverage.yaml
-    with:
-      cache_version: ${{ needs.trigger.outputs.cache_version }}
-      schemas: ${{ inputs.schemas }}
-      backend_exclude: ${{ inputs.backend_exclude }}
-    secrets: inherit
-    concurrency:
-      group: code-coverage-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
-
-
   document:
     needs: trigger
     if: ${{ needs.trigger.outputs.document }}
@@ -252,19 +212,6 @@ jobs:
       cancel-in-progress: true
 
 
-  pkgdown:
-    needs: trigger
-    if: ${{ needs.trigger.outputs.pkgdown }}
-    uses: ./.github/workflows/pkgdown.yaml
-    with:
-      event_name: ${{ inputs.event_name }}
-      run_id: ${{ inputs.run_id }}
-    secrets: inherit
-    concurrency:
-      group: pkgdown-${{ needs.trigger.outputs.branch_name }}${{ github.event_name == 'release' && '-release' || '' }}
-      cancel-in-progress: true
-
-
   update-lockfile:
     needs: trigger
     if: ${{ needs.trigger.outputs.update-lockfile }}
@@ -275,4 +222,57 @@ jobs:
     secrets: inherit
     concurrency:
       group: update-lockfile-${{ needs.trigger.outputs.branch_name }}
+      cancel-in-progress: true
+
+
+  lint:
+    needs: [update-lockfile, document, render-readme]
+    if: ${{ needs.trigger.outputs.lint }}
+    uses: ./.github/workflows/lint.yaml
+
+
+  spell-checker:
+    needs: [update-lockfile, document, render-readme]
+    if: ${{ needs.trigger.outputs.spell-checker }}
+    uses: ./.github/workflows/spell-checker.yaml
+    secrets: inherit
+
+
+  R-CMD-check:
+    needs: [update-lockfile, document, render-readme]
+    if: ${{ needs.trigger.outputs.R-CMD-check }}
+    uses: ./.github/workflows/R-CMD-check.yaml
+    with:
+      rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
+      cache_version: ${{ needs.trigger.outputs.cache_version }}
+    secrets: inherit
+    concurrency:
+      group: R-CMD-check-${{ needs.trigger.outputs.branch_name }}
+      cancel-in-progress: true
+
+
+  code-coverage:
+    needs: [update-lockfile, document, render-readme]
+    if: ${{ needs.trigger.outputs.code-coverage }}
+    uses: ./.github/workflows/code-coverage.yaml
+    with:
+      cache_version: ${{ needs.trigger.outputs.cache_version }}
+      schemas: ${{ inputs.schemas }}
+      backend_exclude: ${{ inputs.backend_exclude }}
+    secrets: inherit
+    concurrency:
+      group: code-coverage-${{ needs.trigger.outputs.branch_name }}
+      cancel-in-progress: true
+
+
+  pkgdown:
+    needs: [update-lockfile, document, render-readme]
+    if: ${{ needs.trigger.outputs.pkgdown }}
+    uses: ./.github/workflows/pkgdown.yaml
+    with:
+      event_name: ${{ inputs.event_name }}
+      run_id: ${{ inputs.run_id }}
+    secrets: inherit
+    concurrency:
+      group: pkgdown-${{ needs.trigger.outputs.branch_name }}${{ github.event_name == 'release' && '-release' || '' }}
       cancel-in-progress: true
