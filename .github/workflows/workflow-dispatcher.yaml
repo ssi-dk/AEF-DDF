@@ -202,7 +202,7 @@ jobs:
 
 
   document:
-    needs: update-lockfile
+    needs: [trigger, update-lockfile]
     if: ${{ needs.trigger.outputs.document }}
     uses: ./.github/workflows/document.yaml
     with:
@@ -214,7 +214,7 @@ jobs:
 
 
   render-readme:
-    needs: update-lockfile
+    needs: [trigger, update-lockfile]
     if: ${{ needs.trigger.outputs.render-readme }}
     uses: ./.github/workflows/render-readme.yaml
     with:
@@ -226,20 +226,20 @@ jobs:
 
 
   lint:
-    needs: [update-lockfile, document, render-readme]
+    needs: [trigger, update-lockfile, document, render-readme]
     if: ${{ needs.trigger.outputs.lint }}
     uses: ./.github/workflows/lint.yaml
 
 
   spell-checker:
-    needs: [update-lockfile, document, render-readme]
+    needs: [trigger, update-lockfile, document, render-readme]
     if: ${{ needs.trigger.outputs.spell-checker }}
     uses: ./.github/workflows/spell-checker.yaml
     secrets: inherit
 
 
   R-CMD-check:
-    needs: [update-lockfile, document, render-readme]
+    needs: [trigger, update-lockfile, document, render-readme]
     if: ${{ needs.trigger.outputs.R-CMD-check }}
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
@@ -252,7 +252,7 @@ jobs:
 
 
   code-coverage:
-    needs: [update-lockfile, document, render-readme]
+    needs: [trigger, update-lockfile, document, render-readme]
     if: ${{ needs.trigger.outputs.code-coverage }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
@@ -266,7 +266,7 @@ jobs:
 
 
   pkgdown:
-    needs: [update-lockfile, document, render-readme]
+    needs: [trigger, update-lockfile, document, render-readme]
     if: ${{ needs.trigger.outputs.pkgdown }}
     uses: ./.github/workflows/pkgdown.yaml
     with:
