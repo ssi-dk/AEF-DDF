@@ -418,7 +418,7 @@ jobs:
           extra-packages: any::covr
           needs: coverage
 
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           path: coverage-reports
 
