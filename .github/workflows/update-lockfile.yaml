@@ -52,5 +52,10 @@ jobs:
           git pull --rebase origin ${{ inputs.branch_name }}
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
           git add pak.lock || echo "No pak.lock to add"
-          git commit -m "chore: Update pak.lock" || echo "No changes to commit"
-          git push origin ${{ inputs.branch_name }}
+          if git commit -m "chore: Update pak.lock"; then
+            git push origin ${{ inputs.branch_name }}
+            echo "Changes committed. Failing the job to prevent further jobs."
+            exit 1
+          else
+            echo "No changes to commit"
+          fi
