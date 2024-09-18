@@ -28,6 +28,10 @@ on:
       backend_exclude:
         required: false
         type: string
+      check_postgres_logs:
+        required: false
+        type: boolean
+        default: true
 
 
 jobs:
@@ -259,6 +263,7 @@ jobs:
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       schemas: ${{ inputs.schemas }}
       backend_exclude: ${{ inputs.backend_exclude }}
+      check_postgres_logs: ${{ inputs.check_postgres_logs }}
     secrets: inherit
     concurrency:
       group: code-coverage-${{ needs.trigger.outputs.branch_name }}

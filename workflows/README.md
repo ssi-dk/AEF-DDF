@@ -79,19 +79,23 @@ Determine the degree of [code coverage](https://en.wikipedia.org/wiki/Code_cover
 Code coverage results are uploaded to [codecov.io](https://about.codecov.io/).
 This enables you to add the code coverage badge to your `README.md`.
 
-| Arguments         | Description                           | Default     | Example       |
-|-------------------|---------------------------------------|-------------|---------------|
-| `schemas`         | Schemas to create (optional)          | ''          | test,test.one |
-| `backend_exclude` | data base backends to skip (optional) | ''          | postgres      |
-
+| Arguments            | Description                                              | Default     | Example       |
+|----------------------|----------------------------------------------------------|-------------|---------------|
+| `schemas`            | Schemas to create (optional)                             | ''          | test,test.one |
+| `backend_exclude`    | Data base backends to skip (optional)                    | ''          | postgres      |
+| `check_postgres_logs`| Should PostgreSQL logs be checked for errors? (optional) | true        | false         |
 
 > [!NOTE]
-> To conserve resources, only the `code-coverage` workflow is configured with data bases.
-> This means that your `R-CMD-check` may not fail when `code-coverage` fails.
-> If this is the case, the cause is likely a data base specific issue in your code base.
+> PostgreSQL logs errors to a log file during the tests. Checking these for errors can help detect uncaught
+> errors in your test workflow.
 
 #### Exit status
 If any tests fail to run, the workflow will give an error.
+
+> [!IMPORTANT]
+> To conserve resources, only the `code-coverage` workflow is configured with data bases.
+> This means that your `R-CMD-check` may not fail when `code-coverage` fails.
+> If this is the case, the cause is likely a data base specific issue in your code base.
 
 
 ## document.yaml
