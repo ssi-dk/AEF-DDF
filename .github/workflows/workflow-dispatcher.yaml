@@ -195,7 +195,7 @@ jobs:
 
   update-lockfile:
     needs: trigger
-    if: ${{ needs.trigger.outputs.update-lockfile }}
+    if: ${{ needs.trigger.outputs.update-lockfile == 'true' }}
     uses: ./.github/workflows/update-lockfile.yaml
     with:
       cache_version: ${{ needs.trigger.outputs.cache_version }}
@@ -208,7 +208,7 @@ jobs:
 
   document:
     needs: [trigger, update-lockfile]
-    if: ${{ needs.trigger.outputs.document }}
+    if: ${{ needs.trigger.outputs.document == 'true' }}
     uses: ./.github/workflows/document.yaml
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
@@ -220,7 +220,7 @@ jobs:
 
   render-readme:
     needs: [trigger, update-lockfile]
-    if: ${{ needs.trigger.outputs.render-readme }}
+    if: ${{ needs.trigger.outputs.render-readme == 'true'}}
     uses: ./.github/workflows/render-readme.yaml
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
@@ -232,20 +232,20 @@ jobs:
 
   lint:
     needs: [trigger, update-lockfile, document, render-readme]
-    if: ${{ needs.trigger.outputs.lint }}
+    if: ${{ needs.trigger.outputs.lint == 'true' }}
     uses: ./.github/workflows/lint.yaml
 
 
   spell-checker:
     needs: [trigger, update-lockfile, document, render-readme]
-    if: ${{ needs.trigger.outputs.spell-checker }}
+    if: ${{ needs.trigger.outputs.spell-checker == 'true' }}
     uses: ./.github/workflows/spell-checker.yaml
     secrets: inherit
 
 
   R-CMD-check:
     needs: [trigger, update-lockfile, document, render-readme]
-    if: ${{ needs.trigger.outputs.R-CMD-check }}
+    if: ${{ needs.trigger.outputs.R-CMD-check == 'true' }}
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
       rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
@@ -258,7 +258,7 @@ jobs:
 
   code-coverage:
     needs: [trigger, update-lockfile, document, render-readme]
-    if: ${{ needs.trigger.outputs.code-coverage }}
+    if: ${{ needs.trigger.outputs.code-coverage == 'true' }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
       cache_version: ${{ needs.trigger.outputs.cache_version }}
@@ -273,7 +273,7 @@ jobs:
 
   pkgdown:
     needs: [trigger, update-lockfile, document, render-readme]
-    if: ${{ needs.trigger.outputs.pkgdown }}
+    if: ${{ needs.trigger.outputs.pkgdown == 'true' }}
     uses: ./.github/workflows/pkgdown.yaml
     with:
       event_name: ${{ inputs.event_name }}
