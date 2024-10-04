@@ -4,9 +4,6 @@
 on:
   workflow_call:
     inputs:
-      skip:
-        type: boolean
-        default: false
       branch_name:
         type: string
         required: true
@@ -16,7 +13,6 @@ jobs:
   document:
     name: 📖 Document
     runs-on: ubuntu-latest
-    if: ${{ inputs.skip == 'false' }}
 
     steps:
       - name: Checkout repo

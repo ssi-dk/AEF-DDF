@@ -1,9 +1,6 @@
 on:
   workflow_call:
     inputs:
-      skip:
-        type: boolean
-        default: false
       cache_version:
         type: string
         default: '1'
@@ -15,7 +12,6 @@ jobs:
   update-lockfile:
     name: 🛠️ Store dependency versions
     runs-on: ubuntu-latest
-    if: ${{ inputs.skip == 'false' }}
 
     steps:
       - name: Checkout repo
