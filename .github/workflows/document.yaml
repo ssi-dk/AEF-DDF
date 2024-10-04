@@ -4,6 +4,9 @@
 on:
   workflow_call:
     inputs:
+      skip:
+        type: boolean
+        default: false
       branch_name:
         type: string
         required: true
@@ -15,6 +18,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Skip job if not required
+        run: |
+          if [ "${{ inputs.skip }}" = "true" ]; then
+            echo "Skipping update-lockfile job as skip is set to true."
+            exit 0
+          fi
+
       - name: Checkout repo
         uses: actions/checkout@v4
         with:

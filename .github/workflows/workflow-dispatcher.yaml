@@ -195,9 +195,9 @@ jobs:
 
   update-lockfile:
     needs: trigger
-    if: ${{ needs.trigger.outputs.update-lockfile == 'true' }}
     uses: ./.github/workflows/update-lockfile.yaml
     with:
+      skip: ${{ needs.trigger.outputs.update-lockfile == 'false' }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
@@ -208,9 +208,9 @@ jobs:
 
   document:
     needs: [trigger, update-lockfile]
-    if: ${{ needs.trigger.outputs.document == 'true' }}
     uses: ./.github/workflows/document.yaml
     with:
+      skip: ${{ needs.trigger.outputs.document == 'false' }}
       branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
     concurrency:
@@ -220,9 +220,9 @@ jobs:
 
   render-readme:
     needs: [trigger, update-lockfile]
-    if: ${{ needs.trigger.outputs.render-readme == 'true'}}
     uses: ./.github/workflows/render-readme.yaml
     with:
+      skip: ${{ needs.trigger.outputs.render-readme == 'false' }}
       branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
     concurrency:
