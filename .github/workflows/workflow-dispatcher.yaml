@@ -209,7 +209,7 @@ jobs:
   document:
     needs: [trigger, update-lockfile]
     uses: ./.github/workflows/document.yaml
-    if: always() && ${{ needs.trigger.outputs.document == 'true' }}
+    if: ${{ always() && !failure() && !cancelled() && ${{ needs.trigger.outputs.document == 'true' }}
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
@@ -221,7 +221,7 @@ jobs:
   render-readme:
     needs: [trigger, update-lockfile]
     uses: ./.github/workflows/render-readme.yaml
-    if: always() && ${{ needs.trigger.outputs.render-readme == 'true' }}
+    if: ${{ always() && !failure() && !cancelled() && ${{ needs.trigger.outputs.render-readme == 'true' }}
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
     secrets: inherit
@@ -232,20 +232,20 @@ jobs:
 
   lint:
     needs: [trigger, update-lockfile, document, render-readme]
-    if: always() && ${{ needs.trigger.outputs.lint == 'true' }}
+    if: ${{ always() && !failure() && !cancelled() && ${{ needs.trigger.outputs.lint == 'true' }}
     uses: ./.github/workflows/lint.yaml
 
 
   spell-checker:
     needs: [trigger, update-lockfile, document, render-readme]
-    if: always() && ${{ needs.trigger.outputs.spell-checker == 'true' }}
+    if: ${{ always() && !failure() && !cancelled() && ${{ needs.trigger.outputs.spell-checker == 'true' }}
     uses: ./.github/workflows/spell-checker.yaml
     secrets: inherit
 
 
   R-CMD-check:
     needs: [trigger, update-lockfile, document, render-readme]
-    if: always() && ${{ needs.trigger.outputs.R-CMD-check == 'true' }}
+    if: ${{ always() && !failure() && !cancelled() && ${{ needs.trigger.outputs.R-CMD-check == 'true' }}
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
       rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
@@ -258,7 +258,7 @@ jobs:
 
   code-coverage:
     needs: [trigger, update-lockfile, document, render-readme]
-    if: always() && ${{ needs.trigger.outputs.code-coverage == 'true' }}
+    if: ${{ always() && !failure() && !cancelled() && ${{ needs.trigger.outputs.code-coverage == 'true' }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
       cache_version: ${{ needs.trigger.outputs.cache_version }}
@@ -273,7 +273,7 @@ jobs:
 
   pkgdown:
     needs: [trigger, update-lockfile, document, render-readme]
-    if: always() && ${{ needs.trigger.outputs.pkgdown == 'true' }}
+    if: ${{ always() && !failure() && !cancelled() && ${{ needs.trigger.outputs.pkgdown == 'true' }}
     uses: ./.github/workflows/pkgdown.yaml
     with:
       event_name: ${{ inputs.event_name }}
