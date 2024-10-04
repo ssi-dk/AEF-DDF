@@ -15,15 +15,9 @@ jobs:
   update-lockfile:
     name: 🛠️ Store dependency versions
     runs-on: ubuntu-latest
+    if: ${{ inputs.skip == 'false' }}
 
     steps:
-      - name: Skip job if not required
-        run: |
-          if [ "${{ inputs.skip }}" = "true" ]; then
-            echo "Skipping update-lockfile job as skip is set to true."
-            exit 0
-          fi
-
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
