@@ -99,6 +99,7 @@ jobs:
 
       update-lockfile: ${{ !contains(inputs.skip, 'update-lockfile') && (
         inputs.event_name == 'workflow_dispatch' || (
+        inputs.event_name != 'release' &&
         steps.main_branch_affected.outputs.main_branch_affected == 'true' && (
         steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
         steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
