@@ -15,6 +15,9 @@ group:
     - source: testthat/test-0_rd_files.R
       dest: tests/testthat/test-0_rd_files.R
 
+    - source: testthat/spelling.R
+      dest: tests/spelling.R
+
     # Lintr related files
     - source: linting/.lintr
       dest: .lintr
