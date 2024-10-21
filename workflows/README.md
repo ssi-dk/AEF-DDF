@@ -7,7 +7,7 @@ Below is an overview of the workflows available to you.
 
 
 ## all-workflows.yaml
-This workflow calls is a convenience wrapper for all the individual workflows stored in this repo.
+This workflow calls is a convenience wrapper for all the individual CI workflows stored in this repo.
 If you do not want granular control of the workflows being run, you can copy this single file to your repo and let us
 curate the selection of workflows being run on your package.
 
@@ -179,3 +179,14 @@ The function will update the `pak.lock` file of the repository match the testing
 > [secret](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) called "GH_PAT" that
 > contains a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
 > which has write access to the repository.
+
+
+## benchmark.yaml
+#### Trigger
+Manually triggered on Github.com.
+
+#### Function
+Runs `data-raw/benchmarks.R` across all test backends and compiles benchmarks to a single data object.
+
+#### Outcome
+Benchmark data compiled to `inst/extdata/benchmarks.rds`.
