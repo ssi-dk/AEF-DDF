@@ -1,10 +1,13 @@
 on:
-  workflow_dispatch
+  workflow_call:
+    inputs:
+      backend_exclude:
+        type: string
+        default: ''
 
-
-name: "⏱️ Benchmark"
 jobs:
   benchmark:
+    name: "⏱️ Benchmark"
     runs-on: ubuntu-latest
 
     concurrency:
@@ -31,17 +34,17 @@ jobs:
 
     steps:
       - name: Install a SQL Server suite of tools
+        if: ${{ !contains(inputs.backend_exclude, 'mssql') }}
         uses: potatoqualitee/mssqlsuite@v1.7
         with:
           install: sqlengine, sqlpackage, sqlclient
           show-log: true
 
       - name: Configure SQL server
+        if: ${{ !contains(inputs.backend_exclude, 'mssql') }}
         run: |
           set -o xtrace
           sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -Q "ALTER LOGIN SA WITH DEFAULT_DATABASE = master;"
-
-
 
       - uses: actions/checkout@v4
         with:
@@ -54,8 +57,6 @@ jobs:
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git switch ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
 
-
-
       - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
@@ -64,43 +65,41 @@ jobs:
         with:
           extra-packages: any::devtools
 
-
       - name: Delete previous benchmark files
         if: always()
         run: rm -rf inst/extdata/benchmark-*.rds
 
-
-
       - name: Get SQLite version
+        if: ${{ !contains(inputs.backend_exclude, 'sqlite') }}
         run: |
           version=$(Rscript -e "cat(DBI::dbGetQuery(DBI::dbConnect(RSQLite::SQLite()), 'SELECT sqlite_version();')[[1]])")
           echo "SQLITE_VERSION=SQLite v$version" >> $GITHUB_ENV
 
       - name: Get DuckDB version
+        if: ${{ !contains(inputs.backend_exclude, 'duckdb') }}
         run: |
           version=$(Rscript -e "conn <- DBI::dbConnect(duckdb::duckdb()); cat(DBI::dbGetQuery(conn, 'SELECT version();')[[1]]); DBI::dbDisconnect(conn, shutdown = TRUE)")
           echo "DUCKDB_VERSION=DuckDB $version" >> $GITHUB_ENV
 
       - name: Get PostgreSQL version
+        if: ${{ !contains(inputs.backend_exclude, 'postgres') }}
         run: |
           version=$(psql --version | awk '{print $3}')
           echo "POSTGRES_VERSION=PostgreSQL v$version" >> $GITHUB_ENV
 
       - name: Get SQL Server version
+        if: ${{ !contains(inputs.backend_exclude, 'mssql') }}
         run: |
           version=$(sqlcmd -S localhost -U SA -P dbatools.I0 -Q "SET NOCOUNT ON; SELECT SERVERPROPERTY('productversion') AS version" -h -1 -W -b)
           echo "SQL_SERVER_VERSION=SQL Server v$version" >> $GITHUB_ENV
-
 
       - name: Install libraries to benchmark
         if: always()
         run: source("./data-raw/benchmark.R", echo=TRUE)
         shell: Rscript {0}
 
-
-
       - name: Run benchmark (${{ env.SQLITE_VERSION }})
-        if: always()
+        if: ${{ always() && !contains(inputs.backend_exclude, 'sqlite') }}
         env:
           BACKEND: ${{ env.SQLITE_VERSION }}
           BACKEND_DRV: RSQLite::SQLite
@@ -109,7 +108,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Run benchmark (${{ env.DUCKDB_VERSION }})
-        if: always()
+        if: ${{ always() && !contains(inputs.backend_exclude, 'duckdb') }}
         env:
           BACKEND: ${{ env.DUCKDB_VERSION }}
           BACKEND_DRV: duckdb::duckdb
@@ -118,7 +117,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Run benchmark (${{ env.POSTGRES_VERSION }})
-        if: always()
+        if: ${{ always() && !contains(inputs.backend_exclude, 'postgres') }}
         env:
           BACKEND: ${{ env.POSTGRES_VERSION }}
           BACKEND_DRV: RPostgres::Postgres
@@ -126,7 +125,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Run benchmark (${{ env.SQL_SERVER_VERSION }})
-        if: always()
+        if: ${{ always() && !contains(inputs.backend_exclude, 'mssql') }}
         env:
           BACKEND: ${{ env.SQL_SERVER_VERSION }}
           BACKEND_DRV: odbc::odbc
@@ -142,8 +141,6 @@ jobs:
             }
         run: source("./data-raw/benchmark.R", echo=TRUE)
         shell: Rscript {0}
-
-
 
       - name: Display structure of benchmark files
         if: always()
@@ -177,7 +174,6 @@ jobs:
           saveRDS(benchmarks, file.path("inst", "extdata", "benchmarks.rds"))
           file.remove(benchmark_files)
 
-
           # Add note slow backends
           slow_backends <- benchmarks |>
             dplyr::distinct(.data$database, .data$n) |>
@@ -186,7 +182,6 @@ jobs:
 
           benchmarks <- benchmarks |>
             dplyr::mutate("database" = paste0(database, ifelse(database %in% slow_backends, "*", "")))
-
 
           # Mean and standard deviation (see ggplot2::mean_se())
           mean_sd <- function(x) {
@@ -229,6 +224,7 @@ jobs:
           path: benchmarks.pdf
 
       - name: Commit and push changes
+        if: always()
         run: |
           git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY.git
           git stash --include-untracked

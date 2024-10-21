@@ -190,3 +190,7 @@ Runs `data-raw/benchmarks.R` across all test backends and compiles benchmarks to
 
 #### Outcome
 Benchmark data compiled to `inst/extdata/benchmarks.rds`.
+
+| Arguments            | Description                                              | Default     | Example       |
+|----------------------|----------------------------------------------------------|-------------|---------------|
+| `backend_exclude`    | Data base backends to skip (optional)                    | ''          | postgres      |
