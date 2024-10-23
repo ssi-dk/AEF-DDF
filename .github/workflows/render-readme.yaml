@@ -62,6 +62,6 @@ jobs:
           git stash
           git pull --rebase origin ${{ inputs.branch_name }}
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
-          git add README.md README.Rmd
+          git add README.md
           git commit -m "docs(README): Re-build README.Rmd" || echo "No changes to commit"
           git push origin ${{ inputs.branch_name }}
