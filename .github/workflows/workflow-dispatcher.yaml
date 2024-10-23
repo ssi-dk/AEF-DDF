@@ -86,7 +86,7 @@ jobs:
       render-readme: ${{ !contains(inputs.skip, 'render-readme') && (
         inputs.event_name == 'workflow_dispatch' ||
         inputs.event_name != 'release' &&
-        needs.trigger.outputs.readme_files_changed == 'true') }}
+        needs.trigger.outputs.readme_any_changed == 'true') }}
 
       pkgdown: ${{ !contains(inputs.skip, 'pkgdown') && (
         inputs.event_name == 'workflow_dispatch' ||
