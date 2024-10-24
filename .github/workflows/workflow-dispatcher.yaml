@@ -42,68 +42,141 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
+      on_main_branch: ${{ steps.main_branch_affected.outputs.on_main_branch }}
       main_branch_affected: ${{ steps.main_branch_affected.outputs.main_branch_affected }}
       branch_name: ${{ steps.branch_name.outputs.branch_name }}
       cache_version: ${{ steps.cache_version.outputs.cache_version }}
 
-      lint: ${{ !contains(inputs.skip, 'lint') && (
-        inputs.event_name == 'workflow_dispatch' || (
-        steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.vignette_any_changed == 'true')) }}
+      lint: ${{
+        !contains(inputs.skip, 'lint') &&
+        (
+          inputs.event_name == 'workflow_dispatch' ||
+          steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+          (
+            steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+            steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
+            steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
+            steps.changed-files-yaml.outputs.vignette_any_changed == 'true'
+          )
+        )
+      }}
 
-      spell-checker: ${{ !contains(inputs.skip, 'spell-checker') && (
-        inputs.event_name == 'workflow_dispatch' || (
-        steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.vignette_any_changed == 'true')) }}
+      spell-checker: ${{
+        !contains(inputs.skip, 'spell-checker') &&
+        (
+          inputs.event_name == 'workflow_dispatch' ||
+          steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+          (
+            steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
+            steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
+            steps.changed-files-yaml.outputs.vignette_any_changed == 'true'
+          )
+        )
+      }}
 
-      R-CMD-check: ${{ !contains(inputs.skip, 'R-CMD-check') && (
-        inputs.event_name == 'workflow_dispatch' ||
-        inputs.event_name == 'release' || (
-        steps.main_branch_affected.outputs.main_branch_affected == 'true' && (
-        steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.vignette_any_changed == 'true'))) }}
+      R-CMD-check: ${{
+        !contains(inputs.skip, 'R-CMD-check') &&
+        (
+          inputs.event_name == 'workflow_dispatch' ||
+          inputs.event_name == 'release' ||
+          steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+          (
+            steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
+            (
+              steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+              steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
+              steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
+              steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
+              steps.changed-files-yaml.outputs.vignette_any_changed == 'true'
+            )
+          )
+        )
+      }}
 
-      code-coverage: ${{ !contains(inputs.skip, 'code-coverage') && (
-        inputs.event_name == 'workflow_dispatch' ||
-        inputs.event_name == 'release' || (
-        steps.main_branch_affected.outputs.main_branch_affected == 'true' && (
-        steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.description_any_changed == 'true'))) }}
+      code-coverage: ${{
+        !contains(inputs.skip, 'code-coverage') &&
+        (
+          inputs.event_name == 'workflow_dispatch' ||
+          inputs.event_name == 'release' ||
+          steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+          (
+            steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
+            (
+              steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+              steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
+              steps.changed-files-yaml.outputs.description_any_changed == 'true'
+            )
+          )
+        )
+      }}
 
-      document: ${{ !contains(inputs.skip, 'document') && (
-        inputs.event_name == 'workflow_dispatch' ||
-        inputs.event_name != 'release' && (
-        steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.description_any_changed == 'true')) }}
+      document: ${{
+        !contains(inputs.skip, 'document') &&
+        (
+          inputs.event_name == 'workflow_dispatch' ||
+          (
+            inputs.event_name != 'release' &&
+            (
+              steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+              steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+              steps.changed-files-yaml.outputs.description_any_changed == 'true'
+            )
+          )
+        )
+      }}
 
-      render-readme: ${{ !contains(inputs.skip, 'render-readme') && (
-        inputs.event_name == 'workflow_dispatch' ||
-        inputs.event_name != 'release' &&
-        needs.trigger.outputs.readme_any_changed == 'true') }}
+      render-readme: ${{
+        !contains(inputs.skip, 'render-readme') &&
+        (
+          inputs.event_name == 'workflow_dispatch' ||
+          (
+            inputs.event_name != 'release' &&
+            (
+              steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+              needs.trigger.outputs.readme_any_changed == 'true'
+            )
+          )
+        )
+      }}
 
-      pkgdown: ${{ !contains(inputs.skip, 'pkgdown') && (
-        inputs.event_name == 'workflow_dispatch' ||
-        inputs.event_name == 'release' || (
-        (steps.main_branch_affected.outputs.main_branch_affected == 'true') && (
-        steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.vignette_any_changed == 'true'))) }}
+      pkgdown: ${{
+        !contains(inputs.skip, 'pkgdown') &&
+        (
+          inputs.event_name == 'workflow_dispatch' ||
+          inputs.event_name == 'release' ||
+          steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+          (
+            steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
+            (
+              steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+              steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
+              steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
+              steps.changed-files-yaml.outputs.vignette_any_changed == 'true'
+            )
+          )
+        )
+      }}
 
-      update-lockfile: ${{ !contains(inputs.skip, 'update-lockfile') && (
-        inputs.event_name == 'workflow_dispatch' || (
-        inputs.event_name != 'release' &&
-        steps.main_branch_affected.outputs.main_branch_affected == 'true' && (
-        steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
-        steps.changed-files-yaml.outputs.description_any_changed == 'true'))) }}
+      update-lockfile: ${{
+        !contains(inputs.skip, 'update-lockfile') &&
+        (
+          inputs.event_name == 'workflow_dispatch' ||
+          (
+            inputs.event_name != 'release' &&
+            (
+              steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+              (
+                steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
+                (
+                  steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+                  steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
+                  steps.changed-files-yaml.outputs.description_any_changed == 'true'
+                )
+              )
+            )
+          )
+        )
+      }}
 
     steps:
       - uses: actions/checkout@v4
@@ -143,12 +216,15 @@ jobs:
           if [ "${{ inputs.event_name }}" == "pull_request" ] && [[ "${{ inputs.main_branches }}" == *"$GITHUB_BASE_REF"* ]]; then
             # Pull request event to a main branch
             echo "main_branch_affected=true" >> $GITHUB_OUTPUT
+            echo "on_main_branch=false" >> $GITHUB_OUTPUT
           elif [ "${{ inputs.event_name }}" != "pull_request" ] && [[ "${{ inputs.main_branches }}" == *"$GITHUB_REF_NAME"* ]]; then
             # Non pull request event to a main branch
             echo "main_branch_affected=true" >> $GITHUB_OUTPUT
+            echo "on_main_branch=true" >> $GITHUB_OUTPUT
           else
             # All other cases
             echo "main_branch_affected=false" >> $GITHUB_OUTPUT
+            echo "on_main_branch=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Invalidate cache on workflow_dispatch
