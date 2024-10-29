@@ -89,7 +89,7 @@ jobs:
           # We need to manually create the link to the function
           # regex: <code>\?(\w+)\$()(\w+)[\(\)]+<\/code>
           # Target: <a href="../reference/DiseasystoreBase.html#method-DiseasystoreBase-get_feature"><code>get_feature()</code></a>
-          find docs -name *.html -exec sed -ri 's/<code>\?(\w+)\$(\w+(?:\(\))?)<\/code>/<code><a href="..\/reference\/\1.html#method-\1-\2">\$\2<\/a><\/code>/g' {} +
+          find docs -name *.html -exec sed -ri 's/<code>\?(\w+)\$(\w+(:?\(\))?)<\/code>/<code><a href="..\/reference\/\1.html#method-\1-\2">\$\2<\/a><\/code>/g' {} +
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
