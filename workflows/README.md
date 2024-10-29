@@ -119,10 +119,16 @@ If this generate changes the `.Rd` files, it will commit the updated documentati
 #### Trigger
 Pushes or pull requests to the main branch if there are changes to any file in the `R/`, `man/` or `vignette/` folders.
 
-Special triggering on creation of a `release`
+Special triggering on creation of a `release`.
 
 #### Function
-Generates the `pkgdown` documentation for your package
+Generates the `pkgdown` documentation for your package.
+
+> [!IMPORTANT]
+> This workflow runs additional formatting of the pkgdown documentation.
+> Specifically, it adds auto-linking to R6 object
+> - `?MyR6Class` is rendered without the `?` and links to `MyR6Class`.
+> - `?MyR6Class$method()` is rendered as `method()` and links to the method of `MyR6Class`
 
 #### Outcome
 The output of `pkgdown` is stored as an artifact on github.
