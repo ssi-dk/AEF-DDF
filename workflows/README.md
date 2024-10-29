@@ -129,6 +129,8 @@ Generates the `pkgdown` documentation for your package.
 > Specifically, it adds auto-linking to R6 object
 > - `?MyR6Class` is rendered without the `?` and links to `MyR6Class`.
 > - `?MyR6Class$method()` is rendered as `method()` and links to the method of `MyR6Class`
+> Notably, these changes are only done on Github.com.
+> When rendering the documentation locally, the code blocks will not be changed.
 
 #### Outcome
 The output of `pkgdown` is stored as an artifact on github.
