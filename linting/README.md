@@ -44,3 +44,23 @@ Var_1 = 3 # nolint: assignment_linter.
 Var_2 = 3 # nolint: assignment_linter
 #   In both cases, only the assignment linter is disabled.
 ```
+
+## Additional linters added to the linting system
+### `nolint_position_linter`
+Checks that all "nolint:" statements begin at character 121.
+
+### `nolint_line_length_linter`
+Checks that no line exceeds 120 characters (ignoring "nolint:" statements).
+
+### `non_ascii_linter`
+Checks that the code only contains ASCII characters.
+
+### `param_and_field_linter`
+Checks that R6 documentation of "@param" and "@field" objects adhere to the `mlr3` style.
+I.e. it checks for the existence of a data_type and carriage return.
+
+```r
+#' @param variable (`data_type`)\cr
+#'   Description of variable
+```
+
