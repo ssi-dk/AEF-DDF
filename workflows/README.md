@@ -130,6 +130,7 @@ Generates the `pkgdown` documentation for your package.
 > - `?MyR6Class` is rendered without the `?` and links to `MyR6Class`.
 > - `?MyR6Class$method()` is rendered as `method()` and links to the method of `MyR6Class`.
 > - `?MyR6Class$active_binding` is rendered as `active_binding` and links to the active binding section of `MyR6Class`.
+>
 > Notably, these changes are only done on Github.com.
 > When rendering the documentation locally, the code blocks will not be changed.
 
