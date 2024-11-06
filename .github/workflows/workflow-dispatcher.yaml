@@ -32,6 +32,10 @@ on:
         required: false
         type: boolean
         default: true
+      auto_link_r6:
+        required: false
+        type: boolean
+        default: true
 
 
 jobs:
@@ -348,6 +352,7 @@ jobs:
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.pkgdown == 'true' }}
     uses: ./.github/workflows/pkgdown.yaml
     with:
+      auto_link_r6: ${{ inputs.auto_link_r6 }}
       event_name: ${{ inputs.event_name }}
       run_id: ${{ inputs.run_id }}
     secrets: inherit

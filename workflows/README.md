@@ -128,7 +128,8 @@ Generates the `pkgdown` documentation for your package.
 > This workflow runs additional formatting of the pkgdown documentation.
 > Specifically, it adds auto-linking to R6 object
 > - `?MyR6Class` is rendered without the `?` and links to `MyR6Class`.
-> - `?MyR6Class$method()` is rendered as `method()` and links to the method of `MyR6Class`
+> - `?MyR6Class$method()` is rendered as `method()` and links to the method of `MyR6Class`.
+> - `?MyR6Class$active_binding` is rendered as `active_binding` and links to the active binding section of `MyR6Class`.
 > Notably, these changes are only done on Github.com.
 > When rendering the documentation locally, the code blocks will not be changed.
 
@@ -136,6 +137,10 @@ Generates the `pkgdown` documentation for your package.
 The output of `pkgdown` is stored as an artifact on github.
 
 If the trigger is a `release`, the `pkgdown` output is deployed to the github page of the repository.
+
+| Arguments            | Description                                              | Default     | Example       |
+|----------------------|----------------------------------------------------------|-------------|---------------|
+| `auto_link_r6`       | Should R6 references be auto-linked? (optional)          | true        | false         |
 
 
 ## render-readme.yaml

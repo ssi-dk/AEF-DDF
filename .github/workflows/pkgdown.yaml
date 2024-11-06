@@ -4,6 +4,9 @@
 on:
   workflow_call:
     inputs:
+      auto_link_r6:
+        type: boolean
+        default: true
       event_name:
         required: true
         type: string
@@ -69,6 +72,7 @@ jobs:
           sed -i 's/<code><a href="\(\w\+\)\.html">\w\+\.[a-zA-Z_ ]\+<\/a><\/code>//g' docs/reference/index.html
 
       - name: Remove question marks from auto-linked references
+        if: inputs.auto_link_r6
         run: |
           # The only way to auto-link R6 objects is by prepending af `?` to the code block
           # For specific functions in an R6 class, it is possible to prepend the parent class `?parent$function()`
