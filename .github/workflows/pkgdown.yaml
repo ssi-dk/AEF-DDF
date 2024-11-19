@@ -153,7 +153,7 @@ jobs:
   deploy:
     name: "🚀 pkgdown: Deploy"
     runs-on: ubuntu-latest
-    if: ${{ (inputs.event_name == 'release' || needs.determine-pre-release.outputs.pre_release == 'true') }}
+    if: ${{ inputs.event_name == 'release' || needs.determine-pre-release.outputs.pre_release == 'true' }}
     needs: [cleanup, pkgdown-build, determine-pre-release]
     steps:
       - uses: actions/checkout@v4
