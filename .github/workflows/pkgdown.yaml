@@ -19,6 +19,7 @@ jobs:
   cleanup:
     name: "🧼 pkgdown: Clean up"
     if: ${{ inputs.event_name == 'release' || needs.determine-pre-release.outputs.pre_release == 'true' }}
+    needs: determine-pre-release
     runs-on: ubuntu-latest
     permissions: write-all
 
