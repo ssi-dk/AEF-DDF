@@ -177,7 +177,7 @@ jobs:
           # Add note slow backends
           slow_backends <- benchmarks |>
             dplyr::distinct(.data$database, .data$n) |>
-            dplyr::filter(.data$n < max(.data$n)) |>
+            dplyr::filter(.data$n < max(.data$n), .by = "benchmark_function") |>
             dplyr::pull("database")
 
           benchmarks <- benchmarks |>
