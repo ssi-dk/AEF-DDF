@@ -138,6 +138,8 @@ Generates the `pkgdown` documentation for your package.
 The output of `pkgdown` is stored as an artifact on github.
 
 If the trigger is a `release`, the `pkgdown` output is deployed to the github page of the repository.
+Alternatively, if the package is a pre-release state (i.e. the version number is less than "0.1") then the
+`pkgdown` output is deployed when the workflow runs on one of the `main_branches`.
 
 | Arguments            | Description                                              | Default     | Example       |
 |----------------------|----------------------------------------------------------|-------------|---------------|
