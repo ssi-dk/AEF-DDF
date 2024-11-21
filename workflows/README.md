@@ -142,6 +142,7 @@ If the trigger is a `release`, the `pkgdown` output is deployed to the github pa
 | Arguments            | Description                                              | Default     | Example       |
 |----------------------|----------------------------------------------------------|-------------|---------------|
 | `auto_link_r6`       | Should R6 references be auto-linked? (optional)          | true        | false         |
+| `main_branches`      | Main branches to trigger on (optional).                  | main,master | production    |
 
 
 ## render-readme.yaml

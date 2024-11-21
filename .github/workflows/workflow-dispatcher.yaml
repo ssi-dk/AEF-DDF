@@ -354,6 +354,7 @@ jobs:
     with:
       auto_link_r6: ${{ inputs.auto_link_r6 }}
       event_name: ${{ inputs.event_name }}
+      main_branches: ${{ inputs.main_branches }}
       run_id: ${{ inputs.run_id }}
     secrets: inherit
     concurrency:

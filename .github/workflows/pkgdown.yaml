@@ -10,6 +10,10 @@ on:
       event_name:
         required: true
         type: string
+      main_branches:
+        required: true
+        type: string
+        default: 'main,master'
       run_id:
         required: true
         type: string
@@ -18,7 +22,7 @@ jobs:
 
   cleanup:
     name: "🧼 pkgdown: Clean up"
-    if: ${{ inputs.event_name == 'release' || needs.determine-pre-release.outputs.pre_release == 'true' }}
+    if: inputs.event_name == 'release' || (needs.determine-pre-release.outputs.pre_release == 'true' && contains(inputs.main_branches, github.ref))
     needs: determine-pre-release
     runs-on: ubuntu-latest
     permissions: write-all
@@ -145,7 +149,7 @@ jobs:
   deploy:
     name: "🚀 pkgdown: Deploy"
     runs-on: ubuntu-latest
-    if: ${{ inputs.event_name == 'release' || needs.determine-pre-release.outputs.pre_release == 'true' }}
+    if: inputs.event_name == 'release' || (needs.determine-pre-release.outputs.pre_release == 'true' && contains(inputs.main_branches, github.ref))
     needs: [cleanup, pkgdown-build, determine-pre-release]
     steps:
       - uses: actions/checkout@v4
