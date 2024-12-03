@@ -21,6 +21,8 @@ group:
     # Lintr related files
     - source: linting/.lintr
       dest: .lintr
+    - source: linting/0_linters.R
+      dest: R/0_linters.R
     - source: linting/test-0_linters.R
       dest: tests/testthat/test-0_linters.R
 
@@ -121,17 +123,6 @@ ssi-dk/diseasy:
       repo:
         name: diseasy
 
-  - source: linting/0_linters.R
-    dest: R/0_linters.R
-    template:
-      repo:
-        name: diseasy
-    config:
-      tags: {
-        variableStart: '<$',
-        variableEnd: '$>'
-      }
-
 
 ssi-dk/diseasystore:
   - source: templates/bug_report.md
@@ -145,14 +136,3 @@ ssi-dk/diseasystore:
     template:
       repo:
         name: diseasystore
-
-  - source: linting/0_linters.R
-    dest: R/0_linters.R
-    template:
-      repo:
-        name: diseasy
-    config:
-      tags: {
-        variableStart: '<$',
-        variableEnd: '$>'
-      }
