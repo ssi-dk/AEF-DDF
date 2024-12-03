@@ -126,6 +126,11 @@ ssi-dk/diseasy:
     template:
       repo:
         name: diseasy
+    config:
+      tags: {
+        variableStart: '<$',
+        variableEnd: '$>'
+      }
 
 
 ssi-dk/diseasystore:
@@ -146,3 +151,8 @@ ssi-dk/diseasystore:
     template:
       repo:
         name: diseasy
+    config:
+      tags: {
+        variableStart: '<$',
+        variableEnd: '$>'
+      }
