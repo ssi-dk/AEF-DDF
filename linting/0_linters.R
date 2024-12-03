@@ -355,7 +355,7 @@ documentation_template_linter <- function() {
       # Detect if template exists
       detection_info <- detection_info |>
         dplyr::mutate("rd_template" = paste0("rd_", .data$param)) |>
-        dplyr::filter(.data$rd_template %in% names(as.list(base::getNamespace(devtools::as.package(".")$package)))) |>
+        dplyr::filter(.data$rd_template %in% names(as.list(base::getNamespace({{ repo.name }})))) |>
         dplyr::select(!"param")
 
       purrr::pmap(
