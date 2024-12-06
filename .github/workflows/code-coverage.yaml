@@ -431,7 +431,12 @@ jobs:
 
       - name: Combine Coverage Reports and upload to codecov.io
         run: |
-          files <- list.files("coverage-reports", full.names = TRUE, pattern = "\\.rds$", recursive = TRUE)
+          files <- list.files(
+            "coverage-reports",
+            full.names = TRUE,
+            pattern = "coverage_results\\.rds$",
+            recursive = TRUE
+          )
 
           coverages <- purrr::map(files, readRDS)
 
