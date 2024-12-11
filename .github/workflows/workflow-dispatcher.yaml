@@ -132,7 +132,7 @@ jobs:
           (
             inputs.event_name != 'release' &&
             (
-              steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+              steps.main_branch_affected.outputs.main_branch_affected == 'true' ||
               needs.trigger.outputs.readme_any_changed == 'true'
             )
           )
