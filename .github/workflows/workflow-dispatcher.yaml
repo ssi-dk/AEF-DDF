@@ -267,6 +267,7 @@ jobs:
           echo "main_branch_affected: ${{ needs.trigger.outputs.main_branch_affected }}"
           echo "branch_name: ${{ needs.trigger.outputs.branch_name }}"
           echo "cache_version: ${{ needs.trigger.outputs.cache_version }}"
+          echo "min_r_version: ${{ needs.trigger.outputs.min_r_version }}"
           echo "lint: ${{ needs.trigger.outputs.lint }}"
           echo "spell-checker: ${{ needs.trigger.outputs.spell-checker }}"
           echo "R-CMD-check: ${{ needs.trigger.outputs.R-CMD-check }}"
