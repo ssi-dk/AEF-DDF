@@ -26,7 +26,7 @@ jobs:
           - {os: windows,  r: 'release'}
           - {os: ubuntu,   r: 'release'}
           - {os: ubuntu,   r: 'oldrel-1'}
-          - {os: ubuntu,   r: ${{ inputs.min_r_version }}}
+          - {os: ubuntu,   r: '${{ inputs.min_r_version }}'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
