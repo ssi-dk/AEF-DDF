@@ -50,6 +50,8 @@ jobs:
       main_branch_affected: ${{ steps.main_branch_affected.outputs.main_branch_affected }}
       branch_name: ${{ steps.branch_name.outputs.branch_name }}
       cache_version: ${{ steps.cache_version.outputs.cache_version }}
+      min_r_version: ${{ steps.cache_version.outputs.min_R_version }}
+
 
       lint: ${{
         !contains(inputs.skip, 'lint') &&
@@ -226,6 +228,11 @@ jobs:
             echo "on_main_branch=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Determine R version requirement in DESCRIPTION
+        run: |
+          min_R_version=$(grep -oP 'R \(>= \K[0-9]+\.[0-9]+(\.[0-9]+)?' DESCRIPTION)
+          echo "min_R_version=${min_R_version}" >> $GITHUB_OUTPUT
+
       - name: Invalidate cache on workflow_dispatch
         id: cache_version
         shell: bash
@@ -248,6 +255,7 @@ jobs:
           echo "main branch affected: ${{ steps.main_branch_affected.outputs.main_branch_affected }}"
           echo "branch name: ${{ steps.branch_name.outputs.branch_name }}"
           echo "cache_version: ${{ steps.cache_version.outputs.cache_version }}"
+          echo "R version requirement: ${{ steps.cache_version.outputs.min_R_version }}"
 
 
   inspect-trigger-output:
