@@ -26,7 +26,6 @@ jobs:
           - {os: windows,  r: 'release'}
           - {os: ubuntu,   r: 'release'}
           - {os: ubuntu,   r: 'oldrel-1'}
-          - {os: ubuntu,   r: '${{ inputs.min_r_version }}'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -116,6 +115,39 @@ jobs:
 
       - uses: r-lib/actions/setup-r@v2
         with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: ${{ inputs.cache_version }}
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
+          error-on: '"note"'
+
+  R-CMD-check-min-supported:
+    runs-on: ubuntu-latest
+
+    name: "🔎 Check: ubuntu (${{ inputs.min_r_version }})"
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+      BACKEND: SQLite
+      BACKEND_DRV: RSQLite::SQLite
+      BACKEND_ARGS: 'list(dbname = file.path(tempdir(), "SQLite.SQLite"))'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ inputs.min_r_version }}
           use-public-rspm: true
 
       - uses: r-lib/actions/setup-r-dependencies@v2
