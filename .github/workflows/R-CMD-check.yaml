@@ -51,11 +51,17 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: "Build R package to subdir"
+        run: |
+          mkdir -p pkg-build
+          Rscript -e 'devtools::build(path = "pkg-build")'
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
           args: ${{ inputs.rcmdcheck_args }}
           error-on: '"note"'
+          working-directory: pkg-build
 
 
   R-CMD-check-hard:
@@ -91,10 +97,16 @@ jobs:
             any::rmarkdown
           needs: check
 
+      - name: "Build R package to subdir"
+        run: |
+          mkdir -p pkg-build
+          Rscript -e 'devtools::build(path = "pkg-build")'
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
           error-on: '"note"'
+          working-directory: pkg-build
           snapshot-artifact-name: "r-release-hard-snapshot"
 
 
@@ -125,10 +137,16 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: "Build R package to subdir"
+        run: |
+          mkdir -p pkg-build
+          Rscript -e 'devtools::build(path = "pkg-build")'
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
           error-on: '"note"'
+          working-directory: pkg-build
           snapshot-artifact-name: "r-devel-snapshot"
 
   R-CMD-check-min-supported:
@@ -159,8 +177,14 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: "Build R package to subdir"
+        run: |
+          mkdir -p pkg-build
+          Rscript -e 'devtools::build(path = "pkg-build")'
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
           error-on: '"note"'
+          working-directory: pkg-build
           snapshot-artifact-name: "r-${{ inputs.min_r_version }}-snapshot"
