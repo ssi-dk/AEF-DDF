@@ -48,10 +48,10 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
-          extra-packages: any::rcmdcheck
+          extra-packages: any::rcmdcheck, any::devtools
           needs: check
 
-      - name: "Build R package to subdir"
+      - name: "Build R package to sub-directory"
         run: |
           mkdir -p pkg-build
           Rscript -e 'devtools::build(path = "pkg-build")'
@@ -97,7 +97,7 @@ jobs:
             any::rmarkdown
           needs: check
 
-      - name: "Build R package to subdir"
+      - name: "Build R package to sub-directory"
         run: |
           mkdir -p pkg-build
           Rscript -e 'devtools::build(path = "pkg-build")'
@@ -134,10 +134,10 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
-          extra-packages: any::rcmdcheck
+          extra-packages: any::rcmdcheck, any::devtools
           needs: check
 
-      - name: "Build R package to subdir"
+      - name: "Build R package to sub-directory"
         run: |
           mkdir -p pkg-build
           Rscript -e 'devtools::build(path = "pkg-build")'
@@ -174,10 +174,10 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
-          extra-packages: any::rcmdcheck
+          extra-packages: any::rcmdcheck, any::devtools
           needs: check
 
-      - name: "Build R package to subdir"
+      - name: "Build R package to sub-directory"
         run: |
           mkdir -p pkg-build
           Rscript -e 'devtools::build(path = "pkg-build")'
