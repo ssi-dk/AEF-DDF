@@ -95,6 +95,7 @@ jobs:
             any::testthat
             any::knitr
             any::rmarkdown
+            any::devtools
           needs: check
 
       - name: "Build R package to sub-directory"
