@@ -189,6 +189,7 @@ jobs:
           files_yaml: |
             R:
               - R/**
+              - data-raw/**
             test:
               - tests/**
             man:
