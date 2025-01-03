@@ -46,7 +46,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: package-tarball
-          path: package.tar.gz
+          path: '"package.tar.gz"'
 
 
   R-CMD-check:
@@ -93,7 +93,7 @@ jobs:
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: package.tar.gz
+          path: '"package.tar.gz"'
           upload-snapshots: true
           args: ${{ inputs.rcmdcheck_args }}
           error-on: '"note"'
@@ -139,7 +139,7 @@ jobs:
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: package.tar.gz
+          path: '"package.tar.gz"'
           upload-snapshots: true
           error-on: '"note"'
           working-directory: pkg-build
@@ -180,7 +180,7 @@ jobs:
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: package.tar.gz
+          path: '"package.tar.gz"'
           upload-snapshots: true
           error-on: '"note"'
           working-directory: pkg-build
@@ -222,7 +222,7 @@ jobs:
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: package.tar.gz
+          path: '"package.tar.gz"'
           upload-snapshots: true
           error-on: '"note"'
           working-directory: pkg-build
