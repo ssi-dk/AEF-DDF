@@ -38,7 +38,7 @@ jobs:
           needs: build
 
       - name: List session information with file encoding information
-        run: sessionInfo()
+        run: Rscript -e 'sessionInfo()'
         shell: Rscript {0}
 
       - name: "Build R package"
