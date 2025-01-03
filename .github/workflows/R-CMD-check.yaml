@@ -101,6 +101,7 @@ jobs:
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
           path: '"./package.tar.gz"'
+          working-directory: pkg-build
           upload-snapshots: true
           args: ${{ inputs.rcmdcheck_args }}
           error-on: '"note"'
