@@ -169,7 +169,7 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
-        with:
+      - uses: actions/download-artifact@v4
         with:
           name: package-tarball
 
