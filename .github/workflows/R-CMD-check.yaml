@@ -93,11 +93,11 @@ jobs:
 
       - name: Determine tar ball name
         id: tarball
-        run: echo "::set-output name=tarball::$(ls pkg-build/*.tar.gz)"
+        run: echo "tarball=$(ls pkg-build/*.tar.gz)" >> $GITHUB_ENV
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: '"./${{ steps.tarball.outputs.tarball }}"'
+          path: '"./${{ env.tarball }}"'
           working-directory: pkg-build
           upload-snapshots: true
           args: ${{ inputs.rcmdcheck_args }}
@@ -146,11 +146,11 @@ jobs:
 
       - name: Determine tar ball name
         id: tarball
-        run: echo "::set-output name=tarball::$(ls pkg-build/*.tar.gz)"
+        run: echo "tarball=$(ls pkg-build/*.tar.gz)" >> $GITHUB_ENV
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: '"./${{ steps.tarball.outputs.tarball }}"'
+          path: '"./${{ env.tarball }}"'
           upload-snapshots: true
           error-on: '"note"'
           working-directory: pkg-build
@@ -192,11 +192,11 @@ jobs:
 
       - name: Determine tar ball name
         id: tarball
-        run: echo "::set-output name=tarball::$(ls pkg-build/*.tar.gz)"
+        run: echo "tarball=$(ls pkg-build/*.tar.gz)" >> $GITHUB_ENV
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: '"./${{ steps.tarball.outputs.tarball }}"'
+          path: '"${{ env.tarball }}"'
           upload-snapshots: true
           error-on: '"note"'
           working-directory: pkg-build
@@ -239,11 +239,11 @@ jobs:
 
       - name: Determine tar ball name
         id: tarball
-        run: echo "::set-output name=tarball::$(ls pkg-build/*.tar.gz)"
+        run: echo "tarball=$(ls pkg-build/*.tar.gz)" >> $GITHUB_ENV
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: '"./${{ steps.tarball.outputs.tarball }}"'
+          path: '"./${{ env.tarball }}"'
           upload-snapshots: true
           error-on: '"note"'
           working-directory: pkg-build
