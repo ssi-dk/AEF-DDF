@@ -94,10 +94,6 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
 
-      - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: pkg-build
-
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
           path: '"./package.tar.gz"'
