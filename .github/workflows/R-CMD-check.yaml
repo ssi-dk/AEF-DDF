@@ -88,7 +88,7 @@ jobs:
         with:
           name: package-tarball
 
-      - uses: RasmusSkytte/actions/check-r-package@v2
+      - uses: RasmusSkytte/actions/check-r-package
         with:
           path: package.tar.gz
           upload-snapshots: true
@@ -134,7 +134,7 @@ jobs:
         with:
           name: package-tarball
 
-      - uses: RasmusSkytte/actions/check-r-package@v2
+      - uses: RasmusSkytte/actions/check-r-package
         with:
           path: package.tar.gz
           upload-snapshots: true
@@ -175,7 +175,7 @@ jobs:
         with:
           name: package-tarball
 
-      - uses: RasmusSkytte/actions/check-r-package@v2
+      - uses: RasmusSkytte/actions/check-r-package
         with:
           path: package.tar.gz
           upload-snapshots: true
@@ -217,7 +217,7 @@ jobs:
         with:
           name: package-tarball
 
-      - uses: RasmusSkytte/actions/check-r-package@v2
+      - uses: RasmusSkytte/actions/check-r-package
         with:
           path: package.tar.gz
           upload-snapshots: true
