@@ -47,14 +47,14 @@ jobs:
           Sys.setenv(LANG = "en_GB.UTF-8")
           Sys.setlocale("LC_ALL", Sys.getenv("LANG"))
 
-          devtools::build(path = "package.tar.gz")
+          devtools::build()
 
         shell: Rscript {0}
 
       - uses: actions/upload-artifact@v4
         with:
           name: package-tarball
-          path: package.tar.gz
+          pattern: "*.tar.gz"
 
 
   R-CMD-check:
@@ -100,9 +100,13 @@ jobs:
           name: package-tarball
           path: "./pkg-build"
 
+      - name: Determine tar ball name
+        id: tarball
+        run: echo "::set-output name=tarball::$(ls pkg-build/*.tar.gz)"
+
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: '"./package.tar.gz"'
+          path: '"./${{ steps.tarball.outputs.tarball }}"'
           working-directory: pkg-build
           upload-snapshots: true
           args: ${{ inputs.rcmdcheck_args }}
@@ -149,9 +153,13 @@ jobs:
           name: package-tarball
           path: "./pkg-build"
 
+      - name: Determine tar ball name
+        id: tarball
+        run: echo "::set-output name=tarball::$(ls pkg-build/*.tar.gz)"
+
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: '"./package.tar.gz"'
+          path: '"./${{ steps.tarball.outputs.tarball }}"'
           upload-snapshots: true
           error-on: '"note"'
           working-directory: pkg-build
@@ -191,9 +199,13 @@ jobs:
           name: package-tarball
           path: "./pkg-build"
 
+      - name: Determine tar ball name
+        id: tarball
+        run: echo "::set-output name=tarball::$(ls pkg-build/*.tar.gz)"
+
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: '"./package.tar.gz"'
+          path: '"./${{ steps.tarball.outputs.tarball }}"'
           upload-snapshots: true
           error-on: '"note"'
           working-directory: pkg-build
@@ -234,9 +246,13 @@ jobs:
           name: package-tarball
           path: "./pkg-build"
 
+      - name: Determine tar ball name
+        id: tarball
+        run: echo "::set-output name=tarball::$(ls pkg-build/*.tar.gz)"
+
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: '"./package.tar.gz"'
+          path: '"./${{ steps.tarball.outputs.tarball }}"'
           upload-snapshots: true
           error-on: '"note"'
           working-directory: pkg-build
