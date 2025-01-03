@@ -98,12 +98,6 @@ jobs:
         run: ls -R
         working-directory: pkg-build
 
-      - name: Delete DESCRIPTION file
-        run: rm DESCRIPTION
-
-      - name: Display structure of downloaded files
-        run: ls -R
-
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
           path: '"./package.tar.gz"'
