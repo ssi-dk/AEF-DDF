@@ -96,7 +96,7 @@ jobs:
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: '"package.tar.gz"'
+          path: '"./package.tar.gz"'
           upload-snapshots: true
           args: ${{ inputs.rcmdcheck_args }}
           error-on: '"note"'
@@ -143,7 +143,7 @@ jobs:
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: '"package.tar.gz"'
+          path: '"./package.tar.gz"'
           upload-snapshots: true
           error-on: '"note"'
           working-directory: pkg-build
@@ -185,7 +185,7 @@ jobs:
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: '"package.tar.gz"'
+          path: '"./package.tar.gz"'
           upload-snapshots: true
           error-on: '"note"'
           working-directory: pkg-build
@@ -228,7 +228,7 @@ jobs:
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
-          path: '"package.tar.gz"'
+          path: '"./package.tar.gz"'
           upload-snapshots: true
           error-on: '"note"'
           working-directory: pkg-build
