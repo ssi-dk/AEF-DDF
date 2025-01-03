@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     name: "🔎 Check: Build package"
 
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - uses: actions/checkout@v4
 
