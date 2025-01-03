@@ -98,6 +98,7 @@ jobs:
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
           path: '"./${{ env.tarball }}"'
+          working-directory: pkg-build
           upload-snapshots: true
           args: ${{ inputs.rcmdcheck_args }}
           error-on: '"note"'
@@ -152,6 +153,7 @@ jobs:
           path: '"./${{ env.tarball }}"'
           upload-snapshots: true
           error-on: '"note"'
+          working-directory: pkg-build
           snapshot-artifact-name: "r-release-hard-snapshot"
 
 
@@ -197,6 +199,7 @@ jobs:
           path: '"${{ env.tarball }}"'
           upload-snapshots: true
           error-on: '"note"'
+          working-directory: pkg-build
           snapshot-artifact-name: "r-devel-snapshot"
 
 
@@ -243,4 +246,5 @@ jobs:
           path: '"./${{ env.tarball }}"'
           upload-snapshots: true
           error-on: '"note"'
+          working-directory: pkg-build
           snapshot-artifact-name: "r-${{ inputs.min_r_version }}-snapshot"
