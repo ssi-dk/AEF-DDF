@@ -37,6 +37,10 @@ jobs:
           extra-packages: any::devtools
           needs: build
 
+      - name: List session information with file encoding information
+        run: Rscript -e 'sessionInfo()'
+        shell: Rscript {0}
+
       - name: "Build R package"
         run: |
           devtools::build(path = "package.tar.gz")
