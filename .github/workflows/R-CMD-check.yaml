@@ -39,8 +39,7 @@ jobs:
 
       - name: "Build R package"
         run: |
-          pkg_file <- devtools::build(path = ".")
-          file.copy(pkg_file, "package.tar.gz")
+          devtools::build(path = "package.tar.gz")
         shell: Rscript {0}
 
       - uses: actions/upload-artifact@v4
