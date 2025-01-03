@@ -93,7 +93,8 @@ jobs:
 
       - name: Determine tar ball name
         id: tarball
-        run: echo "tarball=$(ls pkg-build/*.tar.gz)" >> $GITHUB_ENV
+        run: echo "tarball=$(ls *.tar.gz)" >> $GITHUB_ENV
+        working-directory: pkg-build
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
@@ -146,7 +147,8 @@ jobs:
 
       - name: Determine tar ball name
         id: tarball
-        run: echo "tarball=$(ls pkg-build/*.tar.gz)" >> $GITHUB_ENV
+        run: echo "tarball=$(ls *.tar.gz)" >> $GITHUB_ENV
+        working-directory: pkg-build
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
@@ -192,7 +194,8 @@ jobs:
 
       - name: Determine tar ball name
         id: tarball
-        run: echo "tarball=$(ls pkg-build/*.tar.gz)" >> $GITHUB_ENV
+        run: echo "tarball=$(ls *.tar.gz)" >> $GITHUB_ENV
+        working-directory: pkg-build
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
@@ -239,7 +242,8 @@ jobs:
 
       - name: Determine tar ball name
         id: tarball
-        run: echo "tarball=$(ls pkg-build/*.tar.gz)" >> $GITHUB_ENV
+        run: echo "tarball=$(ls *.tar.gz)" >> $GITHUB_ENV
+        working-directory: pkg-build
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
