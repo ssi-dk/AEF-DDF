@@ -83,7 +83,7 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
-          extra-packages: any::rcmdcheck
+          extra-packages: any::rcmdcheck, any::devtools
           needs: check
 
       - uses: actions/download-artifact@v4
@@ -139,6 +139,7 @@ jobs:
             any::testthat
             any::knitr
             any::rmarkdown
+            any::devtools
           needs: check
 
       - uses: actions/download-artifact@v4
@@ -180,7 +181,7 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
-          extra-packages: any::rcmdcheck
+          extra-packages: any::rcmdcheck, any::devtools
           needs: check
 
       - uses: actions/download-artifact@v4
@@ -223,7 +224,7 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
-          extra-packages: any::rcmdcheck
+          extra-packages: any::rcmdcheck, any::devtools
           needs: check
 
       - uses: actions/download-artifact@v4
