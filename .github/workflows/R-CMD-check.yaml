@@ -89,6 +89,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: package-tarball
+          path: "./pkg-build"
 
       - name: Display structure of downloaded files
         run: ls -R
@@ -138,6 +139,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: package-tarball
+          path: "./pkg-build"
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
@@ -179,6 +181,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: package-tarball
+          path: "./pkg-build"
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
@@ -221,6 +224,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: package-tarball
+          path: "./pkg-build"
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
