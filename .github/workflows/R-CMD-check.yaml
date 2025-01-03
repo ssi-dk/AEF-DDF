@@ -91,9 +91,6 @@ jobs:
           name: package-tarball
           path: "./pkg-build"
 
-      - name: Display structure of downloaded files
-        run: ls -R
-
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
           path: '"./package.tar.gz"'
