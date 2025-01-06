@@ -56,3 +56,13 @@ To check that it is valid JSON, use `jsonlite`:
 jsonlite::fromJSON(Sys.getenv("CONN_ARGS_JSON"))
 ```
 This should returns a named, nested list.
+
+
+## Adding paths to .Rbuildignore
+If you use the rd test file, it is a good idea to add the following paths to to your `.Rbuildignore`
+```
+^tests/testthat/test-0_rd_files\.R$
+```
+
+This will prevent the tests from being bundled with your package since they are primarily a development tool.
+If you support older version of R in your package (R < 4.0), then adding these lines is required to maintain backwards compatibility.
