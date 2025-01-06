@@ -64,3 +64,13 @@ I.e. it checks for the existence of a data_type and carriage return.
 #'   Description of variable
 ```
 
+## Adding paths to .Rbuildignore
+If you use the linters, it is a good idea to add the following paths to to your `.Rbuildignore`
+```
+^R/0_linters\.R$
+^tests/testthat/test-0_linters\.R$
+```
+
+This will prevent the linters from being bundled with your package since they are primarily a development tool.
+If you support older version of R in your package (R < 4.2), then adding these lines is required to maintain backwards compatibility.
+
