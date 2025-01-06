@@ -210,7 +210,7 @@ jobs:
     needs: build-package
     runs-on: ubuntu-latest
 
-    name: "🔎 Check: ubuntu (${{ inputs.min_r_version }})"
+    name: "🔎 Check: ubuntu (R v${{ inputs.min_r_version }})"
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
