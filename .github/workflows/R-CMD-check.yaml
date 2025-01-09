@@ -130,8 +130,8 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          cache-version: ${{ inputs.cache_version }}-hard
           dependencies: '"hard"'
-          cache: false
           extra-packages: |
             any::rcmdcheck
             any::testthat
