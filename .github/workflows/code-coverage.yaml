@@ -317,6 +317,7 @@ jobs:
         uses: potatoqualitee/mssqlsuite@v1.7
         with:
           install: sqlengine, sqlpackage, sqlclient
+          version: 2022
           show-log: true
 
       - name: Setup testing schemata in SQL server
