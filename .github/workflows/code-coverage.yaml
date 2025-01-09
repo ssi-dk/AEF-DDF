@@ -329,14 +329,14 @@ jobs:
 
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
-            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "CREATE SCHEMA [$schema];"
-            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "GO"
+            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "CREATE SCHEMA [$schema];" -C
+            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "GO" -C
           done
 
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "SELECT * FROM sys.schemas"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "SELECT * FROM sys.schemas" -C
 
           for schema in "${schemas[@]}"; do
-            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = '$schema'"
+            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = '$schema'"  -C
           done
 
       - uses: actions/checkout@v4
