@@ -35,7 +35,11 @@ jobs:
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
-          extra-packages: any::pak, any::jsonlite
+          extra-packages: |
+            any::pak
+            any::jsonlite
+            any::rcmdcheck
+            any::devtools
 
       - name: Update the pak.lock file
         run: |
