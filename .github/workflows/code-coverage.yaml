@@ -291,7 +291,7 @@ jobs:
 
 
   code-coverage-mssql:
-    name: "🧪 Tests: SQL Server 2019"
+    name: "🧪 Tests: SQL Server 2022"
     runs-on: ubuntu-latest
     if: ${{ !contains(inputs.backend_exclude, 'mssql')}}
 
@@ -314,7 +314,7 @@ jobs:
 
     steps:
       - name: Install a SQL Server suite of tools
-        uses: potatoqualitee/mssqlsuite@v1.7
+        uses: RasmusSkytte/mssqlsuite@main
         with:
           install: sqlengine, sqlpackage, sqlclient
           version: 2022
