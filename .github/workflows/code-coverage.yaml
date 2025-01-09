@@ -308,7 +308,8 @@ jobs:
             "server": "localhost",
             "database": "master",
             "UID": "SA",
-            "PWD": "dbatools.I0"
+            "PWD": "dbatools.I0",
+            "TrustServerCertificate": "yes"
           }
         }
 
