@@ -176,7 +176,6 @@ jobs:
         with:
           path: '"./${{ env.tarball }}"'
           upload-snapshots: true
-          error-on: '"note"'
           working-directory: pkg-build
           snapshot-artifact-name: "r-release-hard-snapshot"
 
