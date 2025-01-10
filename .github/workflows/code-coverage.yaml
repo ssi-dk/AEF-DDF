@@ -511,6 +511,14 @@ jobs:
           attr(combined_coverage, "package") <- attr(coverages[[1]], "package")
           attr(combined_coverage, "relative") <- attr(coverages[[1]], "relative")
 
-          covr::codecov(coverage = combined_coverage)
+          tryCatch(
+            {
+              covr::codecov(coverage = combined_coverage)
+            },
+            error = function(e) {
+              message("Failed to upload coverage report to Codecov: ", e$message)
+              quit(status = 1)
+            }
+          )
 
         shell: Rscript {0}
