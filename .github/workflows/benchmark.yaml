@@ -4,6 +4,10 @@ on:
       backend_exclude:
         type: string
         default: ''
+      cache_version:
+        type: string
+        default: '1'
+
 
 jobs:
   benchmark:
@@ -61,9 +65,21 @@ jobs:
         with:
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
+      - name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::devtools
+          cache-version: ${{ inputs.cache_version }}
+          extra-packages: |
+            local::.
+            any::pak
+            any::jsonlite
+            any::rcmdcheck
+            any::devtools,
+            any::lintr
+            any::covr
+            any::roxygen2,
+            any::pkgdown
+          needs: build, check, coverage, roxygen2, lint, website
 
       - name: Delete previous benchmark files
         if: always()

@@ -13,6 +13,7 @@ on:
         type: string
         default: '4.0'
 
+
 jobs:
   build-package:
     runs-on: ubuntu-latest
@@ -38,12 +39,16 @@ jobs:
         with:
           cache-version: ${{ inputs.cache_version }}
           extra-packages: |
+            local::.
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools
+            any::devtools,
+            any::lintr
             any::covr
-          needs: build, check, coverage
+            any::roxygen2,
+            any::pkgdown
+          needs: build, check, coverage, roxygen2, lint, website
 
       - name: "Build R package"
         run: |
@@ -88,16 +93,21 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
+      - name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
           extra-packages: |
+            local::.
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools
+            any::devtools,
+            any::lintr
             any::covr
-          needs: build, check, coverage
+            any::roxygen2,
+            any::pkgdown
+          needs: build, check, coverage, roxygen2, lint, website
 
       - uses: actions/download-artifact@v4
         with:
@@ -197,13 +207,8 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
-          extra-packages: |
-            any::pak
-            any::jsonlite
-            any::rcmdcheck
-            any::devtools
-            any::covr
-          needs: build, check, coverage
+          extra-packages: any::rcmdcheck, any::devtools
+          needs: check
 
       - uses: actions/download-artifact@v4
         with:
@@ -250,13 +255,8 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
-          extra-packages: |
-            any::pak
-            any::jsonlite
-            any::rcmdcheck
-            any::devtools
-            any::covr
-          needs: build, check, coverage
+          extra-packages: any::rcmdcheck, any::devtools
+          needs: check
 
       - uses: actions/download-artifact@v4
         with:

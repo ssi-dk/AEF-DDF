@@ -8,6 +8,7 @@ on:
         type: string
         required: true
 
+
 jobs:
   update-lockfile:
     name: 🛠️ Store dependency versions
@@ -37,12 +38,16 @@ jobs:
         with:
           cache-version: ${{ inputs.cache_version }}
           extra-packages: |
+            local::.
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools
+            any::devtools,
+            any::lintr
             any::covr
-          needs: build, check, coverage
+            any::roxygen2,
+            any::pkgdown
+          needs: build, check, coverage, roxygen2, lint, website
 
       - name: Update the pak.lock file
         run: |

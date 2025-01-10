@@ -55,12 +55,16 @@ jobs:
         with:
           cache-version: ${{ inputs.cache_version }}
           extra-packages: |
+            local::.
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools
+            any::devtools,
+            any::lintr
             any::covr
-          needs: build, check, coverage
+            any::roxygen2,
+            any::pkgdown
+          needs: build, check, coverage, roxygen2, lint, website
 
       - name: Setup BACKEND_POST_CONNECT
         if: ${{ matrix.config.schemas != '' }}
@@ -142,12 +146,16 @@ jobs:
         with:
           cache-version: ${{ inputs.cache_version }}
           extra-packages: |
+            local::.
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools
+            any::devtools,
+            any::lintr
             any::covr
-          needs: build, check, coverage
+            any::roxygen2,
+            any::pkgdown
+          needs: build, check, coverage, roxygen2, lint, website
 
       - name: Setup BACKEND_POST_CONNECT
         run: |
@@ -251,12 +259,16 @@ jobs:
         with:
           cache-version: ${{ inputs.cache_version }}
           extra-packages: |
+            local::.
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools
+            any::devtools,
+            any::lintr
             any::covr
-          needs: build, check, coverage
+            any::roxygen2,
+            any::pkgdown
+          needs: build, check, coverage, roxygen2, lint, website
 
       - name: Generate and Save Coverage Report
         run: |
@@ -380,12 +392,16 @@ jobs:
         with:
           cache-version: ${{ inputs.cache_version }}
           extra-packages: |
+            local::.
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools
+            any::devtools,
+            any::lintr
             any::covr
-          needs: build, check, coverage
+            any::roxygen2,
+            any::pkgdown
+          needs: build, check, coverage, roxygen2, lint, website
 
       - name: Generate and Save Coverage Report
         run: |
@@ -459,12 +475,16 @@ jobs:
         with:
           cache-version: ${{ inputs.cache_version }}
           extra-packages: |
+            local::.
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools
+            any::devtools,
+            any::lintr
             any::covr
-          needs: build, check, coverage
+            any::roxygen2,
+            any::pkgdown
+          needs: build, check, coverage, roxygen2, lint, website
 
       - uses: actions/download-artifact@v4
         with:

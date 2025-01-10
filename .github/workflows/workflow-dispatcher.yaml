@@ -299,6 +299,7 @@ jobs:
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.document == 'true' }}
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
+      cache_version: ${{ needs.trigger.outputs.cache_version }}
     secrets: inherit
     concurrency:
       group: document-${{ needs.trigger.outputs.branch_name }}
@@ -321,6 +322,8 @@ jobs:
     needs: [trigger, update-lockfile, document, render-readme]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.lint == 'true' }}
     uses: ./.github/workflows/lint.yaml
+    with:
+      cache_version: ${{ needs.trigger.outputs.cache_version }}
 
 
   spell-checker:
@@ -368,6 +371,7 @@ jobs:
       event_name: ${{ inputs.event_name }}
       main_branches: ${{ inputs.main_branches }}
       run_id: ${{ inputs.run_id }}
+      cache_version: ${{ needs.trigger.outputs.cache_version }}
     secrets: inherit
     concurrency:
       group: pkgdown-${{ needs.trigger.outputs.branch_name }}${{ github.event_name == 'release' && '-release' || '' }}
