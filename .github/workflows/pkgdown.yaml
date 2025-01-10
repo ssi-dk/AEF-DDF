@@ -164,7 +164,7 @@ jobs:
   deploy:
     name: "🚀 pkgdown: Deploy"
     runs-on: ubuntu-latest
-    if: inputs.event_name == 'release' || (needs.determine-pre-release.outputs.pre_release == 'true' && contains(inputs.main_branches, github.ref))
+    if: inputs.event_name == 'release' || (needs.determine-pre-release.outputs.pre_release == 'true' && contains(inputs.main_branches, github.ref_name))
     needs: [cleanup, pkgdown-build, determine-pre-release]
     steps:
       - uses: actions/checkout@v4
