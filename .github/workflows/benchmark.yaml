@@ -191,15 +191,6 @@ jobs:
           saveRDS(benchmarks, file.path("inst", "extdata", "benchmarks.rds"))
           file.remove(benchmark_files)
 
-          # Add note slow backends
-          slow_backends <- benchmarks |>
-            dplyr::distinct(.data$database, .data$n) |>
-            dplyr::filter(.data$n < max(.data$n), .by = "benchmark_function") |>
-            dplyr::pull("database")
-
-          benchmarks <- benchmarks |>
-            dplyr::mutate("database" = paste0(database, ifelse(database %in% slow_backends, "*", "")))
-
           # Mean and standard deviation (see ggplot2::mean_se())
           mean_sd <- function(x) {
             mu <- mean(x)
@@ -237,10 +228,6 @@ jobs:
               legend.justification = "left"
             ) +
             ggplot2::scale_x_discrete(guide = ggplot2::guide_axis(n.dodge = 2))
-
-          if (length(slow_backends) > 1) {
-            g <- g + ggplot2::labs(caption = "* IMPORTANT: Benchmark data halved for this backend!")
-          }
 
           ggplot2::ggsave("benchmarks.pdf")
 
