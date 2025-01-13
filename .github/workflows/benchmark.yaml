@@ -147,7 +147,7 @@ jobs:
           BACKEND_DRV: odbc::odbc
           CONN_ARGS_JSON: >
             {
-              "MSSQL": {
+              "${{ env.SQL_SERVER_VERSION }}": {
                 "driver": "ODBC Driver 18 for SQL Server",
                 "server": "localhost",
                 "database": "master",
