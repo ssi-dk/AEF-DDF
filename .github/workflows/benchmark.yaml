@@ -38,17 +38,17 @@ jobs:
 
     steps:
       - name: Install a SQL Server suite of tools
-        if: ${{ !contains(inputs.backend_exclude, 'mssql') }}
-        uses: potatoqualitee/mssqlsuite@v1.7
+        uses: RasmusSkytte/mssqlsuite@main
         with:
           install: sqlengine, sqlpackage, sqlclient
+          version: 2022
           show-log: true
 
       - name: Configure SQL server
         if: ${{ !contains(inputs.backend_exclude, 'mssql') }}
         run: |
           set -o xtrace
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -Q "ALTER LOGIN SA WITH DEFAULT_DATABASE = master;"
+          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -Q "ALTER LOGIN SA WITH DEFAULT_DATABASE = master;" -C
 
       - uses: actions/checkout@v4
         with:
@@ -106,7 +106,7 @@ jobs:
       - name: Get SQL Server version
         if: ${{ !contains(inputs.backend_exclude, 'mssql') }}
         run: |
-          version=$(sqlcmd -S localhost -U SA -P dbatools.I0 -Q "SET NOCOUNT ON; SELECT SERVERPROPERTY('productversion') AS version" -h -1 -W -b)
+          version=$(sqlcmd -S localhost -U SA -P dbatools.I0 -Q "SET NOCOUNT ON; SELECT SERVERPROPERTY('productversion') AS version" -h -1 -W -b -C)
           echo "SQL_SERVER_VERSION=SQL Server v$version" >> $GITHUB_ENV
 
       - name: Install libraries to benchmark
