@@ -59,11 +59,13 @@ jobs:
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools,
+            any::devtools
             any::lintr
             any::covr
-            any::roxygen2,
+            any::roxygen2
             any::pkgdown
+            any::rmarkdown
+            any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
       - name: Setup BACKEND_POST_CONNECT
@@ -150,11 +152,13 @@ jobs:
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools,
+            any::devtools
             any::lintr
             any::covr
-            any::roxygen2,
+            any::roxygen2
             any::pkgdown
+            any::rmarkdown
+            any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
       - name: Setup BACKEND_POST_CONNECT
@@ -263,11 +267,13 @@ jobs:
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools,
+            any::devtools
             any::lintr
             any::covr
-            any::roxygen2,
+            any::roxygen2
             any::pkgdown
+            any::rmarkdown
+            any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
       - name: Generate and Save Coverage Report
@@ -396,11 +402,13 @@ jobs:
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools,
+            any::devtools
             any::lintr
             any::covr
-            any::roxygen2,
+            any::roxygen2
             any::pkgdown
+            any::rmarkdown
+            any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
       - name: Generate and Save Coverage Report
@@ -479,11 +487,13 @@ jobs:
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools,
+            any::devtools
             any::lintr
             any::covr
-            any::roxygen2,
+            any::roxygen2
             any::pkgdown
+            any::rmarkdown
+            any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
       - uses: actions/download-artifact@v4

@@ -113,6 +113,11 @@ jobs:
           )
         ) }}
 
+      styler: ${{
+        !contains(inputs.skip, 'styler') &&
+        ( inputs.event_name == 'workflow_dispatch' || inputs.event_name != 'release' )
+        ) }}
+
       document: ${{
         !contains(inputs.skip, 'document') &&
         (
@@ -274,6 +279,7 @@ jobs:
           echo "spell-checker: ${{ needs.trigger.outputs.spell-checker }}"
           echo "R-CMD-check: ${{ needs.trigger.outputs.R-CMD-check }}"
           echo "code-coverage: ${{ needs.trigger.outputs.code-coverage }}"
+          echo "styler: ${{ needs.trigger.outputs.styler }}"
           echo "document: ${{ needs.trigger.outputs.document }}"
           echo "render-readme: ${{ needs.trigger.outputs.render-readme }}"
           echo "pkgdown: ${{ needs.trigger.outputs.pkgdown }}"
@@ -292,31 +298,20 @@ jobs:
       group: update-lockfile-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
 
-
-  document:
+  document-render-readme-styler:
     needs: [trigger, update-lockfile]
-    uses: ./.github/workflows/document.yaml
-    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.document == 'true' }}
+    uses: ./.github/workflows/document-render-readme-styler.yaml
+    if: ${{ always() && !failure() && !cancelled() }}
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
+      styler: ${{ needs.trigger.outputs.styler == 'true' }}
+      document: ${{ needs.trigger.outputs.document == 'true' }}
+      render_readme: ${{ needs.trigger.outputs.render-readme == 'true' }}
     secrets: inherit
     concurrency:
-      group: document-${{ needs.trigger.outputs.branch_name }}
+      group: document-render-readme-styler-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
-
-
-  render-readme:
-    needs: [trigger, update-lockfile]
-    uses: ./.github/workflows/render-readme.yaml
-    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.render-readme == 'true' }}
-    with:
-      branch_name: ${{ needs.trigger.outputs.branch_name }}
-    secrets: inherit
-    concurrency:
-      group: render-readme-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
-
 
   lint:
     needs: [trigger, update-lockfile, document, render-readme]

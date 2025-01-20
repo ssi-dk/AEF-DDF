@@ -1,0 +1,11 @@
+on:
+  push:
+    paths:
+      "R/**"
+      "vignettes/**"
+
+name: Enforce coding style
+
+jobs:
+  render:
+    uses: ssi-dk/AEF-DDF/.github/workflows/styler.yaml@main
