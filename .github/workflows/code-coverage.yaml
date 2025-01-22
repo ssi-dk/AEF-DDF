@@ -354,7 +354,7 @@ jobs:
 
     steps:
       - name: Install a SQL Server suite of tools
-        uses: RasmusSkytte/mssqlsuite@main
+        uses: potatoqualitee/mssqlsuite@v1.8
         with:
           install: sqlengine, sqlpackage, sqlclient
           version: 2022
