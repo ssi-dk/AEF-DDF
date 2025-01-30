@@ -116,7 +116,7 @@ jobs:
       styler: ${{
         !contains(inputs.skip, 'styler') &&
         ( inputs.event_name == 'workflow_dispatch' || inputs.event_name != 'release' )
-        ) }}
+        }}
 
       document: ${{
         !contains(inputs.skip, 'document') &&
