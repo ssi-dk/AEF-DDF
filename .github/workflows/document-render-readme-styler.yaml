@@ -20,7 +20,7 @@ on:
 
 jobs:
   document-render-readme-styler:
-    name: 📖 Document, Update README, and enforce coding style
+    name: 📖 Document, render README, and enforce coding style
     runs-on: ubuntu-latest
 
     steps:
