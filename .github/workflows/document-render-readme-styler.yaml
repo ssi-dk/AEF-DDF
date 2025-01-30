@@ -32,9 +32,9 @@ jobs:
 
       - name: Configure git
         run: |
-          git config --local user.name "$GITHUB_ACTOR"
-          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git switch ${{ inputs.branch_name }}
+          git config --local user.name "${{ github.actor }}"
+          git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+          git switch "${{ inputs.branch_name }}"
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
