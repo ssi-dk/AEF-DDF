@@ -19,8 +19,8 @@ on:
 
 
 jobs:
-  document-render-readme-styler:
-    name: 📖 Document, render README, and enforce coding style
+  update-lockfile-document-render-readme-styler:
+    name: 📖 Update lockfile, Document, render README, and enforce coding style
     runs-on: ubuntu-latest
 
     steps:
@@ -70,7 +70,7 @@ jobs:
           jsonlite::write_json(lockfile, "pak.lock", pretty = TRUE, auto_unbox = TRUE)
         shell: Rscript {0}
 
-      - name: Commit and push changes
+      - name: Commit changes
         run: |
           git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
           git stash --include-untracked
@@ -78,7 +78,6 @@ jobs:
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
           git add pak.lock || echo "No pak.lock to add"
           git commit -m "chore: Update pak.lock" || echo "No changes to commit"
-          git push origin ${{ inputs.branch_name }}
 
       - name: 📝 Enforce code style
         if: ${{ inputs.styler == true }}
@@ -106,7 +105,7 @@ jobs:
           styler::style_pkg(style = diseasy_style)
         shell: Rscript {0}
 
-      - name: Commit and push changes
+      - name: Commit changes
         if: ${{ inputs.styler == true }}
         run: |
           git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
@@ -115,14 +114,13 @@ jobs:
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
           git add *.R && git add *.Rmd
           git commit -m "chore: Enforce code style" || echo "No changes to commit"
-          git push origin ${{ inputs.branch_name }}
 
       - name: 📖 Document
         if: ${{ inputs.document == true }}
         run: roxygen2::roxygenise()
         shell: Rscript {0}
 
-      - name: Commit and push changes
+      - name: Commit changes
         if: ${{ inputs.document == true }}
         run: |
           git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
@@ -131,14 +129,13 @@ jobs:
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
           git add man/\* NAMESPACE DESCRIPTION
           git commit -m "docs: Re-build roxygen documentation" || echo "No changes to commit"
-          git push origin ${{ inputs.branch_name }}
 
       - name: 📖 Render README
         if: ${{ inputs.render_readme == true }}
         run: rmarkdown::render("README.Rmd")
         shell: Rscript {0}
 
-      - name: Commit and push changes
+      - name: Commit changes
         if: ${{ inputs.render_readme == true }}
         run: |
           git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
@@ -148,3 +145,6 @@ jobs:
           git add README.md
           git commit -m "docs(README): Re-build README.Rmd" || echo "No changes to commit"
           git push origin ${{ inputs.branch_name }}
+
+      - name: Push changes
+        run: git push origin ${{ inputs.branch_name }}
