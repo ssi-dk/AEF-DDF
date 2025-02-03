@@ -285,22 +285,9 @@ jobs:
           echo "pkgdown: ${{ needs.trigger.outputs.pkgdown }}"
           echo "update-lockfile: ${{ needs.trigger.outputs.update-lockfile }}"
 
-
-  update-lockfile:
-    needs: trigger
-    uses: ./.github/workflows/update-lockfile.yaml
-    if: ${{ needs.trigger.outputs.update-lockfile == 'true' }}
-    with:
-      cache_version: ${{ needs.trigger.outputs.cache_version }}
-      branch_name: ${{ needs.trigger.outputs.branch_name }}
-    secrets: inherit
-    concurrency:
-      group: update-lockfile-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
-
-  document-render-readme-styler:
-    needs: [trigger, update-lockfile]
-    uses: ./.github/workflows/document-render-readme-styler.yaml
+  update-lockfile-document-render-readme-styler:
+    needs: [trigger]
+    uses: ./.github/workflows/update-lockfile-document-render-readme-styler.yaml
     if: ${{ always() && !failure() && !cancelled() }}
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
@@ -310,11 +297,11 @@ jobs:
       render_readme: ${{ needs.trigger.outputs.render-readme == 'true' }}
     secrets: inherit
     concurrency:
-      group: document-render-readme-styler-${{ needs.trigger.outputs.branch_name }}
+      group: update-lockfile-document-render-readme-styler-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
 
   lint:
-    needs: [trigger, update-lockfile, document-render-readme-styler]
+    needs: [trigger, update-lockfile-document-render-readme-styler]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.lint == 'true' }}
     uses: ./.github/workflows/lint.yaml
     with:
@@ -322,14 +309,14 @@ jobs:
 
 
   spell-checker:
-    needs: [trigger, update-lockfile, document-render-readme-styler]
+    needs: [trigger, update-lockfile-document-render-readme-styler]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.spell-checker == 'true' }}
     uses: ./.github/workflows/spell-checker.yaml
     secrets: inherit
 
 
   R-CMD-check:
-    needs: [trigger, update-lockfile, document-render-readme-styler]
+    needs: [trigger, update-lockfile-document-render-readme-styler]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.R-CMD-check == 'true' }}
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
@@ -343,7 +330,7 @@ jobs:
 
 
   code-coverage:
-    needs: [trigger, update-lockfile, document-render-readme-styler]
+    needs: [trigger, update-lockfile-document-render-readme-styler]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.code-coverage == 'true' }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
@@ -358,7 +345,7 @@ jobs:
 
 
   pkgdown:
-    needs: [trigger, update-lockfile, document-render-readme-styler]
+    needs: [trigger, update-lockfile-document-render-readme-styler]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.pkgdown == 'true' }}
     uses: ./.github/workflows/pkgdown.yaml
     with:
