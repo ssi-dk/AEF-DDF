@@ -18,7 +18,7 @@ workflows.
 
 | Arguments       | Description                             | Default     | Example       |
 |-----------------|-----------------------------------------|-------------|---------------|
-| `skip`          | Workflows to skip (optional)            | ''          | lint,document |
+| `skip`          | Workflows to skip (optional)            | styler      | lint,document |
 | `main_branches` | Main branches to trigger on (optional). | main,master | main,develop  |
 
 
@@ -96,6 +96,24 @@ If any tests fail to run, the workflow will give an error.
 > To conserve resources, only the `code-coverage` workflow is configured with data bases.
 > This means that your `R-CMD-check` may not fail when `code-coverage` fails.
 > If this is the case, the cause is likely a data base specific issue in your code base.
+
+
+## styler.yaml
+#### Trigger
+Changes to any file in the `R/` or `vignettes` folder.
+
+#### Function
+Runs `styler::style_pkg()` on your package
+
+#### Outcome
+If this workflow changes any of the `.R` or `.Rmd` files, it will commit the updated
+code base to the repository.
+
+> [!IMPORTANT]
+> To use this workflow, you need to have configure GitHub
+> [secret](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) called "GH_PAT" that
+> contains a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
+> which has write access to the repository.
 
 
 ## document.yaml

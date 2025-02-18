@@ -33,11 +33,13 @@ jobs:
             any::pak
             any::jsonlite
             any::rcmdcheck
-            any::devtools,
+            any::devtools
             any::lintr
             any::covr
-            any::roxygen2,
+            any::roxygen2
             any::pkgdown
+            any::rmarkdown
+            any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
       - name: Lint
