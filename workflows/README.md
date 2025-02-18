@@ -18,7 +18,7 @@ workflows.
 
 | Arguments       | Description                             | Default     | Example       |
 |-----------------|-----------------------------------------|-------------|---------------|
-| `skip`          | Workflows to skip (optional)            | ''          | lint,document |
+| `skip`          | Workflows to skip (optional)            | styler      | lint,document |
 | `main_branches` | Main branches to trigger on (optional). | main,master | main,develop  |
 
 

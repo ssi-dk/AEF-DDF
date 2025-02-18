@@ -4,7 +4,7 @@ on:
       skip:
         required: false
         type: string
-        default: ''
+        default: 'styler'
       main_branches:
         required: false
         type: string
