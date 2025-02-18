@@ -147,6 +147,7 @@ jobs:
 
       - name: Determine if pre-release
         id: determine-pre-release
+
         run: |
           set -o xtrace
 
@@ -158,8 +159,10 @@ jobs:
 
           # Check if the version is less than 0.1
           if [[ ${version_parts[0]} -eq 0 && ${version_parts[1]} -lt 1 ]]; then
+            echo "Pre-release detected"
             echo "pre_release=true" >> $GITHUB_OUTPUT
           else
+            echo "No pre-release detected"
             echo "pre_release=false" >> $GITHUB_OUTPUT
           fi
 
