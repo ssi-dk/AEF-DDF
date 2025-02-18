@@ -1,0 +1,261 @@
+#!/usr/bin/env python
+
+import argparse
+import os
+import shlex
+import subprocess
+import sys
+
+
+from pprint import pprint
+from time import sleep
+
+
+class DBConnection:
+
+	def __init__(self, psql_path=None):
+
+		if psql_path is None:
+			devnull = open(os.devnull, "w")
+			try:
+				psql_path = subprocess.check_output("which psql", shell=True, stderr=devnull).strip()
+			except subprocess.CalledProcessError:
+				sys.stderr.write("Could not locate psql. Is any postgresql module loaded?\n")
+				sys.stderr.flush()
+				exit(1)
+			finally:
+				devnull.close()
+
+		self.psql_path = psql_path
+		self.tables = None
+
+
+	def get_query(self, query):
+		res = subprocess.check_output([self.psql_path, '-tA', '-c', query]).strip()
+		if not res:
+			return []
+
+		if type(res) is bytes:
+			res = res.decode()
+
+		if '|' in res:
+			return [tuple(line.split('|')) for line in res.splitlines()]
+		else:
+			return [res]
+
+	def _populate_tables(self):
+
+		query = """
+		SELECT
+		  "schemaname",
+		  "tablename"
+		FROM pg_tables
+		WHERE NOT "schemaname" = 'information_schema'
+		  AND NOT "schemaname" LIKE 'pg\_%'
+		"""
+
+		self.tables = self.get_query(query)
+
+
+	def table_exists(self, schema, table):
+		if self.tables is None:
+			self._populate_tables()
+
+		return (schema, table) in self.tables
+
+
+def guess_target(schema, table):
+
+	schema = schema.replace("_", "\_")
+	table = table.replace("_", "\_")
+
+	if schema in ("", "prod"):
+		schema_str = "COALESCE(\"schema\", 'prod') LIKE '%{}%'".format(schema)
+	else:
+		schema_str = "LIKE '%{}%'".format(schema)
+
+	query = """
+		SELECT DISTINCT
+			COALESCE(\"schema\", 'prod'), \"table\"
+		FROM prod.logs
+
+		WHERE {}
+		  AND \"table\" LIKE '%{}%'
+		  """.format(schema_str, table)
+
+	res = db.get_query(query)
+
+	return res
+
+
+def prompt_user(tables):
+	if not tables:
+		raise ValueError("No tables were given")
+
+	if len(tables) == 1:
+		return tables[0]
+
+	tables = sorted(tables, key=lambda x: (x[0], x[1]))
+	print("\nFound the following tables:")
+	for i, tbl in enumerate(tables):
+		mystr = "{:>4}: {}.{}".format(str(i + 1), tbl[0], tbl[1])
+
+		print(mystr)
+
+	while True:
+		print("")
+		try:
+			prompt = input("Please select a table: ")
+		except (KeyboardInterrupt, EOFError):
+			print("")
+			exit(0)
+
+		if not str(prompt).isdigit():
+			print("Not a number")
+			continue
+
+		x = int(prompt) - 1
+
+		if not 0 <= x < len(tables):
+			print("Invalid number")
+			continue
+
+		break
+
+	return tables[x]
+
+
+def generate_output(schema, table):
+
+	# TODO: Get pattern for qstat
+	# TODO: Parse qstat output for running/queued/held(/others?)
+
+	if schema == "prod":
+		schema_str = "IS NULL"
+	else:
+		schema_str = "= '{}'".format(schema)
+
+	# Get prod.logs: date, start_tm, dur, n_insert, n_deac, succ, logfile
+	res = db.get_query("""
+	SELECT
+	  date,
+	  start_time,
+	  duration,
+	  n_deactivations,
+	  n_insertions,
+	  success,
+	  log_file
+	FROM prod.logs
+
+	WHERE "schema" {} and "table" = '{}'
+	ORDER BY date desc
+	LIMIT 10""".format(schema_str, table))
+
+	if not res:
+		raise KeyError("Table {}.{} has no log entries".format(schema, table))
+
+	yield "Status for {}.{}:\n".format(schema, table)
+
+	# List most recent log files
+	yield "\n".join([line[6] for line in res]) + "\n"
+
+	# Tail of most recent log file
+	log_root = "/ngc/projects/ssi_mg/logs/"
+	log_path = log_root + res[0][6]
+
+	try:
+		with open(log_path, "r") as f:
+			yield f.read()
+	except FileNotFoundError:
+		pass
+
+	res = [(
+		"date",
+		"start_time",
+		"duration",
+		"n_deactivations",
+		"n_insertions",
+		"success",
+		"log_file"
+	)] + res
+
+	col_widths = []
+	for col in range(len(res[0]) - 1):
+		col_widths.append(max([len(str(line[col])) for line in res]))
+
+	fstr = " | ".join(["{{:>{}}}".format(x) for x in col_widths])
+
+	for x, row in enumerate(res):
+		row = row[:-1]
+		if x == 0:
+			yield fstr.replace(":>", ":^").format(*row)
+			yield "-|-".join(["-" * x for x in col_widths])
+			continue
+
+		yield fstr.format(*row)
+
+
+def main():
+	global db
+	db = DBConnection()
+
+	try:
+		schema, table = [i for i in sys.argv[1].split('.')]
+	except IndexError:
+		schema, table = ("", "")
+	except ValueError:
+		arg = sys.argv[1]
+		# Return exact match for schema (match for table later)
+		schemas = db.get_query(
+		"SELECT DISTINCT "
+		"\"schemaname\" "
+		"FROM pg_tables "
+		"WHERE schemaname = '{}'".format(arg))
+
+		if schemas:
+			schema = schemas[0]
+			table = ""
+		else:
+			schema = ""
+			table = arg
+
+	if db.table_exists(schema, table):
+		target_tbl = (schema, table)
+	else:
+		target_tbl = guess_target(schema, table)
+
+	if not target_tbl:
+		raise KeyError("No matching tables were found (Hint: Check your spelling)!")
+
+	if type(target_tbl) is list:
+		target_tbl = prompt_user(target_tbl)
+
+	last_output = ""
+	while True:
+
+		try:
+			# Truncate output to fit console
+			_, w = [int(_) for _ in os.popen("stty size", "r").read().split(' ')]
+
+			output = '\n'.join([_ for _ in generate_output(*target_tbl)])
+			output = '\n'.join([_[:w] for _ in output.splitlines()])
+
+			if output != last_output:
+				os.system("clear")
+				print(output)
+
+			last_output = output
+			sleep(2)
+		except KeyboardInterrupt:
+			break
+
+
+
+if __name__ == "__main__":
+	if len(sys.argv) > 2:
+		raise ValueError("Received {} arguments, expected 1!".format(len(sys.argv) - 1))
+
+	if sys.version_info.major == 2:
+		input = raw_input
+
+	main()

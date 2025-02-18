@@ -1,0 +1,66 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+if [ -f /ngc/projects/ssi_mg/bin/.bash_profile_common ]; then
+	. /ngc/projects/ssi_mg/bin/.bash_profile_common
+fi
+
+
+
+
+
+## Configure the 'mailme' script 
+export MAILME_TO='my_mail@my_host.com'
+export MAILME_FROM='Anders And'
+
+#export MAILME_SENT_PATH='$USER/sent_emails' # This is should be the path you configured for mailme_cron
+#find $MAILME_SENT_PATH -mindepth 1 -type d -ctime +60 | xargs rm -rf # Auto delete sent mails after 60 days (adjust or disable as needed) 
+
+
+
+# Load modules for different programming evironments by default (Uncomment the ones you use)
+#source /ngc/projects/ssi_mg/bin/activate_R.sh
+#source /ngc/projects/ssi_mg/bin/activate_MATLAB.sh
+
+
+
+  
+## Example user defined shortcuts (Uncomment the ones you like)
+
+# Folders
+#alias ..='cd ..'
+#alias mg='cd /ngc/projects/ssi_mg'
+
+
+
+# Utility
+#alias c='clear'
+#alias ls='ls --color=auto'
+#alias ll='ls -la'
+#alias grep='grep --color=auto'
+#alias mkdir='mkdir -pv'
+
+# Safety nets
+#alias rm='rm -I --preserve-root'
+#alias mv='mv -i'
+#alias cp='cp -i'
+#alias ln='ln -i'
+#alias chmod='chmod --preserve-root'
+
+
+# Change to project folder upon login
+#mg
+
+
+
+
+# Changes to how the prompt looks in git repositories
+if [ -z "$PS1" ] && [ -f "/ngc/projects/ssi_mg/bin/.bash-git-prompt/gitprompt.sh" ]; then
+    GIT_PROMPT_ONLY_IN_REPO=1
+    source /ngc/projects/ssi_mg/bin/.bash-git-prompt/gitprompt.sh
+fi
+

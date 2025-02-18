@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+# MAILME by Marcus Munch Grünewald (mmgr@ssi.dk)
+# Usage: Mailme [file(s)] ...
+
+DEFAULT_TEMPLATE="/ngc/projects/ssi_mg/bin/mailme_template.sh"
+
+if [ $# -eq 0 ]; then
+	echo "Usage:
+
+mailme [file(s) ...]" >&2
+	exit 1
+fi
+if [ -z "${MAILME_TO+x}" ]; then
+	echo 'MAILME_TO is not set!' >&2
+	exit 1
+fi
+if [ -z "${MAILME_FROM+x}" ]; then
+	MAILME_FROM="$(whoami)@$(hostname)"
+	echo 'MAILME_FROM is not set. Defaulting to "'$MAILME_FROM'"...' >&2
+fi
+if [ "$1" == "--allow-none" ]; then
+	ALLOW_NONE=true
+	shift
+fi
+
+# Build subject and attachment(s) string
+N=0
+for file in $@; do
+	if [ ! -f $file ]; then
+		echo 'file "'$file'" not found!'
+		continue
+	fi
+
+	N=$(($N++1))
+	FILES="$FILES $file"
+	SUBJECT="$N files from NGC HPC"
+done
+
+if [ $N -eq 0 ]; then
+	if [ ! $ALLOW_NONE ]; then
+		echo 'ERROR: None of the files given were found!' >&2
+		exit 1
+	else
+		SUBJECT='Message from NGC HPC'
+	fi
+else
+	# Combine FILES with -a flags
+	A_STR=$(printf " \055a %s" $FILES | cut -c 2-)
+fi
+if [ $N -eq 1 ]; then
+	SUBJECT="$(basename $FILES) from NGC HPC"
+fi
+
+# Generate body text
+BODY_TEXT=""
+if [ ! -t 0 ]; then #stdin has text
+	while read line; do
+		BODY_TEXT="$BODY_TEXT$line"$"\n"
+	done
+fi
+if [ "$BODY_TEXT" == "" ]; then
+	BODY_TEXT=`${MAILME_TEMPLATE-$DEFAULT_TEMPLATE}`
+fi
+
+echo -e "$BODY_TEXT" | mail -r "no-reply@ngc.dk($MAILME_FROM)" -s "mailme: $SUBJECT" $A_STR $MAILME_TO

@@ -1,0 +1,39 @@
+SHELL=/usr/bin/bash
+BASH_ENV=/ngc/people/rassky/.bashrc
+PATH=/bin:/usr/bin:/ngc/projects/ssi_mg/bin
+DIR=/ngc/projects/ssi_mg/common/db_maintenance
+DEV=/ngc/projects/ssi_mg/rassky/db_maintenance
+MODE=screen
+
+# Once weekly, run with -f (full) flag to capture unintented issues
+00 * * * 5   cd $DIR; ./qsub_updates.sh -f   -m $MODE -t mg.vaccine_history -s qsub_target_scripts/vaccine_history.R prod.covid_19_maalgruppe prod.covid_vaccination
+05 * * * 5   cd $DIR; ./qsub_updates.sh -df  -m $MODE -t mg.epicpr_c_status -s qsub_target_scripts/epicpr_c_status.R prod.cpr3_t_person
+10 * * * 5   cd $DIR; ./qsub_updates.sh -f   -m $MODE -t mg.epicpr          -s qsub_target_scripts/epicpr.R          mg.epicpr_c_status mg.epicpr_adresse
+20 * * * 5   cd $DIR; ./qsub_updates.sh -df  -m $MODE -t mg.miba            -s qsub_target_scripts/miba.R            prod.variant_covid_19 prod.covid_19_wgs prod.basis_samples mg.lineage_info
+
+40 * * * *   Rscript $DIR/target_scripts/dmi.R
+
+# All other days just run with delta loads
+40 * * * 1-4,6-7 cd $DIR; ./qsub_updates.sh    -m $MODE -t mg.vaccine_history -s qsub_target_scripts/vaccine_history.R prod.covid_19_maalgruppe prod.covid_vaccination
+05 * * * 1-4,6-7 cd $DIR; ./qsub_updates.sh -d -m $MODE -t mg.epicpr_c_status -s qsub_target_scripts/epicpr_c_status.R prod.cpr3_t_person
+25 * * * 1-4,6-7 cd $DIR; ./qsub_updates.sh -d -m $MODE -t mg.epicpr          -s qsub_target_scripts/epicpr.R          mg.epicpr_c_status mg.epicpr_adresse
+27 * * * *       cd $DIR; ./qsub_updates.sh -a -m $MODE -t mg.lineage_info    -s qsub_target_scripts/lineage_info.R    prod.covid_19_wgs
+25 * * * 1-4,6-7 cd $DIR; ./qsub_updates.sh -d -m $MODE -t mg.miba            -s qsub_target_scripts/miba.R            prod.variant_covid_19 prod.covid_19_wgs prod.basis_samples mg.lineage_info
+
+# Fallback: Run updates at midnight which updates if ANY update is given or if data are missing for certain dates (run -full mode also, to minimize errors)
+00 23 * * *  cd $DIR; ./qsub_updates.sh -daf -m $MODE -t mg.epicpr_c_status  -s qsub_target_scripts/epicpr_c_status.R prod.cpr3_t_person
+05 23 * * *  cd $DIR; ./qsub_updates.sh -daf -m $MODE -t mg.epicpr          -s qsub_target_scripts/epicpr.R          mg.epicpr_c_status mg.epicpr_adresse
+10 23 * * *  cd $DIR; ./qsub_updates.sh -daf -m $MODE -t mg.miba            -s qsub_target_scripts/miba.R            prod.basis_samples
+
+# Maintenence stuff
+00 01 * * *  Rscript $DIR/target_scripts/detect_pipeline_issues.R
+55 23 * * *  Rscript $DIR/target_scripts/generate_documentation.R
+20 *  * * *  Rscript $DIR/target_scripts/generate_db_rapports.R
+
+# Send logs with errors or warnings to mail
+MAILME_TO='rske@ssi.dk'
+MAILME_FROM='Rasmus Skytte Randl�v (crontab)'
+#59 7-15 * * 1-5 cd /ngc/projects/ssi_mg/rassky/logs; find . -maxdepth 1 -name '*log' | xargs -i grep -rPLis '(Error)|(Warning)' {} | xargs -i mv {} successful
+#59 7-15 * * 1-5 sleep 5; mailme_cron -i /ngc/projects/ssi_mg/rassky/logs -o /ngc/projects/ssi_mg/rassky/logs/sent
+#59 7-15 * * 1-5 find /ngc/projects/ssi_mg/rassky/logs/sent       -mtime +30 -delete
+#59 7-15 * * 1-5 find /ngc/projects/ssi_mg/rassky/logs/successful -mtime +30 -delete

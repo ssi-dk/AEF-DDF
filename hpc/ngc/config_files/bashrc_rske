@@ -1,0 +1,52 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# Get the aliases and functions
+if [ -f /ngc/projects/ssi_mg/bin/.bashrc_common ]; then
+    . /ngc/projects/ssi_mg/bin/.bashrc_common
+fi
+
+
+# Set variables to use with mailme script
+export MAILME_FROM="Rasmus Skytte Randløv"
+export MAILME_TO="rske@ssi.dk"
+
+# Load modules for different programming evironments by default (Uncomment the ones you use)
+source activate_R.sh 2> /dev/null
+module load tools postgresql/15.1 2> /dev/null
+module load vscode/1.75.1 2> /dev/null
+
+# Example user defined shortcuts (Uncomment the ones you like)
+
+# Folders
+alias ..='cd ..'
+alias mg="cd /ngc/projects/ssi_mg"
+
+# Utility
+alias c='clear'
+alias ls='ls --color=auto'
+alias ll='ls -la'
+alias grep='grep --color=auto'
+alias mkdir='mkdir -pv'
+
+# Safety nets
+alias rm='rm -I --preserve-root'
+alias mv='mv -i'
+alias cp='cp -i'
+alias ln='ln -i'
+alias chmod='chmod --preserve-root'
+
+export EDITOR='/usr/bin/nano'
+
+# Change to project folder upon shell start
+mg
+
+# Changes to how the prompt looks in git repositories
+if [ -f "/ngc/projects/ssi_mg/bin/.bash-git-prompt/gitprompt.sh" ]; then
+    GIT_PROMPT_ONLY_IN_REPO=0
+    source /ngc/projects/ssi_mg/bin/.bash-git-prompt/gitprompt.sh
+fi

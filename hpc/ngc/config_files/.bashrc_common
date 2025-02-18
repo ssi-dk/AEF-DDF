@@ -1,0 +1,26 @@
+# .bashrc_common
+
+# Add the ssi_mg/bin folder to the path
+PATH=$PATH:$HOME/.local/bin:$HOME/bin:/ngc/projects/ssi_mg/bin
+export PATH
+
+# Set DB_connection variables
+export PGHOST="172.18.17.103"
+export PGDATABASE="data"
+
+
+# Write ~/.Renviron
+(
+echo -e "PGHOST=$PGHOST" # Creates empty .Renviron file
+echo -e "PGDATABASE=$PGDATABASE" # Appends to file
+
+# Add package folder to R_environ
+echo -e "R_LIBS_USER=/ngc/projects/ssi_mg/common/R_packages"
+
+# Set flags related to building R packages
+echo -e "R_BUILD_TAR=tar" # needed to fix warning when building package
+echo -e "_R_CHECK_SYSTEM_CLOCK_=0" # needed to fix warning when building package
+) >$HOME/.Renviron
+
+# Aliases
+alias fnode='ssh -X 172.18.17.103'
