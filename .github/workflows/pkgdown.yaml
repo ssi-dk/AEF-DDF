@@ -166,6 +166,11 @@ jobs:
             echo "pre_release=false" >> $GITHUB_OUTPUT
           fi
 
+          # Debug output
+          echo "Version: $version"
+          echo "Branch name: ${{ github.ref_name }}"
+          echo "Main branches: ${{ inputs.main_branches }}"
+
   deploy:
     name: "🚀 pkgdown: Deploy"
     runs-on: ubuntu-latest
