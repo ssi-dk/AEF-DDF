@@ -106,7 +106,7 @@ jobs:
           # <a href="../reference/FeatureHandler.html">?FeatureHandler</a>
           # We remove the question mark to make the link cleaner
           # regex: <a href="\.\.\/([\/\w]+.html)">\?(\w+)<\/a>
-          find docs -name *.html -exec sed -ri 's/(<a href=\"\.{2}.+\.html">)\?(.+<\/a>)/\1\2/g' {} +
+          find docs -name *.html -exec sed -ri 's/(<a href=\"\.{2}[\w\/]+\.html">)\?(\w+<\/a>)/\1\2/g' {} +
 
 
           # Fixing "?R6class$function()"
@@ -116,7 +116,7 @@ jobs:
           # We need to manually create the link to the function
           # regex: <code>\?(\w+)\$(\w+)\(\)<\/code>
           # Target: <a href="../reference/DiseasystoreBase.html#method-DiseasystoreBase-get_feature"><code>$get_feature()</code></a>
-          find docs -name *.html -exec sed -ri 's/<code>\?(\w+)\$(\w+)\(\)<\/code>/<code><a href="..\/reference\/\1.html#method-\1-\2">\$\2\(\)<\/a><\/code>/g' {} +
+          find docs -name *.html -exec sed -ri 's/<code>\?(\w+)\$(\w+)\(\)<\/code>/<code><a href="\.{2}\/reference\/\1.html#method-\1-\2">\$\2\(\)<\/a><\/code>/g' {} +
 
 
           # Fixing "?R6class$active_binding"
@@ -126,7 +126,7 @@ jobs:
           # We need to manually create the link to the function
           # regex: <code>\?(\w+)\$(\w+)<\/code>
           # Target: <a href="../reference/DiseasystoreBase.html#active-bindings"><code>$available_observables</code></a>
-          find docs -name *.html -exec sed -ri 's/<code>\?(\w+)\$(\w+)<\/code>/<code><a href="..\/reference\/\1.html#active-bindings">\$\2<\/a><\/code>/g' {} +
+          find docs -name *.html -exec sed -ri 's/<code>\?(\w+)\$(\w+)<\/code>/<code><a href="\.{2}\/reference\/\1.html#active-bindings">\$\2<\/a><\/code>/g' {} +
 
 
       - name: Upload artifact
