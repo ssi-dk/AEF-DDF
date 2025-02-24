@@ -19,6 +19,7 @@ jobs:
 
       - name: Configure git
         run: |
+          git fetch origin pull/${{ github.event.number }}/head:${{ inputs.branch_name }}
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git switch ${{ inputs.branch_name }}
