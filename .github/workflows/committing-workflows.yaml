@@ -45,8 +45,8 @@ jobs:
           git config --local user.email "${{ github.actor }}@users.noreply.github.com"
           if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
             # For PRs from forks
-            git remote set-url fork https://x-access-token:${{ github.token }}@github.com/${{ github.event.pull_request.head.repo.full_name }}.git
             git remote add fork ${{ github.event.pull_request.head.repo.clone_url }}
+            git remote set-url fork https://x-access-token:${{ github.token }}@github.com/${{ github.event.pull_request.head.repo.full_name }}.git
             git fetch fork ${{ github.event.pull_request.head.ref }}
             git checkout -b ${{ inputs.branch_name }} fork/${{ github.event.pull_request.head.ref }}
           else
