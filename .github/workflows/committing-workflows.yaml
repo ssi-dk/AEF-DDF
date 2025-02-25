@@ -196,7 +196,12 @@ jobs:
         if: ${{ inputs.update_cache == true }}
         run: |
           # Look for cached files
-          cached_files <- list.files(file.path("vignettes"), pattern = ".rds", recursive = TRUE, full.names = TRUE)
+          cached_files <- list.files(
+            file.path("vignettes"),
+            pattern = ".rds",
+            recursive = TRUE,
+            full.names = TRUE
+          )
 
           # Infer the vignettes that need to be re-rendered
           vignettes_with_cache <- unique(basename(dirname(cached_files)))
@@ -212,6 +217,7 @@ jobs:
           for (vignette in vignettes) {
             rmarkdown::render(vignette)
           }
+        shell: Rscript {0}
 
 
       - name: Commit changes
