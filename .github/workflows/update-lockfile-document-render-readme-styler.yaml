@@ -29,12 +29,23 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Configure git
         run: |
           git config --local user.name "${{ github.actor }}"
           git config --local user.email "${{ github.actor }}@users.noreply.github.com"
-          git switch "${{ inputs.branch_name }}"
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks
+            git remote set-url fork https://x-access-token:${{ github.token }}@github.com/${{ github.event.pull_request.head.repo.full_name }}.git
+            git remote add fork ${{ github.event.pull_request.head.repo.clone_url }}
+            git fetch fork ${{ github.event.pull_request.head.ref }}
+            git checkout -b ${{ inputs.branch_name }} fork/${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
+            git switch "${{ inputs.branch_name }}"
+          fi
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
@@ -72,9 +83,16 @@ jobs:
 
       - name: Commit changes
         run: |
-          git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
           git stash --include-untracked
-          git pull --rebase origin ${{ inputs.branch_name }}
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git pull --rebase fork ${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git pull --rebase origin ${{ inputs.branch_name }}
+          fi
+
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
           git add pak.lock || echo "No pak.lock to add"
           git commit -m "chore: Update pak.lock" || echo "No changes to commit"
@@ -108,9 +126,16 @@ jobs:
       - name: Commit changes
         if: ${{ inputs.styler == true }}
         run: |
-          git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
           git stash --include-untracked
-          git pull --rebase origin ${{ inputs.branch_name }}
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git pull --rebase fork ${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git pull --rebase origin ${{ inputs.branch_name }}
+          fi
+
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
           git add *.R && git add *.Rmd
           git commit -m "chore: Enforce code style" || echo "No changes to commit"
@@ -123,9 +148,16 @@ jobs:
       - name: Commit changes
         if: ${{ inputs.document == true }}
         run: |
-          git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
           git stash --include-untracked
-          git pull --rebase origin ${{ inputs.branch_name }}
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git pull --rebase fork ${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git pull --rebase origin ${{ inputs.branch_name }}
+          fi
+
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
           git add man/\* NAMESPACE DESCRIPTION
           git commit -m "docs: Re-build roxygen documentation" || echo "No changes to commit"
@@ -138,13 +170,26 @@ jobs:
       - name: Commit changes
         if: ${{ inputs.render_readme == true }}
         run: |
-          git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
           git stash --include-untracked
-          git pull --rebase origin ${{ inputs.branch_name }}
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git pull --rebase fork ${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git pull --rebase origin ${{ inputs.branch_name }}
+          fi
+
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
           git add README.md
           git commit -m "docs(README): Re-build README.Rmd" || echo "No changes to commit"
-          git push origin ${{ inputs.branch_name }}
 
       - name: Push changes
-        run: git push origin ${{ inputs.branch_name }}
+        run: |
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git push fork HEAD:${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git push origin ${{ inputs.branch_name }}
+          fi
