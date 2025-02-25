@@ -466,6 +466,25 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !contains(inputs.backend_exclude, 'oracle')}}
 
+    services:
+      oracle:
+        image: gvenzl/oracle-free:latest
+
+        # Provide passwords and other environment variables to container
+        env:
+          ORACLE_RANDOM_PASSWORD: true
+          APP_USER: user
+          APP_USER_PASSWORD: password
+        ports:
+          - 1521:1521
+
+        # Provide healthcheck script options for startup
+        options: >-
+          --health-cmd healthcheck.sh
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
     env:
       BACKEND: Oracle
       BACKEND_DRV: odbc::odbc
@@ -483,11 +502,6 @@ jobs:
         }
 
     steps:
-      - uses: gvenzl/setup-oracle-free@v1
-        with:
-          app-user: user
-          app-user-password: password
-
       - name: Setup testing schemata in Oracle database
         if: ${{ inputs.schemas != 'none' }}
         run: |
