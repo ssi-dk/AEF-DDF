@@ -495,24 +495,32 @@ jobs:
         run: |
           set -o xtrace
 
+          # List all containers to find the Oracle container
+          echo "Available Docker containers:"
+          docker ps
+
+          # Get the Oracle container ID/name
+          ORACLE_CONTAINER=$(docker ps --filter "ancestor=gvenzl/oracle-free" --format "{{.Names}}")
+          echo "Oracle container found: $ORACLE_CONTAINER"
+
           # Connect to Oracle and create schemas
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
-            # Create user/schema with password using docker exec to run commands inside the Oracle container
-            docker exec -i oracledb bash -c "echo 'CREATE USER ${schema} IDENTIFIED BY \"${schema}_pwd\";' | sqlplus -S / as sysdba"
+            # Create user/schema with password
+            docker exec -i $ORACLE_CONTAINER bash -c "echo 'CREATE USER ${schema} IDENTIFIED BY \"${schema}_pwd\";' | sqlplus -S / as sysdba"
 
             # Grant necessary privileges
-            docker exec -i oracledb bash -c "echo 'GRANT CREATE SESSION TO ${schema};' | sqlplus -S / as sysdba"
-            docker exec -i oracledb bash -c "echo 'GRANT CREATE TABLE TO ${schema};' | sqlplus -S / as sysdba"
-            docker exec -i oracledb bash -c "echo 'GRANT UNLIMITED TABLESPACE TO ${schema};' | sqlplus -S / as sysdba"
+            docker exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE SESSION TO ${schema};' | sqlplus -S / as sysdba"
+            docker exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE TABLE TO ${schema};' | sqlplus -S / as sysdba"
+            docker exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT UNLIMITED TABLESPACE TO ${schema};' | sqlplus -S / as sysdba"
           done
 
           # Verify schemas were created
-          docker exec -i oracledb bash -c "echo 'SELECT username FROM dba_users WHERE username IN ($(printf "'%s'," "${schemas[@]}" | sed 's/,$/\n/'));' | sqlplus -S / as sysdba"
+          docker exec -i $ORACLE_CONTAINER bash -c "echo 'SELECT username FROM dba_users WHERE username IN ($(printf "'%s'," "${schemas[@]}" | sed 's/,$/\n/'));' | sqlplus -S / as sysdba"
 
           # Show individual schema details
           for schema in "${schemas[@]}"; do
-            echo "SELECT username, account_status FROM dba_users WHERE username = '${schema}';" | sqlplus -S / as sysdba
+            docker exec -i $ORACLE_CONTAINER bash -c "echo 'SELECT username, account_status FROM dba_users WHERE username = \"${schema}\";' | sqlplus -S / as sysdba"
           done
 
       - uses: actions/checkout@v4
