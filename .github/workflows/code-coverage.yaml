@@ -511,16 +511,16 @@ jobs:
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
             # Create user/schema with password using docker exec to run commands inside the Oracle container
-            docker exec -i oracle bash -c "echo 'CREATE USER ${schema} IDENTIFIED BY \"${schema}_pwd\";' | sqlplus -S / as sysdba"
+            docker exec -i oracledb bash -c "echo 'CREATE USER ${schema} IDENTIFIED BY \"${schema}_pwd\";' | sqlplus -S / as sysdba"
 
             # Grant necessary privileges
-            docker exec -i oracle bash -c "echo 'GRANT CREATE SESSION TO ${schema};' | sqlplus -S / as sysdba"
-            docker exec -i oracle bash -c "echo 'GRANT CREATE TABLE TO ${schema};' | sqlplus -S / as sysdba"
-            docker exec -i oracle bash -c "echo 'GRANT UNLIMITED TABLESPACE TO ${schema};' | sqlplus -S / as sysdba"
+            docker exec -i oracledb bash -c "echo 'GRANT CREATE SESSION TO ${schema};' | sqlplus -S / as sysdba"
+            docker exec -i oracledb bash -c "echo 'GRANT CREATE TABLE TO ${schema};' | sqlplus -S / as sysdba"
+            docker exec -i oracledb bash -c "echo 'GRANT UNLIMITED TABLESPACE TO ${schema};' | sqlplus -S / as sysdba"
           done
 
           # Verify schemas were created
-          docker exec -i oracle bash -c "echo 'SELECT username FROM dba_users WHERE username IN ($(printf "'%s'," "${schemas[@]}" | sed 's/,$/\n/'));' | sqlplus -S / as sysdba"
+          docker exec -i oracledb bash -c "echo 'SELECT username FROM dba_users WHERE username IN ($(printf "'%s'," "${schemas[@]}" | sed 's/,$/\n/'));' | sqlplus -S / as sysdba"
 
           # Show individual schema details
           for schema in "${schemas[@]}"; do
