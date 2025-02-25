@@ -31,6 +31,9 @@ jobs:
     name: 📖 Update lockfile, Document, render README, and enforce coding style
     runs-on: ubuntu-latest
 
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
