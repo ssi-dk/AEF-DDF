@@ -516,7 +516,7 @@ jobs:
           done
 
           # Verify schemas were created
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'SELECT username FROM dba_users WHERE username IN ($(for s in "${schemas[@]}"; do echo -n \"\'${s}\'\","; done | sed "s/,$//");' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'SELECT username FROM dba_users WHERE username' | sqlplus -S / as sysdba"
 
           # Show individual schema details - using single quotes around the schema names
           for schema in "${schemas[@]}"; do
