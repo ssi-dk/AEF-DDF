@@ -211,10 +211,11 @@ jobs:
 
           vignettes <- list.files(
             file.path("vignettes"),
-            pattern = paste0("(", paste(vignettes_with_cache, collapse = "|"), ").Rmd"),
+            pattern = ".Rmd",
             recursive = TRUE,
             full.names = TRUE
-          )
+          ) |>
+            purrr::keep(~ stringr::str_extract(basename(.), r"{[^\.]+}") %in% vignettes_with_cache)
 
           # Run each vignette to update the cache
           for (vignette in vignettes) {
