@@ -46,7 +46,7 @@ jobs:
           if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
             # For PRs from forks
             git remote add fork ${{ github.event.pull_request.head.repo.clone_url }}
-            git remote set-url fork https://x-access-token:${{ github.token }}@github.com/${{ github.event.pull_request.head.repo.full_name }}.git
+            git remote set-url fork https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/${{ github.event.pull_request.head.repo.full_name }}.git
             git fetch fork ${{ github.event.pull_request.head.ref }}
             git checkout -b ${{ inputs.branch_name }} fork/${{ github.event.pull_request.head.ref }}
           else
@@ -240,7 +240,8 @@ jobs:
       - name: Push changes
         run: |
           if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
-            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            # For PRs from forks - use the fork's URL with GH_PAT
+            git remote set-url fork https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/${{ github.event.pull_request.head.repo.full_name }}.git
             git push fork HEAD:${{ github.event.pull_request.head.ref }}
           else
             # For PRs from the same repository
