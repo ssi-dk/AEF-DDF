@@ -507,12 +507,12 @@ jobs:
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
             # Create user/schema with password
-            podman exec -i $ORACLE_CONTAINER bash -c "echo 'CREATE USER ${schema} IDENTIFIED BY \"${schema}_pwd\";' | sqlplus -S / as sysdba"
+            podman exec -i $ORACLE_CONTAINER bash -c "echo 'CREATE USER \"${schema}\" IDENTIFIED BY \"${schema}_pwd\";' | sqlplus -S / as sysdba"
 
             # Grant necessary privileges
-            podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE SESSION TO ${schema};' | sqlplus -S / as sysdba"
-            podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE TABLE TO ${schema};' | sqlplus -S / as sysdba"
-            podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT UNLIMITED TABLESPACE TO ${schema};' | sqlplus -S / as sysdba"
+            podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE SESSION TO \"${schema}\";' | sqlplus -S / as sysdba"
+            podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE TABLE TO \"${schema}\";' | sqlplus -S / as sysdba"
+            podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT UNLIMITED TABLESPACE TO \"${schema}\";' | sqlplus -S / as sysdba"
           done
 
           # Verify schemas were created
