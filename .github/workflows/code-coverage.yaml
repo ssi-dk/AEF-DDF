@@ -461,6 +461,133 @@ jobs:
           cat "$log"
 
 
+  code-coverage-oracle:
+    name: "🧪 Tests: Oracle Database"
+    runs-on: ubuntu-latest
+    if: ${{ !contains(inputs.backend_exclude, 'oracle')}}
+
+    env:
+      BACKEND: Oracle
+      BACKEND_DRV: odbc::odbc
+      BACKEND_ARGS: ''
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+      CONN_ARGS_JSON: >
+        {
+          "Oracle": {
+            "driver": "Oracle",
+            "DBQ": "localhost:1521/FREEPDB1",
+            "UID": "user",
+            "PWD": "password"
+          }
+        }
+
+    steps:
+      - uses: gvenzl/setup-oracle-free@v1
+        with:
+          app-user: user
+          app-user-password: password
+
+      - name: Setup testing schemata in Oracle database
+        if: ${{ inputs.schemas != 'none' }}
+        run: |
+          set -o xtrace
+
+          # Connect to Oracle as SYSTEM user
+          IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
+          for schema in "${schemas[@]}"; do
+            # Create user/schema with password
+            echo "CREATE USER ${schema} IDENTIFIED BY \"${schema}_pwd\";" | sqlplus -S / as sysdba
+            # Grant necessary privileges
+            echo "GRANT CREATE SESSION TO ${schema};" | sqlplus -S / as sysdba
+            echo "GRANT CREATE TABLE TO ${schema};" | sqlplus -S / as sysdba
+            echo "GRANT UNLIMITED TABLESPACE TO ${schema};" | sqlplus -S / as sysdba
+          done
+
+          # Verify schemas were created
+          echo "SELECT username FROM dba_users WHERE username IN ($(printf "'%s'," "${schemas[@]}" | sed 's/,$/\n/'));" | sqlplus -S / as sysdba
+
+          # Show individual schema details
+          for schema in "${schemas[@]}"; do
+            echo "SELECT username, account_status FROM dba_users WHERE username = '${schema}';" | sqlplus -S / as sysdba
+          done
+
+      - uses: actions/checkout@v4
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+
+      - name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: ${{ inputs.cache_version }}
+          extra-packages: |
+            local::.
+            any::pak
+            any::jsonlite
+            any::rcmdcheck
+            any::devtools
+            any::lintr
+            any::covr
+            any::roxygen2
+            any::pkgdown
+            any::rmarkdown
+            any::styler
+          needs: build, check, coverage, roxygen2, lint, website
+
+      - name: Generate and Save Coverage Report
+        run: |
+          coverage <- covr::package_coverage(
+            quiet = FALSE,
+            clean = FALSE,
+            install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
+          )
+          saveRDS(coverage, "coverage_results.rds")
+        shell: Rscript {0}
+
+      - name: Upload Coverage Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-sql-server
+          path: coverage_results.rds
+
+      - name: Show testthat output
+        if: always()
+        run: |
+          ## --------------------------------------------------------------------
+          TESTTHAT_OUT=$(find ${{ runner.temp }}/package -name 'testthat.Rout*')
+
+          cat $TESTTHAT_OUT
+
+          # Throw errors on failures or warnings
+          grep -q "FAIL 0" $TESTTHAT_OUT || { echo "Test failures found"; exit 1; }
+          grep -q "WARN 0" $TESTTHAT_OUT || { echo "Test warnings found"; exit 1; }
+
+          # Throw error if error: are found
+          if grep -q "Error:" $TESTTHAT_OUT; then
+            echo "Error: found"
+            exit 1
+          fi
+        shell: bash
+
+      - name: Collect docker logs
+        if: always()
+        uses: jwalton/gh-docker-logs@v2
+        with:
+          dest: '${{ runner.workspace }}/logs-docker'
+
+      - name: Check docker logs for SQL Server ERRORs
+        if: always()
+        run: |
+          ## --------------------------------------------------------------------
+          log=$(find ${{ runner.workspace }}/logs-docker/ -name 'sql.log')
+
+          cat "$log"
+
+
   combine-and-upload-coverage:
     name: "🧪 Tests: Upload to codecov.io"
     needs: [code-coverage-sqlite, code-coverage-duckdb, code-coverage-postgres, code-coverage-mssql]
