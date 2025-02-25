@@ -16,6 +16,14 @@ on:
       styler:
         type: boolean
         default: false
+      update_cache:
+        type: boolean
+        default: false
+
+
+permissions:
+  contents: write
+  pull-requests: write
 
 
 jobs:
@@ -183,6 +191,45 @@ jobs:
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
           git add README.md
           git commit -m "docs(README): Re-build README.Rmd" || echo "No changes to commit"
+
+      - name: ⚙️ Update vignette caches
+        if: ${{ inputs.update_cache == true }}
+        run: |
+          # Look for cached files
+          cached_files <- list.files(file.path("vignettes"), pattern = ".rds", recursive = TRUE, full.names = TRUE)
+
+          # Infer the vignettes that need to be re-rendered
+          vignettes_with_cache <- unique(basename(dirname(cached_files)))
+
+          vignettes <- list.files(
+            file.path("vignettes"),
+            pattern = paste0("(", paste(vignettes_with_cache, collapse = "|"), ").Rmd"),
+            recursive = TRUE,
+            full.names = TRUE
+          )
+
+          # Run each vignette to update the cache
+          for (vignette in vignettes) {
+            rmarkdown::render(vignette)
+          }
+
+
+      - name: Commit changes
+        if: ${{ inputs.render_readme == true }}
+        run: |
+          git stash --include-untracked
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git pull --rebase fork ${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git pull --rebase origin ${{ inputs.branch_name }}
+          fi
+
+          git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
+          git add *.rds
+          git commit -m "chore(vignettes): Update the cache" || echo "No changes to commit"
 
       - name: Push changes
         run: |

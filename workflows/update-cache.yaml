@@ -1,0 +1,11 @@
+on:
+  push:
+    paths:
+      "R/**"
+      "vignettes/**"
+
+name: Update vignette cache
+
+jobs:
+  render:
+    uses: ssi-dk/AEF-DDF/.github/workflows/update-cache.yaml@main
