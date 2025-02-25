@@ -473,8 +473,8 @@ jobs:
         # Provide passwords and other environment variables to container
         env:
           ORACLE_RANDOM_PASSWORD: true
-          APP_USER: user
-          APP_USER_PASSWORD: password
+          APP_USER: github_ci
+          APP_USER_PASSWORD: github_ci
         ports:
           - 1521:1521
 
@@ -496,8 +496,8 @@ jobs:
           "Oracle": {
             "driver": "Oracle",
             "DBQ": "localhost:1521/FREEPDB1",
-            "UID": "user",
-            "PWD": "password"
+            "UID": "github_ci",
+            "PWD": "github_ci"
           }
         }
 
