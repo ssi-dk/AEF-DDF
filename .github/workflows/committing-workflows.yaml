@@ -238,7 +238,7 @@ jobs:
           fi
 
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
-          git add *.rds
+          git add *.rds || echo "No .rds cache files to add"
           git commit -m "chore(vignettes): Update the cache" || echo "No changes to commit"
 
       - name: Push changes
