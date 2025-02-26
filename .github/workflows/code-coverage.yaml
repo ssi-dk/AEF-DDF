@@ -468,7 +468,7 @@ jobs:
 
     env:
       BACKEND: Oracle
-      BACKEND_DRV: RJDBC::RJDBC
+      BACKEND_DRV: RJDBC::JDBC
       BACKEND_ARGS: ''
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
