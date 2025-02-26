@@ -468,7 +468,7 @@ jobs:
 
     env:
       BACKEND: Oracle
-      BACKEND_DRV: odbc::odbc
+      BACKEND_DRV: RJDBC::RJDBC
       BACKEND_ARGS: ''
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
@@ -547,10 +547,6 @@ jobs:
             any::rmarkdown
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
-
-      - name: List odbc drivers
-        run: odbc::odbcListDrivers()
-        shell: Rscript {0}
 
       - name: Generate and Save Coverage Report
         run: |
