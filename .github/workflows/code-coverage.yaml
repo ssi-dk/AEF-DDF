@@ -475,10 +475,11 @@ jobs:
       CONN_ARGS_JSON: >
         {
           "Oracle": {
-            "driver": "Oracle",
-            "DBQ": "localhost:1521/FREEPDB1",
-            "UID": "github_ci",
-            "PWD": "github_ci"
+            "driverClass": "oracle.jdbc.OracleDriver",
+            "classPath": "/usr/lib/oracle/ojdbc8.jar",
+            "url": "jdbc:oracle:thin:@localhost:1521/FREEPDB1",
+            "user": "github_ci",
+            "password": "github_ci"
           }
         }
 
