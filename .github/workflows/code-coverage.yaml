@@ -543,11 +543,11 @@ jobs:
             exit 1
           fi
 
-      - name: Setup Java
-        uses: actions/setup-java@v2
+      - name: 'Set up latest Oracle JDK 23'
+        uses: oracle-actions/setup-java@v1
         with:
-          distribution: 'oracle'
-          java-version: '21' 
+          website: oracle.com
+          release: 23
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
