@@ -48,7 +48,11 @@ jobs:
           timezoneMacos: "Australia/Sydney"
           timezoneWindows: "AUS Eastern Standard Time"
 
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
@@ -56,7 +60,7 @@ jobs:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install dependencies
+      - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -144,7 +148,11 @@ jobs:
           timezoneMacos: "Australia/Sydney"
           timezoneWindows: "AUS Eastern Standard Time"
 
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
@@ -155,7 +163,7 @@ jobs:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install dependencies
+      - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -268,7 +276,11 @@ jobs:
           timezoneMacos: "Australia/Sydney"
           timezoneWindows: "AUS Eastern Standard Time"
 
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
@@ -276,7 +288,7 @@ jobs:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install dependencies
+      - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -409,7 +421,11 @@ jobs:
           timezoneMacos: "Australia/Sydney"
           timezoneWindows: "AUS Eastern Standard Time"
 
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
@@ -417,7 +433,7 @@ jobs:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install dependencies
+      - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -553,7 +569,11 @@ jobs:
           timezoneMacos: "Australia/Sydney"
           timezoneWindows: "AUS Eastern Standard Time"
 
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Install Oracle JDBC driver
         run: |
@@ -585,7 +605,7 @@ jobs:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install dependencies
+      - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -675,7 +695,11 @@ jobs:
           timezoneMacos: "Australia/Sydney"
           timezoneWindows: "AUS Eastern Standard Time"
 
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
@@ -683,7 +707,7 @@ jobs:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install dependencies
+      - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}

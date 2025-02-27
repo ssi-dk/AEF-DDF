@@ -18,13 +18,18 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: r-lib/actions/setup-r@v2
+      - name: Checkout repo
+        uses: actions/checkout@v4
         with:
-          use-public-rspm: true
+          fetch-depth: 0
+          persist-credentials: false
 
-      - name: Install dependencies
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+          with:
+            use-public-rspm: true
+
+      - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
