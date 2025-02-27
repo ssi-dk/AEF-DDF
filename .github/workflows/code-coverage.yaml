@@ -502,7 +502,7 @@ jobs:
 
 
   code-coverage-oracle:
-    name: "🧪 Tests: Oracle Database"
+    name: "🧪 Tests: Oracle Database (Experimental)"
     runs-on: ubuntu-latest
     if: ${{ !contains(inputs.backend_exclude, 'oracle')}}
 
