@@ -588,16 +588,18 @@ jobs:
           if sudo test -f "/usr/lib/oracle/ojdbc8.jar"; then
             echo "Oracle JDBC driver downloaded successfully"
             sudo ls -la /usr/lib/oracle/
+            # Make the JAR file readable by everyone
+            sudo chmod 644 /usr/lib/oracle/ojdbc8.jar
           else
             echo "Failed to download Oracle JDBC driver"
             exit 1
           fi
 
-      - name: 'Set up latest Oracle JDK 23'
+      - name: 'Set up Oracle JDK 17'
         uses: oracle-actions/setup-java@v1
         with:
           website: oracle.com
-          release: 23
+          release: 17
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
@@ -622,6 +624,44 @@ jobs:
             any::rmarkdown
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
+
+      - name: Configure Java for R
+        run: |
+          # Create .Rprofile to automatically set Java classpath
+          echo 'Sys.setenv(JAVA_HOME = Sys.getenv("JAVA_HOME"))' > ~/.Rprofile
+          echo 'Sys.setenv(CLASSPATH = "/usr/lib/oracle/ojdbc8.jar")' >> ~/.Rprofile
+
+          # Test the JDBC connection
+          Rscript -e '
+            library(RJDBC)
+
+            # Print Java version and classpath to debug
+            print(system("java -version", intern = TRUE))
+            print(Sys.getenv("CLASSPATH"))
+            print(Sys.getenv("JAVA_HOME"))
+
+            # Initialize the Oracle driver explicitly
+            drv <- JDBC("oracle.jdbc.OracleDriver", "/usr/lib/oracle/ojdbc8.jar")
+            print("JDBC driver initialized successfully")
+
+            # Try to connect
+            conn <- tryCatch({
+              dbConnect(
+                drv,
+                "jdbc:oracle:thin:@localhost:1521/FREEPDB1",
+                "github_ci",
+                "github_ci"
+              )
+            }, error = function(e) {
+              print(paste("Connection error:", e$message))
+              NULL
+            })
+
+            if (!is.null(conn)) {
+              print("Successfully connected to Oracle!")
+              dbDisconnect(conn)
+            }
+          '
 
       - name: Generate and Save Coverage Report
         run: |
