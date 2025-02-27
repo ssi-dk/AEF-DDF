@@ -616,7 +616,7 @@ jobs:
       - name: Upload Coverage Report Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-sql-server
+          name: coverage-oracle
           path: coverage_results.rds
 
       - name: Show testthat output
