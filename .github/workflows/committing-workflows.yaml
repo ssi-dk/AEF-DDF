@@ -173,6 +173,22 @@ jobs:
           git add man/\* NAMESPACE DESCRIPTION
           git commit -m "docs: Re-build roxygen documentation" || echo "No changes to commit"
 
+      - name: Install nunjucks
+        run: npm install nunjucks
+
+      - name: Resolve nunjucks templates
+        run: |
+          echo "
+            const nunjucks = require('nunjucks');
+            const fs = require('node:fs');
+
+            nunjucks.configure({ autoescape: true, trimBlocks: true, lstripBlocks: true });
+
+            var res = nunjucks.render('README.Rmd', {repo_name: '${{ github.event.repository.name }}'});
+
+            fs.writeFile('README.Rmd', res, (err) => err && console.error(err));" >> render-templates.js
+          node render-templates.js
+
       - name: 📖 Render README
         if: ${{ inputs.render_readme == true }}
         run: rmarkdown::render("README.Rmd")
