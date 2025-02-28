@@ -1,0 +1,10 @@
+# .bash_profile
+
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+
+# Get the aliases and functions
+if [ -f /ngc/projects/ssi_mg/bin/.bash_profile_common ]; then
+    . /ngc/projects/ssi_mg/bin/.bash_profile_common
+fi

@@ -50,15 +50,20 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - uses: r-lib/actions/setup-pandoc@v2
 
-      - uses: r-lib/actions/setup-r@v2
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
-      - name: Install dependencies
+      - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -143,7 +148,11 @@ jobs:
     outputs:
       pre_release: ${{ steps.determine-pre-release.outputs.pre_release }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Determine if pre-release
         id: determine-pre-release
@@ -177,7 +186,11 @@ jobs:
     if: inputs.event_name == 'release' || (needs.determine-pre-release.outputs.pre_release == 'true' && contains(inputs.main_branches, github.ref_name))
     needs: [cleanup, pkgdown-build, determine-pre-release]
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Download pkgdown output
         uses: actions/download-artifact@v4

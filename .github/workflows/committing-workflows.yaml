@@ -1,0 +1,270 @@
+on:
+  workflow_call:
+    inputs:
+      branch_name:
+        type: string
+        required: true
+      cache_version:
+        type: string
+        default: '1'
+      document:
+        type: boolean
+        default: true
+      render_readme:
+        type: boolean
+        default: true
+      styler:
+        type: boolean
+        default: false
+      update_cache:
+        type: boolean
+        default: false
+
+
+permissions:
+  contents: write
+  pull-requests: write
+
+
+jobs:
+  update-lockfile-document-render-readme-styler:
+    name: 📖 Update lockfile, Document, render README, and enforce coding style
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Configure git
+        run: |
+          git config --local user.name "${{ github.actor }}"
+          git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks
+            git remote add fork ${{ github.event.pull_request.head.repo.clone_url }}
+            git remote set-url fork https://x-access-token:${{ github.token }}@github.com/${{ github.event.pull_request.head.repo.full_name }}.git
+            git fetch fork ${{ github.event.pull_request.head.ref }}
+            git checkout -b ${{ inputs.branch_name }} fork/${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
+            git switch "${{ inputs.branch_name }}"
+          fi
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Setup Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+
+      - name: Install R dependencieses
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: ${{ inputs.cache_version }}
+          extra-packages: |
+            local::.
+            any::pak
+            any::jsonlite
+            any::rcmdcheck
+            any::devtools
+            any::lintr
+            any::covr
+            any::roxygen2
+            any::pkgdown
+            any::rmarkdown
+            any::styler
+          needs: build, check, coverage, roxygen2, lint, website
+
+      - name: 📋 Update the pak.lock file
+        run: |
+          pak::lockfile_create(".", lockfile = "pak.lock", dependencies = TRUE)
+          lockfile <- jsonlite::fromJSON("pak.lock")
+          lockfile$packages <- lockfile$packages[order(lockfile$packages$ref), ]
+          jsonlite::write_json(lockfile, "pak.lock", pretty = TRUE, auto_unbox = TRUE)
+        shell: Rscript {0}
+
+      - name: Commit changes
+        run: |
+          git stash --include-untracked
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git pull --rebase fork ${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git pull --rebase origin ${{ inputs.branch_name }}
+          fi
+
+          git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
+          git add pak.lock || echo "No pak.lock to add"
+          git commit -m "chore: Update pak.lock" || echo "No changes to commit"
+
+      - name: 📝 Enforce code style
+        if: ${{ inputs.styler == true }}
+        run: |
+          # Set custom style
+          diseasy_style <- function(...) {
+            transformers <- styler::tidyverse_style(...)
+
+            # The following spacing rules breaks our 120 placing of the # nolint tags
+            transformers$space$spacing_around_op <- NULL
+            transformers$space$remove_space_after_opening_paren <- NULL
+            transformers$space$spacing_before_comments <- NULL
+
+            # The "remove_line_break_in_fun_call" rule works poorly with R6 classes
+            # and condenses the the entire codebase to an unreadable level.
+            transformers$line_break$remove_line_break_in_fun_call <- NULL
+
+            # The "style_line_break_around_curly" rule in general
+            # removes spacing that helps readability.
+            transformers$line_break$style_line_break_around_curly <- NULL
+
+            transformers
+          }
+
+          styler::style_pkg(style = diseasy_style)
+        shell: Rscript {0}
+
+      - name: Commit changes
+        if: ${{ inputs.styler == true }}
+        run: |
+          git stash --include-untracked
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git pull --rebase fork ${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git pull --rebase origin ${{ inputs.branch_name }}
+          fi
+
+          git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
+          git add *.R && git add *.Rmd
+          git commit -m "chore: Enforce code style" || echo "No changes to commit"
+
+      - name: 📖 Document
+        if: ${{ inputs.document == true }}
+        run: roxygen2::roxygenise()
+        shell: Rscript {0}
+
+      - name: Commit changes
+        if: ${{ inputs.document == true }}
+        run: |
+          git stash --include-untracked
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git pull --rebase fork ${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git pull --rebase origin ${{ inputs.branch_name }}
+          fi
+
+          git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
+          git add man/\* NAMESPACE DESCRIPTION
+          git commit -m "docs: Re-build roxygen documentation" || echo "No changes to commit"
+
+      - name: Install nunjucks
+        run: npm install nunjucks
+
+      - name: Resolve nunjucks templates
+        run: |
+          echo "
+            const nunjucks = require('nunjucks');
+            const fs = require('node:fs');
+
+            nunjucks.configure({ autoescape: true, trimBlocks: true, lstripBlocks: true });
+
+            var res = nunjucks.render('README.Rmd', {repo_name: '${{ github.event.repository.name }}'});
+
+            fs.writeFile('README.Rmd', res, (err) => err && console.error(err));" >> render-templates.js
+          node render-templates.js
+
+      - name: 📖 Render README
+        if: ${{ inputs.render_readme == true }}
+        run: rmarkdown::render("README.Rmd")
+        shell: Rscript {0}
+
+      - name: Commit changes
+        if: ${{ inputs.render_readme == true }}
+        run: |
+          git stash --include-untracked
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git pull --rebase fork ${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git pull --rebase origin ${{ inputs.branch_name }}
+          fi
+
+          git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
+          git add README.md
+          git commit -m "docs(README): Re-build README.Rmd" || echo "No changes to commit"
+
+      - name: ⚙️ Update vignette caches
+        if: ${{ inputs.update_cache == true }}
+        run: |
+          # Look for cached files
+          cached_files <- list.files(
+            file.path("vignettes"),
+            pattern = ".rds",
+            recursive = TRUE,
+            full.names = TRUE
+          )
+
+          # Infer the vignettes that need to be re-rendered
+          vignettes_with_cache <- unique(basename(dirname(cached_files)))
+
+          vignettes <- list.files(
+            file.path("vignettes"),
+            pattern = ".Rmd",
+            recursive = TRUE,
+            full.names = TRUE
+          ) |>
+            purrr::keep(~ stringr::str_extract(basename(.), r"{[^\.]+}") %in% vignettes_with_cache)
+
+          # Run each vignette to update the cache
+          for (vignette in vignettes) {
+            rmarkdown::render(vignette)
+          }
+        shell: Rscript {0}
+
+
+      - name: Commit changes
+        if: ${{ inputs.render_readme == true }}
+        run: |
+          git stash --include-untracked
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git pull --rebase fork ${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git pull --rebase origin ${{ inputs.branch_name }}
+          fi
+
+          git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
+          git add *.rds || echo "No .rds cache files to add"
+          git commit -m "chore(vignettes): Update the cache" || echo "No changes to commit"
+
+      - name: Push changes
+        run: |
+          set -o xtrace
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}.git HEAD:${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git push origin ${{ inputs.branch_name }}
+          fi

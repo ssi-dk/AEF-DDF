@@ -1,0 +1,84 @@
+on:
+  workflow_call:
+    inputs:
+      branch_name:
+        type: string
+        required: true
+      cache_version:
+        type: string
+        default: '1'
+
+
+jobs:
+  styler:
+    name: 📝 Enforce coding style
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure git
+        run: |
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git switch ${{ inputs.branch_name }}
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Install R dependencieses
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: ${{ inputs.cache_version }}
+          extra-packages: |
+            local::.
+            any::pak
+            any::jsonlite
+            any::rcmdcheck
+            any::devtools
+            any::lintr
+            any::covr
+            any::roxygen2
+            any::pkgdown
+            any::rmarkdown
+            any::styler
+          needs: build, check, coverage, roxygen2, lint, website
+
+      - name: ⚙️ Update vignette caches
+        if: ${{ inputs.update_vignette_cache == true }}
+        run_: |
+          # Look for cached files
+          cached_files <- list.files(file.path("vignettes"), pattern = ".rds", recursive = TRUE, full.names = TRUE)
+
+          # Infer the vignettes that need to be re-rendered
+          vignettes_with_cache <- unique(basename(dirname(cached_files)))
+
+          vignettes <- list.files(
+            file.path("vignettes"),
+            pattern = paste0("(", paste(vignettes_with_cache, collapse = "|"), ").Rmd"),
+            recursive = TRUE,
+            full.names = TRUE
+          )
+
+          # Run each vignette to update the cache
+          for (vignette in vignettes) {
+            rmarkdown::render(vignette)
+          }
+
+
+      - name: Commit changes
+        if: ${{ inputs.render_readme == true }}
+        run: |
+          git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
+          git stash
+          git pull --rebase origin ${{ inputs.branch_name }}
+          git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
+          git add *.rds
+          git commit -m "chore(vignettes): Update the cache" || echo "No changes to commit"
+          git push origin ${{ inputs.branch_name }}

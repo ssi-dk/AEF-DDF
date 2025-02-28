@@ -1,0 +1,56 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+	echo "Incorrect number of arguments given ($# != 1)" >&2
+	exit 1
+fi
+
+# Load postgresql module
+module load postgresql/15.1
+
+# Test if any matching tables exist
+# (if . delimited, split into schema and table, otherwise check all)
+
+if [[ "$1" == *"."* ]]; then
+	INPUT="$1"
+else
+	# If no schema, locate table in question
+	INPUT=$(psql -tA -c "SELECT CONCAT(table_schema, '.', table_name) FROM information_schema.tables WHERE table_name = '"$1"' ORDER BY table_schema, table_name")
+	if [ $(wc -l <<< "$INPUT") -ne 1 ]; then
+		{
+			echo "Multiple tables found:"
+			printf -- '  - %s\n' $INPUT
+		} >&2
+		exit 1
+	fi
+fi
+
+SCHEMA=$(grep -o "^[^.]*" <<< $INPUT)
+TABLE=$(grep -Po "(?<=[.]).*$" <<< $INPUT)
+
+#echo INPUT=$INPUT
+#echo SCHEMA=$SCHEMA
+#echo TABLE=$TABLE
+
+# Can I even grant permissions?
+USER_PERM=$(psql -tA -c "SELECT HAS_TABLE_PRIVILEGE(current_user, '"$SCHEMA"."$TABLE"', 'SELECT WITH GRANT OPTION')")
+
+#echo USER_PERM=$USER_PERM
+
+# Do the thing!
+if [[ "$USER_PERM" == "t" ]]; then
+	echo -n "Granting SELECT privileges on table $SCHEMA.$TABLE for ssi_mg role... "
+	psql -c "GRANT SELECT ON TABLE $SCHEMA.$TABLE TO ssi_mg" >/dev/null
+	STATUS=$?
+
+	if [ $STATUS -eq 0 ]; then
+		echo 'Success!'
+	else
+		echo 'Failed with exit code '"$STATUS"'!'
+		exit $?
+	fi
+else
+	echo 'You do not have SELECT WITH GRANT OPTION privileges for this table!' >&2
+	exit 1
+fi
+
