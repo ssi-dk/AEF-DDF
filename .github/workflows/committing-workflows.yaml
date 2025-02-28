@@ -261,10 +261,20 @@ jobs:
         run: |
           set -o xtrace
 
-          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
-            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
-            git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}.git HEAD:${{ github.event.pull_request.head.ref }}
+          # Check if there are any commits to push
+          if git log origin/${{ inputs.branch_name }}..HEAD --oneline | grep -q .; then
+            echo "Changes were made and need to be pushed"
+
+            if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+              # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+              git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}.git HEAD:${{ github.event.pull_request.head.ref }}
+            else
+              # For PRs from the same repository
+              git push origin ${{ inputs.branch_name }}
+            fi
+
+            echo "::error::Changes were automatically committed and pushed."
+            exit 1
           else
-            # For PRs from the same repository
-            git push origin ${{ inputs.branch_name }}
-          fi
+            echo "No changes to push"
+          fi- name: Push changes
