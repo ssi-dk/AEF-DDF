@@ -72,7 +72,8 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macos,    r: 'release'}
+          - {os: macos-13, r: 'release'} # x68 architecture
+          - {os: macos,    r: 'release'} # arm64 architecture
           - {os: windows,  r: 'release'}
           - {os: ubuntu,   r: 'release'}
           - {os: ubuntu,   r: 'oldrel-1'}
