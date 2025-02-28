@@ -70,17 +70,17 @@ jobs:
   R-CMD-check:
     needs: build-package
     name: "🔎 Check: ${{ matrix.config.os }} (${{ matrix.config.r }})"
-    runs-on: ${{ matrix.config.os }}-latest
+    runs-on: ${{ matrix.config.os }}
 
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: macos-13, r: 'release'} # x68 architecture
-          - {os: macos,    r: 'release'} # arm64 architecture
-          - {os: windows,  r: 'release'}
-          - {os: ubuntu,   r: 'release'}
-          - {os: ubuntu,   r: 'oldrel-1'}
+          - {os: macos-13,        r: 'release'} # x68 architecture
+          - {os: macos-latest,    r: 'release'} # arm64 architecture
+          - {os: windows-latest,  r: 'release'}
+          - {os: ubuntu-latest,   r: 'release'}
+          - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
