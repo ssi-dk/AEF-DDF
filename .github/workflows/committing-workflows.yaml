@@ -174,9 +174,11 @@ jobs:
           git commit -m "docs: Re-build roxygen documentation" || echo "No changes to commit"
 
       - name: Install nunjucks
+        if: ${{ inputs.render_readme == true }}
         run: npm install nunjucks
 
       - name: Resolve nunjucks templates
+        if: ${{ inputs.render_readme == true }}
         run: |
           echo "
             const nunjucks = require('nunjucks');
