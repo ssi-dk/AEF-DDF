@@ -1,0 +1,12 @@
+# .bash_profile_common
+if [ -f /ngc/projects/ssi_mg/bin/.bashrc_common ]; then
+        . /ngc/projects/ssi_mg/bin/.bashrc_common
+fi
+
+
+# Load default modules
+module load git/2.34.0
+
+
+# Set users to give read+write access to the group by default
+umask 007

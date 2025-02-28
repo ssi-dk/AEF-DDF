@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Usage info
+show_help() {
+cat << EOF
+Usage: 
+This script uses find and chmod to look for files and directories in subdirectories of the working directory which have the default chmod (600 and 700 respectively)
+After finding the files, the script updates the permssions to give group access (660 and 770 respectively).
+
+    -h 	  display this help and exit
+    -a    change file and directory access for all files
+    -n 	  dry-run mode. Show the commands to be executed
+    -v    verbose mode. Prints permission denied encounters to terminal
+
+EOF
+}
+
+all_mode=false
+dry_run=false
+verbose=false
+while getopts 'hnav' opt; do
+    case $opt in
+        a)  all_mode=true ;;
+        n)  dry_run=true ;;
+        v)  verbose=true ;;
+        h | *)
+            show_help
+            exit 0
+            ;;
+    esac
+done
+
+
+if "$all_mode"; then
+    dir_perm=''
+    file_perm=''
+else
+    dir_perm='-perm 2700'
+    file_perm='-perm 700'
+fi
+
+if "$dry_run"; then
+    cmd="echo chmod"
+else 
+    cmd="chmod"
+fi
+
+
+if "$verbose"; then
+    grep_flag=""
+else
+    grep_flag="-v"
+fi
+
+
+
+
+if "$verbose"; then
+    echo "Looking for directories without group access"
+fi
+find . -type d -user $USER $dir_perm -exec $cmd 770 {} \; 2>&1 | grep $grep_flag 'Permission denied'
+
+if "$verbose"; then
+    echo "Looking for files without group access"
+fi
+find . -type f -user $USER $file_perm -exec $cmd 660 {} \; 2>&1 | grep $grep_flag 'Permission denied'
+
+exit 0

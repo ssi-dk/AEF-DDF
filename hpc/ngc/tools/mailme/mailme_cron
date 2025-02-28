@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+usage() {
+	echo """Usage:
+mailme_cron -i DIR [-o DIR]"""
+}
+
+while getopts "i:o:t:rv" opt; do
+	case ${opt} in
+		i) WATCH_DIR="${OPTARG}";;
+		o) OUTPUT_DIR="${OPTARG}";;
+		r) RECURSIVE=true; MAXDEPTH="";;
+		t) SEND_DELAY="${OPTARG}";;
+		v) VERBOSITY=$((VERBOSITY+1));;
+		*) usage; exit 0;;
+	esac
+done
+
+if [ -z ${WATCH_DIR} ]; then
+	usage
+	exit 0
+fi
+
+if [ ! -d $WATCH_DIR ]; then
+	echo 'Directory '$WATCH_DIR' not found!' >&2
+	exit 1
+fi
+
+# Exit if no files in dir at all
+if [ `ls -1 $WATCH_DIR | wc -l` -eq 0 ]; then
+	exit 0
+fi
+
+# Only proceed if no files are newer than SEND_DELAY
+if [ ! `find $WATCH_DIR ${MAXDEPTH--maxdepth 1} -type f -mmin -${SEND_DELAY-0} | wc -l` -gt 0 ]; then
+	if [ $RECURSIVE ]; then
+		FILES="$(find $WATCH_DIR -mindepth 1 -type f)"
+	else
+		FILES="$(find $WATCH_DIR -mindepth 1 -maxdepth 1 -type f)"
+	fi
+
+	if [ ${VERBOSITY-0} -gt 0 ]; then
+		echo WATCH_DIR=$WATCH_DIR
+		echo FILES="${FILES}"
+		echo OUTPUT_DIR=$OUTPUT_DIR
+	fi
+
+	# Exit if no files are found
+        if [ -n ${FILES+x} ]; then
+		exit 0
+	fi
+	
+	mailme $FILES && \
+	if [ -z "${OUTPUT_DIR+x}" ]; then
+		rm $FILES
+	else
+		if [ ! -d $OUTPUT_DIR ]; then
+			echo 'Output directory '"$OUTPUT_DIR"' does not exist!' >&2
+			exit 1
+		fi
+
+		OUTPUT_DIR=$OUTPUT_DIR/"$(date +%y%m%d_%H%M)"
+
+		mkdir $OUTPUT_DIR
+		mv $FILES $OUTPUT_DIR
+	fi || echo 'Something went wrong!' >&2
+fi

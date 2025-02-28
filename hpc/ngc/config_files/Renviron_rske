@@ -1,0 +1,5 @@
+PGHOST=172.18.17.103
+PGDATABASE=data
+R_LIBS_USER=/ngc/projects/ssi_mg/common/R_packages
+R_BUILD_TAR=tar
+_R_CHECK_SYSTEM_CLOCK_=0
