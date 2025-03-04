@@ -63,6 +63,8 @@ Click on the workflow and look for the "Run r-lib/actions/check-r-package@v2" ta
 |------------------|----------------------------------|---------------------------------------------|-------------------------------|
 | `rcmdcheck-args` | Arguments passed to R-CMD-check. | c("--no-manual", "--as-cran", "--no-tests") | c("--no-manual", "--as-cran") |
 
+If the workflow was manually triggered, additional memory analysis is performed during R-CMD-Check
+
 #### Exit status
 If any issues are found, the workflow will give an error.
 
