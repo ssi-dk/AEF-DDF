@@ -51,7 +51,6 @@ jobs:
       branch_name: ${{ steps.branch_name.outputs.branch_name }}
       cache_version: ${{ steps.cache_version.outputs.cache_version }}
       min_r_version: ${{ steps.min_r_version.outputs.min_R_version }}
-      check_memory: ${{ steps.check_memory.outputs.check_memory }}
 
 
       lint: ${{
@@ -270,16 +269,6 @@ jobs:
             echo "cache_version=1" >> $GITHUB_OUTPUT
           fi
 
-      - name: Set check_memory on workflow_dispatch
-        id: check_memory
-        shell: bash
-        run: |
-          if [ "${{ inputs.event_name }}" == "workflow_dispatch" ] ; then
-            echo "check_memory=true" >> $GITHUB_OUTPUT
-          else
-            echo "check_memory=false" >> $GITHUB_OUTPUT
-          fi
-
       - name: Report triggers
         run: |
           echo "R/ directory changes: ${{ steps.changed-files-yaml.outputs.R_any_changed }}"
@@ -292,7 +281,6 @@ jobs:
           echo "main branch affected: ${{ steps.main_branch_affected.outputs.main_branch_affected }}"
           echo "branch name: ${{ steps.branch_name.outputs.branch_name }}"
           echo "cache_version: ${{ steps.cache_version.outputs.cache_version }}"
-          echo "check_memory: ${{ steps.check_memory.outputs.check_memory }}"
           echo "R version requirement: ${{ steps.min_r_version.outputs.min_R_version }}"
 
 
@@ -306,7 +294,6 @@ jobs:
           echo "branch_name: ${{ needs.trigger.outputs.branch_name }}"
           echo "cache_version: ${{ needs.trigger.outputs.cache_version }}"
           echo "min_r_version: ${{ needs.trigger.outputs.min_r_version }}"
-          echo "check_memory: ${{ needs.trigger.outputs.check_memory }}"
           echo "lint: ${{ needs.trigger.outputs.lint }}"
           echo "spell-checker: ${{ needs.trigger.outputs.spell-checker }}"
           echo "R-CMD-check: ${{ needs.trigger.outputs.R-CMD-check }}"
@@ -357,7 +344,6 @@ jobs:
       rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       min_r_version: ${{ needs.trigger.outputs.min_r_version }}
-      check_memory: ${{ needs.trigger.outputs.check_memory == 'true' }}
     secrets: inherit
     concurrency:
       group: R-CMD-check-${{ needs.trigger.outputs.branch_name }}

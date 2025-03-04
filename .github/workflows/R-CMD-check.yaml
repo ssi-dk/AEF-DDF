@@ -12,9 +12,6 @@ on:
       min_r_version:
         type: string
         default: '4.0'
-      check_memory:
-        type: boolean
-        default: false
 
 
 jobs:
@@ -164,7 +161,7 @@ jobs:
           error-on: '"note"'
 
       - name: Process memory profile
-        if: always() && ${{ inputs.check_memory }}
+        if: always()
         run: |
           memory_summary <- utils::summaryRprof("memory-profiles/Rprofmem.out", memory = "both")
           saveRDS(memory_summary, "memory-profiles/memory_summary.rds")
@@ -177,7 +174,7 @@ jobs:
 
 
       - name: Upload memory profiles
-        if: always() && ${{ inputs.check_memory }}
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: memory-profile-${{ matrix.config.os }}-${{ matrix.config.r }}
