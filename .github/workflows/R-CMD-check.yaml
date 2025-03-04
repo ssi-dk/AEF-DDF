@@ -164,7 +164,7 @@ jobs:
           error-on: '"note"'
 
       - name: Process memory profile
-        if: ${{ inputs.check_memory }}
+        if: always() && ${{ inputs.check_memory }}
         run: |
           memory_summary <- utils::summaryRprof("memory-profiles/Rprofmem.out", memory = "both")
           saveRDS(memory_summary, "memory-profiles/memory_summary.rds")
@@ -177,7 +177,7 @@ jobs:
 
 
       - name: Upload memory profiles
-        if: ${{ inputs.check_memory }}
+        if: always() && ${{ inputs.check_memory }}
         uses: actions/upload-artifact@v4
         with:
           name: memory-profile-${{ matrix.config.os }}-${{ matrix.config.r }}
