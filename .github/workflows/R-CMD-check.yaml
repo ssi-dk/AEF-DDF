@@ -134,7 +134,6 @@ jobs:
         working-directory: pkg-build
 
       - name: Setup R memory profiling
-        if: ${{ inputs.check_memory }}
         run: |
           # Create directory for memory profiles
           mkdir -p memory-profiles
