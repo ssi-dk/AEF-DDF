@@ -357,7 +357,7 @@ jobs:
       rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       min_r_version: ${{ needs.trigger.outputs.min_r_version }}
-      check_memory: ${{ needs.trigger.outputs.check_memory }}
+      check_memory: ${{ needs.trigger.outputs.check_memory == 'true' }}
     secrets: inherit
     concurrency:
       group: R-CMD-check-${{ needs.trigger.outputs.branch_name }}
