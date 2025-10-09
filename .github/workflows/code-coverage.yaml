@@ -564,6 +564,7 @@ jobs:
           for schema in "${schemas[@]}"; do
             podman exec -i $ORACLE_CONTAINER bash -c "echo \"SELECT username, account_status FROM dba_users WHERE username = '${schema}';\" | sqlplus -S / as sysdba"
           done
+
       - uses: szenius/set-timezone@v2.0
         with:
           timezoneLinux: "Australia/Sydney"
