@@ -385,7 +385,7 @@ jobs:
             "UID": "SA",
             "PWD": "dbatools.I0",
             "TrustServerCertificate": "yes",
-            "Regional": "no"
+            "Regional": "yes"
           }
         }
 
