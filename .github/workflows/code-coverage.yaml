@@ -42,6 +42,12 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: "Australia/Sydney"
+          timezoneMacos: "Australia/Sydney"
+          timezoneWindows: "AUS Eastern Standard Time"
+
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
@@ -136,6 +142,12 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: "Australia/Sydney"
+          timezoneMacos: "Australia/Sydney"
+          timezoneWindows: "AUS Eastern Standard Time"
+
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
@@ -257,6 +269,12 @@ jobs:
           for schema in "${schemas[@]}"; do
             psql test -c "CREATE SCHEMA \"$schema\";"
           done
+
+      - uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: "Australia/Sydney"
+          timezoneMacos: "Australia/Sydney"
+          timezoneWindows: "AUS Eastern Standard Time"
 
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -397,6 +415,12 @@ jobs:
           for schema in "${schemas[@]}"; do
             sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = '$schema'"  -C
           done
+
+      - uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: "Australia/Sydney"
+          timezoneMacos: "Australia/Sydney"
+          timezoneWindows: "AUS Eastern Standard Time"
 
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -540,6 +564,12 @@ jobs:
           for schema in "${schemas[@]}"; do
             podman exec -i $ORACLE_CONTAINER bash -c "echo \"SELECT username, account_status FROM dba_users WHERE username = '${schema}';\" | sqlplus -S / as sysdba"
           done
+      - uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: "Australia/Sydney"
+          timezoneMacos: "Australia/Sydney"
+          timezoneWindows: "AUS Eastern Standard Time"
+
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
@@ -700,6 +730,12 @@ jobs:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     steps:
+      - uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: "Australia/Sydney"
+          timezoneMacos: "Australia/Sydney"
+          timezoneWindows: "AUS Eastern Standard Time"
+
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
