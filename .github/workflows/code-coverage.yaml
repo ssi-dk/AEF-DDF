@@ -597,11 +597,8 @@ jobs:
             exit 1
           fi
 
-      - name: 'Set up Oracle JDK 23'
+      - name: 'Set up Oracle JDK'
         uses: oracle-actions/setup-java@v1
-        with:
-          website: oracle.com
-          release: 23
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
