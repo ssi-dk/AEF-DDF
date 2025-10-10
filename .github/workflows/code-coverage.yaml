@@ -565,6 +565,13 @@ jobs:
             podman exec -i $ORACLE_CONTAINER bash -c "echo \"SELECT username, account_status FROM dba_users WHERE username = '${schema}';\" | sqlplus -S / as sysdba"
           done
 
+          # Grant privilleges to the github_ci user for each testing schema
+          podman exec -i $ORACLE_CONTAINER bash -c "echo \"GRANT CREATE ANY TABLE to github_ci;\" | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo \"GRANT SELECT ANY TABLE to github_ci;\" | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo \"GRANT INSERT ANY TABLE to github_ci;\" | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo \"GRANT UPDATE ANY TABLE to github_ci;\" | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo \"GRANT DELETE ANY TABLE to github_ci;\" | sqlplus -S / as sysdba"
+
       - uses: szenius/set-timezone@v2.0
         with:
           timezoneLinux: "Australia/Sydney"
