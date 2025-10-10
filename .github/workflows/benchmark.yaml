@@ -158,7 +158,7 @@ jobs:
                 "UID": "SA",
                 "PWD": "dbatools.I0",
                 "TrustServerCertificate": "yes",
-                "Regional": "yes"
+                "Regional": "no"
               }
             }
         run: source("./data-raw/benchmark.R", echo=TRUE)
