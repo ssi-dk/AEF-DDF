@@ -519,8 +519,8 @@ jobs:
             "driverClass": "oracle.jdbc.OracleDriver",
             "classPath": "/usr/lib/oracle/ojdbc8.jar",
             "url": "jdbc:oracle:thin:@localhost:1521/FREEPDB1",
-            "user": "testthat",
-            "password": "testthat_pwd"
+            "user": "github_ci",
+            "password": "github_ci"
           }
         }
 
@@ -565,13 +565,12 @@ jobs:
             podman exec -i $ORACLE_CONTAINER bash -c "echo \"SELECT username, account_status FROM dba_users WHERE username = '${schema}';\" | sqlplus -S / as sysdba"
           done
 
-          # Grant privilleges to the testthat user
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'CREATE USER \"testthat\" IDENTIFIED BY \"testthat_pwd\";' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE ANY TABLE to \"testthat\";' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT SELECT ANY TABLE to \"testthat\";' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT INSERT ANY TABLE to \"testthat\";' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT UPDATE ANY TABLE to \"testthat\";' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT DELETE ANY TABLE to \"testthat\";' | sqlplus -S / as sysdba"
+          # Grant privilleges to the github_ci user
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE ANY TABLE to \"github_ci\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT SELECT ANY TABLE to \"github_ci\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT INSERT ANY TABLE to \"github_ci\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT UPDATE ANY TABLE to \"github_ci\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT DELETE ANY TABLE to \"github_ci\";' | sqlplus -S / as sysdba"
 
       - uses: szenius/set-timezone@v2.0
         with:
