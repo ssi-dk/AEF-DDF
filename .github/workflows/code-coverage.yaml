@@ -567,11 +567,11 @@ jobs:
 
           # Grant privilleges to the testthat user
           podman exec -i $ORACLE_CONTAINER bash -c "echo 'CREATE USER \"testthat\" IDENTIFIED BY \"testthat_pwd\";' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE ANY TABLE to testthat;' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT SELECT ANY TABLE to testthat;' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT INSERT ANY TABLE to testthat;' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT UPDATE ANY TABLE to testthat;' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT DELETE ANY TABLE to testthat;' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE ANY TABLE to \"testthat\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT SELECT ANY TABLE to \"testthat\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT INSERT ANY TABLE to \"testthat\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT UPDATE ANY TABLE to \"testthat\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT DELETE ANY TABLE to \"testthat\";' | sqlplus -S / as sysdba"
 
       - uses: szenius/set-timezone@v2.0
         with:
