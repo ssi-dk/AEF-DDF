@@ -557,15 +557,6 @@ jobs:
             oracle_exec "GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO ${schema};"
           done
 
-          # Create TESTTHAT user (matches your CONN_ARGS_JSON)
-          oracle_exec "CREATE USER TESTTHAT IDENTIFIED BY TESTTHAT;"
-          oracle_exec "GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO TESTTHAT;"
-          oracle_exec "GRANT CREATE ANY TABLE TO TESTTHAT;"
-          oracle_exec "GRANT SELECT ANY TABLE TO TESTTHAT;"
-          oracle_exec "GRANT INSERT ANY TABLE TO TESTTHAT;"
-          oracle_exec "GRANT UPDATE ANY TABLE TO TESTTHAT;"
-          oracle_exec "GRANT DELETE ANY TABLE TO TESTTHAT;"
-
           # Grant privileges to github_ci user (already created by setup-oracle-free action)
           oracle_exec "GRANT CREATE ANY TABLE TO github_ci;"
           oracle_exec "GRANT SELECT ANY TABLE TO github_ci;"
@@ -574,7 +565,7 @@ jobs:
           oracle_exec "GRANT DELETE ANY TABLE TO github_ci;"
 
           # Verify users exist
-          oracle_exec "SELECT username, account_status FROM dba_users WHERE username IN ('TESTTHAT', 'GITHUB_CI');"
+          oracle_exec "SELECT username, account_status FROM dba_users WHERE username = 'GITHUB_CI';"
 
           # Verify privileges for github_ci
           oracle_exec "SELECT * FROM DBA_SYS_PRIVS WHERE GRANTEE = 'GITHUB_CI';"
