@@ -519,8 +519,8 @@ jobs:
             "driverClass": "oracle.jdbc.OracleDriver",
             "classPath": "/usr/lib/oracle/ojdbc8.jar",
             "url": "jdbc:oracle:thin:@localhost:1521/FREEPDB1",
-            "user": "TESTTHAT",
-            "password": "TESTTHAT"
+            "user": "github_ci",
+            "password": "github_ci"
           }
         }
 
