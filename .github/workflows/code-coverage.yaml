@@ -533,6 +533,8 @@ jobs:
           echo "ALTER SESSION SET CONTAINER = FREEPDB1;" > setup.sql
           echo "" >> setup.sql
 
+          echo "CREATE USER \"github_ci\" IDENTIFIED BY \"github_ci\";" >> setup.sql
+
           # Create schemas from input
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
