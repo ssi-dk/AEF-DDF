@@ -525,50 +525,39 @@ jobs:
         }
 
     steps:
+      - name: Create startup script for Oracle database
+        if: ${{ inputs.schemas != 'none' }}
+        run: |
+          set -o xtrace
+
+          echo "ALTER SESSION SET CONTAINER = FREEPDB1;" > setup.sql
+          echo "" >> setup.sql
+
+          # Create schemas from input
+          IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
+          for schema in "${schemas[@]}"; do
+            # Create user/schema
+            echo "CREATE USER \"${schema}\" IDENTIFIED BY \"${schema}_pwd\";" >> setup.sql
+
+            # Grant privileges
+            echo "GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO \"${schema}\";" >> setup.sql
+            echo "" >> setup.sql
+          done
+
+          # Grant privileges to github_ci user (already created by setup-oracle-free action)
+          echo "GRANT CREATE ANY TABLES, SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DELETE ANY TABLE TO \"github_ci\";" >> setup.sql
+
+          cat setup.sql
+
       - name: Setup Oracle database
         uses: gvenzl/setup-oracle-free@v1
         with:
           app-user: github_ci
           app-user-password: github_ci
           container-name: oracledb
+          startup-scripts: ${{ github.workspace }}
 
-      - name: Setup testing schemata in Oracle database
-        if: ${{ inputs.schemas != 'none' }}
-        run: |
-          set -o xtrace
 
-          # Find the Oracle container
-          ORACLE_CONTAINER=$(podman ps --filter "ancestor=gvenzl/oracle-free" --format "{{.Names}}")
-          echo "Oracle container found: $ORACLE_CONTAINER"
-
-          # Helper function to run SQL commands in the Oracle container (in FREEPDB1)
-          oracle_exec() {
-            local sql="$1"
-            podman exec -i "$ORACLE_CONTAINER" bash -c "printf 'ALTER SESSION SET CONTAINER = FREEPDB1;\n%s\n' \"$sql\" | sqlplus -S / as sysdba"
-          }
-
-          # Create schemas from input
-          IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
-          for schema in "${schemas[@]}"; do
-            # Create user/schema
-            oracle_exec "CREATE USER \'${schema}\' IDENTIFIED BY \'${schema}_pwd\';"
-
-            # Grant privileges
-            oracle_exec "GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO \"${schema}\";"
-          done
-
-          # Grant privileges to github_ci user (already created by setup-oracle-free action)
-          oracle_exec "GRANT CREATE ANY TABLE TO github_ci;"
-          oracle_exec "GRANT SELECT ANY TABLE TO github_ci;"
-          oracle_exec "GRANT INSERT ANY TABLE TO github_ci;"
-          oracle_exec "GRANT UPDATE ANY TABLE TO github_ci;"
-          oracle_exec "GRANT DELETE ANY TABLE TO github_ci;"
-
-          # Verify users exist
-          oracle_exec "SELECT username, account_status FROM dba_users WHERE username = 'GITHUB_CI';"
-
-          # Verify privileges for github_ci
-          oracle_exec "SELECT * FROM DBA_SYS_PRIVS WHERE GRANTEE = 'GITHUB_CI';"
 
       - uses: szenius/set-timezone@v2.0
         with:
