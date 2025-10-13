@@ -519,8 +519,8 @@ jobs:
             "driverClass": "oracle.jdbc.OracleDriver",
             "classPath": "/usr/lib/oracle/ojdbc8.jar",
             "url": "jdbc:oracle:thin:@localhost:1521/FREEPDB1",
-            "user": "github_ci",
-            "password": "github_ci"
+            "user": "TESTTHAT",
+            "password": "TESTTHAT"
           }
         }
 
@@ -541,13 +541,10 @@ jobs:
           ORACLE_CONTAINER=$(podman ps --filter "ancestor=gvenzl/oracle-free" --format "{{.Names}}")
           echo "Oracle container found: $ORACLE_CONTAINER"
 
+          # Helper function to run SQL commands in the Oracle container (in FREEPDB1)
           oracle_exec() {
             local sql="$1"
-            podman exec -i "$ORACLE_CONTAINER" sqlplus -S / as sysdba <<EOF
-            ALTER SESSION SET CONTAINER = FREEPDB1;
-            $sql
-            EXIT;
-            EOF
+            podman exec -i "$ORACLE_CONTAINER" bash -c "echo 'ALTER SESSION SET CONTAINER = FREEPDB1; $sql' | sqlplus -S / as sysdba"
           }
 
           # Create schemas from input
@@ -559,6 +556,15 @@ jobs:
             # Grant privileges
             oracle_exec "GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO ${schema};"
           done
+
+          # Create TESTTHAT user (matches your CONN_ARGS_JSON)
+          oracle_exec "CREATE USER TESTTHAT IDENTIFIED BY TESTTHAT;"
+          oracle_exec "GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO TESTTHAT;"
+          oracle_exec "GRANT CREATE ANY TABLE TO TESTTHAT;"
+          oracle_exec "GRANT SELECT ANY TABLE TO TESTTHAT;"
+          oracle_exec "GRANT INSERT ANY TABLE TO TESTTHAT;"
+          oracle_exec "GRANT UPDATE ANY TABLE TO TESTTHAT;"
+          oracle_exec "GRANT DELETE ANY TABLE TO TESTTHAT;"
 
           # Grant privileges to github_ci user (already created by setup-oracle-free action)
           oracle_exec "GRANT CREATE ANY TABLE TO github_ci;"
