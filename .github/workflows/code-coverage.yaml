@@ -545,7 +545,10 @@ jobs:
           ORACLE_CONTAINER=$(podman ps --filter "ancestor=gvenzl/oracle-free" --format "{{.Names}}")
           echo "Oracle container found: $ORACLE_CONTAINER"
 
-          # Connect to Oracle and create schemas
+          # MAke these changes in the FREEPDB1 Pluggable Data Base
+          podman exec -i oracledb bash -c "echo 'ALTER SESSION SET CONTAINER = FREEPDB1;' | sqlplus -S / as sysdba"
+
+          # Create schemas
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
             # Create user/schema with password
