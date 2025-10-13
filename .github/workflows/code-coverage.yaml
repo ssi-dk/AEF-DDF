@@ -666,8 +666,8 @@ jobs:
               dbConnect(
                 drv,
                 "jdbc:oracle:thin:@localhost:1521/FREEPDB1",
-                "github_ci",
-                "github_ci"
+                "TESTTHAT",
+                "TESTTHAT"
               )
             }, error = function(e) {
               print(paste("Connection error:", e$message))
