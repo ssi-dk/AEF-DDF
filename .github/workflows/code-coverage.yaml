@@ -544,7 +544,7 @@ jobs:
           # Helper function to run SQL commands in the Oracle container (in FREEPDB1)
           oracle_exec() {
             local sql="$1"
-            podman exec -i "$ORACLE_CONTAINER" bash -c "printf 'ALTER SESSION SET CONTAINER = FREEPDB1;\n%s\n' '$sql' | sqlplus -S / as sysdba"
+            podman exec -i "$ORACLE_CONTAINER" bash -c "printf 'ALTER SESSION SET CONTAINER = FREEPDB1;\n%s\n' \"$sql\" | sqlplus -S / as sysdba"
           }
 
           # Create schemas from input
