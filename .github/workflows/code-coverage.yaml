@@ -545,7 +545,7 @@ jobs:
           done
 
           # Grant privileges to github_ci user (already created by setup-oracle-free action)
-          echo "GRANT CREATE ANY TABLES, SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DELETE ANY TABLE TO \"github_ci\";" >> setup.sql
+          echo "GRANT CREATE ANY TABLE, SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DELETE ANY TABLE TO \"github_ci\";" >> setup.sql
 
           cat setup.sql
 
