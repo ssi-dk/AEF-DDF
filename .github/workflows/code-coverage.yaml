@@ -575,12 +575,12 @@ jobs:
           #podman exec -i $ORACLE_CONTAINER bash -c "echo \"SELECT username, account_status FROM dba_users WHERE username = 'TESTTHAT';\" | sqlplus -S / as sysdba"
 
           # Grant privilleges to the TESTTHAT user
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE SESSION to \"github_ci\"";' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE ANY TABLE to \"github_ci\"";' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT SELECT ANY TABLE to \"github_ci\"";' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT INSERT ANY TABLE to \"github_ci\"";' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT UPDATE ANY TABLE to \"github_ci\"";' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT DELETE ANY TABLE to \"github_ci\"";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE SESSION to \"github_ci\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE ANY TABLE to \"github_ci\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT SELECT ANY TABLE to \"github_ci\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT INSERT ANY TABLE to \"github_ci\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT UPDATE ANY TABLE to \"github_ci\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT DELETE ANY TABLE to \"github_ci\";' | sqlplus -S / as sysdba"
 
           # Verify privilleges
           podman exec -i $ORACLE_CONTAINER bash -c "echo 'SELECT * FROM DBA_SYS_PRIVS;' | sqlplus -S / as sysdba"
