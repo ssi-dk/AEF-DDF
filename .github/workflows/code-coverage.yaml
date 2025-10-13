@@ -551,7 +551,7 @@ jobs:
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
             # Create user/schema
-            oracle_exec "CREATE USER \"${schema}\" IDENTIFIED BY \"${schema}_pwd\";"
+            oracle_exec "CREATE USER \'${schema}\' IDENTIFIED BY \'${schema}_pwd\';"
 
             # Grant privileges
             oracle_exec "GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO \"${schema}\";"
