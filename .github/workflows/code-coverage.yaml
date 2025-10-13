@@ -580,8 +580,8 @@ jobs:
           podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT DELETE ANY TABLE to TESTTHAT;' | sqlplus -S / as sysdba"
 
           # Verify privilleges
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'SELECT * FROM DBA_SYS_PRIVS WHERE GRANTEE = \"TESTTHAT\";' | sqlplus -S / as sysdba"
-          podman exec -i $ORACLE_CONTAINER bash -c "echo 'SELECT * FROM DBA_TAB_PRIVS WHERE GRANTEE = \"TESTTHAT\";' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'SELECT * FROM DBA_SYS_PRIVS WHERE GRANTEE = TESTTHAT;' | sqlplus -S / as sysdba"
+          podman exec -i $ORACLE_CONTAINER bash -c "echo 'SELECT * FROM DBA_TAB_PRIVS WHERE GRANTEE = TESTTHAT;' | sqlplus -S / as sysdba"
 
       - uses: szenius/set-timezone@v2.0
         with:
