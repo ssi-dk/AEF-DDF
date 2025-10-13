@@ -541,44 +541,43 @@ jobs:
           ORACLE_CONTAINER=$(podman ps --filter "ancestor=gvenzl/oracle-free" --format "{{.Names}}")
           echo "Oracle container found: $ORACLE_CONTAINER"
 
-          # Helper function to run SQL commands in the Oracle container
+          # Helper function to run SQL commands in the Oracle container (in FREEPDB1)
           oracle_exec() {
-              local sql="$1"
-              podman exec -i "$ORACLE_CONTAINER" bash -c "echo '$sql' | sqlplus -S / as sysdba"
+            local sql="$1"
+            podman exec -i "$ORACLE_CONTAINER" bash -c "echo \"$sql\" | sqlplus -S system/oracle@//localhost:1521/FREEPDB1"
           }
-
-          # Switch to FREEPDB1
-          oracle_exec "ALTER SESSION SET CONTAINER = FREEPDB1;"
 
           # Create schemas from input
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
-              # Create user/schema
-              oracle_exec "CREATE USER \"$schema\" IDENTIFIED BY \"${schema}_pwd\";"
-              # Grant privileges
-              oracle_exec "GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO \"$schema\";"
+            # Create user/schema
+            oracle_exec "CREATE USER ${schema} IDENTIFIED BY ${schema}_pwd;"
+
+            # Grant privileges
+            oracle_exec "GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO ${schema};"
           done
 
-          # Verify schemas
-          oracle_exec "SELECT username FROM dba_users;"
+          # Create TESTTHAT user (matches your CONN_ARGS_JSON)
+          oracle_exec "CREATE USER TESTTHAT IDENTIFIED BY TESTTHAT;"
+          oracle_exec "GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO TESTTHAT;"
+          oracle_exec "GRANT CREATE ANY TABLE TO TESTTHAT;"
+          oracle_exec "GRANT SELECT ANY TABLE TO TESTTHAT;"
+          oracle_exec "GRANT INSERT ANY TABLE TO TESTTHAT;"
+          oracle_exec "GRANT UPDATE ANY TABLE TO TESTTHAT;"
+          oracle_exec "GRANT DELETE ANY TABLE TO TESTTHAT;"
 
-          # Show schema details
-          for schema in "${schemas[@]}"; do
-              oracle_exec "SELECT username, account_status FROM dba_users WHERE username = \"'$schema'\";"
-          done
+          # Grant privileges to github_ci user (already created by setup-oracle-free action)
+          oracle_exec "GRANT CREATE ANY TABLE TO github_ci;"
+          oracle_exec "GRANT SELECT ANY TABLE TO github_ci;"
+          oracle_exec "GRANT INSERT ANY TABLE TO github_ci;"
+          oracle_exec "GRANT UPDATE ANY TABLE TO github_ci;"
+          oracle_exec "GRANT DELETE ANY TABLE TO github_ci;"
 
-          # Grant privileges to github_ci user
-          oracle_exec "CREATE USER \"github_ci\" IDENTIFIED BY \"github_ci\";"
-          oracle_exec "GRANT CREATE SESSION TO \"github_ci\";"
-          oracle_exec "GRANT CREATE ANY TABLE TO \"github_ci\";"
-          oracle_exec "GRANT SELECT ANY TABLE TO \"github_ci\";"
-          oracle_exec "GRANT INSERT ANY TABLE TO \"github_ci\";"
-          oracle_exec "GRANT UPDATE ANY TABLE TO \"github_ci\";"
-          oracle_exec "GRANT DELETE ANY TABLE TO \"github_ci\";"
+          # Verify users exist
+          oracle_exec "SELECT username, account_status FROM dba_users WHERE username IN ('TESTTHAT', 'GITHUB_CI');"
 
-          # Verify privileges
+          # Verify privileges for github_ci
           oracle_exec "SELECT * FROM DBA_SYS_PRIVS WHERE GRANTEE = 'GITHUB_CI';"
-          oracle_exec "SELECT * FROM DBA_TAB_PRIVS WHERE GRANTEE = 'GITHUB_CI';"
 
       - uses: szenius/set-timezone@v2.0
         with:
