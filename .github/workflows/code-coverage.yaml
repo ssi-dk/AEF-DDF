@@ -560,13 +560,16 @@ jobs:
           # Verify schemas were created
           podman exec -i $ORACLE_CONTAINER bash -c "echo 'SELECT username FROM dba_users WHERE username' | sqlplus -S / as sysdba"
 
-          # Show individual schema details - using single quotes around the schema names
+          # Show individual schema details
           for schema in "${schemas[@]}"; do
             podman exec -i $ORACLE_CONTAINER bash -c "echo \"SELECT username, account_status FROM dba_users WHERE username = '${schema}';\" | sqlplus -S / as sysdba"
           done
 
           # Create the testthat user
           podman exec -i $ORACLE_CONTAINER bash -c "echo 'CREATE USER \"testthat\" IDENTIFIED BY \"testthat\";' | sqlplus -S / as sysdba"
+
+          # Show details
+          podman exec -i $ORACLE_CONTAINER bash -c "echo \"SELECT username, account_status FROM dba_users WHERE username = 'testthat';\" | sqlplus -S / as sysdba"
 
           # Grant privilleges to the testthat user
           podman exec -i $ORACLE_CONTAINER bash -c "echo 'GRANT CREATE SESSION to \"testthat\";' | sqlplus -S / as sysdba"
