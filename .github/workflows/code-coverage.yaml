@@ -564,7 +564,7 @@ jobs:
 
           # Show schema details
           for schema in "${schemas[@]}"; do
-              oracle_exec "SELECT username, account_status FROM dba_users WHERE username = \"'$schema'\"";"
+              oracle_exec "SELECT username, account_status FROM dba_users WHERE username = \"'$schema'\";"
           done
 
           # Grant privileges to github_ci user
