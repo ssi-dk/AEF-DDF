@@ -537,15 +537,15 @@ jobs:
         run: |
           set -o xtrace
 
+          # Find the Oracle container
+          ORACLE_CONTAINER=$(podman ps --filter "ancestor=gvenzl/oracle-free" --format "{{.Names}}")
+          echo "Oracle container found: $ORACLE_CONTAINER"
+
           # Helper function to run SQL commands in the Oracle container
           oracle_exec() {
               local sql="$1"
               podman exec -i "$ORACLE_CONTAINER" bash -c "echo '$sql' | sqlplus -S / as sysdba"
           }
-
-          # Find the Oracle container
-          ORACLE_CONTAINER=$(podman ps --filter "ancestor=gvenzl/oracle-free" --format "{{.Names}}")
-          echo "Oracle container found: $ORACLE_CONTAINER"
 
           # Switch to FREEPDB1
           oracle_exec "ALTER SESSION SET CONTAINER = FREEPDB1;"
@@ -564,7 +564,7 @@ jobs:
 
           # Show schema details
           for schema in "${schemas[@]}"; do
-              oracle_exec "SELECT username, account_status FROM dba_users WHERE username = '$schema';"
+              oracle_exec "SELECT username, account_status FROM dba_users WHERE username = \"'$schema'\"";"
           done
 
           # Grant privileges to github_ci user
