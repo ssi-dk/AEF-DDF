@@ -95,7 +95,7 @@ jobs:
           jsonlite::write_json(lockfile, "pak.lock", pretty = TRUE, auto_unbox = TRUE)
         shell: Rscript {0}
 
-      - name: Commit changes
+      - name: 🚀 Commit changes
         id: dependency_change
         run: |
           git stash --include-untracked
@@ -120,7 +120,7 @@ jobs:
             git commit -m "chore: Update pak.lock" || echo "No changes to commit"
           fi
 
-      - name: Generate new Docker image
+      - name: 🐋 Generate new Docker image
         run: |
           echo "FROM r-base:latest" > docker-specs
           echo "" >> docker-specs
@@ -143,6 +143,22 @@ jobs:
           echo "RUN R -e 'install.packages("pak")'" >> docker-specs
 
           cat docker-specs
+
+      - name: 🚀 Commit changes
+        run: |
+          git stash --include-untracked
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git pull --rebase fork ${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git pull --rebase origin ${{ inputs.branch_name }}
+          fi
+
+          git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
+          git add docker-specs
+          git commit -m "chore: Update Docker specification" || echo "No changes to commit"
 
       - name: 📝 Enforce code style
         if: ${{ inputs.styler == true }}
@@ -170,7 +186,7 @@ jobs:
           styler::style_pkg(style = diseasy_style)
         shell: Rscript {0}
 
-      - name: Commit changes
+      - name: 🚀 Commit changes
         if: ${{ inputs.styler == true }}
         run: |
           git stash --include-untracked
@@ -192,7 +208,7 @@ jobs:
         run: roxygen2::roxygenise()
         shell: Rscript {0}
 
-      - name: Commit changes
+      - name: 🚀 Commit changes
         if: ${{ inputs.document == true }}
         run: |
           git stash --include-untracked
@@ -278,7 +294,7 @@ jobs:
         shell: Rscript {0}
 
 
-      - name: Commit changes
+      - name: 🚀 Commit changes
         if: ${{ inputs.render_readme == true }}
         run: |
           git stash --include-untracked
