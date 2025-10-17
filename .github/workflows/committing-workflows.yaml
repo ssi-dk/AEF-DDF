@@ -122,27 +122,27 @@ jobs:
 
       - name: 🐋 Generate new Docker image
         run: |
-          echo "FROM r-base:latest" > docker-specs
-          echo "" >> docker-specs
+          echo "FROM r-base:latest" > dockerfile
+          echo "" >> dockerfile
 
-          echo "# tex packages are installed in /root/bin so we have to make sure those" >> docker-specs
-          echo "# packages accessible by adding that directory to the PATH variable." >> docker-specs
-          echo "ENV PATH=\"$PATH:/root/bin\"" >> docker-specs
-          echo "" >> docker-specs
+          echo "# tex packages are installed in /root/bin so we have to make sure those" >> dockerfile
+          echo "# packages accessible by adding that directory to the PATH variable." >> dockerfile
+          echo "ENV PATH=\"$PATH:/root/bin\"" >> dockerfile
+          echo "" >> dockerfile
 
-          echo "# system dependencies (apt-get since r-base is debian based)" >> docker-specs
-          echo "RUN apt-get update; \\" >> docker-specs
-          echo "    apt-get install -y build-essential gfortran\\" >> docker-specs
-          echo "    libapparmor-dev libboost-all-dev  libcairo2-dev libcurl4-gnutls-dev\\" >> docker-specs
-          echo "    libfontconfig1-dev libgsl-dev libjpeg-dev liblapack-dev libpng-dev\\" >> docker-specs
-          echo "    libproj-dev libsodium-dev libssl-dev libudunits2-dev libxml2-dev\\" >> docker-specs
-          echo "    mesa-common-dev  libglu1-mesa-dev libharfbuzz-dev libfribidi-dev\\" >> docker-specs
-          echo "    default-jre default-jdk pandoc git gnupg;" >> docker-specs
-          echo "" >> docker-specs
+          echo "# system dependencies (apt-get since r-base is debian based)" >> dockerfile
+          echo "RUN apt-get update; \\" >> dockerfile
+          echo "    apt-get install -y build-essential gfortran\\" >> dockerfile
+          echo "    libapparmor-dev libboost-all-dev  libcairo2-dev libcurl4-gnutls-dev\\" >> dockerfile
+          echo "    libfontconfig1-dev libgsl-dev libjpeg-dev liblapack-dev libpng-dev\\" >> dockerfile
+          echo "    libproj-dev libsodium-dev libssl-dev libudunits2-dev libxml2-dev\\" >> dockerfile
+          echo "    mesa-common-dev  libglu1-mesa-dev libharfbuzz-dev libfribidi-dev\\" >> dockerfile
+          echo "    default-jre default-jdk pandoc git gnupg;" >> dockerfile
+          echo "" >> dockerfile
 
-          echo "RUN R -e 'install.packages("pak")'" >> docker-specs
+          echo "RUN R -e 'install.packages("pak")'" >> dockerfile
 
-          cat docker-specs
+          cat dockerfile
 
       - name: 🚀 Commit changes
         run: |
@@ -157,7 +157,7 @@ jobs:
           fi
 
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
-          git add docker-specs
+          git add dockerfile
           git commit -m "chore: Update Docker specification" || echo "No changes to commit"
 
       - name: 📝 Enforce code style
