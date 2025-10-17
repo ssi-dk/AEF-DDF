@@ -140,7 +140,7 @@ jobs:
           echo "    default-jre default-jdk pandoc git gnupg;" >> dockerfile
           echo "" >> dockerfile
 
-          echo "RUN R -e 'install.packages("pak")'" >> dockerfile
+          echo "RUN R -e 'install.packages(\"pak\")'" >> dockerfile
 
           cat dockerfile
 
