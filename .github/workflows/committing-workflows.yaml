@@ -121,8 +121,14 @@ jobs:
           fi
 
       - name: 🐋 Generate new Docker image
+        if: ${{ steps.dependency_change.outputs.dependency_change == true }}
         run: |
           echo "FROM r-base:latest" > dockerfile
+          echo "" >> dockerfile
+
+          echo "# Move pak.lock to the container" >> dockerfile
+          echo "COPY pak.lock /app/" >> dockerfile
+          echo "WORKDIR /app" >> dockerfile
           echo "" >> dockerfile
 
           echo "# tex packages are installed in /root/bin so we have to make sure those" >> dockerfile
@@ -131,23 +137,30 @@ jobs:
           echo "" >> dockerfile
 
           echo "# system dependencies (apt-get since r-base is debian based)" >> dockerfile
-          echo "RUN apt-get update; \\" >> dockerfile
-          echo "    apt-get install -y build-essential gfortran\\" >> dockerfile
-          echo "    libapparmor-dev libboost-all-dev  libcairo2-dev libcurl4-gnutls-dev\\" >> dockerfile
-          echo "    libfontconfig1-dev libgsl-dev libjpeg-dev liblapack-dev libpng-dev\\" >> dockerfile
-          echo "    libproj-dev libsodium-dev libssl-dev libudunits2-dev libxml2-dev\\" >> dockerfile
-          echo "    mesa-common-dev  libglu1-mesa-dev libharfbuzz-dev libfribidi-dev\\" >> dockerfile
-          echo "    default-jre default-jdk pandoc git gnupg;" >> dockerfile
+          echo "RUN apt-get update; apt-get install -y libcurl4-gnutls-dev;" >> dockerfile
           echo "" >> dockerfile
 
           echo "RUN R -e 'install.packages(\"pak\")'" >> dockerfile
           echo "" >> dockerfile
 
+          echo "RUN R -e 'getwd(); dir()'" >> dockerfile
+          echo "" >> dockerfile
+
           echo "RUN R -e 'pak::lockfile_install(lockfile = \"pak.lock\")'" >> dockerfile
+          echo "" >> dockerfile
+
+          # Remove dev package from pak.lock
+          echo "RUN R -e 'pak::pak(\"jsonlite\"); d <- jsonlite::read_json(\"pak.lock\"); d$packages <- Filter(\(x) x$ref != \"local::.\", d$packages); jsonlite::write_json(d, \"pak.lock\", auto_unbox = TRUE)'" >> dockerfile
+          echo "" >> dockerfile
+
+          # Install dependencies
+          echo "RUN R -e 'pak::lockfile_install(lockfile = \"pak.lock\")'" >> dockerfile
+          echo "" >> dockerfile
 
           cat dockerfile
 
       - name: 🚀 Commit changes
+        if: ${{ steps.dependency_change.outputs.dependency_change == true }}
         run: |
           git stash --include-untracked
 
