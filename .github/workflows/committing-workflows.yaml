@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      no_dependency_change: ${{ steps.no_dependency_change.outputs.no_dependency_change }}
+      dependency_change: ${{ steps.dependency_change.outputs.dependency_change }}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -96,7 +96,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Commit changes
-        id: no_dependency_change
+        id: dependency_change
         run: |
           git stash --include-untracked
 
@@ -113,12 +113,21 @@ jobs:
           lines_changed=$(git diff pak.lock | wc -l)
 
           if [ $lines_changed -eq 0 ]; then
-            echo "no_dependency_change=true" >> $GITHUB_OUTPUT
+            echo "dependency_change=false" >> $GITHUB_OUTPUT
           else
-            echo "no_dependency_change=false" >> $GITHUB_OUTPUT
+            echo "dependency_change=true" >> $GITHUB_OUTPUT
             git add pak.lock || echo "No pak.lock to add"
             git commit -m "chore: Update pak.lock" || echo "No changes to commit"
           fi
+
+      - name: Generate new Docker image
+        if: ${{ steps.dependency_change.outputs.dependency_change == true }}
+        run: |
+          echo "FROM r-base:latest" > docker-specs
+          echo "" >> docker-specs
+          RUN R -e 'install.packages("pak")'
+
+          cat docker-specs
 
       - name: 📝 Enforce code style
         if: ${{ inputs.styler == true }}
