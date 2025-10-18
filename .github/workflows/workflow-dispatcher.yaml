@@ -335,7 +335,7 @@ jobs:
           # Try to pull the image metadata (doesn't download full image)
           if docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
             echo "Image found in GHCR"
-            echo "image='{"image": ${IMAGE}}'" >> $GITHUB_OUTPUT
+            echo "image='${IMAGE}'" >> $GITHUB_OUTPUT
           else
             echo "Image not found in GHCR"
             echo "image='{"image": null}'" >> $GITHUB_OUTPUT
