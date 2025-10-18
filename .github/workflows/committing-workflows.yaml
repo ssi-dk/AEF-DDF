@@ -1,6 +1,10 @@
 on:
   workflow_call:
     inputs:
+      container:
+        type: string
+        required: false
+        default: '{"image": null}'
       branch_name:
         type: string
         required: true
@@ -35,6 +39,7 @@ jobs:
   update-lockfile-document-render-readme-styler:
     name: 📖 Update lockfile, Document, render README, and enforce coding style
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
 
     outputs:
       dependency_change: ${{ steps.dependency_change.outputs.dependency_change }}
