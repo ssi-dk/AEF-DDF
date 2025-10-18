@@ -42,7 +42,6 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   BRANCH_TAG: ${{ github.ref_name }}
-  IMAGE: ${REGISTRY}/${IMAGE_NAME}:${BRANCH_TAG}
 
 jobs:
 
@@ -319,10 +318,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Checking for image: ${IMAGE}"
+          echo "Checking for image: ${REGISTRY}/${IMAGE_NAME}:${BRANCH_TAG}"
 
           # Try to pull the image metadata (doesn't download full image)
-          if docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
+          if docker manifest inspect "${REGISTRY}/${IMAGE_NAME}:${BRANCH_TAG}" > /dev/null 2>&1; then
             echo "Image found in GHCR"
             echo "exists=true" >> $GITHUB_OUTPUT
           else
