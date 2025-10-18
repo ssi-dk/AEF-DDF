@@ -38,6 +38,11 @@ on:
         default: true
 
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  BRANCH_TAG: ${{ github.ref_name }}
+
 jobs:
 
   # To give granular control of when workflows should execute, we determine which "categories" of files has changed
@@ -305,8 +310,28 @@ jobs:
           echo "update-lockfile: ${{ needs.trigger.outputs.update-lockfile }}"
           echo "update-cache: ${{ needs.trigger.outputs.update-cache }}"
 
+
+  container:
+    needs: trigger
+    name: 🔍 Check if Docker image exists in GHCR
+    if: ${{ always() && !failure() && !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Checking for image: ${{env.REGISTRY}}/${{env.IMAGE_NAME}}:${{env.BRANCH_TAG}}"
+
+          # Try to pull the image metadata (doesn't download full image)
+          if docker manifest inspect "${{env.REGISTRY}}/${{env.IMAGE_NAME}}:${{env.BRANCH_TAG}}}" > /dev/null 2>&1; then
+            echo "Image found in GHCR"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Image not found in GHCR"
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+
   committing-workflows:
-    needs: [trigger]
+    needs: [container]
     uses: ./.github/workflows/committing-workflows.yaml
     if: ${{ always() && !failure() && !cancelled() }}
     with:
