@@ -318,10 +318,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Checking for image: ${{env.REGISTRY}}/${{env.IMAGE_NAME}}:${{env.BRANCH_TAG}}"
+          # Convert IMAGE_NAME to lowercase
+          IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
+
+          # Replace / with - in BRANCH_TAG
+          BRANCH_TAG_CLEAN=$(echo "${{ env.BRANCH_TAG }}" | tr '/' '-')
+
+          IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
+
+          echo "Checking for image: ${IMAGE}"
 
           # Try to pull the image metadata (doesn't download full image)
-          if docker manifest inspect "${{env.REGISTRY}}/${{env.IMAGE_NAME}}:${{env.BRANCH_TAG}}}" > /dev/null 2>&1; then
+          if docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
             echo "Image found in GHCR"
             echo "exists=true" >> $GITHUB_OUTPUT
           else
@@ -331,10 +339,11 @@ jobs:
 
 
   committing-workflows:
-    needs: [container]
+    needs: [trigger, container]
     uses: ./.github/workflows/committing-workflows.yaml
     if: ${{ always() && !failure() && !cancelled() }}
     with:
+
       branch_name: ${{ needs.trigger.outputs.branch_name }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       styler: ${{ needs.trigger.outputs.styler == 'true' }}
