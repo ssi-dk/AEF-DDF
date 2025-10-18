@@ -317,7 +317,8 @@ jobs:
     if: ${{ always() && !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - name: Determine container to send to workflows
+        run: |
           # Convert IMAGE_NAME to lowercase
           IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
 
