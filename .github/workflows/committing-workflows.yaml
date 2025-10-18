@@ -26,6 +26,11 @@ permissions:
   pull-requests: write
 
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ Github.repository }}
+
+
 jobs:
   update-lockfile-document-render-readme-styler:
     name: 📖 Update lockfile, Document, render README, and enforce coding style
@@ -176,9 +181,36 @@ jobs:
           git add dockerfile
           git commit -m "chore: Update Docker specification" || echo "No changes to commit"
 
-      - name: 🐋 Build docker image
+      - name: 🐋 Log in to the Container registry
         if: ${{ steps.dependency_change.outputs.dependency_change == 'true' }}
-        uses: ./.github/workflows/deploy-docker-image.yaml
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ Github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🐋 Extract metadata (tags, labels) for Docker
+        if: ${{ steps.dependency_change.outputs.dependency_change == 'true' }}
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: 🐋 Build and push Docker image
+        if: ${{ steps.dependency_change.outputs.dependency_change == 'true' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: 🗑️ ghcr.io cleanup action
+        uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          delete-untagged: true
+          keep-n-tagged: 10
+          dry-run: true
 
       - name: 📝 Enforce code style
         if: ${{ inputs.styler == true }}
