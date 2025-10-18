@@ -316,8 +316,11 @@ jobs:
     name: 🔍 Check if Docker image exists in GHCR
     if: ${{ always() && !failure() && !cancelled() }}
     runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.image_job.outputs.image }}
     steps:
       - name: Determine container to send to workflows
+        id: image_job
         run: |
           # Convert IMAGE_NAME to lowercase
           IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
