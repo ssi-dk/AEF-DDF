@@ -34,6 +34,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ Github.repository }}
 
+# https://stackoverflow.com/questions/76925314/conditional-use-of-container-depending-on-the-group-it-runs-on-for-github-action
 
 jobs:
   update-lockfile-document-render-readme-styler:
@@ -163,7 +164,7 @@ jobs:
           echo "" >> dockerfile
 
           # Remove dev package from pak.lock
-          echo "RUN R -e 'pak::pak(\"jsonlite\"); d <- jsonlite::read_json(\"pak.lock\"); d$packages <- Filter(\(x) x$ref != \"${{ github.event.repository.name }}\", d$packages); jsonlite::write_json(d, \"pak.lock\", auto_unbox = TRUE)'" >> dockerfile
+          echo "RUN R -e 'pak::pak(\"jsonlite\"); d <- jsonlite::read_json(\"pak.lock\"); d$packages <- Filter(\(x) x$ref != \"${{ github.name }}\", d$packages); jsonlite::write_json(d, \"pak.lock\", auto_unbox = TRUE)'" >> dockerfile
           echo "" >> dockerfile
 
           # Install dependencies
