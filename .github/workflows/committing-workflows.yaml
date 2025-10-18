@@ -121,7 +121,7 @@ jobs:
           fi
 
       - name: 🐋 Generate new dockerfile
-        if: ${{ steps.dependency_change.outputs.dependency_change == true }}
+        if: ${{ steps.dependency_change.outputs.dependency_change == 'true' }}
         run: |
           echo "FROM r-base:latest" > dockerfile
           echo "" >> dockerfile
@@ -160,7 +160,7 @@ jobs:
           cat dockerfile
 
       - name: 🚀 Commit changes
-        if: ${{ steps.dependency_change.outputs.dependency_change == true }}
+        if: ${{ steps.dependency_change.outputs.dependency_change == 'true' }}
         run: |
           git stash --include-untracked
 
@@ -177,7 +177,7 @@ jobs:
           git commit -m "chore: Update Docker specification" || echo "No changes to commit"
 
       - name: 🐋 Build docker image
-        if: ${{ steps.dependency_change.outputs.dependency_change == true }}
+        if: ${{ steps.dependency_change.outputs.dependency_change == 'true' }}
         uses: ./.github/workflows/deploy-docker-image.yaml
 
       - name: 📝 Enforce code style
