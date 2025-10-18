@@ -215,14 +215,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: 🗑️ ghcr.io cleanup action
-        if: ${{ steps.dependency_change.outputs.dependency_change == 'true' }}
-        uses: dataaxiom/ghcr-cleanup-action@v1
-        with:
-          delete-untagged: true
-          keep-n-tagged: 10
-          dry-run: true
-
       - name: 📝 Enforce code style
         if: ${{ inputs.styler == true }}
         run: |
