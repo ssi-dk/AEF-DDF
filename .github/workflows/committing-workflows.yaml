@@ -33,7 +33,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ Github.repository }}
+  IMAGE_NAME: ${{ github.repository }}
 
 # https://stackoverflow.com/questions/76925314/conditional-use-of-container-depending-on-the-group-it-runs-on-for-github-action
 
@@ -196,7 +196,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ Github.actor }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🐋 Extract metadata (tags, labels) for Docker
@@ -216,6 +216,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: 🗑️ ghcr.io cleanup action
+        if: ${{ steps.dependency_change.outputs.dependency_change == 'true' }}
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           delete-untagged: true
