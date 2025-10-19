@@ -338,7 +338,7 @@ jobs:
             echo "image='${IMAGE}'" >> $GITHUB_OUTPUT
           else
             echo "Image not found in GHCR"
-            echo "image='{"image": null}'" >> $GITHUB_OUTPUT
+            echo "image='null'" >> $GITHUB_OUTPUT
           fi
 
 
