@@ -89,8 +89,13 @@ jobs:
           echo "RUN R -e 'pak::pak(\"jsonlite\"); d <- jsonlite::read_json(\"pak.lock\"); d\$packages <- Filter(\(x) x\$package != \"${{ github.event.repository.name }}\", d\$packages); print(unlist(Map(\(x) x\$package, d\$packages))); jsonlite::write_json(d, \"pak.lock\", auto_unbox = TRUE)'" >> dockerfile
           echo "" >> dockerfile
 
-          # Install dependencies
+          # Install package dependencies
           echo "RUN R -e 'pak::lockfile_install(lockfile = \"pak.lock\")'" >> dockerfile
+          echo "" >> dockerfile
+
+          # Install workflow dependencies
+          #echo "RUN R -e 'install.packages(\"stringi\")'" >> dockerfile
+          echo "RUN R -e 'pak::pak(\"styler\")'" >> dockerfile
           echo "" >> dockerfile
 
           cat dockerfile
