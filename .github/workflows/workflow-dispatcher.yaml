@@ -337,25 +337,27 @@ jobs:
 
 
   lint:
-    needs: [trigger, docker]
+    needs: [trigger, ghcr, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.lint == 'true' }}
     uses: ./.github/workflows/lint.yaml
     with:
+      container: ${{ needs.ghcr.outputs.image }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
 
 
   spell-checker:
-    needs: [trigger, docker]
+    needs: [trigger, committing-workflows]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.spell-checker == 'true' }}
     uses: ./.github/workflows/spell-checker.yaml
     secrets: inherit
 
 
   R-CMD-check:
-    needs: [trigger, docker]
+    needs: [trigger, ghcr, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.R-CMD-check == 'true' }}
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
+      container: ${{ needs.ghcr.outputs.image }}
       rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       min_r_version: ${{ needs.trigger.outputs.min_r_version }}
@@ -366,10 +368,11 @@ jobs:
 
 
   code-coverage:
-    needs: [trigger, docker]
+    needs: [trigger, ghcr, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.code-coverage == 'true' }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
+      container: ${{ needs.ghcr.outputs.image }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       schemas: ${{ inputs.schemas }}
       backend_exclude: ${{ inputs.backend_exclude }}
@@ -381,10 +384,11 @@ jobs:
 
 
   pkgdown:
-    needs: [trigger, docker]
+    needs: [trigger, ghcr, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.pkgdown == 'true' }}
     uses: ./.github/workflows/pkgdown.yaml
     with:
+      container: ${{ needs.ghcr.outputs.image }}
       auto_link_r6: ${{ inputs.auto_link_r6 }}
       event_name: ${{ inputs.event_name }}
       main_branches: ${{ inputs.main_branches }}

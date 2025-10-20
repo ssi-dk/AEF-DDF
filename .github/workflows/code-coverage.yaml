@@ -1,6 +1,10 @@
 on:
   workflow_call:
     inputs:
+      container:
+        type: string
+        required: false
+        default: 'null'
       cache_version:
         type: string
         default: '1'
@@ -20,6 +24,7 @@ jobs:
     if: ${{ !contains(inputs.backend_exclude, 'sqlite')}}
     name: "🧪 Tests: ${{ matrix.config.backend }}"
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
 
     strategy:
       fail-fast: false
@@ -55,12 +60,14 @@ jobs:
           persist-credentials: false
 
       - name: Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
       - name: Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -134,6 +141,7 @@ jobs:
     if: ${{ !contains(inputs.backend_exclude, 'duckdb')}}
     name: "🧪 Tests: DuckDB"
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
 
     env:
       BACKEND: DuckDB
@@ -158,12 +166,14 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v2
 
       - name: Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
       - name: Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -235,6 +245,7 @@ jobs:
   code-coverage-postgres:
     name: "🧪 Tests: PostgreSQL"
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
     if: ${{ !contains(inputs.backend_exclude, 'postgres')}}
 
     services:
@@ -283,12 +294,14 @@ jobs:
           persist-credentials: false
 
       - name: Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
       - name: Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -368,6 +381,7 @@ jobs:
   code-coverage-mssql:
     name: "🧪 Tests: SQL Server 2022"
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
     if: ${{ !contains(inputs.backend_exclude, 'mssql')}}
 
     env:
@@ -429,12 +443,14 @@ jobs:
           persist-credentials: false
 
       - name: Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
       - name: Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -505,6 +521,7 @@ jobs:
   code-coverage-oracle:
     name: "🧪 Tests: Oracle Database (Experimental)"
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
     if: ${{ !contains(inputs.backend_exclude, 'oracle')}}
 
     env:
@@ -595,12 +612,14 @@ jobs:
         uses: oracle-actions/setup-java@v1
 
       - name: Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
       - name: Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -717,6 +736,7 @@ jobs:
     name: "🧪 Tests: Upload to codecov.io"
     needs: [code-coverage-sqlite, code-coverage-duckdb, code-coverage-postgres, code-coverage-mssql]
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
 
     env:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -735,12 +755,14 @@ jobs:
           persist-credentials: false
 
       - name: Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
       - name: Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
