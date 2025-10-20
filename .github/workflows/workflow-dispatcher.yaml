@@ -320,7 +320,7 @@ jobs:
     concurrency:
       group: committing-workflows-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
-¨
+
 
   docker:
     needs: [trigger, ghcr, committing-workflows]
