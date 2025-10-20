@@ -19,7 +19,8 @@ on:
       update_cache:
         type: boolean
         default: false
-
+    outputs:
+      dependency_change: ${{ jobs.update-lockfile-document-render-readme-styler.outputs.dependency_change }}
 
 permissions:
   contents: write

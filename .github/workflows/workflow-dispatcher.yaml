@@ -323,12 +323,13 @@ jobs:
 
 
   docker:
-    needs: [trigger, ghcr, committing-workflows]
+    needs: [trigger, committing-workflows]
     uses: ./.github/workflows/docker.yaml
-    if: ${{ always() && !failure() && !cancelled() && needs.committing-workflows.outputs.dependency_change == 'true'}}
+    if: ${{ always() && !failure() && !cancelled() }}
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
+      dependency_change: ${{ needs.committing-workflows.outputs.dependency_change }}
     secrets: inherit
     concurrency:
       group: docker-${{ needs.trigger.outputs.branch_name }}
