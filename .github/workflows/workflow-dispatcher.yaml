@@ -320,9 +320,23 @@ jobs:
     concurrency:
       group: committing-workflows-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
+¨
+
+  docker:
+    needs: [trigger, ghcr, committing-workflows]
+    uses: ./.github/workflows/docker.yaml
+    if: ${{ always() && !failure() && !cancelled() && steps.committing-workflows.outputs.dependency_change == 'true'}}
+    with:
+      branch_name: ${{ needs.trigger.outputs.branch_name }}
+      cache_version: ${{ needs.trigger.outputs.cache_version }}
+    secrets: inherit
+    concurrency:
+      group: docker-${{ needs.trigger.outputs.branch_name }}
+      cancel-in-progress: true
+
 
   lint:
-    needs: [trigger, committing-workflows]
+    needs: [trigger, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.lint == 'true' }}
     uses: ./.github/workflows/lint.yaml
     with:
@@ -330,14 +344,14 @@ jobs:
 
 
   spell-checker:
-    needs: [trigger, committing-workflows]
+    needs: [trigger, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.spell-checker == 'true' }}
     uses: ./.github/workflows/spell-checker.yaml
     secrets: inherit
 
 
   R-CMD-check:
-    needs: [trigger, committing-workflows]
+    needs: [trigger, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.R-CMD-check == 'true' }}
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
@@ -351,7 +365,7 @@ jobs:
 
 
   code-coverage:
-    needs: [trigger, committing-workflows]
+    needs: [trigger, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.code-coverage == 'true' }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
@@ -366,7 +380,7 @@ jobs:
 
 
   pkgdown:
-    needs: [trigger, committing-workflows]
+    needs: [trigger, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.pkgdown == 'true' }}
     uses: ./.github/workflows/pkgdown.yaml
     with:

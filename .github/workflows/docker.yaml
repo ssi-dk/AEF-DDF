@@ -1,0 +1,145 @@
+on:
+  workflow_call:
+    inputs:
+      branch_name:
+        type: string
+        required: true
+      cache_version:
+        type: string
+        default: '1'
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+# https://stackoverflow.com/questions/76925314/conditional-use-of-container-depending-on-the-group-it-runs-on-for-github-action
+
+jobs:
+  docker:
+    name: 🐋 Update docker image and files
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Dump github context
+        run:   echo "$GITHUB_CONTEXT"
+        shell: bash
+        env:
+         GITHUB_CONTEXT: ${{ toJson(github) }}
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Configure git
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+          git config --local user.name "${{ github.actor }}"
+          git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks
+            git remote add fork ${{ github.event.pull_request.head.repo.clone_url }}
+            git remote set-url fork https://x-access-token:${{ github.token }}@github.com/${{ github.event.pull_request.head.repo.full_name }}.git
+            git fetch fork ${{ github.event.pull_request.head.ref }}
+            git checkout -b ${{ inputs.branch_name }} fork/${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
+            git switch "${{ inputs.branch_name }}"
+          fi
+
+      - name: 🐋 Generate new dockerfile
+        run: |
+          echo "FROM r-base:latest" > dockerfile
+          echo "" >> dockerfile
+
+          echo "# System dependencies (apt-get since r-base is debian based)" >> dockerfile
+          echo "RUN apt-get update; apt-get install -y libcurl4-gnutls-dev docker.io;" >> dockerfile
+          echo "" >> dockerfile
+
+          echo "# Move pak.lock to the container" >> dockerfile
+          echo "COPY pak.lock /app/" >> dockerfile
+          echo "WORKDIR /app" >> dockerfile
+          echo "" >> dockerfile
+
+          echo "# tex packages are installed in /root/bin so we have to make sure those" >> dockerfile
+          echo "# packages accessible by adding that directory to the PATH variable." >> dockerfile
+          echo "ENV PATH=\"$PATH:/root/bin\"" >> dockerfile
+          echo "" >> dockerfile
+
+          echo "RUN R -e 'install.packages(\"pak\")'" >> dockerfile
+          echo "" >> dockerfile
+
+          echo "RUN R -e 'getwd(); dir()'" >> dockerfile
+          echo "" >> dockerfile
+
+          # Remove dev package from pak.lock
+          echo "RUN R -e 'pak::pak(\"jsonlite\"); d <- jsonlite::read_json(\"pak.lock\"); d\$packages <- Filter(\(x) x\$package != \"${{ github.event.repository.name }}\", d\$packages); print(unlist(Map(\(x) x\$package, d\$packages))); jsonlite::write_json(d, \"pak.lock\", auto_unbox = TRUE)'" >> dockerfile
+          echo "" >> dockerfile
+
+          # Install dependencies
+          echo "RUN R -e 'pak::lockfile_install(lockfile = \"pak.lock\")'" >> dockerfile
+          echo "" >> dockerfile
+
+          cat dockerfile
+
+      - name: 🚀 Commit changes
+        run: |
+          git stash --include-untracked
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git pull --rebase fork ${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git pull --rebase origin ${{ inputs.branch_name }}
+          fi
+
+          git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
+          git add dockerfile
+          git commit -m "chore: Update Docker specification" || echo "No changes to commit"
+
+      - name: 🐋 Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🐋 Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: 🐋 Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Push changes
+        run: |
+          set -o xtrace
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}.git HEAD:${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git push origin ${{ inputs.branch_name }}
+          fi
