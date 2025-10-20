@@ -20,7 +20,9 @@ on:
         type: boolean
         default: false
     outputs:
-      dependency_change: ${{ jobs.update-lockfile-document-render-readme-styler.outputs.dependency_change }}
+      dependency_change:
+        description: "Was there a change in the package dependencies since last run?"
+        value: ${{ jobs.update-lockfile-document-render-readme-styler.outputs.dependency_change }}
 
 permissions:
   contents: write
