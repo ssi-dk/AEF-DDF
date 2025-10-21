@@ -319,7 +319,7 @@ jobs:
     secrets: inherit
     concurrency:
       group: committing-workflows-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
+      cancel-in-progress: false
 
 
   docker:
@@ -332,8 +332,8 @@ jobs:
       dependency_change: ${{ needs.committing-workflows.outputs.dependency_change }}
     secrets: inherit
     concurrency:
-      group: docker-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
+      group: committing-workflows-${{ needs.trigger.outputs.branch_name }}
+      cancel-in-progress: false
 
 
   lint:
