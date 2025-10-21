@@ -24,7 +24,7 @@ permissions:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  BRANCH_TAG: ${{ github.ref_name }}
+  BRANCH_TAG: ${{ inputs.branch_name }}
 
 # https://stackoverflow.com/questions/76925314/conditional-use-of-container-depending-on-the-group-it-runs-on-for-github-action
 
