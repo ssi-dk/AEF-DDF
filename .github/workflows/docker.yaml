@@ -69,7 +69,7 @@ jobs:
       - name: 🐋 Generate new dockerfile
         if: ${{ inputs.dependency_change == 'true' }}
         run: |
-          echo "FROM r-base:latest" > dockerfile
+          echo "FROM rocker/tidyverse" > dockerfile
           echo "" >> dockerfile
 
           echo "# System dependencies (apt-get since r-base is debian based)" >> dockerfile
