@@ -19,7 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
     defaults:
-      run: bash
+      run:
+        shell: bash
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}

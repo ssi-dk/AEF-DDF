@@ -26,7 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
     defaults:
-      run: bash
+      run:
+        shell: bash
 
     strategy:
       fail-fast: false
@@ -139,7 +140,8 @@ jobs:
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
     defaults:
-      run: bash
+      run:
+        shell: bash
 
     env:
       BACKEND: DuckDB
@@ -238,9 +240,11 @@ jobs:
     name: "🧪 Tests: PostgreSQL"
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
-    defaults:
-      run: bash
     if: ${{ !contains(inputs.backend_exclude, 'postgres')}}
+    defaults:
+      run:
+        shell: bash
+
 
     services:
       postgres:
@@ -370,9 +374,10 @@ jobs:
     name: "🧪 Tests: SQL Server 2022"
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
-    defaults:
-      run: bash
     if: ${{ !contains(inputs.backend_exclude, 'mssql')}}
+    defaults:
+      run:
+        shell: bash
 
     env:
       BACKEND: MSSQL
@@ -506,9 +511,10 @@ jobs:
     name: "🧪 Tests: Oracle Database (Experimental)"
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
-    defaults:
-      run: bash
     if: ${{ !contains(inputs.backend_exclude, 'oracle')}}
+    defaults:
+      run:
+        shell: bash
 
     env:
       BACKEND: Oracle
@@ -718,7 +724,8 @@ jobs:
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
     defaults:
-      run: bash
+      run:
+        shell: bash
 
     env:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
