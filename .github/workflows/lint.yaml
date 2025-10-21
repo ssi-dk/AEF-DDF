@@ -28,6 +28,7 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        if: ${{ inputs.container == 'null' }}
         with:
           fetch-depth: 0
           persist-credentials: false
