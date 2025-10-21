@@ -189,11 +189,11 @@ jobs:
           git commit -m "docs: Re-build roxygen documentation" || echo "No changes to commit"
 
       - name: Install nunjucks
-        if: ${{ inputs.render_readme == true }}
+        if: ${{ inputs.render_readme == 'true' }}
         run: npm install nunjucks
 
       - name: Resolve nunjucks templates
-        if: ${{ inputs.render_readme == true }}
+        if: ${{ inputs.render_readme == 'true' }}
         run: |
           echo "
             const nunjucks = require('nunjucks');
@@ -207,12 +207,12 @@ jobs:
           node render-templates.js
 
       - name: 📖 Render README
-        if: ${{ inputs.render_readme == true }}
+        if: ${{ inputs.render_readme == 'true' }}
         run: rmarkdown::render("README.Rmd")
         shell: Rscript {0}
 
       - name: Commit changes
-        if: ${{ inputs.render_readme == true }}
+        if: ${{ inputs.render_readme == 'true' }}
         run: |
           git stash --include-untracked
 
@@ -229,7 +229,7 @@ jobs:
           git commit -m "docs(README): Re-build README.Rmd" || echo "No changes to commit"
 
       - name: ⚙️ Update vignette caches
-        if: ${{ inputs.update_cache == true }}
+        if: ${{ inputs.update_cache == 'true' }}
         run: |
           # Look for cached files
           cached_files <- list.files(
