@@ -160,6 +160,7 @@ jobs:
 
           IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
 
+          echo "Generate image reference is: ${IMAGE}"
           echo "tag=${IMAGE}" >> $GITHUB_OUTPUT
 
       - name: 🐋 Build and push Docker image
