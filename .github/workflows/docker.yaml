@@ -115,7 +115,7 @@ jobs:
           echo "" >> dockerfile
 
           # Install the dev package
-          echo "RUN R -e 'devtools::install()" >> dockerfile
+          echo "RUN R -e 'devtools::install()'" >> dockerfile
           echo "" >> dockerfile
 
           cat dockerfile
