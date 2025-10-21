@@ -79,8 +79,8 @@ jobs:
         run: |
           # https://oluoch-odhiambo.medium.com/docker-multi-stage-build-an-effective-strategy-to-building-production-ready-docker-images-59fda6e94e0
           echo "FROM rocker/tidyverse" > dockerfile
-          echo "ENV TZ=Australia/Sydney" > dockerfile
-          echo "RUN date" > dockerfile
+          echo "ENV TZ=Australia/Sydney" >> dockerfile
+          echo "RUN date" >> dockerfile
           echo "" >> dockerfile
 
           echo "# System dependencies (apt-get since r-base is debian based)" >> dockerfile
