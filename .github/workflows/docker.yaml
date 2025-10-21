@@ -10,6 +10,10 @@ on:
       dependency_change:
         type: string
         default: "false"
+    outputs:
+      container:
+        description: "Updated container path"
+        value: ${{ jobs.docker.outputs.container }}
 
 permissions:
   contents: write
@@ -20,6 +24,7 @@ permissions:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  BRANCH_TAG: ${{ github.ref_name }}
 
 # https://stackoverflow.com/questions/76925314/conditional-use-of-container-depending-on-the-group-it-runs-on-for-github-action
 
@@ -30,6 +35,9 @@ jobs:
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    outputs:
+      container: ${{ steps.image_job.outputs.image }}
 
     steps:
       - name: Dump github context
@@ -69,6 +77,7 @@ jobs:
       - name: 🐋 Generate new dockerfile
         if: ${{ inputs.dependency_change == 'true' }}
         run: |
+          # https://oluoch-odhiambo.medium.com/docker-multi-stage-build-an-effective-strategy-to-building-production-ready-docker-images-59fda6e94e0
           echo "FROM rocker/tidyverse" > dockerfile
           echo "" >> dockerfile
 
@@ -147,6 +156,28 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: 🔍 Check if Docker image exists in GHCR
+        id: image_job
+        run: |
+          # Convert IMAGE_NAME to lowercase
+          IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
+
+          # Replace / with - in BRANCH_TAG
+          BRANCH_TAG_CLEAN=$(echo "${{ env.BRANCH_TAG }}" | tr '/' '-')
+
+          IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
+
+          echo "Checking for image: ${IMAGE}"
+
+          # Try to pull the image metadata (doesn't download full image)
+          if docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
+            echo "Image found in GHCR"
+            echo "container='${IMAGE}'" >> $GITHUB_OUTPUT
+          else
+            echo "Image not found in GHCR"
+            echo "container=null" >> $GITHUB_OUTPUT
+          fi
 
       - name: Push changes
         if: ${{ inputs.dependency_change == 'true' }}
