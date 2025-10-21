@@ -114,6 +114,10 @@ jobs:
           echo "RUN R -e 'pak::pak(c(\"jsonlite\", \"rcmdcheck\", \"devtools\", \"lintr\", \"covr\", \"roxygen2\", \"pkgdown\", \"rmarkdown\", \"styler\"))'" >> dockerfile
           echo "" >> dockerfile
 
+          # Install the dev package
+          echo "RUN R -e 'devtools::install()" >> dockerfile
+          echo "" >> dockerfile
+
           cat dockerfile
 
       - name: ⬆️ Commit changes
