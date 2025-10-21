@@ -25,6 +25,8 @@ jobs:
     name: "🧪 Tests: ${{ matrix.config.backend }}"
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
+    defaults:
+      run: bash
 
     strategy:
       fail-fast: false
@@ -136,6 +138,8 @@ jobs:
     name: "🧪 Tests: DuckDB"
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
+    defaults:
+      run: bash
 
     env:
       BACKEND: DuckDB
@@ -234,6 +238,8 @@ jobs:
     name: "🧪 Tests: PostgreSQL"
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
+    defaults:
+      run: bash
     if: ${{ !contains(inputs.backend_exclude, 'postgres')}}
 
     services:
@@ -364,6 +370,8 @@ jobs:
     name: "🧪 Tests: SQL Server 2022"
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
+    defaults:
+      run: bash
     if: ${{ !contains(inputs.backend_exclude, 'mssql')}}
 
     env:
@@ -498,6 +506,8 @@ jobs:
     name: "🧪 Tests: Oracle Database (Experimental)"
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
+    defaults:
+      run: bash
     if: ${{ !contains(inputs.backend_exclude, 'oracle')}}
 
     env:
@@ -707,6 +717,8 @@ jobs:
     needs: [code-coverage-sqlite, code-coverage-duckdb, code-coverage-postgres, code-coverage-mssql]
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
+    defaults:
+      run: bash
 
     env:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

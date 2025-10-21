@@ -47,6 +47,8 @@ jobs:
     name: "📖 pkgdown: Build"
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.container) }}
+    defaults:
+      run: bash
 
     # Only restrict concurrency for non-PR jobs
     concurrency:

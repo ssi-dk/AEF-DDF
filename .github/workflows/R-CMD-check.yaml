@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     name: "🔎 Check: Build package"
     container: ${{ fromJSON(inputs.container) }}
+    defaults:
+      run: bash
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
