@@ -263,7 +263,6 @@ jobs:
       BACKEND_ARGS: ''
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
-      PGHOST: localhost
       PGPORT: 5432
       PGDATABASE: test
       PGUSER: postgres
@@ -274,6 +273,14 @@ jobs:
         run: |
           apt-get update
           apt-get install -y postgresql-client
+
+      - name: Set environment variables
+        run: |
+          if [[ ${{ inputs.container }} == 'null' ]]; then
+            echo "PGHOST=localhost" >> $GITHUB_ENV
+          else
+            echo "PGHOST=postgres" >> $GITHUB_ENV
+          fi
 
       - name: Setup testing schemata in PostgreSQL
         if: ${{ inputs.schemas != 'none' }}
