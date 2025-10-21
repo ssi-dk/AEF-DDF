@@ -270,6 +270,11 @@ jobs:
       PGPASSWORD: postgres
 
     steps:
+      - name: Install PostgreSQL client
+        run: |
+          apt-get update
+          apt-get install -y postgresql-client
+
       - name: Setup testing schemata in PostgreSQL
         if: ${{ inputs.schemas != 'none' }}
         run: |
@@ -681,7 +686,7 @@ jobs:
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
+          TESTTHAT_OUT=$(find ${ RUNNER_TEMP }/package -name 'testthat.Rout*')
 
           cat $TESTTHAT_OUT
 
