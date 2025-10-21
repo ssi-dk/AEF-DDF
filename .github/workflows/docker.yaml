@@ -37,7 +37,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     outputs:
-      container: ${{ steps.image_job.outputs.image }}
+      container: ${{ steps.image_job.outputs.container }}
 
     steps:
       - name: Dump github context
