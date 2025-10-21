@@ -87,7 +87,7 @@ jobs:
           echo "" >> dockerfile
 
           echo "# Move pak.lock to the container" >> dockerfile
-          echo "COPY pak.lock /app/" >> dockerfile
+          echo "COPY . /app/" >> dockerfile
           echo "WORKDIR /app" >> dockerfile
           echo "" >> dockerfile
 
