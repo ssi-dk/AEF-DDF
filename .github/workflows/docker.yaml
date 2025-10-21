@@ -112,8 +112,7 @@ jobs:
           echo "" >> dockerfile
 
           # Install workflow dependencies
-          #echo "RUN R -e 'install.packages(\"stringi\")'" >> dockerfile
-          echo "RUN R -e 'pak::pak(\"styler\")'" >> dockerfile
+          echo "RUN R -e 'pak::pak(c(\"jsonlite\", \"rcmdcheck\", \"devtools\", \"lintr\", \"covr\", \"roxygen2\", \"pkgdown\", \"rmarkdown\", \"styler\"))'" >> dockerfile
           echo "" >> dockerfile
 
           cat dockerfile
@@ -150,13 +149,26 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: ⚙️ Generate image tag
+        id: tag
+        run: |
+          # Convert IMAGE_NAME to lowercase
+          IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
+
+          # Replace / with - in BRANCH_TAG
+          BRANCH_TAG_CLEAN=$(echo "${{ env.BRANCH_TAG }}" | tr '/' '-')
+
+          IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
+
+          echo "tag='${IMAGE}'" >> $GITHUB_OUTPUT
+
       - name: 🐋 Build and push Docker image
         if: ${{ inputs.dependency_change == 'true' }}
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.tag.outputs.tag }}
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: 🔍 Check if Docker image exists in GHCR
@@ -173,9 +185,9 @@ jobs:
           echo "Checking for image: ${IMAGE}"
 
           # Try to pull the image metadata (doesn't download full image)
-          if docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
+          if docker manifest inspect "${{ steps.tag.outputs.tag }}" > /dev/null 2>&1; then
             echo "Image found in GHCR"
-            echo "container='${IMAGE}'" >> $GITHUB_OUTPUT
+            echo "container='${{ steps.tag.outputs.tag }}'" >> $GITHUB_OUTPUT
           else
             echo "Image not found in GHCR"
             echo "container=null" >> $GITHUB_OUTPUT
