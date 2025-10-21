@@ -160,7 +160,7 @@ jobs:
 
           IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
 
-          echo "tag='${IMAGE}'" >> $GITHUB_OUTPUT
+          echo "tag=${IMAGE}" >> $GITHUB_OUTPUT
 
       - name: 🐋 Build and push Docker image
         if: ${{ inputs.dependency_change == 'true' }}
