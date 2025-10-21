@@ -59,7 +59,7 @@ jobs:
           jsonlite::write_json(lockfile, "pak.lock", pretty = TRUE, auto_unbox = TRUE)
         shell: Rscript {0}
 
-      - name: Commit and push changes
+      - name: 🚀 Commit and push changes
         run: |
           git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
           git stash --include-untracked

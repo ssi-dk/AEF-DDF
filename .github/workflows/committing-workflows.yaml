@@ -211,7 +211,7 @@ jobs:
         run: rmarkdown::render("README.Rmd")
         shell: Rscript {0}
 
-      - name: Commit changes
+      - name: ⬆️ Commit changes
         if: ${{ inputs.render_readme == 'true' }}
         run: |
           git stash --include-untracked
@@ -274,7 +274,7 @@ jobs:
           git add *.rds || echo "No .rds cache files to add"
           git commit -m "chore(vignettes): Update the cache" || echo "No changes to commit"
 
-      - name: Push changes
+      - name: 🚀 Push changes
         run: |
           set -o xtrace
 

@@ -245,7 +245,7 @@ jobs:
           name: benchmark-summary
           path: benchmarks.pdf
 
-      - name: Commit and push changes
+      - name: 🚀 Commit and push changes
         if: always()
         run: |
           git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY.git

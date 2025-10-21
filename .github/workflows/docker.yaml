@@ -116,7 +116,7 @@ jobs:
 
           cat dockerfile
 
-      - name: 🚀 Commit changes
+      - name: ⬆️ Commit changes
         if: ${{ inputs.dependency_change == 'true' }}
         run: |
           git stash --include-untracked
@@ -179,7 +179,7 @@ jobs:
             echo "container=null" >> $GITHUB_OUTPUT
           fi
 
-      - name: Push changes
+      - name: 🚀 Push changes
         if: ${{ inputs.dependency_change == 'true' }}
         run: |
           set -o xtrace
