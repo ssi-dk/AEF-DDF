@@ -421,9 +421,9 @@ jobs:
       - name: 🔧 Set environment variables
         run: |
           if [[ ${{ inputs.container }} == 'null' ]]; then
-            echo "MSSQLHOST=localhost" >> $GITHUB_ENV
+            MSSQLHOST=localhost
           else
-            echo "MSSQLHOST=postgres" >> $GITHUB_ENV
+            MSSQLHOST=mssql
           fi
 
           CONN_ARGS_JSON="{
@@ -601,9 +601,9 @@ jobs:
       - name: 🔧 Set environment variables
         run: |
           if [[ ${{ inputs.container }} == 'null' ]]; then
-            echo "ORACLEHOST=localhost" >> $GITHUB_ENV
+            ORACLEHOST=localhost
           else
-            echo "ORACLEHOST=postgres" >> $GITHUB_ENV
+            ORACLEHOST=oracledb
           fi
 
           CONN_ARGS_JSON="{
