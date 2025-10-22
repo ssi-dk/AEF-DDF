@@ -31,13 +31,13 @@ jobs:
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git switch ${{ inputs.branch_name }}
 
-      - name: Setup Node.Js
+      - name: 🔧 Setup Node.Js
         uses: actions/setup-node@v4
 
-      - name: Install nunjucks
+      - name: 🔧 Install nunjucks
         run: npm install nunjucks
 
-      - name: Resolve nunjucks templates
+      - name: 🔀 Resolve nunjucks templates
         run: |
           echo "
             const nunjucks = require('nunjucks');
@@ -50,19 +50,19 @@ jobs:
             fs.writeFile('README.Rmd', res, (err) => err && console.error(err));" >> render-templates.js
           node render-templates.js
 
+      - name: 🔧 Setup Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+
       - name: 🔧 Setup R
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
-      - name: 🔧 Setup Pandoc
-        uses: r-lib/actions/setup-pandoc@v2
-
-      - name: Install rmarkdown
+      - name: 🔧 Install rmarkdown
         run: Rscript -e 'install.packages("rmarkdown")'
 
-      - name: Render README
+      - name: 📖 Render READM
         run: Rscript -e 'rmarkdown::render("README.Rmd")'
 
       - name: 🚀 Commit and Push changes
