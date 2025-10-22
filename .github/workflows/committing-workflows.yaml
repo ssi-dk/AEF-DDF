@@ -90,6 +90,11 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
+      - name: Print tempdir()
+        run: |
+          print(tempdir())
+        shell: Rscript {0}
+
       - name: 📋 Update the pak.lock file
         run: |
           pak::lockfile_create(".", lockfile = "pak.lock", dependencies = TRUE)
