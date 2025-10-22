@@ -426,6 +426,8 @@ jobs:
             MSSQLHOST=mssql
           fi
 
+          echo "MSSQLHOST=${MSSQLHOST}" >> $GITHUB_ENV
+
           CONN_ARGS_JSON="{
             \"MSSQL\": {
               \"driver\": \"ODBC Driver 18 for SQL Server\",
@@ -471,18 +473,18 @@ jobs:
         run: |
           set -o xtrace
 
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -Q "ALTER LOGIN SA WITH DEFAULT_DATABASE = master;" -C
+          sqlcmd -V 10 -S ${{ env.MSSQLHOST }} -U SA -P dbatools.I0 -Q "ALTER LOGIN SA WITH DEFAULT_DATABASE = master;" -C
 
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
-            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "CREATE SCHEMA [$schema];" -C
-            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "GO" -C
+            sqlcmd -V 10 -S ${{ env.MSSQLHOST }} -U SA -P dbatools.I0 -d master -Q "CREATE SCHEMA [$schema];" -C
+            sqlcmd -V 10 -S ${{ env.MSSQLHOST }} -U SA -P dbatools.I0 -d master -Q "GO" -C
           done
 
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "SELECT * FROM sys.schemas" -C
+          sqlcmd -V 10 -S ${{ env.MSSQLHOST }} -U SA -P dbatools.I0 -d master -Q "SELECT * FROM sys.schemas" -C
 
           for schema in "${schemas[@]}"; do
-            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = '$schema'"  -C
+            sqlcmd -V 10 -S ${{ env.MSSQLHOST }} -U SA -P dbatools.I0 -d master -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = '$schema'"  -C
           done
 
       - name: ⬇️ Checkout repo
@@ -606,6 +608,8 @@ jobs:
             ORACLEHOST=oracledb
           fi
 
+          echo "ORACLEHOST=${ORACLEHOST}" >> $GITHUB_ENV
+
           CONN_ARGS_JSON="{
             \"Oracle\": {
               \"driverClass\": \"oracle.jdbc.OracleDriver\",
@@ -725,7 +729,7 @@ jobs:
             conn <- tryCatch({
               dbConnect(
                 drv,
-                "jdbc:oracle:thin:@localhost:1521/FREEPDB1",
+                "jdbc:oracle:thin:@${{ env.ORACLEHOST }}:1521/FREEPDB1",
                 "github_ci",
                 "github_ci"
               )
