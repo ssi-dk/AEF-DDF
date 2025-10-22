@@ -415,19 +415,33 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
       CONN_ARGS_JSON: >
-        {
-          "MSSQL": {
-            "driver": "ODBC Driver 18 for SQL Server",
-            "server": "localhost",
-            "database": "master",
-            "UID": "SA",
-            "PWD": "dbatools.I0",
-            "TrustServerCertificate": "yes",
-            "Regional": "no"
-          }
-        }
+
 
     steps:
+      - name: 🔧 Set environment variables
+        run: |
+          if [[ ${{ inputs.container }} == 'null' ]]; then
+            echo "MSSQLHOST=localhost" >> $GITHUB_ENV
+          else
+            echo "MSSQLHOST=postgres" >> $GITHUB_ENV
+          fi
+
+          CONN_ARGS_JSON="{
+            \"MSSQL\": {
+              \"driver\": \"ODBC Driver 18 for SQL Server\",
+              \"server\": \"${MSSQLHOST}\",
+              \"database\": \"master\",
+              \"UID\": \"SA\",
+              \"PWD\": \"dbatools.I0\",
+              \"TrustServerCertificate\": \"yes\",
+              \"Regional\": \"no\"
+            }
+          }"
+
+          echo "CONN_ARGS_JSON<<EOF" >> $GITHUB_ENV
+          echo $CONN_ARGS_JSON >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
       - name: 🔧 Install ODBC Driver and SQL Server tools
         run: |
           set -o xtrace
