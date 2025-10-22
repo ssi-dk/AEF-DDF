@@ -431,6 +431,7 @@ jobs:
     steps:
       - name: Install ODBC Driver and SQL Server tools
         run: |
+          mkdir -p /opt/microsoft/msodbcsql18/
           touch /opt/microsoft/msodbcsql18/ACCEPT_EULA
 
           if ! [[ "18.04 20.04 22.04 24.04 24.10" == *"$(grep VERSION_ID /etc/os-release | cut -d '"' -f 2)"* ]];
