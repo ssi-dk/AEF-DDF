@@ -25,7 +25,6 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
-# https://stackoverflow.com/questions/76925314/conditional-use-of-container-depending-on-the-group-it-runs-on-for-github-action
 
 jobs:
   docker:
@@ -76,7 +75,6 @@ jobs:
       - name: 🐋 Generate new dockerfile
         if: ${{ inputs.dependency_change == 'true' }}
         run: |
-          # https://oluoch-odhiambo.medium.com/docker-multi-stage-build-an-effective-strategy-to-building-production-ready-docker-images-59fda6e94e0
           echo "FROM rocker/tidyverse" > dockerfile
           echo "ENV TZ=Australia/Sydney" >> dockerfile
           echo "RUN date" >> dockerfile
