@@ -31,7 +31,7 @@ permissions:
 
 jobs:
   update-lockfile-document-render-readme-styler:
-    name: 📖 Update lockfile, Document, render README, and enforce coding style
+    name: 📖 Update lockfile, document, render README, and enforce coding style
     runs-on: ubuntu-latest
 
     outputs:
