@@ -82,7 +82,7 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
-      - name: Setup BACKEND_POST_CONNECT
+      - name: 🔧 Setup BACKEND_POST_CONNECT
         if: ${{ matrix.config.schemas != '' }}
         run: |
           set -o xtrace
@@ -98,7 +98,7 @@ jobs:
 
           echo "BACKEND_POST_CONNECT=$CONN_POST_CONNECT" >> $GITHUB_ENV
 
-      - name: Generate and Save Coverage Report
+      - name: 🧪 Generate and Save Coverage Report
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
@@ -108,13 +108,13 @@ jobs:
           saveRDS(coverage, "coverage_results.rds")
         shell: Rscript {0}
 
-      - name: Upload Coverage Report Artifact
+      - name: ⬆️ Upload Coverage Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-${{ matrix.config.id }}
           path: coverage_results.rds
 
-      - name: Show testthat output
+      - name: 🐞 Show testthat output
         if: always()
         run: |
           ## --------------------------------------------------------------------
@@ -185,7 +185,7 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
-      - name: Setup BACKEND_POST_CONNECT
+      - name: 🔧 Setup BACKEND_POST_CONNECT
         run: |
           set -o xtrace
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
@@ -200,7 +200,7 @@ jobs:
 
           echo "BACKEND_POST_CONNECT=$CONN_POST_CONNECT" >> $GITHUB_ENV
 
-      - name: Generate and Save Coverage Report
+      - name: 🧪 Generate and Save Coverage Report
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
@@ -210,13 +210,13 @@ jobs:
           saveRDS(coverage, "coverage_results.rds")
         shell: Rscript {0}
 
-      - name: Upload Coverage Report Artifact
+      - name: ⬆️ Upload Coverage Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-duckdb
           path: coverage_results.rds
 
-      - name: Show testthat output
+      - name: 🐞 Show testthat output
         if: always()
         run: |
           ## --------------------------------------------------------------------
@@ -269,12 +269,12 @@ jobs:
       PGPASSWORD: postgres
 
     steps:
-      - name: Install PostgreSQL client
+      - name: 🔧 Install PostgreSQL client
         run: |
           apt-get update
           apt-get install -y postgresql-client
 
-      - name: Set environment variables
+      - name: 🔧 Set environment variables
         run: |
           if [[ ${{ inputs.container }} == 'null' ]]; then
             echo "PGHOST=localhost" >> $GITHUB_ENV
@@ -282,7 +282,7 @@ jobs:
             echo "PGHOST=postgres" >> $GITHUB_ENV
           fi
 
-      - name: Setup testing schemata in PostgreSQL
+      - name: 🔧 Setup testing schemata in PostgreSQL
         if: ${{ inputs.schemas != 'none' }}
         run: |
           set -o xtrace
@@ -323,7 +323,7 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
-      - name: Generate and Save Coverage Report
+      - name: 🧪 Generate and Save Coverage Report
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
@@ -333,13 +333,13 @@ jobs:
           saveRDS(coverage, "coverage_results.rds")
         shell: Rscript {0}
 
-      - name: Upload Coverage Report Artifact
+      - name: ⬆️ Upload Coverage Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-postgres
           path: coverage_results.rds
 
-      - name: Show testthat output
+      - name: 🐞 Show testthat output
         if: always()
         run: |
           ## --------------------------------------------------------------------
@@ -358,14 +358,13 @@ jobs:
           fi
         shell: bash
 
-
-      - name: Collect docker logs
+      - name: 🐞 Collect docker logs
         if: always() && inputs.check_postgres_logs
         uses: jwalton/gh-docker-logs@v2
         with:
           dest: '${{ runner.workspace }}/logs-docker'
 
-      - name: Check docker logs for PostgreSQL ERRORs
+      - name: 🐞 Check docker logs for PostgreSQL ERRORs
         if: always() && inputs.check_postgres_logs
         run: |
           ## --------------------------------------------------------------------
@@ -429,7 +428,7 @@ jobs:
         }
 
     steps:
-      - name: Install ODBC Driver and SQL Server tools
+      - name: 🔧 Install ODBC Driver and SQL Server tools
         run: |
           mkdir -p /opt/microsoft/msodbcsql18/
           touch /opt/microsoft/msodbcsql18/ACCEPT_EULA
@@ -453,7 +452,7 @@ jobs:
           sudo apt-get install -y mssql-tools18
           echo "/opt/mssql-tools18/bin" >> $GITHUB_PATH
 
-      - name: Setup testing schemata in SQL server
+      - name: 🔧 Setup testing schemata in SQL server
         if: ${{ inputs.schemas != 'none' }}
         run: |
           set -o xtrace
@@ -504,7 +503,7 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
-      - name: Generate and Save Coverage Report
+      - name: 🧪 Generate and Save Coverage Report
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
@@ -514,13 +513,13 @@ jobs:
           saveRDS(coverage, "coverage_results.rds")
         shell: Rscript {0}
 
-      - name: Upload Coverage Report Artifact
+      - name: ⬆️ Upload Coverage Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-sql-server
           path: coverage_results.rds
 
-      - name: Show testthat output
+      - name: 🐞 Show testthat output
         if: always()
         run: |
           ## --------------------------------------------------------------------
@@ -539,13 +538,13 @@ jobs:
           fi
         shell: bash
 
-      - name: Collect docker logs
+      - name: 🐞 Collect docker logs
         if: always()
         uses: jwalton/gh-docker-logs@v2
         with:
           dest: '${{ runner.workspace }}/logs-docker'
 
-      - name: Check docker logs for SQL Server ERRORs
+      - name: 🐞 Check docker logs for SQL Server ERRORs
         if: always()
         run: |
           ## --------------------------------------------------------------------
@@ -585,7 +584,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Set environment variables
+      - name: 🔧 Set environment variables
         run: |
           if [[ ${{ inputs.container }} == 'null' ]]; then
             echo "ORACLEHOST=localhost" >> $GITHUB_ENV
@@ -607,7 +606,7 @@ jobs:
           echo $CONN_ARGS_JSON >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Create startup script for Oracle database
+      - name: 🔧 Create startup script for Oracle database
         if: ${{ inputs.schemas != 'none' }}
         run: |
           set -o xtrace
@@ -637,7 +636,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Install Oracle JDBC driver
+      - name: 🔧 Install Oracle JDBC driver
         run: |
           sudo apt-get update
           # Create directory for the driver with sudo
@@ -657,11 +656,11 @@ jobs:
             exit 1
           fi
 
-      - name: 'Set up Oracle JDK'
+      - name: 🔧 Set up Oracle JDK
         uses: actions/setup-java@v5
         with:
-          distribution: 'oracle'
-          java-version: '25'
+          distribution: oracle
+          java-version: 25
 
       - name: 🔧 Setup R
         if: ${{ inputs.container == 'null' }}
@@ -689,7 +688,7 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
-      - name: Configure Java for R
+      - name: 🔧 Configure Java for R
         run: |
           # Create .Rprofile to automatically set Java classpath
           echo 'Sys.setenv(JAVA_HOME = Sys.getenv("JAVA_HOME"))' > ~/.Rprofile
@@ -727,7 +726,7 @@ jobs:
             }
           '
 
-      - name: Generate and Save Coverage Report
+      - name: 🧪 Generate and Save Coverage Report
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
@@ -737,13 +736,13 @@ jobs:
           saveRDS(coverage, "coverage_results.rds")
         shell: Rscript {0}
 
-      - name: Upload Coverage Report Artifact
+      - name: ⬆️ Upload Coverage Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-oracle
           path: coverage_results.rds
 
-      - name: Show testthat output
+      - name: 🐞 Show testthat output
         if: always()
         run: |
           ## --------------------------------------------------------------------
@@ -762,12 +761,12 @@ jobs:
           fi
         shell: bash
 
-      - name: Collect podman logs
+      - name: 🐞 Collect podman logs
         if: always()
         run: |
           podman logs oracledb > ${{ runner.workspace }}/oracle.log
 
-      - name: Check podman logs for Oracle ERRORs
+      - name: 🐞 Check podman logs for Oracle ERRORs
         if: always()
         run: |
           ## --------------------------------------------------------------------
@@ -829,15 +828,16 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
-      - uses: actions/download-artifact@v4
+      - name: ⬇️ Download artifacts from tests
+        uses: actions/download-artifact@v4
         with:
           path: coverage-reports
 
-      - name: List downloaded artifacts
+      - name: 🐞 List downloaded artifacts
         run: ls -R coverage-reports
         shell: bash
 
-      - name: Combine Coverage Reports and upload to codecov.io
+      - name: ⬆️ Combine Coverage Reports and upload to codecov.io
         run: |
           files <- list.files(
             "coverage-reports",
