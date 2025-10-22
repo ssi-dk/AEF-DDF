@@ -406,6 +406,8 @@ jobs:
           --health-timeout 5s
           --health-retries 10
           --user root
+        volumes:
+          - ./data:/var/opt/mssql/data
 
     env:
       BACKEND: MSSQL
