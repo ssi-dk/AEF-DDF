@@ -430,6 +430,9 @@ jobs:
     steps:
       - name: 🔧 Install ODBC Driver and SQL Server tools
         run: |
+          set -o xtrace
+
+          mkdir -p /var/cache/debconf
           mkdir -p /opt/microsoft/msodbcsql18/
           touch /opt/microsoft/msodbcsql18/ACCEPT_EULA
 
