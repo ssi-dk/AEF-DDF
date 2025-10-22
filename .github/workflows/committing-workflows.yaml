@@ -188,6 +188,9 @@ jobs:
           git add man/\* NAMESPACE DESCRIPTION
           git commit -m "docs: Re-build roxygen documentation" || echo "No changes to commit"
 
+      - name: 🔧 Setup Node
+        uses: actions/setup-node@v6
+
       - name: 🔧 Install nunjucks
         if: ${{ inputs.render_readme == true }}
         run: npm install nunjucks
