@@ -394,7 +394,6 @@ jobs:
     services:
       mssql:
         image: mcr.microsoft.com/mssql/server:2022-latest
-        user: root
         env:
           ACCEPT_EULA: "Y"
           MSSQL_SA_PASSWORD: "dbatools.I0"
@@ -406,6 +405,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 10
+          --user root
 
     env:
       BACKEND: MSSQL
