@@ -553,12 +553,13 @@ jobs:
         env:
           APP_USER: "github_ci"
           APP_USER_PASSWORD: "github_ci"
+          ORACLE_RANDOM_PASSWORD: true
         ports:
           - 1521:1521
         options: >-
-          --health-cmd "healthcheck.sh"
-          --health-interval 10s
-          --health-timeout 5s
+          --health-cmd healthcheck.sh
+          --health-interval 20s
+          --health-timeout 10s
           --health-retries 10
 
     env:
