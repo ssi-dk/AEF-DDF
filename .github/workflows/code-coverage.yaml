@@ -736,7 +736,7 @@ jobs:
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          TESTTHAT_OUT=$(find ${ RUNNER_TEMP }/package -name 'testthat.Rout*')
+          TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
 
           cat $TESTTHAT_OUT
 
