@@ -632,6 +632,9 @@ jobs:
 
       - name: 'Set up Oracle JDK'
         uses: actions/setup-java@v5
+        with:
+          distribution: 'oracle'
+          java-version: '25'
 
       - name: 🔧 Setup R
         if: ${{ inputs.container == 'null' }}
