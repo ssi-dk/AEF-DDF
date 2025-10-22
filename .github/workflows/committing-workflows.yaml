@@ -48,7 +48,7 @@ jobs:
           persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Configure git
+      - name: 🔧 Configure git
         run: |
           git config --local user.name "${{ github.actor }}"
           git config --local user.email "${{ github.actor }}@users.noreply.github.com"
@@ -69,7 +69,7 @@ jobs:
         with:
           use-public-rspm: true
 
-      - name: Setup Pandoc
+      - name: 🔧 Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
 
       - name: Install R dependencieses

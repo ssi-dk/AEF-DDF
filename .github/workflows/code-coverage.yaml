@@ -50,20 +50,20 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup R
+      - name: 🔧 Setup R
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -150,23 +150,23 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup Pandoc
+      - name: 🔧 Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Setup R
+      - name: 🔧 Setup R
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -291,20 +291,20 @@ jobs:
             psql test -c "CREATE SCHEMA \"$schema\";"
           done
 
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup R
+      - name: 🔧 Setup R
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -456,20 +456,20 @@ jobs:
             sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = '$schema'"  -C
           done
 
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup R
+      - name: 🔧 Setup R
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -604,7 +604,7 @@ jobs:
 
           cat setup.sql
 
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -633,14 +633,14 @@ jobs:
       - name: 'Set up Oracle JDK'
         uses: actions/setup-java@v5
 
-      - name: Setup R
+      - name: 🔧 Setup R
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -767,20 +767,20 @@ jobs:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     steps:
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup R
+      - name: 🔧 Setup R
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:

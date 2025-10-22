@@ -46,7 +46,7 @@ jobs:
         env:
          GITHUB_CONTEXT: ${{ toJson(github) }}
 
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         if: ${{ inputs.dependency_change == 'true' }}
         uses: actions/checkout@v4
         with:
@@ -54,7 +54,7 @@ jobs:
           persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Configure git
+      - name: 🔧 Configure git
         if: ${{ inputs.dependency_change == 'true' }}
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"

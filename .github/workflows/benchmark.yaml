@@ -50,24 +50,24 @@ jobs:
           set -o xtrace
           sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -Q "ALTER LOGIN SA WITH DEFAULT_DATABASE = master;" -C
 
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Configure git
+      - name: 🔧 Configure git
         run: |
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git switch ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
 
-      - name: Setup R
+      - name: 🔧 Setup R
         uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}

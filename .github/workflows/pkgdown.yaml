@@ -59,7 +59,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -67,13 +67,13 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Setup R
+      - name: 🔧 Setup R
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
         if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -159,7 +159,7 @@ jobs:
     outputs:
       pre_release: ${{ steps.determine-pre-release.outputs.pre_release }}
     steps:
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -197,7 +197,7 @@ jobs:
     if: inputs.event_name == 'release' || (needs.determine-pre-release.outputs.pre_release == 'true' && contains(inputs.main_branches, github.ref_name))
     needs: [cleanup, pkgdown-build, determine-pre-release]
     steps:
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
