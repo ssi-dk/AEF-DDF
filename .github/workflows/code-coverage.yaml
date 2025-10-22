@@ -584,18 +584,29 @@ jobs:
       BACKEND_ARGS: ''
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
-      CONN_ARGS_JSON: >
-        {
-          "Oracle": {
-            "driverClass": "oracle.jdbc.OracleDriver",
-            "classPath": "/usr/lib/oracle/ojdbc8.jar",
-            "url": "jdbc:oracle:thin:@localhost:1521/FREEPDB1",
-            "user": "github_ci",
-            "password": "github_ci"
-          }
-        }
-
     steps:
+      - name: Set environment variables
+        run: |
+          if [[ ${{ inputs.container }} == 'null' ]]; then
+            echo "ORACLEHOST=localhost" >> $GITHUB_ENV
+          else
+            echo "ORACLEHOST=postgres" >> $GITHUB_ENV
+          fi
+
+          CONN_ARGS_JSON="{\n
+            \"Oracle\": {\n
+              \"driverClass\": \"oracle.jdbc.OracleDriver\",\n
+              \"classPath\": \"/usr/lib/oracle/ojdbc8.jar\",\n
+              \"url\": \"jdbc:oracle:thin:@${ORACLEHOST}:1521/FREEPDB1\",\n
+              \"user\": \"github_ci\",\n
+              \"password\": \"github_ci\"\n
+            }\n
+          }"
+
+          echo "CONN_ARGS_JSON<<EOF" >> $GITHUB_ENV
+          echo $CONN_ARGS_JSON >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
       - name: Create startup script for Oracle database
         if: ${{ inputs.schemas != 'none' }}
         run: |
