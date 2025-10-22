@@ -545,6 +545,22 @@ jobs:
       run:
         shell: bash
 
+    services:
+      oracledb:
+        image: gvenzl/oracle-free:latest
+        env:
+          APP_USER: "github_ci"
+          APP_USER_PASSWORD: "github_ci"
+        ports:
+          - 1521:1521
+        healthcheck:
+          test: ["CMD", "healthcheck.sh"]
+          interval: 10s
+          timeout: 5s
+          retries: 10
+          start_period: 5s
+          start_interval: 5s
+
     env:
       BACKEND: Oracle
       BACKEND_DRV: RJDBC::JDBC
@@ -586,16 +602,6 @@ jobs:
           echo "GRANT CREATE ANY TABLE, SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DROP ANY TABLE, CREATE ANY INDEX TO github_ci;" >> setup.sql
 
           cat setup.sql
-
-      - name: Setup Oracle database
-        uses: gvenzl/setup-oracle-free@v1
-        with:
-          app-user: github_ci
-          app-user-password: github_ci
-          container-name: oracledb
-          startup-scripts: ${{ github.workspace }}
-
-
 
       - name: Checkout repo
         uses: actions/checkout@v4
