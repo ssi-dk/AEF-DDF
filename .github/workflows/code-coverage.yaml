@@ -432,10 +432,6 @@ jobs:
         run: |
           set -o xtrace
 
-          mkdir -p /var/cache/debconf
-          mkdir -p /opt/microsoft/msodbcsql18/
-          touch /opt/microsoft/msodbcsql18/ACCEPT_EULA
-
           if ! [[ "18.04 20.04 22.04 24.04 24.10" == *"$(grep VERSION_ID /etc/os-release | cut -d '"' -f 2)"* ]];
           then
               echo "Ubuntu $(grep VERSION_ID /etc/os-release | cut -d '"' -f 2) is not currently supported.";
@@ -451,8 +447,9 @@ jobs:
 
           # Install the driver
           sudo apt-get update
-          sudo apt-get install -y msodbcsql18
-          sudo apt-get install -y mssql-tools18
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
+          sudo ACCEPT_EULA=Y apt-get install -y mssql-tools18
+
           echo "/opt/mssql-tools18/bin" >> $GITHUB_PATH
 
       - name: 🔧 Setup testing schemata in SQL server
