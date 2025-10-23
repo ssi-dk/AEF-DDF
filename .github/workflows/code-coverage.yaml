@@ -612,7 +612,7 @@ jobs:
         run:   echo "$CONTEXT"
         shell: bash
         env:
-         CONTEXT: ${{ toJson(jobs.code-coverage-oracle) }}
+         CONTEXT: ${{ toJson(job.code-coverage-oracle) }}
 
       - name: 🔧 Set environment variables
         run: |
