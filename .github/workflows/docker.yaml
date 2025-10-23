@@ -184,8 +184,8 @@ jobs:
         if: always()
         with:
           account: ssi-dk
-          token: ${{ secrets.GH_PAT }}
-          image-names: ${{ github.event.repository.name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          image-names: "*"
           cut-off: 1d
           dry-run: true
 
