@@ -11,15 +11,22 @@ This workflow calls is a convenience wrapper for all the individual CI workflows
 If you do not want granular control of the workflows being run, you can copy this single file to your repo and let us
 curate the selection of workflows being run on your package.
 
+This workflow has some overall settings that needs to be set via arguments:
+
+| Arguments        | Description                             | Default     | Example       |
+|------------------|-----------------------------------------|-------------|---------------|
+| `skip`           | Workflows to skip                       | styler      | lint,document |
+| `main_branches`  | Main branches to trigger on             | main,master | main,develop  |
+| `use-containers` | Should docker containers be created?    | true        | false         |
+
+The argument `use-containers` controls the creation of docker images.
+By default, the workflow will bulid docker images and use these images in the pipeline to speed up the process, but
+this may cause issues in some cases.
+
 Continue reading to learn what the individual workflows do.
 
 If these workflows take arguments, they can also be passed to `all_workflows` which will then pass it to the appropriate
 workflows.
-
-| Arguments       | Description                             | Default     | Example       |
-|-----------------|-----------------------------------------|-------------|---------------|
-| `skip`          | Workflows to skip (optional)            | styler      | lint,document |
-| `main_branches` | Main branches to trigger on (optional). | main,master | main,develop  |
 
 
 ## lint.yaml
