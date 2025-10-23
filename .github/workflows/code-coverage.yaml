@@ -608,6 +608,12 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - name: 🐞 Dump github context
+        run:   echo "$CONTEXT"
+        shell: bash
+        env:
+         CONTEXT: ${{ toJson(jobs.code-coverage-oracle) }}
+
       - name: 🔧 Set environment variables
         run: |
           if [[ ${{ inputs.container }} == 'null' ]]; then
@@ -631,6 +637,15 @@ jobs:
           echo "CONN_ARGS_JSON<<EOF" >> $GITHUB_ENV
           echo $CONN_ARGS_JSON >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+
+      - name: Check running containers
+        run: docker ps -a
+
+      - name: Check container networks
+        run: docker network ls
+
+      - name: 🔧 Connect to docker network
+        run: docker network connect ${{ job.services.oracledb.network }}
 
       - name: 🔧 Setup testing schemata in Oracle
         if: ${{ inputs.schemas != 'none' }}
@@ -656,8 +671,6 @@ jobs:
 
           docker cp setup.sql oracledb:/tmp/setup.sql
           docker exec -it oracledb sqlplus github_ci/github_ci@//oracledb:1521/ORCLPDB1 @/tmp/setup.sql
-
-
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
