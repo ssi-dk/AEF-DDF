@@ -200,7 +200,10 @@ jobs:
           echo "Checking for image: ${IMAGE}"
 
           # Try to pull the image metadata (doesn't download full image)
-          if [[ "${{ inputs.use-containers }}" == "true" ]] && docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
+          if [[ "${{ inputs.use-containers }}" == "true" ]]; then
+            echo "Use of containers is disabled"
+            echo "container=null" >> $GITHUB_OUTPUT
+          elif ocker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
             echo "Image found in GHCR"
             echo "container='${IMAGE}'" >> $GITHUB_OUTPUT
           else
