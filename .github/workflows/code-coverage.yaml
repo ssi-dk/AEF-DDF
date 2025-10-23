@@ -269,10 +269,16 @@ jobs:
       PGPASSWORD: postgres
 
     steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
       - name: 🔧 Install PostgreSQL client
         run: |
-          apt-get update
-          apt-get install -y postgresql-client
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
 
       - name: 🔧 Set environment variables
         run: |
@@ -290,12 +296,6 @@ jobs:
           for schema in "${schemas[@]}"; do
             psql test -c "CREATE SCHEMA \"$schema\";"
           done
-
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: false
 
       - name: 🔧 Setup R
         if: ${{ inputs.container == 'null' }}
@@ -419,6 +419,12 @@ jobs:
 
 
     steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
       - name: 🔧 Set environment variables
         run: |
           if [[ ${{ inputs.container }} == 'null' ]]; then
@@ -487,12 +493,6 @@ jobs:
           for schema in "${schemas[@]}"; do
             sqlcmd -V 10 -S ${{ env.MSSQLHOST }} -U SA -P dbatools.I0 -d master -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = '$schema'"  -C
           done
-
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: false
 
       - name: 🔧 Setup R
         if: ${{ inputs.container == 'null' }}
@@ -608,6 +608,12 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
       - name: 🔧 Set environment variables
         run: |
           if [[ ${{ inputs.container }} == 'null' ]]; then
@@ -656,12 +662,6 @@ jobs:
 
           docker cp setup.sql ${{ job.services.oracledb.id }}:/tmp/setup.sql
           docker exec ${{ job.services.oracledb.id }} sqlplus -S system/github_ci@localhost:1521/FREEPDB1 @/tmp/setup.sql
-
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: false
 
       - name: 🔧 Install Oracle JDBC driver
         run: |
