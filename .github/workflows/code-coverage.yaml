@@ -655,7 +655,7 @@ jobs:
           cat setup.sql
 
           docker cp setup.sql ${{ job.services.oracledb.id }}:/tmp/setup.sql
-          docker exec ${{ job.services.oracledb.id }} sqlplus / AS SYSDBA github_ci/github_ci@//localhost:1521/FREEPDB1 @/tmp/setup.sql
+          docker exec ${{ job.services.oracledb.id }} sqlplus -S localhost:1521/FREEPDB1 / AS SYSDBA @/tmp/setup.sql
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
