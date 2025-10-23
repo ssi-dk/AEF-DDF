@@ -188,7 +188,17 @@ jobs:
         with:
           account: ssi-dk
           token: ${{ secrets.GH_PAT }}
-          image-names: ${{ env.REPOSITORY_NAME }}
+          image-names: "SCDB"
+          cut-off: 1d
+          dry-run: true
+
+      - name: 🗑️ Clean up GHCR images
+        uses: snok/container-retention-policy@v3.0.0
+        if: always()
+        with:
+          account: ssi-dk
+          token: ${{ secrets.GH_PAT }}
+          image-names: "scdb"
           cut-off: 1d
           dry-run: true
 
