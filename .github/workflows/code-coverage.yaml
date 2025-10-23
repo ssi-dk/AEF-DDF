@@ -632,11 +632,9 @@ jobs:
           echo $CONN_ARGS_JSON >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: 🔧 Create startup script for Oracle database
+      - name: 🔧 Setup testing schemata in Oracle
         if: ${{ inputs.schemas != 'none' }}
         run: |
-          set -o xtrace
-
           echo "ALTER SESSION SET CONTAINER = FREEPDB1;" > setup.sql
           echo "" >> setup.sql
 
@@ -655,6 +653,9 @@ jobs:
           echo "GRANT CREATE ANY TABLE, SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DROP ANY TABLE, CREATE ANY INDEX TO github_ci;" >> setup.sql
 
           cat setup.sql
+
+          sqlplus github_ci/github_ci@//oracledb:1521/ORCLPDB1 @/setup.sql
+
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
