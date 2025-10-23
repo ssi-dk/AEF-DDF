@@ -26,7 +26,7 @@ jobs:
 
       - name: Run GitHub File Sync
         uses: RasmusSkytte/repo-file-sync-action@master
-        if: steps.checkfile.outputs.exists == 'true'
+        if: steps.checkfile.outputs.exists
         with:
           GH_PAT: ${{ secrets.GH_PAT }}
           CONFIG_PATH: .github/sync.yaml
@@ -56,7 +56,7 @@ jobs:
 
       - name: Run GitHub File Sync
         uses: RasmusSkytte/repo-file-sync-action@master
-        if: steps.checkfile.outputs.exists == 'true'
+        if: steps.checkfile.outputs.exists
         with:
           GH_PAT: ${{ secrets.GH_PAT }}
           CONFIG_PATH: .github/sync_reverse.yaml

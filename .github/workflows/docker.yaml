@@ -8,8 +8,8 @@ on:
         type: string
         default: '1'
       dependency_change:
-        type: string
-        default: "false"
+        type: boolean
+        default: false
     outputs:
       container:
         description: "Updated container path"
@@ -39,14 +39,14 @@ jobs:
 
     steps:
       - name: Dump github context
-        if: ${{ inputs.dependency_change == 'true' }}
+        if: ${{ inputs.dependency_change }}
         run:   echo "$GITHUB_CONTEXT"
         shell: bash
         env:
          GITHUB_CONTEXT: ${{ toJson(github) }}
 
       - name: ⬇️ Checkout repo
-        if: ${{ inputs.dependency_change == 'true' }}
+        if: ${{ inputs.dependency_change }}
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -54,7 +54,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: 🔧 Configure git
-        if: ${{ inputs.dependency_change == 'true' }}
+        if: ${{ inputs.dependency_change }}
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
@@ -73,7 +73,7 @@ jobs:
           fi
 
       - name: 🐋 Generate new dockerfile
-        if: ${{ inputs.dependency_change == 'true' }}
+        if: ${{ inputs.dependency_change }}
         run: |
           echo "FROM rocker/tidyverse" > dockerfile
           echo "ENV TZ=Australia/Sydney" >> dockerfile
@@ -122,7 +122,7 @@ jobs:
           cat dockerfile
 
       - name: ⬆️ Commit changes
-        if: ${{ inputs.dependency_change == 'true' }}
+        if: ${{ inputs.dependency_change }}
         run: |
           git stash --include-untracked
 
@@ -139,7 +139,7 @@ jobs:
           git commit -m "chore: Update Docker specification" || echo "No changes to commit"
 
       - name: 🐋 Log in to the Container registry
-        if: ${{ inputs.dependency_change == 'true' }}
+        if: ${{ inputs.dependency_change }}
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
@@ -147,7 +147,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🐋 Extract metadata (tags, labels) for Docker
-        if: ${{ inputs.dependency_change == 'true' }}
+        if: ${{ inputs.dependency_change }}
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -168,7 +168,7 @@ jobs:
           echo "tag=${IMAGE}" >> $GITHUB_OUTPUT
 
       - name: 🐋 Build and push Docker image
-        if: ${{ inputs.dependency_change == 'true' }}
+        if: ${{ inputs.dependency_change }}
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -193,7 +193,7 @@ jobs:
           fi
 
       - name: 🚀 Push changes
-        if: ${{ inputs.dependency_change == 'true' }}
+        if: ${{ inputs.dependency_change }}
         run: |
           set -o xtrace
 

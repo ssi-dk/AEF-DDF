@@ -57,13 +57,13 @@ jobs:
         !contains(inputs.skip, 'lint') &&
         (
           inputs.event_name == 'workflow_dispatch' ||
-          steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+          steps.main_branch_affected.outputs.on_main_branch ||
           (
-            steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-            steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
-            steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
-            steps.changed-files-yaml.outputs.vignette_any_changed == 'true' ||
-            steps.changed-files-yaml.outputs.lintr_any_changed == 'true'
+            steps.changed-files-yaml.outputs.R_any_changed ||
+            steps.changed-files-yaml.outputs.test_any_changed ||
+            steps.changed-files-yaml.outputs.man_any_changed ||
+            steps.changed-files-yaml.outputs.vignette_any_changed ||
+            steps.changed-files-yaml.outputs.lintr_any_changed
           )
         ) }}
 
@@ -71,11 +71,11 @@ jobs:
         !contains(inputs.skip, 'spell-checker') &&
         (
           inputs.event_name == 'workflow_dispatch' ||
-          steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+          steps.main_branch_affected.outputs.on_main_branch ||
           (
-            steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
-            steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
-            steps.changed-files-yaml.outputs.vignette_any_changed == 'true'
+            steps.changed-files-yaml.outputs.description_any_changed ||
+            steps.changed-files-yaml.outputs.man_any_changed ||
+            steps.changed-files-yaml.outputs.vignette_any_changed
           )
         ) }}
 
@@ -84,15 +84,15 @@ jobs:
         (
           inputs.event_name == 'workflow_dispatch' ||
           inputs.event_name == 'release' ||
-          steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+          steps.main_branch_affected.outputs.on_main_branch ||
           (
-            steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
+            steps.main_branch_affected.outputs.main_branch_affected &&
             (
-              steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-              steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
-              steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
-              steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
-              steps.changed-files-yaml.outputs.vignette_any_changed == 'true'
+              steps.changed-files-yaml.outputs.R_any_changed ||
+              steps.changed-files-yaml.outputs.test_any_changed ||
+              steps.changed-files-yaml.outputs.description_any_changed ||
+              steps.changed-files-yaml.outputs.man_any_changed ||
+              steps.changed-files-yaml.outputs.vignette_any_changed
             )
           )
         ) }}
@@ -102,13 +102,13 @@ jobs:
         (
           inputs.event_name == 'workflow_dispatch' ||
           inputs.event_name == 'release' ||
-          steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+          steps.main_branch_affected.outputs.on_main_branch ||
           (
-            steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
+            steps.main_branch_affected.outputs.main_branch_affected &&
             (
-              steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-              steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
-              steps.changed-files-yaml.outputs.description_any_changed == 'true'
+              steps.changed-files-yaml.outputs.R_any_changed ||
+              steps.changed-files-yaml.outputs.test_any_changed ||
+              steps.changed-files-yaml.outputs.description_any_changed
             )
           )
         ) }}
@@ -125,9 +125,9 @@ jobs:
           (
             inputs.event_name != 'release' &&
             (
-              steps.main_branch_affected.outputs.on_main_branch == 'true' ||
-              steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-              steps.changed-files-yaml.outputs.description_any_changed == 'true'
+              steps.main_branch_affected.outputs.on_main_branch ||
+              steps.changed-files-yaml.outputs.R_any_changed ||
+              steps.changed-files-yaml.outputs.description_any_changed
             )
           )
         ) }}
@@ -139,8 +139,8 @@ jobs:
           (
             inputs.event_name != 'release' &&
             (
-              steps.main_branch_affected.outputs.main_branch_affected == 'true' ||
-              needs.trigger.outputs.readme_any_changed == 'true'
+              steps.main_branch_affected.outputs.main_branch_affected ||
+              needs.trigger.outputs.readme_any_changed
             )
           )
         ) }}
@@ -150,14 +150,14 @@ jobs:
         (
           inputs.event_name == 'workflow_dispatch' ||
           inputs.event_name == 'release' ||
-          steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+          steps.main_branch_affected.outputs.on_main_branch ||
           (
-            steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
+            steps.main_branch_affected.outputs.main_branch_affected &&
             (
-              steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-              steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
-              steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
-              steps.changed-files-yaml.outputs.vignette_any_changed == 'true'
+              steps.changed-files-yaml.outputs.R_any_changed ||
+              steps.changed-files-yaml.outputs.description_any_changed ||
+              steps.changed-files-yaml.outputs.man_any_changed ||
+              steps.changed-files-yaml.outputs.vignette_any_changed
             )
           )
         ) }}
@@ -169,13 +169,13 @@ jobs:
           (
             inputs.event_name != 'release' &&
             (
-              steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+              steps.main_branch_affected.outputs.on_main_branch||
               (
-                steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
+                steps.main_branch_affected.outputs.main_branch_affected&&
                 (
-                  steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-                  steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
-                  steps.changed-files-yaml.outputs.description_any_changed == 'true'
+                  steps.changed-files-yaml.outputs.R_any_changed||
+                  steps.changed-files-yaml.outputs.test_any_changed||
+                  steps.changed-files-yaml.outputs.description_any_changed
                 )
               )
             )
@@ -189,12 +189,12 @@ jobs:
           (
             inputs.event_name != 'release' &&
             (
-              steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+              steps.main_branch_affected.outputs.on_main_branch||
               (
-                steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
+                steps.main_branch_affected.outputs.main_branch_affected&&
                 (
-                  steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-                  steps.changed-files-yaml.outputs.vignette_any_changed == 'true'
+                  steps.changed-files-yaml.outputs.R_any_changed||
+                  steps.changed-files-yaml.outputs.vignette_any_changed
                 )
               )
             )
@@ -312,10 +312,10 @@ jobs:
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
-      styler: ${{ needs.trigger.outputs.styler == 'true' }}
-      document: ${{ needs.trigger.outputs.document == 'true' }}
-      render_readme: ${{ needs.trigger.outputs.render-readme == 'true' }}
-      update_cache: ${{ needs.trigger.outputs.update-cache == 'true' }}
+      styler: ${{ needs.trigger.outputs.styler }}
+      document: ${{ needs.trigger.outputs.document }}
+      render_readme: ${{ needs.trigger.outputs.render-readme }}
+      update_cache: ${{ needs.trigger.outputs.update-cache }}
     secrets: inherit
     concurrency:
       group: committing-workflows-${{ needs.trigger.outputs.branch_name }}
@@ -330,6 +330,7 @@ jobs:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       dependency_change: ${{ needs.committing-workflows.outputs.dependency_change }}
+      use-containers: ${{ inputs.use-containers }}
     secrets: inherit
     concurrency:
       group: docker-${{ needs.trigger.outputs.branch_name }}
@@ -338,7 +339,7 @@ jobs:
 
   lint:
     needs: [trigger, docker]
-    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.lint == 'true' }}
+    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.lint }}
     uses: ./.github/workflows/lint.yaml
     with:
       container: ${{ needs.docker.outputs.container }}
@@ -347,14 +348,14 @@ jobs:
 
   spell-checker:
     needs: [trigger, committing-workflows]
-    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.spell-checker == 'true' }}
+    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.spell-checker }}
     uses: ./.github/workflows/spell-checker.yaml
     secrets: inherit
 
 
   R-CMD-check:
     needs: [trigger, docker]
-    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.R-CMD-check == 'true' }}
+    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.R-CMD-check }}
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
       container: ${{ needs.docker.outputs.container }}
@@ -369,7 +370,7 @@ jobs:
 
   code-coverage:
     needs: [trigger, docker]
-    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.code-coverage == 'true' }}
+    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.code-coverage }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
       container: ${{ needs.docker.outputs.container }}
@@ -385,7 +386,7 @@ jobs:
 
   pkgdown:
     needs: [trigger, docker]
-    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.pkgdown == 'true' }}
+    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.pkgdown }}
     uses: ./.github/workflows/pkgdown.yaml
     with:
       container: ${{ needs.docker.outputs.container }}
