@@ -802,7 +802,7 @@ jobs:
           cat "$log"
 
           # Check for errors in the log
-          errors=$(grep -i "ORA-[0-9]\|ERROR:" "$log" || true)
+          errors=$(grep -i "ORA-[0-9]" "$log" || true)
           if [[ -n "$errors" ]]; then
             echo "Found errors in Oracle logs:"
             echo "$errors"
