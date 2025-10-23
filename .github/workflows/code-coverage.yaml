@@ -359,9 +359,10 @@ jobs:
         shell: bash
 
       - name: 🐞 Collect docker logs
-        if: always()
-        run: |
-          docker logs postgres > ${RUNNER_TEMP}/sql.log
+        if: always() && inputs.check_postgres_logs
+        uses: jwalton/gh-docker-logs@v2
+        with:
+          dest: '${RUNNER_TEMP}/logs-docker'
 
       - name: 🐞 Check docker logs for PostgreSQL ERRORs
         if: always() && inputs.check_postgres_logs
@@ -554,8 +555,9 @@ jobs:
 
       - name: 🐞 Collect docker logs
         if: always()
-        run: |
-          docker logs mssql > ${RUNNER_TEMP}/sql.log
+        uses: jwalton/gh-docker-logs@v2
+        with:
+          dest: '${RUNNER_TEMP}/logs-docker'
 
       - name: 🐞 Check docker logs for SQL Server ERRORs
         if: always()
@@ -785,8 +787,9 @@ jobs:
 
       - name: 🐞 Collect docker logs
         if: always()
-        run: |
-          docker logs oracledb > ${RUNNER_TEMP}/sql.log
+        uses: jwalton/gh-docker-logs@v2
+        with:
+          dest: '${RUNNER_TEMP}/logs-docker'
 
       - name: 🐞 Check docker logs for Oracle ERRORs
         if: always()
