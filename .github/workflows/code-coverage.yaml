@@ -592,7 +592,7 @@ jobs:
         env:
           APP_USER: "github_ci"
           APP_USER_PASSWORD: "github_ci"
-          ORACLE_RANDOM_PASSWORD: true
+          ORACLE_PASSWORD: "github_ci"
         ports:
           - 1521:1521
         options: >-
@@ -655,7 +655,7 @@ jobs:
           cat setup.sql
 
           docker cp setup.sql ${{ job.services.oracledb.id }}:/tmp/setup.sql
-          docker exec ${{ job.services.oracledb.id }} sqlplus -S / AS SYSDBA localhost:1521/FREEPDB1 @/tmp/setup.sql
+          docker exec ${{ job.services.oracledb.id }} sqlplus -S system/github_ci@localhost:1521/FREEPDB1 @/tmp/setup.sql
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
