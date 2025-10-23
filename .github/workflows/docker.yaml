@@ -180,22 +180,12 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: 🗑️ Clean up GHCR images
-        uses: dataaxiom/ghcr-cleanup-action@v1
-        with:
-          token: ${{ secrets.GH_PAT }}
-          dry-run: true
-          keep-n-tagged: 10
-          delete-untagged: true
-          delete-partial-images: true
-
-      - name: 🗑️ Clean up GHCR images
         uses: snok/container-retention-policy@v3.0.0
         if: always()
         with:
           account: ssi-dk
           token: ${{ secrets.GH_PAT }}
           image-names: ${{ github.event.repository.name }}
-          image-tags: "!v*"  # target any image that has a tag starting with the word test or dev
           cut-off: 1d
           dry-run: true
 
