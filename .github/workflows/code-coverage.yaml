@@ -269,6 +269,9 @@ jobs:
       PGPASSWORD: postgres
 
     steps:
+      - name: Show current folder
+        run: ls -l
+
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
         with:
@@ -416,6 +419,9 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - name: Show current folder
+        run: ls -l
+
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
         with:
