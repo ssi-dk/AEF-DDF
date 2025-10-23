@@ -9,6 +9,10 @@ on:
         required: false
         type: string
         default: 'main,master'
+      use-containers:
+        required: false
+        type: boolean
+        default: true
 
       event_name:
         required: true
