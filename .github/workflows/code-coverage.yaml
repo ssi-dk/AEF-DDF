@@ -654,7 +654,9 @@ jobs:
 
           cat setup.sql
 
-          sqlplus github_ci/github_ci@//oracledb:1521/ORCLPDB1 @/setup.sql
+          docker cp setup.sql oracledb:/tmp/setup.sql
+          docker exec -it oracledb sqlplus github_ci/github_ci@//oracledb:1521/ORCLPDB1 @/tmp/setup.sql
+
 
 
       - name: ⬇️ Checkout repo
