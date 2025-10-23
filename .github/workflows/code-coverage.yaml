@@ -367,6 +367,8 @@ jobs:
       - name: 🐞 Check docker logs for PostgreSQL ERRORs
         if: always() && inputs.check_postgres_logs
         run: |
+          set -x trace
+
           log=$(find ${RUNNER_TEMP}/ -name '*postgreslatest*.log')
 
           cat "$"log"
@@ -564,6 +566,8 @@ jobs:
       - name: 🐞 Check docker logs for SQL Server ERRORs
         if: always()
         run: |
+          set -x trace
+
           log=$(find ${RUNNER_TEMP}/ -name '*mssqlserver2022latest*.log')
 
           cat "$log"
