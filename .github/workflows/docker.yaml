@@ -185,12 +185,12 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           dry-run: true
           keep-n-tagged: 10
-          exclude-tags: dev
           delete-untagged: true
           delete-partial-images: true
 
       - name: 🔍 Check if Docker image exists in GHCR
         id: image_job
+        if: always()
         run: |
           IMAGE="${{ steps.tag.outputs.tag }}"
 
@@ -209,6 +209,7 @@ jobs:
           fi
 
       - name: 🚀 Push changes
+        if: always()
         if: ${{ inputs.dependency_change == 'true' }}
         run: |
           set -o xtrace
