@@ -179,6 +179,19 @@ jobs:
           tags: ${{ steps.tag.outputs.tag }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: 🗑️ Clean up GHCR images
+        uses: quartx-analytics/ghcr-cleaner@v1
+        with:
+          owner-type: org
+          token: ${{ secrets.PAT_TOKEN }}
+          repository_owner: ${{ github.repository_owner }}
+          package-name: ${{ github.repository.name }}
+          delete-untagged: true
+          keep-at-most: 5
+          filter-tags: v*
+          skip-tags: latest,buildcache
+          dry-run: true
+
       - name: 🔍 Check if Docker image exists in GHCR
         id: image_job
         run: |
