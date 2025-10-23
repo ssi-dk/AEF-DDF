@@ -297,7 +297,7 @@ jobs:
           set -o xtrace
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
           for schema in "${schemas[@]}"; do
-            psql test -c "CREAT
+            psql test -c "CREATE SCHEMA \"$schema\";"
           done
 
       - name: 🔧 Setup R
