@@ -192,9 +192,9 @@ jobs:
         uses: snok/container-retention-policy@v3.0.0
         if: always()
         with:
-          account: snok
+          account: ssi-dk
           token: ${{ secrets.GH_PAT }}
-          image-names: "container-retention-policy"
+          image-names: ${{ github.event.repository.name }}
           image-tags: "!v*"  # target any image that has a tag starting with the word test or dev
           cut-off: 1d
           dry-run: true
