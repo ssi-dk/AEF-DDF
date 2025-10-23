@@ -369,7 +369,7 @@ jobs:
         run: |
           log=$(find /logs-docker/ -name '*postgreslatest*.log')
 
-          cat "$"log"
+          cat "$log"
 
           errors=$(awk '/(ERROR:|STATEMENT:)/{flag=1}/LOG:|^[A-Z]/{flag=0}flag {print $0}' $log)
 
