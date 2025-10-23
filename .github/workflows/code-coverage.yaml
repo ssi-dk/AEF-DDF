@@ -359,16 +359,14 @@ jobs:
         shell: bash
 
       - name: 🐞 Collect docker logs
-        if: always() && inputs.check_postgres_logs
-        uses: jwalton/gh-docker-logs@v2
-        with:
-          dest: '${RUNNER_TEMP}/logs-docker'
+        if: always()
+        run: |
+          docker logs postgres > ${RUNNER_TEMP}/sql.log
 
       - name: 🐞 Check docker logs for PostgreSQL ERRORs
         if: always() && inputs.check_postgres_logs
         run: |
-          ## --------------------------------------------------------------------
-          log=$(find ${RUNNER_TEMP}/logs-docker/ -name '*postgres*.log')
+          log=$(find ${RUNNER_TEMP}/ -name 'sql.log')
 
           errors=$(awk '/(ERROR:|STATEMENT:)/{flag=1}/LOG:|^[A-Z]/{flag=0}flag {print $0}' $log)
 
@@ -556,14 +554,13 @@ jobs:
 
       - name: 🐞 Collect docker logs
         if: always()
-        uses: jwalton/gh-docker-logs@v2
-        with:
-          dest: '${RUNNER_TEMP}/logs-docker'
+        run: |
+          docker logs mssql > ${RUNNER_TEMP}/sql.log
 
       - name: 🐞 Check docker logs for SQL Server ERRORs
         if: always()
         run: |
-          log=$(find ${RUNNER_TEMP}/logs-docker/ -name 'sql.log')
+          log=$(find ${RUNNER_TEMP}/ -name 'sql.log')
 
           cat "$log"
 
@@ -789,12 +786,12 @@ jobs:
       - name: 🐞 Collect docker logs
         if: always()
         run: |
-          podman logs oracledb > ${RUNNER_TEMP}/oracle.log
+          docker logs oracledb > ${RUNNER_TEMP}/sql.log
 
       - name: 🐞 Check docker logs for Oracle ERRORs
         if: always()
         run: |
-          log=$(find ${RUNNER_TEMP}/logs-docker/ -name 'sql.log')
+          log=$(find ${RUNNER_TEMP}/ -name 'sql.log')
 
           cat "$log"
 
