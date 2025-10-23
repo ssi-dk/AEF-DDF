@@ -185,7 +185,7 @@ jobs:
           owner-type: org
           token: ${{ secrets.GITHUB_TOKEN }}
           repository-owner: ${{ github.repository_owner }}
-          package-name: ${{ github.repository.name }}
+          repository-name: ${{ github.repository }}
           delete-untagged: true
           keep-at-most: 5
           filter-tags: v*
