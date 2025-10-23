@@ -182,6 +182,7 @@ jobs:
       - name: 🗑️ Clean up GHCR images
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
+          token: ${{ secrets.GH_PAT }}
           dry-run: true
           keep-n-tagged: 10
           exclude-tags: dev
