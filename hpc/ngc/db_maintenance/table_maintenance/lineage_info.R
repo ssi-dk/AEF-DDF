@@ -9,16 +9,11 @@
 # Dependencies : prod.covid_19_wgs
 
 tic <- Sys.time()
-suppressPackageStartupMessages({
-  library(mg)
-  library(mgdocumentation)
-  library(stringr)
-})
 
 target_table <- Sys.getenv("TARGET_TABLE", unset = "mg.lineage_info")
 slice_ts     <- Sys.getenv("TIMESTAMP",    unset = "missing")
 
-conn <- get_connection()
+conn <- SCDB::get_connection(RPostgres::Postgres())
 
 #' This script updates the lineage info
 #' Since we do not get automatic transfers of the pango-designation data, this
