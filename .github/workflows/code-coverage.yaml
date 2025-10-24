@@ -1,6 +1,10 @@
 on:
   workflow_call:
     inputs:
+      container:
+        type: string
+        required: false
+        default: 'null'
       cache_version:
         type: string
         default: '1'
@@ -20,6 +24,10 @@ jobs:
     if: ${{ !contains(inputs.backend_exclude, 'sqlite')}}
     name: "🧪 Tests: ${{ matrix.config.backend }}"
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
+    defaults:
+      run:
+        shell: bash
 
     strategy:
       fail-fast: false
@@ -42,25 +50,21 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: szenius/set-timezone@v2.0
-        with:
-          timezoneLinux: "Australia/Sydney"
-          timezoneMacos: "Australia/Sydney"
-          timezoneWindows: "AUS Eastern Standard Time"
-
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup R
+      - name: 🔧 Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -78,7 +82,7 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
-      - name: Setup BACKEND_POST_CONNECT
+      - name: 🔧 Setup BACKEND_POST_CONNECT
         if: ${{ matrix.config.schemas != '' }}
         run: |
           set -o xtrace
@@ -94,7 +98,7 @@ jobs:
 
           echo "BACKEND_POST_CONNECT=$CONN_POST_CONNECT" >> $GITHUB_ENV
 
-      - name: Generate and Save Coverage Report
+      - name: 🧪 Generate and Save Coverage Report
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
@@ -104,17 +108,17 @@ jobs:
           saveRDS(coverage, "coverage_results.rds")
         shell: Rscript {0}
 
-      - name: Upload Coverage Report Artifact
+      - name: ⬆️ Upload Coverage Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-${{ matrix.config.id }}
           path: coverage_results.rds
 
-      - name: Show testthat output
+      - name: 🐞 Show testthat output
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          TESTTHAT_OUT=$(find ${{ runner.temp }}/package -name 'testthat.Rout*')
+          TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
 
           cat $TESTTHAT_OUT
 
@@ -134,6 +138,10 @@ jobs:
     if: ${{ !contains(inputs.backend_exclude, 'duckdb')}}
     name: "🧪 Tests: DuckDB"
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
+    defaults:
+      run:
+        shell: bash
 
     env:
       BACKEND: DuckDB
@@ -142,28 +150,24 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: szenius/set-timezone@v2.0
-        with:
-          timezoneLinux: "Australia/Sydney"
-          timezoneMacos: "Australia/Sydney"
-          timezoneWindows: "AUS Eastern Standard Time"
-
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup Pandoc
+      - name: 🔧 Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Setup R
+      - name: 🔧 Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -181,7 +185,7 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
-      - name: Setup BACKEND_POST_CONNECT
+      - name: 🔧 Setup BACKEND_POST_CONNECT
         run: |
           set -o xtrace
           IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
@@ -196,7 +200,7 @@ jobs:
 
           echo "BACKEND_POST_CONNECT=$CONN_POST_CONNECT" >> $GITHUB_ENV
 
-      - name: Generate and Save Coverage Report
+      - name: 🧪 Generate and Save Coverage Report
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
@@ -206,17 +210,17 @@ jobs:
           saveRDS(coverage, "coverage_results.rds")
         shell: Rscript {0}
 
-      - name: Upload Coverage Report Artifact
+      - name: ⬆️ Upload Coverage Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-duckdb
           path: coverage_results.rds
 
-      - name: Show testthat output
+      - name: 🐞 Show testthat output
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          TESTTHAT_OUT=$(find ${{ runner.temp }}/package -name 'testthat.Rout*')
+          TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
 
           cat $TESTTHAT_OUT
 
@@ -235,7 +239,12 @@ jobs:
   code-coverage-postgres:
     name: "🧪 Tests: PostgreSQL"
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
     if: ${{ !contains(inputs.backend_exclude, 'postgres')}}
+    defaults:
+      run:
+        shell: bash
+
 
     services:
       postgres:
@@ -254,14 +263,32 @@ jobs:
       BACKEND_ARGS: ''
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
-      PGHOST: localhost
       PGPORT: 5432
       PGDATABASE: test
       PGUSER: postgres
       PGPASSWORD: postgres
 
     steps:
-      - name: Setup testing schemata in PostgreSQL
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: 🔧 Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: 🔧 Set environment variables
+        run: |
+          if [[ ${{ inputs.container }} == 'null' ]]; then
+            echo "PGHOST=localhost" >> $GITHUB_ENV
+          else
+            echo "PGHOST=postgres" >> $GITHUB_ENV
+          fi
+
+      - name: 🔧 Setup testing schemata in PostgreSQL
         if: ${{ inputs.schemas != 'none' }}
         run: |
           set -o xtrace
@@ -270,25 +297,15 @@ jobs:
             psql test -c "CREATE SCHEMA \"$schema\";"
           done
 
-      - uses: szenius/set-timezone@v2.0
-        with:
-          timezoneLinux: "Australia/Sydney"
-          timezoneMacos: "Australia/Sydney"
-          timezoneWindows: "AUS Eastern Standard Time"
-
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-
-      - name: Setup R
+      - name: 🔧 Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -306,7 +323,7 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
-      - name: Generate and Save Coverage Report
+      - name: 🧪 Generate and Save Coverage Report
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
@@ -316,17 +333,17 @@ jobs:
           saveRDS(coverage, "coverage_results.rds")
         shell: Rscript {0}
 
-      - name: Upload Coverage Report Artifact
+      - name: ⬆️ Upload Coverage Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-postgres
           path: coverage_results.rds
 
-      - name: Show testthat output
+      - name: 🐞 Show testthat output
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          TESTTHAT_OUT=$(find ${{ runner.temp }}/package -name 'testthat.Rout*')
+          TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
 
           cat $TESTTHAT_OUT
 
@@ -341,18 +358,18 @@ jobs:
           fi
         shell: bash
 
-
-      - name: Collect docker logs
+      - name: 🐞 Collect docker logs
         if: always() && inputs.check_postgres_logs
         uses: jwalton/gh-docker-logs@v2
         with:
-          dest: '${{ runner.workspace }}/logs-docker'
+          dest: '.'
 
-      - name: Check docker logs for PostgreSQL ERRORs
+      - name: 🐞 Check docker logs for PostgreSQL ERRORs
         if: always() && inputs.check_postgres_logs
         run: |
-          ## --------------------------------------------------------------------
-          log=$(find ${{ runner.workspace }}/logs-docker/ -name '*postgres*.log')
+          log=$(find . -name '*postgreslatest*.log')
+
+          cat "$log"
 
           errors=$(awk '/(ERROR:|STATEMENT:)/{flag=1}/LOG:|^[A-Z]/{flag=0}flag {print $0}' $log)
 
@@ -368,7 +385,27 @@ jobs:
   code-coverage-mssql:
     name: "🧪 Tests: SQL Server 2022"
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
     if: ${{ !contains(inputs.backend_exclude, 'mssql')}}
+    defaults:
+      run:
+        shell: bash
+
+    services:
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: "Y"
+          MSSQL_SA_PASSWORD: "dbatools.I0"
+          MSSQL_PID: "Developer"
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P dbatools.I0 -Q 'SELECT 1' || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+          --user root
 
     env:
       BACKEND: MSSQL
@@ -376,65 +413,91 @@ jobs:
       BACKEND_ARGS: ''
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
-      CONN_ARGS_JSON: >
-        {
-          "MSSQL": {
-            "driver": "ODBC Driver 18 for SQL Server",
-            "server": "localhost",
-            "database": "master",
-            "UID": "SA",
-            "PWD": "dbatools.I0",
-            "TrustServerCertificate": "yes",
-            "Regional": "no"
-          }
-        }
-
     steps:
-      - name: Install a SQL Server suite of tools
-        uses: potatoqualitee/mssqlsuite@v1.8
-        with:
-          install: sqlengine, sqlpackage, sqlclient
-          version: 2022
-          show-log: true
-
-      - name: Setup testing schemata in SQL server
-        if: ${{ inputs.schemas != 'none' }}
-        run: |
-          set -o xtrace
-
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -Q "ALTER LOGIN SA WITH DEFAULT_DATABASE = master;" -C
-
-          IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
-          for schema in "${schemas[@]}"; do
-            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "CREATE SCHEMA [$schema];" -C
-            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "GO" -C
-          done
-
-          sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "SELECT * FROM sys.schemas" -C
-
-          for schema in "${schemas[@]}"; do
-            sqlcmd -V 10 -S localhost -U SA -P dbatools.I0 -d master -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = '$schema'"  -C
-          done
-
-      - uses: szenius/set-timezone@v2.0
-        with:
-          timezoneLinux: "Australia/Sydney"
-          timezoneMacos: "Australia/Sydney"
-          timezoneWindows: "AUS Eastern Standard Time"
-
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup R
+      - name: 🔧 Set environment variables
+        run: |
+          if [[ ${{ inputs.container }} == 'null' ]]; then
+            MSSQLHOST=localhost
+          else
+            MSSQLHOST=mssql
+          fi
+
+          echo "MSSQLHOST=${MSSQLHOST}" >> $GITHUB_ENV
+
+          CONN_ARGS_JSON="{
+            \"MSSQL\": {
+              \"driver\": \"ODBC Driver 18 for SQL Server\",
+              \"server\": \"${MSSQLHOST}\",
+              \"database\": \"master\",
+              \"UID\": \"SA\",
+              \"PWD\": \"dbatools.I0\",
+              \"TrustServerCertificate\": \"yes\",
+              \"Regional\": \"no\"
+            }
+          }"
+
+          echo "CONN_ARGS_JSON<<EOF" >> $GITHUB_ENV
+          echo $CONN_ARGS_JSON >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: 🔧 Install ODBC Driver and SQL Server tools
+        run: |
+          set -o xtrace
+
+          if ! [[ "18.04 20.04 22.04 24.04 24.10" == *"$(grep VERSION_ID /etc/os-release | cut -d '"' -f 2)"* ]];
+          then
+              echo "Ubuntu $(grep VERSION_ID /etc/os-release | cut -d '"' -f 2) is not currently supported.";
+              exit;
+          fi
+
+          # Download the package to configure the Microsoft repo
+          curl -sSL -O https://packages.microsoft.com/config/ubuntu/$(grep VERSION_ID /etc/os-release | cut -d '"' -f 2)/packages-microsoft-prod.deb
+          # Install the package
+          sudo dpkg -i packages-microsoft-prod.deb
+          # Delete the file
+          rm packages-microsoft-prod.deb
+
+          # Install the driver
+          sudo apt-get update
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
+          sudo ACCEPT_EULA=Y apt-get install -y mssql-tools18
+
+          echo "/opt/mssql-tools18/bin" >> $GITHUB_PATH
+
+      - name: 🔧 Setup testing schemata in SQL server
+        if: ${{ inputs.schemas != 'none' }}
+        run: |
+          set -o xtrace
+
+          sqlcmd -V 10 -S ${{ env.MSSQLHOST }} -U SA -P dbatools.I0 -Q "ALTER LOGIN SA WITH DEFAULT_DATABASE = master;" -C
+
+          IFS=',' read -ra schemas <<< "${{ inputs.schemas }}"
+          for schema in "${schemas[@]}"; do
+            sqlcmd -V 10 -S ${{ env.MSSQLHOST }} -U SA -P dbatools.I0 -d master -Q "CREATE SCHEMA [$schema];" -C
+            sqlcmd -V 10 -S ${{ env.MSSQLHOST }} -U SA -P dbatools.I0 -d master -Q "GO" -C
+          done
+
+          sqlcmd -V 10 -S ${{ env.MSSQLHOST }} -U SA -P dbatools.I0 -d master -Q "SELECT * FROM sys.schemas" -C
+
+          for schema in "${schemas[@]}"; do
+            sqlcmd -V 10 -S ${{ env.MSSQLHOST }} -U SA -P dbatools.I0 -d master -Q "SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA WHERE schema_name = '$schema'"  -C
+          done
+
+      - name: 🔧 Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -452,7 +515,7 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
-      - name: Generate and Save Coverage Report
+      - name: 🧪 Generate and Save Coverage Report
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
@@ -462,17 +525,17 @@ jobs:
           saveRDS(coverage, "coverage_results.rds")
         shell: Rscript {0}
 
-      - name: Upload Coverage Report Artifact
+      - name: ⬆️ Upload Coverage Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-sql-server
           path: coverage_results.rds
 
-      - name: Show testthat output
+      - name: 🐞 Show testthat output
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          TESTTHAT_OUT=$(find ${{ runner.temp }}/package -name 'testthat.Rout*')
+          TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
 
           cat $TESTTHAT_OUT
 
@@ -487,25 +550,51 @@ jobs:
           fi
         shell: bash
 
-      - name: Collect docker logs
+      - name: 🐞 Collect docker logs
         if: always()
         uses: jwalton/gh-docker-logs@v2
         with:
-          dest: '${{ runner.workspace }}/logs-docker'
+          dest: '.'
 
-      - name: Check docker logs for SQL Server ERRORs
+      - name: 🐞 Check docker logs for SQL Server ERRORs
         if: always()
         run: |
-          ## --------------------------------------------------------------------
-          log=$(find ${{ runner.workspace }}/logs-docker/ -name 'sql.log')
+          log=$(find . -name '*mssqlserver2022latest*.log')
 
           cat "$log"
+
+          # Check for errors in the log
+          errors=$(grep -iE "Error:|Severity: (1[6-9]|2[0-5])|Msg [0-9]+, Level (1[6-9]|2[0-5])" "$log" || true)
+          if [[ -n "$errors" ]]; then
+            echo "Found errors in SQL Server logs:"
+            echo "$errors"
+            exit 1
+          fi
 
 
   code-coverage-oracle:
     name: "🧪 Tests: Oracle Database (Experimental)"
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
     if: ${{ !contains(inputs.backend_exclude, 'oracle')}}
+    defaults:
+      run:
+        shell: bash
+
+    services:
+      oracledb:
+        image: gvenzl/oracle-free:latest
+        env:
+          APP_USER: "github_ci"
+          APP_USER_PASSWORD: "github_ci"
+          ORACLE_PASSWORD: "github_ci"
+        ports:
+          - 1521:1521
+        options: >-
+          --health-cmd healthcheck.sh
+          --health-interval 20s
+          --health-timeout 10s
+          --health-retries 10
 
     env:
       BACKEND: Oracle
@@ -513,23 +602,40 @@ jobs:
       BACKEND_ARGS: ''
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
-      CONN_ARGS_JSON: >
-        {
-          "Oracle": {
-            "driverClass": "oracle.jdbc.OracleDriver",
-            "classPath": "/usr/lib/oracle/ojdbc8.jar",
-            "url": "jdbc:oracle:thin:@localhost:1521/FREEPDB1",
-            "user": "github_ci",
-            "password": "github_ci"
-          }
-        }
-
     steps:
-      - name: Create startup script for Oracle database
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: 🔧 Set environment variables
+        run: |
+          if [[ ${{ inputs.container }} == 'null' ]]; then
+            ORACLEHOST=localhost
+          else
+            ORACLEHOST=oracledb
+          fi
+
+          echo "ORACLEHOST=${ORACLEHOST}" >> $GITHUB_ENV
+
+          CONN_ARGS_JSON="{
+            \"Oracle\": {
+              \"driverClass\": \"oracle.jdbc.OracleDriver\",
+              \"classPath\": \"/usr/lib/oracle/ojdbc8.jar\",
+              \"url\": \"jdbc:oracle:thin:@${ORACLEHOST}:1521/FREEPDB1\",
+              \"user\": \"github_ci\",
+              \"password\": \"github_ci\"
+            }
+          }"
+
+          echo "CONN_ARGS_JSON<<EOF" >> $GITHUB_ENV
+          echo $CONN_ARGS_JSON >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: 🔧 Setup testing schemata in Oracle
         if: ${{ inputs.schemas != 'none' }}
         run: |
-          set -o xtrace
-
           echo "ALTER SESSION SET CONTAINER = FREEPDB1;" > setup.sql
           echo "" >> setup.sql
 
@@ -549,29 +655,10 @@ jobs:
 
           cat setup.sql
 
-      - name: Setup Oracle database
-        uses: gvenzl/setup-oracle-free@v1
-        with:
-          app-user: github_ci
-          app-user-password: github_ci
-          container-name: oracledb
-          startup-scripts: ${{ github.workspace }}
+          docker cp setup.sql ${{ job.services.oracledb.id }}:/tmp/setup.sql
+          docker exec ${{ job.services.oracledb.id }} sqlplus -S system/github_ci@localhost:1521/FREEPDB1 @/tmp/setup.sql
 
-
-
-      - uses: szenius/set-timezone@v2.0
-        with:
-          timezoneLinux: "Australia/Sydney"
-          timezoneMacos: "Australia/Sydney"
-          timezoneWindows: "AUS Eastern Standard Time"
-
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-
-      - name: Install Oracle JDBC driver
+      - name: 🔧 Install Oracle JDBC driver
         run: |
           sudo apt-get update
           # Create directory for the driver with sudo
@@ -591,16 +678,21 @@ jobs:
             exit 1
           fi
 
-      - name: 'Set up Oracle JDK'
-        uses: oracle-actions/setup-java@v1
+      - name: 🔧 Set up Oracle JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: oracle
+          java-version: 25
 
-      - name: Setup R
+      - name: 🔧 Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -618,7 +710,7 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
-      - name: Configure Java for R
+      - name: 🔧 Configure Java for R
         run: |
           # Create .Rprofile to automatically set Java classpath
           echo 'Sys.setenv(JAVA_HOME = Sys.getenv("JAVA_HOME"))' > ~/.Rprofile
@@ -641,7 +733,7 @@ jobs:
             conn <- tryCatch({
               dbConnect(
                 drv,
-                "jdbc:oracle:thin:@localhost:1521/FREEPDB1",
+                "jdbc:oracle:thin:@${{ env.ORACLEHOST }}:1521/FREEPDB1",
                 "github_ci",
                 "github_ci"
               )
@@ -656,7 +748,7 @@ jobs:
             }
           '
 
-      - name: Generate and Save Coverage Report
+      - name: 🧪 Generate and Save Coverage Report
         run: |
           coverage <- covr::package_coverage(
             quiet = FALSE,
@@ -666,17 +758,17 @@ jobs:
           saveRDS(coverage, "coverage_results.rds")
         shell: Rscript {0}
 
-      - name: Upload Coverage Report Artifact
+      - name: ⬆️ Upload Coverage Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-oracle
           path: coverage_results.rds
 
-      - name: Show testthat output
+      - name: 🐞 Show testthat output
         if: always()
         run: |
           ## --------------------------------------------------------------------
-          TESTTHAT_OUT=$(find ${{ runner.temp }}/package -name 'testthat.Rout*')
+          TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
 
           cat $TESTTHAT_OUT
 
@@ -691,21 +783,21 @@ jobs:
           fi
         shell: bash
 
-      - name: Collect podman logs
+      - name: 🐞 Collect docker logs
         if: always()
-        run: |
-          podman logs oracledb > ${{ runner.workspace }}/oracle.log
+        uses: jwalton/gh-docker-logs@v2
+        with:
+          dest: '.'
 
-      - name: Check podman logs for Oracle ERRORs
+      - name: 🐞 Check docker logs for Oracle ERRORs
         if: always()
         run: |
-          ## --------------------------------------------------------------------
-          log="${{ runner.workspace }}/oracle.log"
+          log=$(find . -name '*oraclefreelatest*.log')
 
           cat "$log"
 
           # Check for errors in the log
-          errors=$(grep -i "ORA-[0-9]\|ERROR:" "$log" || true)
+          errors=$(grep -i "ORA-[0-9]" "$log" || true)
           if [[ -n "$errors" ]]; then
             echo "Found errors in Oracle logs:"
             echo "$errors"
@@ -717,30 +809,30 @@ jobs:
     name: "🧪 Tests: Upload to codecov.io"
     needs: [code-coverage-sqlite, code-coverage-duckdb, code-coverage-postgres, code-coverage-mssql]
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
+    defaults:
+      run:
+        shell: bash
 
     env:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     steps:
-      - uses: szenius/set-timezone@v2.0
-        with:
-          timezoneLinux: "Australia/Sydney"
-          timezoneMacos: "Australia/Sydney"
-          timezoneWindows: "AUS Eastern Standard Time"
-
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup R
+      - name: 🔧 Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -758,15 +850,16 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
-      - uses: actions/download-artifact@v4
+      - name: ⬇️ Download artifacts from tests
+        uses: actions/download-artifact@v4
         with:
           path: coverage-reports
 
-      - name: List downloaded artifacts
+      - name: 🐞 List downloaded artifacts
         run: ls -R coverage-reports
         shell: bash
 
-      - name: Combine Coverage Reports and upload to codecov.io
+      - name: ⬆️ Combine Coverage Reports and upload to codecov.io
         run: |
           files <- list.files(
             "coverage-reports",

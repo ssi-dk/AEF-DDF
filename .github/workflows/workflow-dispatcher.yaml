@@ -9,6 +9,10 @@ on:
         required: false
         type: string
         default: 'main,master'
+      use-containers:
+        required: false
+        type: boolean
+        default: true
 
       event_name:
         required: true
@@ -202,7 +206,7 @@ jobs:
         ) }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -321,11 +325,28 @@ jobs:
       group: committing-workflows-${{ needs.trigger.outputs.branch_name }}
       cancel-in-progress: true
 
-  lint:
+
+  docker:
     needs: [trigger, committing-workflows]
+    uses: ./.github/workflows/docker.yaml
+    if: ${{ always() && !failure() && !cancelled() }}
+    with:
+      branch_name: ${{ needs.trigger.outputs.branch_name }}
+      cache_version: ${{ needs.trigger.outputs.cache_version }}
+      dependency_change: ${{ needs.committing-workflows.outputs.dependency_change }}
+      use-containers: ${{ inputs.use-containers }}
+    secrets: inherit
+    concurrency:
+      group: docker-${{ needs.trigger.outputs.branch_name }}
+      cancel-in-progress: true
+
+
+  lint:
+    needs: [trigger, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.lint == 'true' }}
     uses: ./.github/workflows/lint.yaml
     with:
+      container: ${{ needs.docker.outputs.container }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
 
 
@@ -337,10 +358,11 @@ jobs:
 
 
   R-CMD-check:
-    needs: [trigger, committing-workflows]
+    needs: [trigger, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.R-CMD-check == 'true' }}
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
+      container: ${{ needs.docker.outputs.container }}
       rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       min_r_version: ${{ needs.trigger.outputs.min_r_version }}
@@ -351,10 +373,11 @@ jobs:
 
 
   code-coverage:
-    needs: [trigger, committing-workflows]
+    needs: [trigger, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.code-coverage == 'true' }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
+      container: ${{ needs.docker.outputs.container }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       schemas: ${{ inputs.schemas }}
       backend_exclude: ${{ inputs.backend_exclude }}
@@ -366,10 +389,11 @@ jobs:
 
 
   pkgdown:
-    needs: [trigger, committing-workflows]
+    needs: [trigger, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.pkgdown == 'true' }}
     uses: ./.github/workflows/pkgdown.yaml
     with:
+      container: ${{ needs.docker.outputs.container }}
       auto_link_r6: ${{ inputs.auto_link_r6 }}
       event_name: ${{ inputs.event_name }}
       main_branches: ${{ inputs.main_branches }}

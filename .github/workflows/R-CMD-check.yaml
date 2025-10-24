@@ -3,6 +3,10 @@
 on:
   workflow_call:
     inputs:
+      container:
+        type: string
+        required: false
+        default: 'null'
       cache_version:
         type: string
         default: '1'
@@ -18,27 +22,33 @@ jobs:
   build-package:
     runs-on: ubuntu-latest
     name: "🔎 Check: Build package"
+    container: ${{ fromJSON(inputs.container) }}
+    defaults:
+      run:
+        shell: bash
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup Pandoc
+      - name: 🔧 Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Setup R
+      - name: 🔧 Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -90,22 +100,22 @@ jobs:
       BACKEND_ARGS: 'list(dbname = file.path(tempdir(), "SQLite.SQLite"))'
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Setup R
+      - name: 🔧 Setup R
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -156,20 +166,20 @@ jobs:
       BACKEND_ARGS: 'list(dbname = file.path(tempdir(), "SQLite.SQLite"))'
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Setup R
+      - name: 🔧 Setup R
         uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}-hard
@@ -214,21 +224,21 @@ jobs:
       BACKEND_ARGS: 'list(dbname = file.path(tempdir(), "SQLite.SQLite"))'
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Setup R
+      - name: 🔧 Setup R
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'devel'
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -268,21 +278,21 @@ jobs:
       BACKEND_ARGS: 'list(dbname = file.path(tempdir(), "SQLite.SQLite"))'
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Setup R
+      - name: 🔧 Setup R
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ inputs.min_r_version }}
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}

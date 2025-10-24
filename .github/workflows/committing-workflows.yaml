@@ -19,7 +19,10 @@ on:
       update_cache:
         type: boolean
         default: false
-
+    outputs:
+      dependency_change:
+        description: "Was there a change in the package dependencies since last run?"
+        value: ${{ jobs.update-lockfile-document-render-readme-styler.outputs.dependency_change }}
 
 permissions:
   contents: write
@@ -28,7 +31,7 @@ permissions:
 
 jobs:
   update-lockfile-document-render-readme-styler:
-    name: 📖 Update lockfile, Document, render README, and enforce coding style
+    name: 📖 Update lockfile, document, render README, and enforce coding style
     runs-on: ubuntu-latest
 
     outputs:
@@ -45,7 +48,7 @@ jobs:
           persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Configure git
+      - name: 🔧 Configure git
         run: |
           git config --local user.name "${{ github.actor }}"
           git config --local user.email "${{ github.actor }}@users.noreply.github.com"
@@ -66,7 +69,7 @@ jobs:
         with:
           use-public-rspm: true
 
-      - name: Setup Pandoc
+      - name: 🔧 Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
 
       - name: Install R dependencieses
@@ -185,11 +188,17 @@ jobs:
           git add man/\* NAMESPACE DESCRIPTION
           git commit -m "docs: Re-build roxygen documentation" || echo "No changes to commit"
 
-      - name: Install nunjucks
+      - name: 🔧 Setup Node
+        if: ${{ inputs.render_readme == true && inputs.container != 'null' }}
+        run: |
+          sudo apt-get -y install nodejs
+          sudo apt-get -y install npm
+
+      - name: 🔧 Install nunjucks
         if: ${{ inputs.render_readme == true }}
         run: npm install nunjucks
 
-      - name: Resolve nunjucks templates
+      - name: 🔀 Resolve nunjucks templates
         if: ${{ inputs.render_readme == true }}
         run: |
           echo "
@@ -208,7 +217,7 @@ jobs:
         run: rmarkdown::render("README.Rmd")
         shell: Rscript {0}
 
-      - name: Commit changes
+      - name: ⬆️ Commit changes
         if: ${{ inputs.render_readme == true }}
         run: |
           git stash --include-untracked
@@ -271,7 +280,7 @@ jobs:
           git add *.rds || echo "No .rds cache files to add"
           git commit -m "chore(vignettes): Update the cache" || echo "No changes to commit"
 
-      - name: Push changes
+      - name: 🚀 Push changes
         run: |
           set -o xtrace
 

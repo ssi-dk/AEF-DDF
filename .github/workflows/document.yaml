@@ -18,24 +18,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Configure git
+      - name: 🔧 Configure git
         run: |
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git switch ${{ inputs.branch_name }}
 
-      - name: Setup R
+      - name: 🔧 Setup R
         uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
-      - name: Install R dependencies
+      - name: 🔧 Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -55,7 +55,7 @@ jobs:
         run: roxygen2::roxygenise()
         shell: Rscript {0}
 
-      - name: Commit and push changes
+      - name: 🚀 Commit and Push changes
         run: |
           git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
           git stash

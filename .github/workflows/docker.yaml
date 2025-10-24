@@ -1,0 +1,229 @@
+on:
+  workflow_call:
+    inputs:
+      branch_name:
+        type: string
+        required: true
+      cache_version:
+        type: string
+        default: '1'
+      dependency_change:
+        type: string
+        default: "false"
+      use-containers:
+        type: boolean
+        default: true
+    outputs:
+      container:
+        description: "Updated container path"
+        value: ${{ jobs.docker.outputs.container }}
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+
+jobs:
+  docker:
+    name: 🐋 Update docker image and files
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    outputs:
+      container: ${{ steps.image_job.outputs.container }}
+
+    steps:
+      - name: Dump github context
+        if: ${{ inputs.dependency_change == 'true' }}
+        run:   echo "$GITHUB_CONTEXT"
+        shell: bash
+        env:
+         GITHUB_CONTEXT: ${{ toJson(github) }}
+
+      - name: ⬇️ Checkout repo
+        if: ${{ inputs.dependency_change == 'true' }}
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: 🔧 Configure git
+        if: ${{ inputs.dependency_change == 'true' }}
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+          git config --local user.name "${{ github.actor }}"
+          git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks
+            git remote add fork ${{ github.event.pull_request.head.repo.clone_url }}
+            git remote set-url fork https://x-access-token:${{ github.token }}@github.com/${{ github.event.pull_request.head.repo.full_name }}.git
+            git fetch fork ${{ github.event.pull_request.head.ref }}
+            git checkout -b ${{ inputs.branch_name }} fork/${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/$GITHUB_REPOSITORY.git
+            git switch "${{ inputs.branch_name }}"
+          fi
+
+      - name: 🐋 Generate new dockerfile
+        if: ${{ inputs.dependency_change == 'true' }}
+        run: |
+          echo "FROM rocker/tidyverse" > dockerfile
+          echo "ENV TZ=Australia/Sydney" >> dockerfile
+          echo "RUN date" >> dockerfile
+          echo "" >> dockerfile
+
+          echo "# System dependencies (apt-get since r-base is debian based)" >> dockerfile
+          echo "RUN apt-get update" >> dockerfile
+          echo "RUN apt-get install -y libcurl4-gnutls-dev curl # curl files" >> dockerfile
+          echo "RUN apt-get install -y docker.io # docker interface" >> dockerfile
+          echo "RUN apt-get install -y gnupg2 # required to install odbc" >> dockerfile
+          echo "" >> dockerfile
+
+          echo "# Move pak.lock to the container" >> dockerfile
+          echo "COPY . /app/" >> dockerfile
+          echo "WORKDIR /app" >> dockerfile
+          echo "" >> dockerfile
+
+          echo "# tex packages are installed in /root/bin so we have to make sure those" >> dockerfile
+          echo "# packages accessible by adding that directory to the PATH variable." >> dockerfile
+          echo "ENV PATH=\"$PATH:/root/bin\"" >> dockerfile
+          echo "" >> dockerfile
+
+          echo "RUN R -e 'install.packages(\"pak\")'" >> dockerfile
+          echo "" >> dockerfile
+
+          echo "RUN R -e 'getwd(); dir()'" >> dockerfile
+          echo "" >> dockerfile
+
+          # Remove dev package from pak.lock
+          echo "RUN R -e 'pak::pak(\"jsonlite\"); d <- jsonlite::read_json(\"pak.lock\"); d\$packages <- Filter(\(x) x\$package != \"${{ github.event.repository.name }}\", d\$packages); print(unlist(Map(\(x) x\$package, d\$packages))); jsonlite::write_json(d, \"pak.lock\", auto_unbox = TRUE)'" >> dockerfile
+          echo "" >> dockerfile
+
+          # Install package dependencies
+          echo "RUN R -e 'pak::lockfile_install(lockfile = \"pak.lock\")'" >> dockerfile
+          echo "" >> dockerfile
+
+          # Install workflow dependencies
+          echo "RUN R -e 'pak::pak(c(\"jsonlite\", \"rcmdcheck\", \"devtools\", \"lintr\", \"covr\", \"roxygen2\", \"pkgdown\", \"rmarkdown\", \"styler\"))'" >> dockerfile
+          echo "" >> dockerfile
+
+          # Install the dev package
+          echo "RUN R -e 'devtools::install()'" >> dockerfile
+          echo "" >> dockerfile
+
+          cat dockerfile
+
+      - name: ⬆️ Commit changes
+        if: ${{ inputs.dependency_change == 'true' }}
+        run: |
+          git stash --include-untracked
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git pull --rebase fork ${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git pull --rebase origin ${{ inputs.branch_name }}
+          fi
+
+          git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
+          git add dockerfile
+          git commit -m "chore: Update Docker specification" || echo "No changes to commit"
+
+      - name: 🐋 Log in to the Container registry
+        if: ${{ inputs.dependency_change == 'true' }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🐋 Extract metadata (tags, labels) for Docker
+        if: ${{ inputs.dependency_change == 'true' }}
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: ⚙️ Generate image tag
+        id: tag
+        run: |
+          # Convert IMAGE_NAME to lowercase
+          IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
+
+          # Replace / with - in BRANCH_TAG
+          BRANCH_TAG_CLEAN=$(echo "${{ inputs.branch_name }}" | tr '/' '-')
+
+          IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
+
+          echo "Generate image reference is: ${IMAGE}"
+          echo "tag=${IMAGE}" >> $GITHUB_OUTPUT
+
+      - name: 🐋 Build and push Docker image
+        if: ${{ inputs.dependency_change == 'true' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.tag.outputs.tag }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: ⚙️ Get repository name (lowercase)
+        run: |
+          repository_name="${GITHUB_REPOSITORY#*/}"
+          repository_name_lowercase=$(echo "$repository_name" | tr '[:upper:]' '[:lower:]')
+          echo "REPOSITORY_NAME=$repository_name_lowercase" >> $GITHUB_ENV
+
+      - name: 🗑️ Clean up GHCR images
+        uses: snok/container-retention-policy@v3.0.0
+        if: always()
+        with:
+          account: ssi-dk
+          token: ${{ secrets.GH_PAT }}
+          image-names: ${{ env.REPOSITORY_NAME }}
+          cut-off: 1d
+          dry-run: true
+
+      - name: 🔍 Check if Docker image exists in GHCR
+        id: image_job
+        if: always()
+        run: |
+          IMAGE="${{ steps.tag.outputs.tag }}"
+
+          echo "Checking for image: ${IMAGE}"
+
+          # Try to pull the image metadata (doesn't download full image)
+          if [[ "${{ inputs.use-containers }}" == "false" ]]; then
+            echo "Use of containers is disabled"
+            echo "container=null" >> $GITHUB_OUTPUT
+          elif docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
+            echo "Image found in GHCR"
+            echo "container='${IMAGE}'" >> $GITHUB_OUTPUT
+          else
+            echo "Image not found in GHCR"
+            echo "container=null" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 🚀 Push changes
+        if:  always() && inputs.dependency_change == 'true'
+        run: |
+          set -o xtrace
+
+          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
+            # For PRs from forks - use the fork's URL and the GITHUB_TOKEN
+            git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}.git HEAD:${{ github.event.pull_request.head.ref }}
+          else
+            # For PRs from the same repository
+            git push origin ${{ inputs.branch_name }}
+          fi
