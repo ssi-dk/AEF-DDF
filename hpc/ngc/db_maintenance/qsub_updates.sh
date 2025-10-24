@@ -22,7 +22,7 @@ EOM
 
 sql_to_lines(){
 	# Execute an SQL query and strip leading whitespace
-	psql -h 172.18.17.103 data -tc "$1" | grep -o "[^[:space:]].*"
+	psql -h mg-ssi-01.hpc.cld data -tc "$1" | grep -o "[^[:space:]].*"
 }
 
 send_to_queue(){
@@ -227,8 +227,7 @@ if [ ! -z $FULL_MODE ]; then echo FULL_MODE=true; fi
 
 
 # If source tables: check if any updates (from logs)
-module is-loaded postgresql || module load postgresql/15.1
-if ! pg_isready -h 172.18.17.103 -d data >/dev/null 2>&1; then
+if ! pg_isready -h mg-ssi-01.hpc.cld -d data >/dev/null 2>&1; then
 	echo "Postgresql is not running" >&2
 	exit 1
 fi
@@ -302,6 +301,7 @@ if [ "$MODE" == "qsub" ]; then
 		FULL_MODE= # Ensure FULL_MODE is unset after first iteration
 	done
 elif [ "$MODE" == "screen" ]; then
+	module is-loaded screen || module load screen/5.0.0
 	queue_to_screen $TIMESTAMPS
 fi
 
