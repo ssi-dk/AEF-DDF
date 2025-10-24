@@ -420,7 +420,7 @@ jobs:
 
     steps:
       - name: Show current folder
-        run: ls -l
+        run: ls -la
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v5
