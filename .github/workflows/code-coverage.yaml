@@ -420,7 +420,16 @@ jobs:
 
     steps:
       - name: Show current folder
+        run: pwd
+
+      - name: Show current folder
         run: ls -la
+
+      - name: Show current folder
+        run: ls -la data
+
+      - name: Delete data folder
+        run: rm -rf data/
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v5
