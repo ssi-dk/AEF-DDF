@@ -6,7 +6,7 @@
 #PBS -d /ngc/projects/ssi_mg/rassky/logs
 #PBS -j oe
 
-# Dependencies : prod.variant_covid_19 prod.covid_19_wgs prod.basis_samples
+# Dependencies : prod.variant_covid_19 prod.covid_19_wgs prod.basis_samples mg.lineage_info
 
 tic <- Sys.time()
 suppressPackageStartupMessages({
