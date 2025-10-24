@@ -5,6 +5,10 @@ using `SCDB::update_snapshot()`.
 
 ## Todo:
 
+- [ ] Install missing packages
+  - [x] SCDB (0.5.1)
+  - [ ] Rpostgres (1.4.8)
+
 - [ ] Get the table maintenance scripts running
   - [ ] lpr_courses_of_contacts
   - [ ] mutation_info
