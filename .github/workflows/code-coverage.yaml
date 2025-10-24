@@ -362,12 +362,12 @@ jobs:
         if: always() && inputs.check_postgres_logs
         uses: jwalton/gh-docker-logs@v2
         with:
-          dest: '/logs-docker'
+          dest: '.'
 
       - name: 🐞 Check docker logs for PostgreSQL ERRORs
         if: always() && inputs.check_postgres_logs
         run: |
-          log=$(find /logs-docker/ -name '*postgreslatest*.log')
+          log=$(find . -name '*postgreslatest*.log')
 
           cat "$log"
 
@@ -554,12 +554,12 @@ jobs:
         if: always()
         uses: jwalton/gh-docker-logs@v2
         with:
-          dest: '/logs-docker'
+          dest: '.'
 
       - name: 🐞 Check docker logs for SQL Server ERRORs
         if: always()
         run: |
-          log=$(find /logs-docker/ -name '*mssqlserver2022latest*.log')
+          log=$(find . -name '*mssqlserver2022latest*.log')
 
           cat "$log"
 
@@ -787,12 +787,12 @@ jobs:
         if: always()
         uses: jwalton/gh-docker-logs@v2
         with:
-          dest: '/logs-docker'
+          dest: '.'
 
       - name: 🐞 Check docker logs for Oracle ERRORs
         if: always()
         run: |
-          log=$(find /logs-docker/ -name '*oraclefreelatest*.log')
+          log=$(find . -name '*oraclefreelatest*.log')
 
           cat "$log"
 
