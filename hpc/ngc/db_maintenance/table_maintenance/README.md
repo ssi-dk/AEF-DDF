@@ -7,7 +7,9 @@ using `SCDB::update_snapshot()`.
 
 - [ ] Install missing packages
   - [x] SCDB (0.5.1)
-  - [ ] Rpostgres (1.4.8)
+  - [x] Rpostgres (1.4.8)
+  - [ ] PostgresSQL not being translated correctly by dbplyr?
+    - [ ] Upgrade dbplyr (2.3.3) -> (2.5.1)
 
 - [ ] Get the table maintenance scripts running
   - [ ] lpr_courses_of_contacts
