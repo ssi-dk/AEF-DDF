@@ -269,9 +269,6 @@ jobs:
       PGPASSWORD: postgres
 
     steps:
-      - name: Show current folder
-        run: ls -l
-
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v5
         with:
@@ -365,7 +362,7 @@ jobs:
         if: always() && inputs.check_postgres_logs
         uses: jwalton/gh-docker-logs@v2
         with:
-          dest: '${{ github.runner_temp }}/logs-docker'
+          dest: '/logs-docker'
 
       - name: 🐞 Check docker logs for PostgreSQL ERRORs
         if: always() && inputs.check_postgres_logs
@@ -417,9 +414,6 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Show current folder
-        run: ls -la
-
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v5
         with:
@@ -560,7 +554,7 @@ jobs:
         if: always()
         uses: jwalton/gh-docker-logs@v2
         with:
-          dest: '${{ github.runner_temp }}/logs-docker'
+          dest: '/logs-docker'
 
       - name: 🐞 Check docker logs for SQL Server ERRORs
         if: always()
@@ -793,7 +787,7 @@ jobs:
         if: always()
         uses: jwalton/gh-docker-logs@v2
         with:
-          dest: '${{ github.runner_temp }}/logs-docker'
+          dest: '/logs-docker'
 
       - name: 🐞 Check docker logs for Oracle ERRORs
         if: always()
