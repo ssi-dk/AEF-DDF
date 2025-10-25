@@ -1,6 +1,10 @@
 on:
   workflow_call:
     inputs:
+      container:
+        type: string
+        required: false
+        default: 'null'
       branch_name:
         type: string
         required: true
