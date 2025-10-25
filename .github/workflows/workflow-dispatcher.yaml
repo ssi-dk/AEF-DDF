@@ -42,6 +42,10 @@ on:
         default: true
 
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
 
   # To give granular control of when workflows should execute, we determine which "categories" of files has changed
@@ -309,11 +313,47 @@ jobs:
           echo "update-lockfile: ${{ needs.trigger.outputs.update-lockfile }}"
           echo "update-cache: ${{ needs.trigger.outputs.update-cache }}"
 
+
+  ghcr:
+    needs: trigger
+    name: 🔍 Check if Docker image exists in GHCR
+    if: ${{ always() && !failure() && !cancelled() }}
+    runs-on: ubuntu-latest
+    outputs:
+      container: ${{ steps.image_job.outputs.container }}
+    steps:
+      - name: Determine container to send to workflows
+        id: image_job
+        run: |
+          # Convert IMAGE_NAME to lowercase
+          IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
+
+          # Replace / with - in BRANCH_TAG
+          BRANCH_TAG_CLEAN=$(echo "${{ needs.trigger.outputs.branch_name }}" | tr '/' '-')
+
+          IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
+
+          echo "Checking for image: ${IMAGE}"
+
+          # Try to pull the image metadata (doesn't download full image)
+          if [[ "${{ inputs.use-containers }}" == "false" ]]; then
+            echo "Use of containers is disabled"
+            echo "container=null" >> $GITHUB_OUTPUT
+          elif docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
+            echo "Image found in GHCR"
+            echo "container='${IMAGE}'" >> $GITHUB_OUTPUT
+          else
+            echo "Image not found in GHCR"
+            echo "container=null" >> $GITHUB_OUTPUT
+          fi
+
+
   committing-workflows:
-    needs: [trigger]
+    needs: [trigger, ghcr]
     uses: ./.github/workflows/committing-workflows.yaml
     if: ${{ always() && !failure() && !cancelled() }}
     with:
+      container: ${{ needs.ghcr.outputs.container }}
       branch_name: ${{ needs.trigger.outputs.branch_name }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       styler: ${{ needs.trigger.outputs.styler == 'true' }}

@@ -33,6 +33,10 @@ jobs:
   update-lockfile-document-render-readme-styler:
     name: 📖 Update lockfile, document, render README, and enforce coding style
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
+    defaults:
+      run:
+        shell: bash
 
     outputs:
       no_dependency_change: ${{ steps.no_dependency_change.outputs.no_dependency_change }}
@@ -41,8 +45,14 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: 🐞 Dump github context
+        run:   echo "$GITHUB_CONTEXT"
+        shell: bash
+        env:
+         GITHUB_CONTEXT: ${{ toJson(github) }}
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -64,15 +74,17 @@ jobs:
             git switch "${{ inputs.branch_name }}"
           fi
 
-      - name: Setup R
+      - name: 🔧 Setup Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+
+      - name: 🔧 Setup R
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
-      - name: 🔧 Setup Pandoc
-        uses: r-lib/actions/setup-pandoc@v2
-
-      - name: Install R dependencieses
+      - name: 🔧 Install R dependencies
+        if: ${{ inputs.container == 'null' }}
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: ${{ inputs.cache_version }}
@@ -98,8 +110,8 @@ jobs:
           jsonlite::write_json(lockfile, "pak.lock", pretty = TRUE, auto_unbox = TRUE)
         shell: Rscript {0}
 
-      - name: Commit changes
-        id: no_dependency_change
+      - name: ⬆️ Commit changes
+        id: dependency_change
         run: |
           git stash --include-untracked
 
@@ -149,7 +161,7 @@ jobs:
           styler::style_pkg(style = diseasy_style)
         shell: Rscript {0}
 
-      - name: Commit changes
+      - name: ⬆️ Commit changes
         if: ${{ inputs.styler == true }}
         run: |
           git stash --include-untracked
@@ -171,7 +183,7 @@ jobs:
         run: roxygen2::roxygenise()
         shell: Rscript {0}
 
-      - name: Commit changes
+      - name: ⬆️ Commit changes
         if: ${{ inputs.document == true }}
         run: |
           git stash --include-untracked
@@ -262,8 +274,7 @@ jobs:
           }
         shell: Rscript {0}
 
-
-      - name: Commit changes
+      - name: ⬆️ Commit changes
         if: ${{ inputs.render_readme == true }}
         run: |
           git stash --include-untracked
