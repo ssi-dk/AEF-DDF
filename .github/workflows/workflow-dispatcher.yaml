@@ -321,6 +321,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       container: ${{ steps.image_job.outputs.container }}
+      force-docker: ${{ steps.image_job.outputs.force }}
     steps:
       - name: Determine container to send to workflows
         id: image_job
@@ -339,12 +340,15 @@ jobs:
           if [[ "${{ inputs.use-containers }}" == "false" ]]; then
             echo "Use of containers is disabled"
             echo "container=null" >> $GITHUB_OUTPUT
+            echo "force=false" >> $GITHUB_OUTPUT
           elif docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
             echo "Image found in GHCR"
             echo "container='${IMAGE}'" >> $GITHUB_OUTPUT
+            echo "force=false" >> $GITHUB_OUTPUT
           else
             echo "Image not found in GHCR"
             echo "container=null" >> $GITHUB_OUTPUT
+            echo "force=true" >> $GITHUB_OUTPUT
           fi
 
 
@@ -367,13 +371,13 @@ jobs:
 
 
   docker:
-    needs: [trigger, committing-workflows]
+    needs: [trigger, ghcr, committing-workflows]
     uses: ./.github/workflows/docker.yaml
     if: ${{ always() && !failure() && !cancelled() }}
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
-      dependency_change: ${{ needs.committing-workflows.outputs.dependency_change }}
+      dependency_change: ${{ needs.committing-workflows.outputs.dependency_change || needs.ghcr.outputs.force-docker == 'true'}}
       use-containers: ${{ inputs.use-containers }}
     secrets: inherit
     concurrency:
