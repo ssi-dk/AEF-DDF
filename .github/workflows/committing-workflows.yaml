@@ -64,6 +64,8 @@ jobs:
 
       - name: 🔧 Configure git
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
           git config --local user.name "${{ github.actor }}"
           git config --local user.email "${{ github.actor }}@users.noreply.github.com"
           if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
