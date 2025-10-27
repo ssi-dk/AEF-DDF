@@ -43,7 +43,7 @@ jobs:
         shell: bash
 
     outputs:
-      no_dependency_change: ${{ steps.no_dependency_change.outputs.no_dependency_change }}
+      dependency_change: ${{ steps.dependency_change.outputs.dependency_change }}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -134,10 +134,10 @@ jobs:
           lines_changed=$(git diff pak.lock | wc -l)
 
           if [ $lines_changed -eq 0 ]; then
-            echo "no_dependency_change=true" >> $GITHUB_OUTPUT
+            echo "dependency_change=false" >> $GITHUB_OUTPUT
             echo "No changes to commit"
           else
-            echo "no_dependency_change=false" >> $GITHUB_OUTPUT
+            echo "dependency_change=true" >> $GITHUB_OUTPUT
             git add pak.lock || echo "No pak.lock to add"
             git commit -m "chore: Update pak.lock"
           fi
