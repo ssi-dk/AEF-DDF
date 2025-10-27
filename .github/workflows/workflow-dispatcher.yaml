@@ -367,7 +367,7 @@ jobs:
     secrets: inherit
     concurrency:
       group: committing-workflows-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
+      cancel-in-progress: false
 
 
   docker:
@@ -381,8 +381,8 @@ jobs:
       use-containers: ${{ inputs.use-containers }}
     secrets: inherit
     concurrency:
-      group: docker-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
+      group: committing-workflows-${{ needs.trigger.outputs.branch_name }}
+      cancel-in-progress: false
 
 
   lint:
