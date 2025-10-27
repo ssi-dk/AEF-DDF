@@ -131,17 +131,22 @@ jobs:
 
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
 
-          # Merge our changes with main preferring our update
-          git merge --no-ff --no-commit origin/main -Xours
-
           lines_changed=$(git diff pak.lock | wc -l)
 
           if [ $lines_changed -eq 0 ]; then
             echo "no_dependency_change=true" >> $GITHUB_OUTPUT
+            echo "No changes to commit"
           else
             echo "no_dependency_change=false" >> $GITHUB_OUTPUT
             git add pak.lock || echo "No pak.lock to add"
-            git commit -m "chore: Update pak.lock" || echo "No changes to commit"
+            git commit -m "chore: Update pak.lock"
+
+            # Merge our changes with main preferring our update
+            git merge --no-ff origin/main -Xours
+            git reset HEAD~
+            git add pak.lock || echo "No pak.lock to add"
+            git commit --amend -C HEAD
+
           fi
 
       - name: 📝 Enforce code style
