@@ -132,7 +132,7 @@ jobs:
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
 
           # Merge our changes with main preferring our update
-          git merge --no-ff --no-commit main -Xours
+          git merge --no-ff --no-commit origin/main -Xours
 
           lines_changed=$(git diff pak.lock | wc -l)
 
