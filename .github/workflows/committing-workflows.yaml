@@ -309,6 +309,7 @@ jobs:
           git commit -m "chore(vignettes): Update the cache" || echo "No changes to commit"
 
       - name: 🚀 Push changes
+        if: always()
         run: |
           set -o xtrace
 
