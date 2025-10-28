@@ -373,7 +373,7 @@ jobs:
   docker:
     needs: [trigger, ghcr, committing-workflows]
     uses: ./.github/workflows/docker.yaml
-    if: ${{ always() && !failure() && !cancelled() }}
+    if: ${{ always() && !cancelled() }}
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
