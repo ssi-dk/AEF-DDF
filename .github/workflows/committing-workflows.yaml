@@ -112,7 +112,7 @@ jobs:
         run: |
           pak::lockfile_create(".", lockfile = "pak.lock", dependencies = TRUE)
           lockfile <- jsonlite::fromJSON("pak.lock")
-          lockfile$packages <- lockfile$packages[order(lockfile$packages$ref), ]
+          lockfile$packages <- lockfile$packages[order(lockfile$packages$ref), order(colnames(lockfile$packages))]
           jsonlite::write_json(lockfile, "pak.lock", pretty = TRUE, auto_unbox = TRUE)
         shell: Rscript {0}
 
