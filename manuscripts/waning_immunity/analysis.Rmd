@@ -1,10 +1,12 @@
 ```{r, Setup packages library}
 
-# Lockfile should only be created when needed
+# Lockfile should only be created when getting a new verison of diseasy
 ## pak::lockfile_create("ssi-dk/diseasy", lib = "r-library", upgrade = TRUE)
+## pak::pak("ssi-dk/diseasy", lib = "r-library")
 
 # To run the script, please install the dependencies from the lockfile
-# pak::lockfile_install(lib = "r-library")
+# unlink("r-library/", recursive = TRUE)
+# pak::lockfile_install(lib = "r-library", update = TRUE)
 
 # Determine the installed packages and R version
 installation_state <- c(
