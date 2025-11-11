@@ -27,6 +27,9 @@ on:
       dependency_change:
         description: "Was there a change in the package dependencies since last run?"
         value: ${{ jobs.update-lockfile-document-render-readme-styler.outputs.dependency_change }}
+      commits_made:
+        description: "Was a commit made?"
+        value: ${{ jobs.update-lockfile-document-render-readme-styler.outputs.commits_made }}
 
 permissions:
   contents: write
@@ -44,6 +47,7 @@ jobs:
 
     outputs:
       dependency_change: ${{ steps.dependency_change.outputs.dependency_change }}
+      commits_made: ${{ steps.push_changes.outputs.commits_made }}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -310,8 +314,24 @@ jobs:
 
       - name: 🚀 Push changes
         if: always()
+        id: push_changes
         run: |
           set -o xtrace
+
+          # Check if any commits have been made
+          export BRANCH_A=${{ inputs.branch_name }}
+          export BRANCH_B=origin/${{ inputs.branch_name }}
+
+          if [ x"$(git rev-parse $BRANCH_A)" = x"$(git rev-parse $BRANCH_B)" ]
+          then
+              echo $BRANCH_A and $BRANCH_B are the same - no commits made
+              echo "commits_made=false" >> $GITHUB_OUTPUT
+          else
+              echo $BRANCH_A and $BRANCH_B differ - commits detected
+              echo "commits_made=true" >> $GITHUB_OUTPUT
+          fi
+
+
 
           if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
             # For PRs from forks - use the fork's URL and the GITHUB_TOKEN

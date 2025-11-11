@@ -386,8 +386,8 @@ jobs:
 
 
   lint:
-    needs: [trigger, docker]
-    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.lint == 'true' }}
+    needs: [trigger, committing-workflows, docker]
+    if: ${{ always() && !failure() && !cancelled() && needs.committing-workflows.outputs.commits_made == 'false' && needs.trigger.outputs.lint == 'true' }}
     uses: ./.github/workflows/lint.yaml
     with:
       container: ${{ needs.docker.outputs.container }}
@@ -396,14 +396,14 @@ jobs:
 
   spell-checker:
     needs: [trigger, committing-workflows]
-    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.spell-checker == 'true' }}
+    if: ${{ always() && !failure() && !cancelled() && needs.committing-workflows.outputs.commits_made == 'false'  && needs.trigger.outputs.spell-checker == 'true' }}
     uses: ./.github/workflows/spell-checker.yaml
     secrets: inherit
 
 
   R-CMD-check:
-    needs: [trigger, docker]
-    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.R-CMD-check == 'true' }}
+    needs: [trigger, committing-workflows, docker]
+    if: ${{ always() && !failure() && !cancelled() && needs.committing-workflows.outputs.commits_made == 'false'  && needs.trigger.outputs.R-CMD-check == 'true' }}
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
       container: ${{ needs.docker.outputs.container }}
@@ -417,8 +417,8 @@ jobs:
 
 
   code-coverage:
-    needs: [trigger, docker]
-    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.code-coverage == 'true' }}
+    needs: [trigger, committing-workflows, docker]
+    if: ${{ always() && !failure() && !cancelled() && needs.committing-workflows.outputs.commits_made == 'false'  && needs.trigger.outputs.code-coverage == 'true' }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
       container: ${{ needs.docker.outputs.container }}
@@ -433,8 +433,8 @@ jobs:
 
 
   pkgdown:
-    needs: [trigger, docker]
-    if: ${{ always() && !failure() && !cancelled() && needs.trigger.outputs.pkgdown == 'true' }}
+    needs: [trigger, committing-workflows, docker]
+    if: ${{ always() && !failure() && !cancelled() && needs.committing-workflows.outputs.commits_made == 'false'  && needs.trigger.outputs.pkgdown == 'true' }}
     uses: ./.github/workflows/pkgdown.yaml
     with:
       container: ${{ needs.docker.outputs.container }}
