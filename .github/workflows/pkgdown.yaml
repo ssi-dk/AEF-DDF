@@ -219,7 +219,7 @@ jobs:
   debug-deploy:
     name: "🚀 debug pkgdown: Deploy"
     runs-on: ubuntu-latest
-    needs: [cleanup, pkgdown-build, determine-pre-release]
+    needs: [pkgdown-build, determine-pre-release]
     steps:
       - name: Print if
         run: |
