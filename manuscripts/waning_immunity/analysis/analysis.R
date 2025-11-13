@@ -4,12 +4,12 @@
 # Controls for the outputs
 
 # Set figure targets
-single_target = "sigmoidal_waning"
-M_subset = c(2, 6, 10)
+single_target <- "sigmoidal_waning"
+M_subset <- c(2, 6, 10)
 
 # Set optimiser parameters
-monotonous = FALSE
-individual_level = FALSE
+monotonous <- FALSE
+individual_level <- FALSE
 
 
 
@@ -60,7 +60,7 @@ im <- DiseasyImmunity$new()
 # Define custom waning functions
 waning_functions <- list(
   "sigmoidal_waning" = \(t) exp(-(t - 1) * 6) / (1 + exp(-(t - 1) * 6)),
-  "sum_exp" = \(t) 1/3 * (exp(- t/2) + exp(-t) + exp(-2*t)),
+  "sum_exp" = \(t) 1 / 3 * (exp(- t/2) + exp(-t) + exp(-2 * t)),
   "exponential" = \(t) exp(-t)
 )
 
@@ -79,29 +79,29 @@ inputs <- tidyr::expand_grid(
     cols = "method-strategy",
     delim = "-",
     names = c("method", "strategy")
-) |>
+  ) |>
   dplyr::left_join(
     tibble::enframe(waning_functions, name = "target", value = "waning_function"),
     by = "target"
   )
 
 # Generate approximations (stored in the cache)
-#future::plan("multisession")
+future::plan("multisession", gc = TRUE, workers = unname(future::availableCores(omit = 1)))
 approximation_output <- furrr::future_pmap(
   .progress = TRUE,
   .options = furrr::furrr_options(seed = TRUE),
   inputs,
   \(target, method, strategy, M, waning_function) {
     im$set_custom_waning(
-      custom_function = waning_function,
+      custom_function = waning_functions[["exponential"]],
       target = "infection",
-      name = target,
+      name = "exponential",
     )
 
     approx <- im$approximate_compartmental(
-      method = method,
-      M = M,
-      strategy = strategy,
+      method = "all_free",
+      M = 4,
+      strategy = "combination",
       monotonous = monotonous,
       individual_level = individual_level
     )
@@ -171,7 +171,7 @@ ggplot2::ggplot(mapping = ggplot2::aes(x = t, y = y, color = method)) +
     )
   )
 
-ggplot2::ggsave("figures/0.png")
+ggplot2::ggsave("../figures/0.png")
 
 
 # Compute the residuals for each method / strategy
@@ -245,14 +245,14 @@ ggplot2::ggplot() +
     )
   )
 
-ggplot2::ggsave("figures/1.png")
+ggplot2::ggsave("../figures/1.png")
 
 
 
 
 # Create an elbow curve of total residuals
 error <- generators |>
-  dplyr::filter(.data$target == !!single_target) |>
+  #dplyr::filter(.data$target == !!single_target) |>
   dplyr::mutate(
     "error" = purrr::map2_dbl(
       .x = .data$waning_function,
@@ -263,6 +263,10 @@ error <- generators |>
         upper = Inf
       )$value
     )
+  ) |>
+  dplyr::summarise(
+    "error" = sum(.data$error),
+    .by = c("M", "method", "strategy")
   )
 
 
@@ -271,7 +275,7 @@ ggplot2::ggplot() +
   ggplot2::geom_line(
     data = dplyr::filter(
       error,
-      .data$target == !!single_target,
+      #.data$target == !!single_target,
       .data$M > 1
     ),
     mapping = ggplot2::aes(x = M, y = error, colour = method, linetype = strategy),
@@ -303,5 +307,4 @@ ggplot2::ggplot() +
     )
   )
 
-ggplot2::ggsave("figures/2.png")
-
+ggplot2::ggsave("../figures/2.png")
