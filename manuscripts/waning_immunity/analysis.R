@@ -1,3 +1,19 @@
+# TODOs
+# Should we set individual_level = FALSE and / or monotonous = FALSE?
+
+# Controls for the outputs
+
+# Set figure targets
+single_target = "sigmoidal_waning"
+M_subset = c(2, 6, 10)
+
+# Set optimiser parameters
+monotonous = FALSE
+individual_level = FALSE
+
+
+
+
 
 
 # Lockfile should only be created when getting a new verison of diseasy
@@ -17,7 +33,7 @@ installation_state <- c(
 # Setup a cache for the analysis
 cache <- cachem::cache_disk(dir = "cache/")
 if (!identical(cache$get("installation_state"), installation_state)) {
-  cache$reset()
+  #cache$reset()
   cache$set("installation_state", installation_state)
 }
 options("diseasy.cache" = cache)
@@ -70,7 +86,7 @@ inputs <- tidyr::expand_grid(
   )
 
 # Generate approximations (stored in the cache)
-future::plan("multisession")
+#future::plan("multisession")
 approximation_output <- furrr::future_pmap(
   .progress = TRUE,
   .options = furrr::furrr_options(seed = TRUE),
@@ -82,7 +98,13 @@ approximation_output <- furrr::future_pmap(
       name = target,
     )
 
-    approx <- im$approximate_compartmental(method = method, M = M, strategy = strategy)
+    approx <- im$approximate_compartmental(
+      method = method,
+      M = M,
+      strategy = strategy,
+      monotonous = monotonous,
+      individual_level = individual_level
+    )
 
     list(
       "gamma" = approx$gamma$infection,
@@ -110,17 +132,19 @@ plotters <- purrr::map(
 )
 
 # Generate data.frame for plotting
-generators <- cbind(inputs, tibble::tibble("approx_fun" = plotters))
+generators <- cbind(inputs, tibble::tibble("approx_function" = plotters)) |>
+  tibble::as_tibble()
 
-t <- seq(0, 3, by = 1 / 10)
+
+t <- seq(0, 3.5, by = 1 / 10)
 results <- generators |>
-  tidyr::pivot_longer(c("waning_function", "approx_fun"), names_to = "type", values_to = "func") |>
+  tidyr::pivot_longer(c("waning_function", "approx_function"), names_to = "type", values_to = "func") |>
   tidyr::crossing(t) |>
   dplyr::mutate(y = purrr::map2_dbl(.data$func, .data$t, \(f, t) f(t))) |>
   dplyr::select(!c("func"))
 
 appprox_results <- results |>
-  dplyr::filter(.data$type == "approx_fun")
+  dplyr::filter(.data$type == "approx_function")
 
 reference_results <- results |>
   dplyr::filter(.data$type == "waning_function") |>
@@ -138,10 +162,19 @@ ggplot2::ggplot(mapping = ggplot2::aes(x = t, y = y, color = method)) +
     color = "black",
     linewidth = 1
   ) +
-  ggplot2::facet_grid(M ~ target)
+  ggplot2::facet_grid(M ~ target) +
+  ggplot2::labs(
+    caption = paste(
+      sep = "\n",
+      "Overview of results from $approximate_compartmental",
+      glue::glue("individual_level = {individual_level}, monotonous = {monotonous}")
+    )
+  )
+
+ggplot2::ggsave("figures/0.png")
 
 
-
+# Compute the residuals for each method / strategy
 residuals <- dplyr::left_join(
   results,
   reference_results |>
@@ -150,46 +183,125 @@ residuals <- dplyr::left_join(
 ) |>
   dplyr::mutate(
     "residual" = .data$y - .data$y_ref,
-    "method" = dplyr::if_else(.data$type == "waning_function", NA, .data$method)
+    "method" = dplyr::if_else(.data$type == "waning_function", "Target", .data$method)
   ) |>
   tidyr::pivot_longer(c("y", "residual")) |>
-  dplyr::distinct()
+  dplyr::distinct() |>
+  dplyr::mutate("name" = factor(.data$name, levels = c("y", "residual"), labels = c("y", "Residual")))
 
 
-
-residuals |>
-  dplyr::filter(.data$target == "sigmoidal_waning", .data$M %in% c(2, 4, 6, 8, 10)) |>
-  dplyr::mutate("name" = factor(.data$name, levels = c("y", "residual"))) |>
-  ggplot2::ggplot(ggplot2::aes(x = t, y = value, color = method)) +
+# Plot a subset of the data for illustrative purposes
+ggplot2::ggplot() +
   ggplot2::geom_line(
-    ggplot2::aes(linetype = strategy),
+    data = dplyr::filter(
+        residuals,
+        .data$target == !!single_target,
+        .data$M %in% M_subset,
+        .data$method != "Target"
+      ),
+    mapping = ggplot2::aes(x = t, y = value, colour = method, linetype = strategy),
     linewidth = 1
   ) +
-  ggplot2::facet_grid(name ~ M, scales = "free")
+  ggplot2::geom_line(
+    data = dplyr::filter(
+      residuals,
+      .data$target == !!single_target,
+      .data$M %in% M_subset,
+      .data$method == "Target",
+      .data$strategy == "combination"
+    ),
+    mapping = ggplot2::aes(x = t, y = value, colour = method),
+    linewidth = 1
+  ) +
+  ggplot2::facet_grid(
+    name ~ M,
+    scales = "free",
+    labeller = ggplot2::labeller(M = ggplot2::as_labeller(\(M) paste("M =", M)))
+  ) +
+  ggplot2::guides(
+    colour = ggplot2::guide_legend(
+      title = "Method"
+    ),
+    linetype = ggplot2::guide_legend(
+      title = "Strategy"
+    )
+  ) +
+  ggplot2::scale_color_manual(
+    values = c(
+      "Target"     = "#7C8695", # SSI Gray
+      "all_free"   = "#B51412", # SSI Red
+      "free_gamma" = "#367F68", # SSI Green
+      "free_delta" = "#3C6088"  # SSI Blue
+    )
+  ) +
+  ggplot2::labs(y = "") +
+  ggplot2::coord_cartesian(expand = FALSE) +
+  ggplot2::theme_bw() +
+  ggplot2::labs(
+    caption = paste(
+      sep = "\n",
+      "Focused presentation of results from $approximate_compartmental",
+      glue::glue("individual_level = {individual_level}, monotonous = {monotonous}")
+    )
+  )
+
+ggplot2::ggsave("figures/1.png")
 
 
 
 
-residuals |>
-  dplyr::filter(.data$target == "sigmoidal_waning", .data$M %in% c(2, 4, 6, 8, 10)) |>
-  dplyr::mutate("name" = factor(.data$name, levels = c("y", "residual"))) |>
-  ggplot2::ggplot(ggplot2::aes(x = t, y = value, color = method)) +
-  ggplot2::geom_line(ggplot2::aes(linetype = type), linewidth = 1) +
-  ggplot2::facet_grid(M ~ name)
+# Create an elbow curve of total residuals
+error <- generators |>
+  dplyr::filter(.data$target == !!single_target) |>
+  dplyr::mutate(
+    "error" = purrr::map2_dbl(
+      .x = .data$waning_function,
+      .y = .data$approx_function,
+      ~ stats::integrate(
+        \(t) (.x(t) - .y(t))^2,
+        lower = 0,
+        upper = Inf
+      )$value
+    )
+  )
 
 
+# Plot a subset of the data for illustrative purposes
+ggplot2::ggplot() +
+  ggplot2::geom_line(
+    data = dplyr::filter(
+      error,
+      .data$target == !!single_target,
+      .data$M > 1
+    ),
+    mapping = ggplot2::aes(x = M, y = error, colour = method, linetype = strategy),
+    linewidth = 1
+  ) +
+  ggplot2::guides(
+    colour = ggplot2::guide_legend(
+      title = "Method"
+    ),
+    linetype = ggplot2::guide_legend(
+      title = "Strategy"
+    )
+  ) +
+  ggplot2::scale_color_manual(
+    values = c(
+      "all_free"   = "#B51412", # SSI Red
+      "free_gamma" = "#367F68", # SSI Green
+      "free_delta" = "#3C6088"  # SSI Blue
+    )
+  ) +
+  ggplot2::labs(y = latex2exp::TeX(r"{Error $\left(\int R^2\right)$}")) +
+  ggplot2::coord_cartesian(ylim = c(0, NA), expand = FALSE) +
+  ggplot2::theme_bw() +
+  ggplot2::labs(
+    caption = paste(
+      sep = "\n",
+      glue::glue("Total error from approximation to single target ({single_target})"),
+      glue::glue("individual_level = {individual_level}, monotonous = {monotonous}")
+    )
+  )
 
+ggplot2::ggsave("figures/2.png")
 
-
-
-im$set_custom_waning(custom_function = waning_functions[["sum_exp"]])
-im$plot(method = "free_delta", M = 4, strategy = "naive")
-im$plot(method = "all_free", M = 4, strategy = "naive")
-im$plot(method = "all_free", M = 4, strategy = "recursive")
-
-
-
-im <- DiseasyImmunity$new()
-im$set_exponential_waning()
-#im$set_custom_waning(custom_function = waning_functions[["sum_exp"]])
-im$plot(M = 3, method = "free_gamma", strategy = "recursive")
