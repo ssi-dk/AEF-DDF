@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="457.08435"
+   height="345.52219"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -20,54 +20,58 @@
     <marker
        inkscape:stockid="Arrow1Mstart"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="Arrow1Mstart"
        style="overflow:visible">
       <path
          id="path4087"
-         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
-         transform="scale(0.4) translate(10,0)" />
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.4,0,0,0.4,4,0)"
+         inkscape:connector-curvature="0" />
     </marker>
     <marker
        inkscape:stockid="Arrow1Lstart"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="Arrow1Lstart"
        style="overflow:visible">
       <path
          id="path4081"
-         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
-         transform="scale(0.8) translate(12.5,0)" />
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.8,0,0,0.8,10,0)"
+         inkscape:connector-curvature="0" />
     </marker>
     <marker
        inkscape:stockid="Arrow1Mend"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="Arrow1Mend"
-       style="overflow:visible;">
+       style="overflow:visible">
       <path
          id="path4090"
-         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
-         transform="scale(0.4) rotate(180) translate(10,0)" />
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         inkscape:connector-curvature="0" />
     </marker>
     <marker
        inkscape:stockid="Arrow1Lend"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="Arrow1Lend"
-       style="overflow:visible;">
+       style="overflow:visible">
       <path
          id="path4084"
-         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
-         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         inkscape:connector-curvature="0" />
     </marker>
     <marker
        inkscape:stockid="Arrow1Lend"
@@ -651,22 +655,26 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="659.43258"
-     inkscape:cy="733.51842"
+     inkscape:zoom="0.70000001"
+     inkscape:cx="805.10208"
+     inkscape:cy="-3.1978882"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g3991"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1017"
+     inkscape:window-height="1009"
      inkscape:window-x="1912"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      showguides="true"
-     inkscape:guide-bbox="true">
+     inkscape:guide-bbox="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
     <sodipodi:guide
        orientation="0,1"
-       position="431.33514,875.04464"
+       position="160.303,276.63826"
        id="guide3824" />
   </sodipodi:namedview>
   <metadata
@@ -684,11 +692,12 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-271.03214,-108.43361)">
     <g
        id="g3979"
        transform="translate(-104.42248,1.5152218)"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <rect
@@ -697,7 +706,7 @@
          height="76.266518"
          width="76.266518"
          id="rect2985-6-3-2"
-         style="fill:#ececec;fill-opacity:1;stroke:#00b9bf;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+         style="fill:#ececec;fill-opacity:1;stroke:#367f68;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
       <text
          sodipodi:linespacing="125%"
          id="text2991-8-8-9"
@@ -715,7 +724,7 @@
     <g
        id="g3985"
        transform="translate(-79.63961,2.0203183)"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <rect
@@ -724,7 +733,7 @@
          height="76.266518"
          width="76.266518"
          id="rect2985-6-3-2-7"
-         style="fill:#ececec;fill-opacity:1;stroke:#00b9bf;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+         style="fill:#ececec;fill-opacity:1;stroke:#367f68;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
       <text
          sodipodi:linespacing="125%"
          id="text2991-8-8-9-1"
@@ -751,14 +760,20 @@
          height="76.266518"
          width="76.266518"
          id="rect2985-6-3-2-5"
-         style="fill:#ececec;fill-opacity:1;stroke:#00b9bf;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+         style="fill:#ececec;fill-opacity:1;stroke:#367f68;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
       <text
          sodipodi:linespacing="125%"
          id="text2991-8-8-9-7"
          y="226.73674"
          x="659.92413"
          style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         xml:space="preserve"><tspan
+         xml:space="preserve"
+         inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300"><tspan
            y="226.73674"
            x="659.92413"
            id="tspan2993-8-9-3-5"
@@ -769,7 +784,7 @@
     <g
        id="g3948"
        transform="translate(-41.355339,0.50507628)"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <path
@@ -808,7 +823,7 @@
        d="m 379.50127,217.47111 31.75783,0"
        id="path4075-54"
        inkscape:connector-curvature="0"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"
        sodipodi:nodetypes="cc" />
@@ -826,7 +841,7 @@
        sodipodi:nodetypes="cc"
        inkscape:export-ydpi="300"
        inkscape:export-xdpi="300"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:connector-curvature="0"
        id="path3611"
        d="m 499.50127,217.47111 31.75783,0"
@@ -836,7 +851,7 @@
        d="m 499.50127,217.47111 31.75783,0"
        id="path3613"
        inkscape:connector-curvature="0"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"
        sodipodi:nodetypes="cc" />
@@ -844,7 +859,7 @@
        sodipodi:nodetypes="cc"
        inkscape:export-ydpi="300"
        inkscape:export-xdpi="300"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:connector-curvature="0"
        id="path3626"
        d="m 607.50127,217.47111 31.75783,0"
@@ -854,7 +869,7 @@
        d="m 686.07143,177.31754 0,-63.88393 -413.21429,0"
        id="path3628"
        inkscape:connector-curvature="0"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"
        sodipodi:nodetypes="ccc" />
@@ -864,7 +879,7 @@
        id="path3630"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
@@ -872,7 +887,7 @@
        d="m 334.28572,177.31754 0,-35.66965 -61.42858,0"
        id="path3632"
        inkscape:connector-curvature="0"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"
        sodipodi:nodetypes="ccc" />
@@ -884,7 +899,9 @@
        id="text7146"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         id="tspan7148" /></text>
+         id="tspan7148"
+         x="350"
+         y="155.93361" /></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -892,7 +909,7 @@
        y="163.25504"
        id="text7150"
        sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"><tspan
          sodipodi:role="line"
@@ -909,7 +926,7 @@
        y="204.41576"
        id="text7150-7"
        sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"><tspan
          sodipodi:role="line"
@@ -926,7 +943,7 @@
        y="151.4066"
        id="text7150-6"
        sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"><tspan
          sodipodi:role="line"
@@ -943,7 +960,7 @@
        y="138.54945"
        id="text7150-8"
        sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"><tspan
          sodipodi:role="line"
@@ -960,7 +977,7 @@
        y="204.41576"
        id="text7150-7-3"
        sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"><tspan
          sodipodi:role="line"
@@ -977,7 +994,7 @@
        y="204.41576"
        id="text7150-7-4"
        sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"><tspan
          sodipodi:role="line"
@@ -992,7 +1009,7 @@
        d="m 273.04966,217.00503 17.47212,0"
        id="path4075-54-7"
        inkscape:connector-curvature="0"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"
        sodipodi:nodetypes="cc" />

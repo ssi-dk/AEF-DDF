@@ -4,7 +4,6 @@
 # Controls for the outputs
 
 # Set figure targets
-single_target <- "sigmoidal_waning"
 M_subset <- c(2, 6, 10)
 
 # Set optimiser parameters
@@ -149,7 +148,9 @@ approximation_output <- furrr::future_pmap(
 # Generate data.frame for plotting
 generators <- cbind(
   inputs,
-  tibble::tibble("approx_function" = approximation_output$approx_function)
+  tibble::tibble(
+    "approx_function" = purrr::map(approximation_output, ~ .$approx_function)
+  )
 ) |>
   tibble::as_tibble()
 
@@ -188,12 +189,12 @@ ggplot2::ggplot(mapping = ggplot2::aes(x = t, y = y, color = method)) +
   ggplot2::labs(
     caption = paste(
       sep = "\n",
-      "Overview of results from $approximate_compartmental",
+      "Overview of results from $approximate_compartmental()",
       glue::glue("individual_level = {individual_level}, monotonous = {monotonous}")
     )
   )
 
-ggplot2::ggsave("../figures/0.png")
+ggplot2::ggsave(file.path(dirname(getwd()), "figures/0.png"))
 
 
 # Compute the residuals for each method / strategy
@@ -213,61 +214,63 @@ residuals <- dplyr::left_join(
 
 
 # Plot a subset of the data for illustrative purposes
-ggplot2::ggplot() +
-  ggplot2::geom_line(
-    data = dplyr::filter(
-      residuals,
-      .data$target == !!single_target,
-      .data$M %in% M_subset,
-      .data$method != "Target"
-    ),
-    mapping = ggplot2::aes(x = t, y = value, colour = method, linetype = strategy),
-    linewidth = 1
-  ) +
-  ggplot2::geom_line(
-    data = dplyr::filter(
-      residuals,
-      .data$target == !!single_target,
-      .data$M %in% M_subset,
-      .data$method == "Target",
-      .data$strategy == "combination"
-    ),
-    mapping = ggplot2::aes(x = t, y = value, colour = method),
-    linewidth = 1
-  ) +
-  ggplot2::facet_grid(
-    name ~ M,
-    scales = "free",
-    labeller = ggplot2::labeller(M = ggplot2::as_labeller(\(M) paste("M =", M)))
-  ) +
-  ggplot2::guides(
-    colour = ggplot2::guide_legend(
-      title = "Method"
-    ),
-    linetype = ggplot2::guide_legend(
-      title = "Strategy"
+for (single_target in names(single_target_waning_functions)) {
+  ggplot2::ggplot() +
+    ggplot2::geom_line(
+      data = dplyr::filter(
+        residuals,
+        .data$target == !!single_target,
+        .data$M %in% M_subset,
+        .data$method != "Target"
+      ),
+      mapping = ggplot2::aes(x = t, y = value, colour = method, linetype = strategy),
+      linewidth = 1
+    ) +
+    ggplot2::geom_line(
+      data = dplyr::filter(
+        residuals,
+        .data$target == !!single_target,
+        .data$M %in% M_subset,
+        .data$method == "Target",
+        .data$strategy == "combination"
+      ),
+      mapping = ggplot2::aes(x = t, y = value, colour = method),
+      linewidth = 1
+    ) +
+    ggplot2::facet_grid(
+      name ~ M,
+      scales = "free",
+      labeller = ggplot2::labeller(M = ggplot2::as_labeller(\(M) paste("M =", M)))
+    ) +
+    ggplot2::guides(
+      colour = ggplot2::guide_legend(
+        title = "Method"
+      ),
+      linetype = ggplot2::guide_legend(
+        title = "Strategy"
+      )
+    ) +
+    ggplot2::scale_color_manual(
+      values = c(
+        "Target"     = "#7C8695", # SSI Gray
+        "all_free"   = "#B51412", # SSI Red
+        "free_gamma" = "#367F68", # SSI Green
+        "free_delta" = "#3C6088"  # SSI Blue
+      )
+    ) +
+    ggplot2::labs(y = "") +
+    ggplot2::coord_cartesian(expand = FALSE) +
+    ggplot2::theme_bw() +
+    ggplot2::labs(
+      caption = paste(
+        sep = "\n",
+        glue::glue("Focused presentation of results for {single_target}"),
+        glue::glue("individual_level = {individual_level}, monotonous = {monotonous}")
+      )
     )
-  ) +
-  ggplot2::scale_color_manual(
-    values = c(
-      "Target"     = "#7C8695", # SSI Gray
-      "all_free"   = "#B51412", # SSI Red
-      "free_gamma" = "#367F68", # SSI Green
-      "free_delta" = "#3C6088"  # SSI Blue
-    )
-  ) +
-  ggplot2::labs(y = "") +
-  ggplot2::coord_cartesian(expand = FALSE) +
-  ggplot2::theme_bw() +
-  ggplot2::labs(
-    caption = paste(
-      sep = "\n",
-      "Focused presentation of results from $approximate_compartmental",
-      glue::glue("individual_level = {individual_level}, monotonous = {monotonous}")
-    )
-  )
 
-ggplot2::ggsave("../figures/1.png")
+  ggplot2::ggsave(file.path(dirname(getwd()), glue::glue("figures/single_target-{single_target}.png")))
+}
 
 
 
@@ -275,12 +278,13 @@ ggplot2::ggsave("../figures/1.png")
 # Create an elbow curve of total residuals
 error <- cbind(
   inputs,
-  tibble::tibble("error" = approximation_output$sqrt_integral)
+  tibble::tibble("error" = purrr::map_dbl(approximation_output, ~ .$sqrt_integral))
 ) |>
   dplyr::summarise(
     "error" = sum(.data$error),
     .by = c("M", "method", "strategy")
-  )
+  ) |>
+  tibble::tibble()
 
 
 # Plot a subset of the data for illustrative purposes
@@ -319,7 +323,7 @@ ggplot2::ggplot() +
     )
   )
 
-ggplot2::ggsave("../figures/2.png")
+ggplot2::ggsave(file.path(dirname(getwd()), "figures/2.png"))
 
 
 
@@ -482,4 +486,4 @@ ggplot2::ggplot() +
     )
   )
 
-ggplot2::ggsave("../figures/3.png")
+ggplot2::ggsave(file.path(dirname(getwd()), "figures/3.png"))

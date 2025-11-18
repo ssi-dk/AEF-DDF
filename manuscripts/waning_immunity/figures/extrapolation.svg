@@ -1,0 +1,1587 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="711.61029"
+   height="379.93164"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="extrapolation.svg">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="StopL"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="StopL"
+       style="overflow:visible">
+      <path
+         id="path5535"
+         d="M 0,5.65 0,-5.65"
+         style="fill:none;stroke:#000000;stroke-width:1pt"
+         transform="scale(0.8,0.8)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="StopM"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="StopM"
+       style="overflow:visible">
+      <path
+         id="path5538"
+         d="M 0,5.65 0,-5.65"
+         style="fill:none;stroke:#000000;stroke-width:1pt"
+         transform="scale(0.4,0.4)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mstart"
+       style="overflow:visible">
+      <path
+         id="path4087"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.4,0,0,0.4,4,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lstart"
+       style="overflow:visible">
+      <path
+         id="path4081"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.8,0,0,0.8,10,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend"
+       style="overflow:visible">
+      <path
+         id="path4090"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend"
+       style="overflow:visible">
+      <path
+         id="path4084"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-2"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-4"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-4"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-40"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-7"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-8"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-3"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-6"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-67"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mstart-9"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4087-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.4,0,0,0.4,4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-5"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4090-0"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-65"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-8"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker6902"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path6904"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker6906"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path6908"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker6910"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path6912"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker6914"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path6916"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker6918"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path6920"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-1"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4090-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mstart-0"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4087-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.4,0,0,0.4,4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-7"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4090-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-3"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-36"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3202"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3204"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3206"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3208"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3210"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3212"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3214"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3216"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3218"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3220"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3222"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3224"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.4,0,0,0.4,4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3226"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3228"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3230"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3232"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3234"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3236"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3238"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3240"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3242"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3244"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3246"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3248"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3250"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3252"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-60"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-26"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-2"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-1"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-5"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-89"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-93"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-26-1"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-2-8"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4644"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4646"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4648"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4650"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4652"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4654"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4656"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4658"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4660"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4662"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4664"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4666"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.9899495"
+     inkscape:cx="210.68318"
+     inkscape:cy="-236.89675"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <sodipodi:guide
+       orientation="0,1"
+       position="634.60282,249.96001"
+       id="guide3824" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="250,-414.16254"
+       id="guide6718" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="325,8.2810058"
+       id="guide6720" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="475,-49.297684"
+       id="guide6722" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="550,-65.460124"
+       id="guide6724" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="400,-377.79705"
+       id="guide3313" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="657.6093,-428.30468"
+       id="guide3315" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="99.999999,-275.71428"
+       id="guide3327" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="175,-421.23361"
+       id="guide3329" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="-191.92898,-477.80215"
+       id="guide3331" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="213.14219,-451.53818"
+       id="guide3333" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="250,-390.92903"
+       id="guide3335" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="325,-309.10668"
+       id="guide3337" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="289.91378,-234.35539"
+       id="guide3339" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="346.48232,-187.88837"
+       id="guide3341" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="138.3909,-419.2133"
+       id="guide4395" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(203.26768,-47.345903)">
+    <g
+       transform="translate(-61.82579,283.03045)"
+       id="g4074" />
+    <g
+       id="g4174"
+       transform="translate(-265.06818,282.69964)"
+       inkscape:export-filename="C:\Users\B246705\Documents\model_2.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       style="stroke:#000000" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="350"
+       y="155.93361"
+       id="text7146"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan7148"
+         x="350"
+         y="155.93361" /></text>
+    <g
+       id="g3979-6"
+       transform="matrix(0.45715503,0,0,0.45715503,-283.95403,-33.027163)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model_alternative.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <rect
+         y="176.81247"
+         x="401.28311"
+         height="76.266518"
+         width="76.266518"
+         id="rect2985-6-3-2-8"
+         style="fill:#ececec;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text2991-8-8-9-3"
+         y="227.24182"
+         x="418.96213"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="227.24182"
+           x="418.96213"
+           id="tspan2993-8-9-3-57"
+           sodipodi:role="line">R<tspan
+   id="tspan3795-8-9-8"
+   style="font-size:65.00091553%;baseline-shift:sub">1</tspan></tspan></text>
+    </g>
+    <g
+       id="g3985-5"
+       transform="matrix(0.45715503,0,0,0.45715503,-271.54789,-32.796253)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model_alternative.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       style="stroke-width:1.99932182;stroke-miterlimit:4;stroke-dasharray:none">
+      <rect
+         y="176.30737"
+         x="496.23746"
+         height="76.266518"
+         width="76.266518"
+         id="rect2985-6-3-2-7-2"
+         style="fill:#ececec;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text2991-8-8-9-1-6"
+         y="226.73672"
+         x="511.91644"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="226.73672"
+           x="511.91644"
+           id="tspan2993-8-9-3-7-2"
+           sodipodi:role="line">R<tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan3912-2">2</tspan></tspan></text>
+    </g>
+    <g
+       id="g3991-4"
+       transform="matrix(0.45715503,0,0,0.45715503,-129.46677,-32.796263)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model_alternative.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       style="stroke-width:1.99932182;stroke-miterlimit:4;stroke-dasharray:none">
+      <rect
+         y="176.30739"
+         x="646.24512"
+         height="76.266518"
+         width="76.266518"
+         id="rect2985-6-3-2-5-1"
+         style="fill:#ececec;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text2991-8-8-9-7-6"
+         y="226.73674"
+         x="659.92413"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="226.73674"
+           x="659.92413"
+           id="tspan2993-8-9-3-5-3"
+           sodipodi:role="line">R<tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan3910-8">5</tspan></tspan></text>
+    </g>
+    <rect
+       style="fill:#ececec;fill-opacity:1;stroke:none"
+       id="rect3343"
+       width="450"
+       height="208.3873"
+       x="-103.26768"
+       y="143.12881" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6712"
+       d="m 188.7047,343.07308 0,60.28427"
+       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:nodetypes="cc" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6730"
+       d="m -74.16566,343.07308 0,60.28427"
+       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -13.55651,343.07308 0,60.28427"
+       id="path6732"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6734"
+       d="m 68.26585,343.07308 0,60.28427"
+       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 142.68536,343.07308 0,60.28427"
+       id="path6736"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#b51412;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -101.27157,156.35688 56.063468,0 0,44.95179 59.599002,0 0,71.43656 105.56094,0 0,26.04316 45.45686,0 0,29.29442 180.34194,0"
+       id="path6738"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#marker3222);marker-end:url(#marker3226)"
+       d="m -102.95501,148.39028 0,205.35033 444.54797,0"
+       id="path3782"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -44.871236,343.07308 0,20.28427"
+       id="path6702"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6708"
+       d="m 165.74557,343.07308 0,20.28427"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 120.28871,343.07308 0,20.28427"
+       id="path6714"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <g
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model_alternative.png"
+       transform="matrix(0.45715503,0,0,0.45715503,-211.8744,-32.796253)"
+       id="g6740"
+       style="stroke-width:1.99932182;stroke-miterlimit:4;stroke-dasharray:none">
+      <rect
+         style="fill:#ececec;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect6742"
+         width="76.266518"
+         height="76.266518"
+         x="496.23746"
+         y="176.30737" />
+      <text
+         xml:space="preserve"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="511.91644"
+         y="226.73672"
+         id="text6744"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan6746"
+           x="511.91644"
+           y="226.73672">R<tspan
+   id="tspan6748"
+   style="font-size:65.00091553%;baseline-shift:sub">3</tspan></tspan></text>
+    </g>
+    <g
+       id="g6750"
+       transform="matrix(0.45715503,0,0,0.45715503,-106.68567,-32.796253)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model_alternative.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       style="stroke-width:1.99932182;stroke-miterlimit:4;stroke-dasharray:none">
+      <rect
+         y="176.30737"
+         x="496.23746"
+         height="76.266518"
+         width="76.266518"
+         id="rect6752"
+         style="fill:#ececec;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text6754"
+         y="226.73672"
+         x="511.91644"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="226.73672"
+           x="511.91644"
+           id="tspan6756"
+           sodipodi:role="line">R<tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan6758">4</tspan></tspan></text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-mid:url(#StopL)"
+       d="m -103.03933,122.749 57.831228,0 59.599002,0 105.56094,0 45.45686,0 189.16273,0"
+       id="path7580"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-91.20256"
+       y="116.96586"
+       id="text7150-7-45"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan7152-8-6"
+         x="-91.20256"
+         y="116.96586"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">1/δ<tspan
+   style="font-size:13.6662159px;baseline-shift:sub"
+   id="tspan7175-2">1</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;text-align:center;line-height:125%;letter-spacing:-0.31px;word-spacing:-1.54999995px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       x="397.49503"
+       y="397.27826"
+       id="text8156"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan8158"
+         x="397.49503"
+         y="397.27826" /></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text8173"
+       y="361.35538"
+       x="358.83008"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="361.35538"
+         x="358.83008"
+         id="tspan8175"
+         sodipodi:role="line">t</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-163.86102"
+       y="266.78711"
+       id="text8179"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8181"
+         x="-163.86102"
+         y="266.78711"
+         style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">γ(t)<tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan8185" /></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text8187"
+       y="116.96586"
+       x="-33.702568"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="116.96586"
+         x="-33.702568"
+         sodipodi:role="line"
+         id="tspan8217">1/δ<tspan
+   style="font-size:13.6662159px;baseline-shift:sub"
+   id="tspan8219">2</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="47.368874"
+       y="116.96586"
+       id="text8193"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8195"
+         x="47.368874"
+         y="116.96586"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">1/δ<tspan
+   style="font-size:13.6662159px;baseline-shift:sub"
+   id="tspan8197">3</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text8199"
+       y="116.96586"
+       x="123.72601"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="116.96586"
+         x="123.72601"
+         id="tspan8201"
+         sodipodi:role="line">1/δ<tspan
+   id="tspan8203"
+   style="font-size:13.6662159px;baseline-shift:sub">4</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="243.42911"
+       y="117.80766"
+       id="text8224"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8226"
+         x="243.42911"
+         y="117.80766"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">∞</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker3226)"
+       d="m -63.107143,64.04076 14.107143,0"
+       id="path8230"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker3226)"
+       d="m -7.03571,64.04076 17.32142,0"
+       id="path8234"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker3226)"
+       d="m 53.5,64.04076 62.67857,0"
+       id="path8236"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker3226)"
+       d="m 159.60714,64.04076 3.62299,0"
+       id="path8238"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;text-align:center;line-height:125%;letter-spacing:-0.31px;word-spacing:-1.54999995px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       x="-118.18785"
+       y="60.392391"
+       id="text8514"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan8516"
+         x="-118.18785"
+         y="60.392391" /></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text8518"
+       y="70.160606"
+       x="-327.32626"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria"
+         y="70.160606"
+         x="-327.32626"
+         id="tspan8520"
+         sodipodi:role="line">Compartment</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-327.32629"
+       y="113.73204"
+       id="text8524"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         x="-327.32629"
+         y="113.73204"
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria"
+         id="tspan8528">Time spent on average</tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text8534"
+       y="423.01923"
+       x="-86.845421"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="423.01923"
+         x="-86.845421"
+         id="tspan8536"
+         sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:super"
+   id="tspan8568">m</tspan><tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan8566">1</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text8562"
+       y="422.15613"
+       x="-327.32629"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         id="tspan8564"
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria"
+         y="422.15613"
+         x="-327.32629"
+         sodipodi:role="line">Average middle point</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-26.845421"
+       y="423.01923"
+       id="text8570"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8572"
+         x="-26.845421"
+         y="423.01923"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan8574"
+   style="font-size:65.00091553%;baseline-shift:super">m</tspan><tspan
+   id="tspan8576"
+   style="font-size:65.00091553%;baseline-shift:sub">2</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text8578"
+       y="422.96585"
+       x="55.726013"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="422.96585"
+         x="55.726013"
+         id="tspan8580"
+         sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:super"
+   id="tspan8582">m</tspan><tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan8584">3</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="129.58319"
+       y="423.01923"
+       id="text8586"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8588"
+         x="129.58319"
+         y="423.01923"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan8590"
+   style="font-size:65.00091553%;baseline-shift:super">m</tspan><tspan
+   id="tspan8592"
+   style="font-size:65.00091553%;baseline-shift:sub">4</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text8594"
+       y="422.96585"
+       x="175.48331"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="422.96585"
+         x="175.48331"
+         id="tspan8596"
+         sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:super"
+   id="tspan8598">m</tspan><tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan8600">5</tspan></tspan></text>
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 14.83727,343.07308 0,20.28427"
+       id="path8602"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-53.416847"
+       y="381.32214"
+       id="text8604"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8606"
+         x="-53.416847"
+         y="381.32214"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan8610"
+   style="font-size:65.00091553%;baseline-shift:sub">1</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text8612"
+       y="381.32214"
+       x="5.1545715"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="381.32214"
+         x="5.1545715"
+         id="tspan8614"
+         sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan8618">2</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="111.15457"
+       y="381.26874"
+       id="text8620"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8622"
+         x="111.15457"
+         y="381.26874"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan8626"
+   style="font-size:65.00091553%;baseline-shift:sub">3</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text8628"
+       y="381.32214"
+       x="155.72589"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="381.32214"
+         x="155.72589"
+         id="tspan8630"
+         sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan8634">4</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-327.32629"
+       y="381.73206"
+       id="text8644"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         x="-327.32629"
+         y="381.73206"
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria"
+         id="tspan8646">Average exit time</tspan></text>
+    <g
+       id="g9204"
+       style="fill:#999999;stroke:none"
+       transform="translate(-124,0)">
+      <path
+         style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#999999;fill-opacity:1;stroke:none;stroke-width:0.90250015px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+         d="m 289.5,339.125 c -4.39731,-0.002 -8.31732,2.82028 -11.42411,9.55804 l 0.8125,0.375 c 3.02473,-6.55978 6.69525,-9.02828 10.61161,-9.02679 3.91636,10e-4 7.59969,2.31296 10.62151,8.86643 l 0.8125,-0.375 c -3.10386,-6.73142 -7.0367,-9.39601 -11.43401,-9.39768 z"
+         id="path8648"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccccc" />
+      <path
+         style="fill:#999999;fill-rule:evenodd;stroke:none"
+         d="m 279.63482,346.27552 -0.88333,-2.39495 -1.0062,6.4928 4.28448,-4.98118 -2.39495,0.88333 z"
+         id="path9210"
+         inkscape:connector-curvature="0" />
+      <path
+         style="fill:#999999;fill-rule:evenodd;stroke:none"
+         d="m 299.36753,346.27552 -2.39495,-0.88333 4.28447,4.98118 -1.00619,-6.4928 -0.88333,2.39495 z"
+         id="path9212"
+         inkscape:connector-curvature="0" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-107.63766"
+       y="547.41113"
+       id="text3217"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan3219"
+         x="-107.63766"
+         y="547.41113"
+         style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-148.26613"
+       y="883.83649"
+       id="text3221"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan3223"
+         x="-148.26613"
+         y="883.83649"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan3225"
+   style="font-size:65.00091553%;baseline-shift:super">m</tspan><tspan
+   id="tspan3227"
+   style="font-size:65.00091553%;baseline-shift:sub">1</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text3233"
+       y="823.73236"
+       x="-148.78662"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="823.73236"
+         x="-148.78662"
+         id="tspan3235"
+         sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:super"
+   id="tspan3237">m</tspan><tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan3239">2</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-148.84001"
+       y="741.85663"
+       id="text3241"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan3243"
+         x="-148.84001"
+         y="741.85663"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan3245"
+   style="font-size:65.00091553%;baseline-shift:super">m</tspan><tspan
+   id="tspan3247"
+   style="font-size:65.00091553%;baseline-shift:sub">3</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text3249"
+       y="667.66388"
+       x="-148.93344"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="667.66388"
+         x="-148.93344"
+         id="tspan3251"
+         sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:super"
+   id="tspan3253">m</tspan><tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan3255">4</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-149.08023"
+       y="621.12317"
+       id="text3257"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan3259"
+         x="-149.08023"
+         y="621.12317"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan3261"
+   style="font-size:65.00091553%;baseline-shift:super">m</tspan><tspan
+   id="tspan3263"
+   style="font-size:65.00091553%;baseline-shift:sub">5</tspan></tspan></text>
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -92.01593,616.04287 -22.28427,0"
+       id="path3201"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -92.01593,878.91323 -22.28427,0"
+       id="path3203"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path3205"
+       d="m -92.01593,818.30408 -22.28427,0"
+       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -92.01593,736.48172 -22.28427,0"
+       id="path3207"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path3209"
+       d="m -92.01593,662.06221 -22.28427,0"
+       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccc"
+       inkscape:connector-curvature="0"
+       id="path3303"
+       d="m 341.95258,907.70258 -444.63604,0 0,-339.6194"
+       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#marker3222);marker-end:url(#marker3226)" />
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text3317"
+       y="915.10663"
+       x="358.20508"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="915.10663"
+         x="358.20508"
+         id="tspan3319"
+         sodipodi:role="line">p</tspan></text>
+  </g>
+</svg>
