@@ -4,7 +4,7 @@
 # Controls for the outputs
 
 # Set figure targets
-M_subset <- c(2, 6, 10)
+M_subset <- c(2, 4, 6)
 
 # Set optimiser parameters
 monotonous <- FALSE
@@ -25,17 +25,17 @@ future::plan("multicore", gc = TRUE, workers = unname(future::availableCores(omi
 # pak::lockfile_install(lib = "r-library", update = TRUE)
 
 # Determine the installed packages and R version
-installation_state <- c(
-  "R" = digest::digest(version),
-  "packages" = digest::digest(readLines("pkg.lock"))
-)
+#installation_state <- c(
+#  "R" = digest::digest(version),
+#  "packages" = digest::digest(readLines("pkg.lock"))
+#)
 
 # Setup a cache for the analysis
 cache <- cachem::cache_disk(dir = "cache/")
-if (!identical(cache$get("installation_state"), installation_state)) {
+#if (!identical(cache$get("installation_state"), installation_state)) {
   #cache$reset()
-  cache$set("installation_state", installation_state)
-}
+  #cache$set("installation_state", installation_state)
+#}
 options("diseasy.cache" = cache)
 
 # Set R to use the specific packages defined in the lockfile
@@ -202,7 +202,8 @@ residuals <- dplyr::left_join(
   results,
   reference_results |>
     dplyr::transmute(.data$target, .data$t, "y_ref" = .data$y),
-  by = c("t", "target")
+  by = c("t", "target"),
+  relationship = "many-to-many"
 ) |>
   dplyr::mutate(
     "residual" = .data$y - .data$y_ref,
@@ -221,9 +222,10 @@ for (single_target in names(single_target_waning_functions)) {
         residuals,
         .data$target == !!single_target,
         .data$M %in% M_subset,
-        .data$method != "Target"
+        .data$method == "Target",
+        .data$strategy == "combination"
       ),
-      mapping = ggplot2::aes(x = t, y = value, colour = method, linetype = strategy),
+      mapping = ggplot2::aes(x = t, y = value, colour = method),
       linewidth = 1
     ) +
     ggplot2::geom_line(
@@ -231,10 +233,9 @@ for (single_target in names(single_target_waning_functions)) {
         residuals,
         .data$target == !!single_target,
         .data$M %in% M_subset,
-        .data$method == "Target",
-        .data$strategy == "combination"
+        .data$method != "Target"
       ),
-      mapping = ggplot2::aes(x = t, y = value, colour = method),
+      mapping = ggplot2::aes(x = t, y = value, colour = method, linetype = strategy),
       linewidth = 1
     ) +
     ggplot2::facet_grid(
