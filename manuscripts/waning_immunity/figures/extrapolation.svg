@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="711.61029"
-   height="379.93164"
+   width="758.04895"
+   height="1242.4564"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -683,9 +683,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.9899495"
-     inkscape:cx="210.68318"
-     inkscape:cy="-236.89675"
+     inkscape:zoom="1.4"
+     inkscape:cx="425.63755"
+     inkscape:cy="522.28391"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -702,68 +702,109 @@
      fit-margin-bottom="0">
     <sodipodi:guide
        orientation="0,1"
-       position="634.60282,249.96001"
+       position="783.07157,1044.9223"
        id="guide3824" />
     <sodipodi:guide
        orientation="1,0"
-       position="250,-414.16254"
+       position="-93.96786,443.42924"
        id="guide6718" />
     <sodipodi:guide
        orientation="1,0"
-       position="325,8.2810058"
+       position="498.46875,803.24333"
        id="guide6720" />
     <sodipodi:guide
        orientation="1,0"
-       position="475,-49.297684"
+       position="623.46875,531.31251"
        id="guide6722" />
     <sodipodi:guide
        orientation="1,0"
-       position="550,-65.460124"
+       position="342.46875,729.5022"
        id="guide6724" />
     <sodipodi:guide
        orientation="1,0"
-       position="400,-377.79705"
-       id="guide3313" />
-    <sodipodi:guide
-       orientation="1,0"
-       position="657.6093,-428.30468"
+       position="435.46875,366.65764"
        id="guide3315" />
     <sodipodi:guide
        orientation="1,0"
-       position="99.999999,-275.71428"
+       position="248.46875,519.24804"
        id="guide3327" />
     <sodipodi:guide
-       orientation="1,0"
-       position="175,-421.23361"
+       orientation="-1,8.1746297e-005"
+       position="373.46875,373.72871"
        id="guide3329" />
     <sodipodi:guide
        orientation="1,0"
-       position="-191.92898,-477.80215"
+       position="529.46875,317.16017"
        id="guide3331" />
     <sodipodi:guide
        orientation="0,1"
-       position="213.14219,-451.53818"
+       position="361.61094,343.42414"
        id="guide3333" />
     <sodipodi:guide
        orientation="0,1"
-       position="250,-390.92903"
+       position="398.46875,404.03329"
        id="guide3335" />
     <sodipodi:guide
        orientation="0,1"
-       position="325,-309.10668"
+       position="471.71756,453.53076"
        id="guide3337" />
     <sodipodi:guide
        orientation="0,1"
-       position="289.91378,-234.35539"
+       position="435.35207,664.65264"
        id="guide3339" />
     <sodipodi:guide
        orientation="0,1"
-       position="346.48232,-187.88837"
+       position="473.73787,619.19578"
        id="guide3341" />
     <sodipodi:guide
        orientation="1,0"
-       position="138.3909,-419.2133"
+       position="-165.68869,441.40893"
        id="guide4395" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="435.35207,514.13991"
+       id="guide3342" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="320.69976,630.81253"
+       id="guide4435" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="322.72006,567.17292"
+       id="guide4437" />
+    <inkscape:grid
+       type="xygrid"
+       id="grid5395"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       originx="148.46875px"
+       originy="794.96232px" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="758.57142,619.19578"
+       id="guide5493" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="230.96875,197.81947"
+       id="guide11785" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="248.46875,153.17661"
+       id="guide11787" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="381.68303,81.748046"
+       id="guide11789" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="480.61161,55.319476"
+       id="guide11791" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="498.46875,26.033756"
+       id="guide11793" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -781,7 +822,58 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(203.26768,-47.345903)">
+     transform="translate(351.73643,20.216597)">
+    <g
+       id="g15337">
+      <rect
+         style="fill:#ececec;fill-opacity:0.94117647;stroke:#000000;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect5491"
+         width="755.04352"
+         height="447.4975"
+         x="-349.73981"
+         y="411.11511"
+         ry="30.304577" />
+      <path
+         sodipodi:nodetypes="cc"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -349.71307,456.26729 754.99005,0"
+         id="path5505"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g11946">
+      <rect
+         ry="30.304577"
+         transform="translate(-203.26768,47.345903)"
+         y="-66.555779"
+         x="-147.48227"
+         height="422.24411"
+         width="756.05371"
+         id="rect5486"
+         style="fill:#ececec;fill-opacity:0.94117647;stroke:#000000;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <path
+         transform="translate(-203.26768,47.345903)"
+         inkscape:connector-curvature="0"
+         id="path5499"
+         d="m -147.48227,-19.078612 754.99005,0"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:nodetypes="cc" />
+      <text
+         xml:space="preserve"
+         style="font-size:32px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Bold"
+         x="-43.848095"
+         y="12.581912"
+         id="text5501"
+         sodipodi:linespacing="125%"
+         inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300"><tspan
+           sodipodi:role="line"
+           id="tspan5503"
+           x="-43.848095"
+           y="12.581912"
+           style="font-size:32px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Bold">Overview</tspan></text>
+    </g>
     <g
        transform="translate(-61.82579,283.03045)"
        id="g4074" />
@@ -815,7 +907,7 @@
          height="76.266518"
          width="76.266518"
          id="rect2985-6-3-2-8"
-         style="fill:#ececec;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+         style="fill:#cccccc;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
       <text
          sodipodi:linespacing="125%"
          id="text2991-8-8-9-3"
@@ -843,7 +935,7 @@
          height="76.266518"
          width="76.266518"
          id="rect2985-6-3-2-7-2"
-         style="fill:#ececec;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+         style="fill:#cccccc;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
       <text
          sodipodi:linespacing="125%"
          id="text2991-8-8-9-1-6"
@@ -871,7 +963,7 @@
          height="76.266518"
          width="76.266518"
          id="rect2985-6-3-2-5-1"
-         style="fill:#ececec;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+         style="fill:#cccccc;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
       <text
          sodipodi:linespacing="125%"
          id="text2991-8-8-9-7-6"
@@ -887,51 +979,21 @@
    id="tspan3910-8">5</tspan></tspan></text>
     </g>
     <rect
-       style="fill:#ececec;fill-opacity:1;stroke:none"
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
        id="rect3343"
        width="450"
        height="208.3873"
        x="-103.26768"
        y="143.12881" />
     <path
-       inkscape:connector-curvature="0"
-       id="path6712"
-       d="m 188.7047,343.07308 0,60.28427"
-       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path6730"
-       d="m -74.16566,343.07308 0,60.28427"
-       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m -13.55651,343.07308 0,60.28427"
-       id="path6732"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path6734"
-       d="m 68.26585,343.07308 0,60.28427"
-       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 142.68536,343.07308 0,60.28427"
-       id="path6736"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
        style="fill:none;stroke:#b51412;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m -101.27157,156.35688 56.063468,0 0,44.95179 59.599002,0 0,71.43656 105.56094,0 0,26.04316 45.45686,0 0,29.29442 180.34194,0"
+       d="m -101.27157,156.35688 56.063468,0 0,44.95179 59.599002,0 0,71.43656 105.56094,0 0,26.04316 45.45686,0 0,29.29442 181.05622,0"
        id="path6738"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccccc" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#marker3222);marker-end:url(#marker3226)"
-       d="m -102.95501,148.39028 0,205.35033 444.54797,0"
+       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-mid:none;marker-end:none"
+       d="m -102.95501,143.38013 0,210.36048 449.55812,0"
        id="path3782"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc" />
@@ -961,7 +1023,7 @@
        id="g6740"
        style="stroke-width:1.99932182;stroke-miterlimit:4;stroke-dasharray:none">
       <rect
-         style="fill:#ececec;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         style="fill:#cccccc;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
          id="rect6742"
          width="76.266518"
          height="76.266518"
@@ -994,7 +1056,7 @@
          height="76.266518"
          width="76.266518"
          id="rect6752"
-         style="fill:#ececec;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+         style="fill:#cccccc;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
       <text
          sodipodi:linespacing="125%"
          id="text6754"
@@ -1202,116 +1264,6 @@
          y="113.73204"
          style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria"
          id="tspan8528">Time spent on average</tspan></text>
-    <text
-       inkscape:export-ydpi="300"
-       inkscape:export-xdpi="300"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
-       sodipodi:linespacing="125%"
-       id="text8534"
-       y="423.01923"
-       x="-86.845421"
-       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
-       xml:space="preserve"><tspan
-         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
-         y="423.01923"
-         x="-86.845421"
-         id="tspan8536"
-         sodipodi:role="line">t<tspan
-   style="font-size:65.00091553%;baseline-shift:super"
-   id="tspan8568">m</tspan><tspan
-   style="font-size:65.00091553%;baseline-shift:sub"
-   id="tspan8566">1</tspan></tspan></text>
-    <text
-       inkscape:export-ydpi="300"
-       inkscape:export-xdpi="300"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
-       sodipodi:linespacing="125%"
-       id="text8562"
-       y="422.15613"
-       x="-327.32629"
-       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
-       xml:space="preserve"><tspan
-         id="tspan8564"
-         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria"
-         y="422.15613"
-         x="-327.32629"
-         sodipodi:role="line">Average middle point</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
-       x="-26.845421"
-       y="423.01923"
-       id="text8570"
-       sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300"><tspan
-         sodipodi:role="line"
-         id="tspan8572"
-         x="-26.845421"
-         y="423.01923"
-         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
-   id="tspan8574"
-   style="font-size:65.00091553%;baseline-shift:super">m</tspan><tspan
-   id="tspan8576"
-   style="font-size:65.00091553%;baseline-shift:sub">2</tspan></tspan></text>
-    <text
-       inkscape:export-ydpi="300"
-       inkscape:export-xdpi="300"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
-       sodipodi:linespacing="125%"
-       id="text8578"
-       y="422.96585"
-       x="55.726013"
-       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
-       xml:space="preserve"><tspan
-         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
-         y="422.96585"
-         x="55.726013"
-         id="tspan8580"
-         sodipodi:role="line">t<tspan
-   style="font-size:65.00091553%;baseline-shift:super"
-   id="tspan8582">m</tspan><tspan
-   style="font-size:65.00091553%;baseline-shift:sub"
-   id="tspan8584">3</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
-       x="129.58319"
-       y="423.01923"
-       id="text8586"
-       sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300"><tspan
-         sodipodi:role="line"
-         id="tspan8588"
-         x="129.58319"
-         y="423.01923"
-         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
-   id="tspan8590"
-   style="font-size:65.00091553%;baseline-shift:super">m</tspan><tspan
-   id="tspan8592"
-   style="font-size:65.00091553%;baseline-shift:sub">4</tspan></tspan></text>
-    <text
-       inkscape:export-ydpi="300"
-       inkscape:export-xdpi="300"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
-       sodipodi:linespacing="125%"
-       id="text8594"
-       y="422.96585"
-       x="175.48331"
-       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
-       xml:space="preserve"><tspan
-         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
-         y="422.96585"
-         x="175.48331"
-         id="tspan8596"
-         sodipodi:role="line">t<tspan
-   style="font-size:65.00091553%;baseline-shift:super"
-   id="tspan8598">m</tspan><tspan
-   style="font-size:65.00091553%;baseline-shift:sub"
-   id="tspan8600">5</tspan></tspan></text>
     <path
        sodipodi:nodetypes="cc"
        style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
@@ -1321,7 +1273,7 @@
     <text
        xml:space="preserve"
        style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
-       x="-53.416847"
+       x="-52.001488"
        y="381.32214"
        id="text8604"
        sodipodi:linespacing="125%"
@@ -1330,7 +1282,7 @@
        inkscape:export-ydpi="300"><tspan
          sodipodi:role="line"
          id="tspan8606"
-         x="-53.416847"
+         x="-52.001488"
          y="381.32214"
          style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
    id="tspan8610"
@@ -1342,12 +1294,12 @@
        sodipodi:linespacing="125%"
        id="text8612"
        y="381.32214"
-       x="5.1545715"
+       x="7.1865282"
        style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
        xml:space="preserve"><tspan
          style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
          y="381.32214"
-         x="5.1545715"
+         x="7.1865282"
          id="tspan8614"
          sodipodi:role="line">t<tspan
    style="font-size:65.00091553%;baseline-shift:sub"
@@ -1355,7 +1307,7 @@
     <text
        xml:space="preserve"
        style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
-       x="111.15457"
+       x="112.58459"
        y="381.26874"
        id="text8620"
        sodipodi:linespacing="125%"
@@ -1364,7 +1316,7 @@
        inkscape:export-ydpi="300"><tspan
          sodipodi:role="line"
          id="tspan8622"
-         x="111.15457"
+         x="112.58459"
          y="381.26874"
          style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
    id="tspan8626"
@@ -1376,12 +1328,12 @@
        sodipodi:linespacing="125%"
        id="text8628"
        y="381.32214"
-       x="155.72589"
+       x="157.94803"
        style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
        xml:space="preserve"><tspan
          style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
          y="381.32214"
-         x="155.72589"
+         x="157.94803"
          id="tspan8630"
          sodipodi:role="line">t<tspan
    style="font-size:65.00091553%;baseline-shift:sub"
@@ -1401,187 +1353,1439 @@
          y="381.73206"
          style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria"
          id="tspan8646">Average exit time</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;text-align:center;line-height:125%;letter-spacing:-0.31px;word-spacing:-1.54999995px;text-anchor:middle;fill:#000000;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       x="222.14285"
+       y="802.07452"
+       id="text5408"
+       sodipodi:linespacing="125%"
+       transform="translate(-203.26768,47.345903)"><tspan
+         sodipodi:role="line"
+         id="tspan5410"
+         x="222.14285"
+         y="802.07452" /></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5420"
+       style="font-size:40px;text-align:center;line-height:125%;letter-spacing:-0.31px;word-spacing:-1.54999995px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       transform="translate(-203.26768,47.345903)"><flowRegion
+         id="flowRegion5422"><rect
+           id="rect5424"
+           width="25"
+           height="42.857143"
+           x="123.57143"
+           y="873.50305" /></flowRegion><flowPara
+         id="flowPara5426"></flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-327.32626"
+       y="70.160606"
+       id="text5495"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan5497"
+         x="-327.32626"
+         y="70.160606"
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria">Compartment</tspan></text>
     <g
-       id="g9204"
-       style="fill:#999999;stroke:none"
-       transform="translate(-124,0)">
-      <path
-         style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#999999;fill-opacity:1;stroke:none;stroke-width:0.90250015px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
-         d="m 289.5,339.125 c -4.39731,-0.002 -8.31732,2.82028 -11.42411,9.55804 l 0.8125,0.375 c 3.02473,-6.55978 6.69525,-9.02828 10.61161,-9.02679 3.91636,10e-4 7.59969,2.31296 10.62151,8.86643 l 0.8125,-0.375 c -3.10386,-6.73142 -7.0367,-9.39601 -11.43401,-9.39768 z"
-         id="path8648"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="ccccccc" />
-      <path
-         style="fill:#999999;fill-rule:evenodd;stroke:none"
-         d="m 279.63482,346.27552 -0.88333,-2.39495 -1.0062,6.4928 4.28448,-4.98118 -2.39495,0.88333 z"
-         id="path9210"
-         inkscape:connector-curvature="0" />
-      <path
-         style="fill:#999999;fill-rule:evenodd;stroke:none"
-         d="m 299.36753,346.27552 -2.39495,-0.88333 4.28447,4.98118 -1.00619,-6.4928 -0.88333,2.39495 z"
-         id="path9212"
-         inkscape:connector-curvature="0" />
+       id="g15341"
+       transform="translate(0,-50)">
+      <g
+         id="g16006"
+         transform="translate(-1.5151367,0)">
+        <rect
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
+           id="rect16003"
+           width="376.42859"
+           height="300.53018"
+           x="-168.80504"
+           y="494.02451"
+           transform="translate(0,50)" />
+        <text
+           xml:space="preserve"
+           style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           x="220.77164"
+           y="743.69678"
+           id="text5351"
+           sodipodi:linespacing="125%"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300"><tspan
+             sodipodi:role="line"
+             id="tspan5353"
+             x="220.77164"
+             y="743.69678"
+             style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t'<tspan
+   id="tspan5355"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647">2</tspan></tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           x="220.71823"
+           y="675.47766"
+           id="text5385"
+           sodipodi:linespacing="125%"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300"><tspan
+             sodipodi:role="line"
+             id="tspan5387"
+             x="220.71823"
+             y="675.47766"
+             style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t'<tspan
+   id="tspan5389"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647">3</tspan></tspan></text>
+        <text
+           inkscape:export-ydpi="300"
+           inkscape:export-xdpi="300"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           sodipodi:linespacing="125%"
+           id="text5357"
+           y="612.2453"
+           x="220.71823"
+           style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           xml:space="preserve"><tspan
+             style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+             y="612.2453"
+             x="220.71823"
+             id="tspan5359"
+             sodipodi:role="line">t'<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647"
+   id="tspan5361">4</tspan></tspan></text>
+        <g
+           id="g5397"
+           style="stroke:#367f68;stroke-opacity:1"
+           transform="translate(-65.502102,16)">
+          <path
+             transform="translate(-203.26768,47.345903)"
+             inkscape:connector-curvature="0"
+             id="path4461"
+             d="m 99.999999,510.24132 375.000001,0 0,260.61935"
+             style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0" />
+          <path
+             transform="translate(-203.26768,47.345903)"
+             inkscape:connector-curvature="0"
+             id="path4463"
+             d="m 99.999999,555.69818 250.000001,0 0,215.16249"
+             style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0" />
+          <path
+             transform="translate(-203.26768,47.345903)"
+             inkscape:connector-curvature="0"
+             id="path4465"
+             d="m 99.999999,660.75405 125.000001,0 0,110.10662"
+             style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0" />
+        </g>
+        <text
+           xml:space="preserve"
+           style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           x="-173.13976"
+           y="535.41113"
+           id="text3217"
+           sodipodi:linespacing="125%"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300"><tspan
+             sodipodi:role="line"
+             id="tspan3219"
+             x="-173.13976"
+             y="535.41113"
+             style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t</tspan></text>
+        <path
+           sodipodi:nodetypes="ccc"
+           inkscape:connector-curvature="0"
+           id="path3303"
+           d="m 206.45048,843.70258 -374.63604,0 0,-299.6194"
+           style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-end:none" />
+        <text
+           inkscape:export-ydpi="300"
+           inkscape:export-xdpi="300"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           sodipodi:linespacing="125%"
+           id="text3317"
+           y="851.10663"
+           x="224.70297"
+           style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           xml:space="preserve"><tspan
+             style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+             y="851.10663"
+             x="224.70297"
+             id="tspan3319"
+             sodipodi:role="line">p</tspan></text>
+        <path
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path3249"
+           d="m -158.11531,784.87672 -20.28428,0"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+        <path
+           sodipodi:nodetypes="cc"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m -158.11531,573.54563 -20.28428,0"
+           id="path3251"
+           inkscape:connector-curvature="0" />
+        <path
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path3253"
+           d="m -158.11531,619.00249 -20.28428,0"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path3259"
+           d="m -158.11531,723.73965 -20.28428,0"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:nodetypes="cc" />
+        <text
+           inkscape:export-ydpi="300"
+           inkscape:export-xdpi="300"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           sodipodi:linespacing="125%"
+           id="text3261"
+           y="788.88165"
+           x="-199.42213"
+           style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           xml:space="preserve"><tspan
+             style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+             y="788.88165"
+             x="-199.42213"
+             id="tspan3263"
+             sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1"
+   id="tspan3265">1</tspan></tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           x="-199.94264"
+           y="727.81213"
+           id="text3267"
+           sodipodi:linespacing="125%"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300"><tspan
+             sodipodi:role="line"
+             id="tspan3269"
+             x="-199.94264"
+             y="727.81213"
+             style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan3271"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1">2</tspan></tspan></text>
+        <text
+           inkscape:export-ydpi="300"
+           inkscape:export-xdpi="300"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           sodipodi:linespacing="125%"
+           id="text3273"
+           y="623.02161"
+           x="-199.99605"
+           style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           xml:space="preserve"><tspan
+             style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+             y="623.02161"
+             x="-199.99605"
+             id="tspan3275"
+             sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1"
+   id="tspan3277">3</tspan></tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           x="-200.08943"
+           y="577.6181"
+           id="text3279"
+           sodipodi:linespacing="125%"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300"><tspan
+             sodipodi:role="line"
+             id="tspan3281"
+             x="-200.08943"
+             y="577.6181"
+             style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan3283"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1">4</tspan></tspan></text>
+        <path
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m -168.25745,833.57463 0,20.28428"
+           id="path3329"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path3331"
+           d="m 206.7527,833.57463 0,20.28428"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+        <text
+           inkscape:export-ydpi="300"
+           inkscape:export-xdpi="300"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           sodipodi:linespacing="125%"
+           id="text3333"
+           y="877.13196"
+           x="-175.45648"
+           style="font-size:25.92000008px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           xml:space="preserve"><tspan
+             style="font-size:25.92000008px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+             y="877.13196"
+             x="-175.45648"
+             id="tspan3335"
+             sodipodi:role="line">0</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:25.92000008px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           x="198.57022"
+           y="877.23322"
+           id="text3337"
+           sodipodi:linespacing="125%"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300"><tspan
+             sodipodi:role="line"
+             id="tspan3339"
+             x="198.57022"
+             y="877.23322"
+             style="font-size:25.92000008px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">1</tspan></text>
+        <path
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path4409"
+           d="m -43.543166,833.57463 0,20.28428"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 81.028258,833.57463 0,20.28428"
+           id="path4411"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m -158.11531,619.00249 -20.28428,0"
+           id="path4419"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           sodipodi:nodetypes="cc"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m -158.11531,723.73965 -20.28428,0"
+           id="path4421"
+           inkscape:connector-curvature="0" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m -74.257452,833.57463 0,40.28428"
+           id="path4441"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path4443"
+           d="m 18.313976,833.57463 0,40.28428"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 111.59969,833.57463 0,40.28428"
+           id="path4445"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m -158.11531,784.87672 -20.28428,0"
+           id="path4447"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path4449"
+           d="m -158.11531,573.54563 -20.28428,0"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m -158.11531,619.00249 -20.28428,0"
+           id="path4451"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           sodipodi:nodetypes="cc"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m -158.11531,723.73965 -20.28428,0"
+           id="path4453"
+           inkscape:connector-curvature="0" />
+        <path
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path4457"
+           d="m -158.11531,619.00249 -20.28428,0"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path4459"
+           d="m -158.11531,723.73965 -20.28428,0"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-end:none"
+           d="m 206.52873,843.70258 0,-299.6194"
+           id="path4467"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <text
+           inkscape:export-ydpi="300"
+           inkscape:export-xdpi="300"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           sodipodi:linespacing="125%"
+           id="text5291"
+           y="535.41113"
+           x="201.57452"
+           style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           xml:space="preserve"><tspan
+             style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+             y="535.41113"
+             x="201.57452"
+             id="tspan5293"
+             sodipodi:role="line">t'</tspan></text>
+        <g
+           id="g5402"
+           style="stroke:#da7b27;stroke-opacity:1"
+           transform="translate(-65.502102,16)">
+          <path
+             sodipodi:nodetypes="cc"
+             style="fill:none;stroke:#da7b27;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+             d="m -103.26768,768.87294 375,0"
+             id="path5297"
+             inkscape:connector-curvature="0" />
+          <path
+             sodipodi:nodetypes="ccc"
+             style="fill:none;stroke:#da7b27;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+             d="m 476,675.46834 -281,0 0,95.39233"
+             id="path5299"
+             inkscape:connector-curvature="0"
+             transform="translate(-203.26768,47.345903)" />
+          <path
+             transform="translate(-203.26768,47.345903)"
+             inkscape:connector-curvature="0"
+             id="path5301"
+             d="m 476,607.46834 -189,0 0,163.39233"
+             style="fill:none;stroke:#da7b27;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+             sodipodi:nodetypes="ccc" />
+          <path
+             sodipodi:nodetypes="ccc"
+             style="fill:none;stroke:#da7b27;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+             d="m 476,544.03977 -95,0 0,226.8209"
+             id="path5303"
+             inkscape:connector-curvature="0"
+             transform="translate(-203.26768,47.345903)" />
+        </g>
+        <path
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 216.59897,784.87672 -20.28427,0"
+           id="path5315"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5317"
+           d="m 216.59897,573.54563 -20.28427,0"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 216.59897,607.00249 -20.28427,0"
+           id="path5319"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           sodipodi:nodetypes="cc"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 216.59897,738.45394 -20.28427,0"
+           id="path5321"
+           inkscape:connector-curvature="0" />
+        <text
+           xml:space="preserve"
+           style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           x="221.29214"
+           y="790.11957"
+           id="text5323"
+           sodipodi:linespacing="125%"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300"><tspan
+             sodipodi:role="line"
+             id="tspan5325"
+             x="221.29214"
+             y="790.11957"
+             style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t'<tspan
+   id="tspan5327"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647">1</tspan></tspan></text>
+        <text
+           inkscape:export-ydpi="300"
+           inkscape:export-xdpi="300"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           sodipodi:linespacing="125%"
+           id="text5341"
+           y="578.35571"
+           x="220.62485"
+           style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           xml:space="preserve"><tspan
+             style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+             y="578.35571"
+             x="220.62485"
+             id="tspan5343"
+             sodipodi:role="line">t'<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647"
+   id="tspan5345">5</tspan></tspan></text>
+        <path
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path5347"
+           d="m 216.59897,607.00249 -20.28427,0"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5349"
+           d="m 216.59897,738.45394 -20.28427,0"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:nodetypes="cc" />
+        <path
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path5367"
+           d="m 216.59897,607.00249 -20.28427,0"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5369"
+           d="m 216.59897,738.45394 -20.28427,0"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:nodetypes="cc" />
+        <path
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path5375"
+           d="m 216.59897,670.2882 -20.28427,0"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 216.59897,670.2882 -20.28427,0"
+           id="path5383"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 216.59897,670.2882 -20.28427,0"
+           id="path5391"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="fill:none;stroke:#4d4d4d;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:none"
+           d="m -168.76978,784.7091 124.999997,-60.60915 125,-105.05587 125.000003,-45.45686"
+           id="path3344"
+           inkscape:connector-curvature="0" />
+        <path
+           sodipodi:type="arc"
+           style="fill:#367f68;fill-opacity:1;stroke:#367f68;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="path4399"
+           sodipodi:cx="212.5051"
+           sodipodi:cy="673.24896"
+           sodipodi:rx="12.494899"
+           sodipodi:ry="12.494899"
+           d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+           transform="matrix(0.56691968,0,0,0.56691968,-164.23801,342.41678)" />
+        <path
+           sodipodi:type="arc"
+           style="fill:#367f68;fill-opacity:1;stroke:#367f68;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="path4403"
+           sodipodi:cx="212.5051"
+           sodipodi:cy="673.24896"
+           sodipodi:rx="12.494899"
+           sodipodi:ry="12.494899"
+           d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+           transform="matrix(0.56691968,0,0,0.56691968,-39.595152,237.20249)" />
+        <path
+           transform="matrix(0.56691968,0,0,0.56691968,85.404837,191.48821)"
+           d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+           sodipodi:ry="12.494899"
+           sodipodi:rx="12.494899"
+           sodipodi:cy="673.24896"
+           sodipodi:cx="212.5051"
+           id="path4405"
+           style="fill:#367f68;fill-opacity:1;stroke:#367f68;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:type="arc" />
+        <path
+           transform="matrix(0.56691968,0,0,0.56691968,-195.30943,357.98822)"
+           d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+           sodipodi:ry="12.494899"
+           sodipodi:rx="12.494899"
+           sodipodi:cy="673.24896"
+           sodipodi:cx="212.5051"
+           id="path4413"
+           style="fill:#da7b27;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:type="arc" />
+        <path
+           sodipodi:type="arc"
+           style="fill:#da7b27;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="path4415"
+           sodipodi:cx="212.5051"
+           sodipodi:cy="673.24896"
+           sodipodi:rx="12.494899"
+           sodipodi:ry="12.494899"
+           d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+           transform="matrix(0.56691968,0,0,0.56691968,-102.09515,289.77393)" />
+        <path
+           transform="matrix(0.56691968,0,0,0.56691968,-8.656037,225.62925)"
+           d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+           sodipodi:ry="12.494899"
+           sodipodi:rx="12.494899"
+           sodipodi:cy="673.24896"
+           sodipodi:cx="212.5051"
+           id="path4417"
+           style="fill:#da7b27;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:type="arc" />
+        <path
+           sodipodi:type="arc"
+           style="fill:#367f68;fill-opacity:1;stroke:#367f68;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="path4455"
+           sodipodi:cx="212.5051"
+           sodipodi:cy="673.24896"
+           sodipodi:rx="12.494899"
+           sodipodi:ry="12.494899"
+           d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+           transform="matrix(0.56691968,0,0,0.56691968,-288.52372,403.13107)" />
+        <path
+           sodipodi:type="arc"
+           style="fill:none;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="path5474"
+           sodipodi:cx="212.5051"
+           sodipodi:cy="673.24896"
+           sodipodi:rx="12.494899"
+           sodipodi:ry="12.494899"
+           d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+           transform="matrix(0.56691968,0,0,0.56691968,85.404837,191.48821)" />
+        <path
+           transform="matrix(0.56691968,0,0,0.56691968,-288.52372,403.13107)"
+           d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+           sodipodi:ry="12.494899"
+           sodipodi:rx="12.494899"
+           sodipodi:cy="673.24896"
+           sodipodi:cx="212.5051"
+           id="path5476"
+           style="fill:none;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:type="arc" />
+        <text
+           xml:space="preserve"
+           style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:-0.26544583px;word-spacing:-1.32722926px;text-anchor:middle;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+           x="-43.755058"
+           y="871.66748"
+           id="text5412"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             id="tspan5414"
+             x="-43.887779"
+             y="871.66748"
+             style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"><tspan
+               style="font-size:17.12553787px"
+               id="tspan5436">1/</tspan><tspan
+               style="font-size:17.81081009px;baseline-shift:sub"
+               id="tspan5432">3</tspan></tspan></text>
+        <text
+           sodipodi:linespacing="125%"
+           id="text5438"
+           y="891.73706"
+           x="-74.591095"
+           style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:-0.26544583px;word-spacing:-1.32722926px;text-anchor:middle;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+           xml:space="preserve"><tspan
+             style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+             y="891.73706"
+             x="-74.723816"
+             id="tspan5440"
+             sodipodi:role="line"><tspan
+               id="tspan5442"
+               style="font-size:17.12553787px">1/</tspan><tspan
+               id="tspan5444"
+               style="font-size:17.81081009px;baseline-shift:sub">4</tspan></tspan></text>
+        <text
+           sodipodi:linespacing="125%"
+           id="text5446"
+           y="891.73706"
+           x="18.490417"
+           style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:-0.26544583px;word-spacing:-1.32722926px;text-anchor:middle;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+           xml:space="preserve"><tspan
+             style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+             y="891.73706"
+             x="18.357695"
+             id="tspan5448"
+             sodipodi:role="line"><tspan
+               id="tspan5450"
+               style="font-size:17.12553787px">2/</tspan><tspan
+               id="tspan5452"
+               style="font-size:17.81081009px;baseline-shift:sub">4</tspan></tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:-0.26544583px;word-spacing:-1.32722926px;text-anchor:middle;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+           x="81.326454"
+           y="871.66748"
+           id="text5454"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             id="tspan5456"
+             x="81.193733"
+             y="871.66748"
+             style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"><tspan
+               style="font-size:17.12553787px"
+               id="tspan5458">2/</tspan><tspan
+               style="font-size:17.81081009px;baseline-shift:sub"
+               id="tspan5460">3</tspan></tspan></text>
+        <text
+           sodipodi:linespacing="125%"
+           id="text5462"
+           y="891.73706"
+           x="111.6507"
+           style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:-0.26544583px;word-spacing:-1.32722926px;text-anchor:middle;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+           xml:space="preserve"><tspan
+             style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+             y="891.73706"
+             x="111.51798"
+             id="tspan5464"
+             sodipodi:role="line"><tspan
+               id="tspan5466"
+               style="font-size:17.12553787px">3/</tspan><tspan
+               id="tspan5468"
+               style="font-size:17.81081009px;baseline-shift:sub">4</tspan></tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           x="-298.6951"
+           y="677.12177"
+           id="text5478"
+           sodipodi:linespacing="125%"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300"><tspan
+             sodipodi:role="line"
+             id="tspan5480"
+             x="-298.6951"
+             y="677.12177"
+             style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">M = 5</tspan></text>
+        <text
+           inkscape:export-ydpi="300"
+           inkscape:export-xdpi="300"
+           inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+           sodipodi:linespacing="125%"
+           id="text5482"
+           y="677.12177"
+           x="281.3049"
+           style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b27;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+           xml:space="preserve"><tspan
+             style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b27;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+             y="677.12177"
+             x="281.3049"
+             id="tspan5484"
+             sodipodi:role="line">M = 6</tspan></text>
+      </g>
     </g>
     <text
        xml:space="preserve"
-       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
-       x="-107.63766"
-       y="547.41113"
-       id="text3217"
+       style="font-size:32px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Bold"
+       x="-66.296173"
+       y="440.58191"
+       id="text5507"
        sodipodi:linespacing="125%"
        inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"><tspan
          sodipodi:role="line"
-         id="tspan3219"
-         x="-107.63766"
-         y="547.41113"
+         id="tspan5509"
+         x="-66.296173"
+         y="440.58191"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Bold"><tspan
+           style="font-style:italic;-inkscape-font-specification:Cambria Bold Italic"
+           id="tspan5631"><tspan
+   style="font-style:normal"
+   id="tspan16121">Interpolate</tspan> t</tspan></tspan></text>
+    <g
+       id="g11813"
+       transform="translate(0,-49.010153)">
+      <rect
+         ry="30.304577"
+         y="915.68652"
+         x="-349.73981"
+         height="354.56345"
+         width="755.04352"
+         id="rect5633"
+         style="fill:#ececec;fill-opacity:0.94117647;stroke:#000000;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path5873"
+         d="m -350.74995,960.83872 754.99005,0"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:nodetypes="cc" />
+      <text
+         xml:space="preserve"
+         style="font-size:32px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Bold"
+         x="-68.882111"
+         y="945.15332"
+         id="text5875"
+         sodipodi:linespacing="125%"
+         inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300"><tspan
+           sodipodi:role="line"
+           id="tspan5877"
+           x="-68.882111"
+           y="945.15332"
+           style="font-size:32px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Bold">Interpolate γ</tspan></text>
+    </g>
+    <rect
+       y="962.11865"
+       x="-187.25533"
+       height="208.3873"
+       width="450"
+       id="rect5881"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="cccccccccc"
+       inkscape:connector-curvature="0"
+       id="path5883"
+       d="m -185.25922,975.34675 56.06346,0 0,44.95175 59.599008,0 0,71.4365 105.56094,0 0,26.0432 45.456864,0 0,29.2944 180.341938,0"
+       style="opacity:0.35;fill:none;stroke:#b51412;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="249.65259"
+       y="1198.3451"
+       id="text5893"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan5895"
+         x="249.65259"
+         y="1198.3451"
          style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t</tspan></text>
     <text
-       xml:space="preserve"
-       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
-       x="-148.26613"
-       y="883.83649"
-       id="text3221"
-       sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300"><tspan
-         sodipodi:role="line"
-         id="tspan3223"
-         x="-148.26613"
-         y="883.83649"
-         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
-   id="tspan3225"
-   style="font-size:65.00091553%;baseline-shift:super">m</tspan><tspan
-   id="tspan3227"
-   style="font-size:65.00091553%;baseline-shift:sub">1</tspan></tspan></text>
-    <text
        inkscape:export-ydpi="300"
        inkscape:export-xdpi="300"
        inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
        sodipodi:linespacing="125%"
-       id="text3233"
-       y="823.73236"
-       x="-148.78662"
-       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       id="text5897"
+       y="979.4184"
+       x="-228.6111"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
        xml:space="preserve"><tspan
-         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
-         y="823.73236"
-         x="-148.78662"
-         id="tspan3235"
-         sodipodi:role="line">t<tspan
-   style="font-size:65.00091553%;baseline-shift:super"
-   id="tspan3237">m</tspan><tspan
-   style="font-size:65.00091553%;baseline-shift:sub"
-   id="tspan3239">2</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
-       x="-148.84001"
-       y="741.85663"
-       id="text3241"
-       sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300"><tspan
-         sodipodi:role="line"
-         id="tspan3243"
-         x="-148.84001"
-         y="741.85663"
-         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
-   id="tspan3245"
-   style="font-size:65.00091553%;baseline-shift:super">m</tspan><tspan
-   id="tspan3247"
-   style="font-size:65.00091553%;baseline-shift:sub">3</tspan></tspan></text>
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="979.4184"
+         x="-228.6111"
+         id="tspan5899"
+         sodipodi:role="line">γ<tspan
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#367f68;fill-opacity:1"
+   id="tspan11777">1</tspan></tspan></text>
     <text
        inkscape:export-ydpi="300"
        inkscape:export-xdpi="300"
        inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
        sodipodi:linespacing="125%"
-       id="text3249"
-       y="667.66388"
-       x="-148.93344"
-       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       id="text5905"
+       y="1200.3119"
+       x="-136.70341"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
        xml:space="preserve"><tspan
-         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
-         y="667.66388"
-         x="-148.93344"
-         id="tspan3251"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="1200.3119"
+         x="-136.70341"
+         id="tspan5907"
          sodipodi:role="line">t<tspan
-   style="font-size:65.00091553%;baseline-shift:super"
-   id="tspan3253">m</tspan><tspan
-   style="font-size:65.00091553%;baseline-shift:sub"
-   id="tspan3255">4</tspan></tspan></text>
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1"
+   id="tspan5909">1</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
-       x="-149.08023"
-       y="621.12317"
-       id="text3257"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-77.872551"
+       y="1200.3119"
+       id="text5911"
        sodipodi:linespacing="125%"
        inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"><tspan
          sodipodi:role="line"
-         id="tspan3259"
-         x="-149.08023"
-         y="621.12317"
-         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
-   id="tspan3261"
-   style="font-size:65.00091553%;baseline-shift:super">m</tspan><tspan
-   id="tspan3263"
-   style="font-size:65.00091553%;baseline-shift:sub">5</tspan></tspan></text>
-    <path
-       sodipodi:nodetypes="cc"
-       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m -92.01593,616.04287 -22.28427,0"
-       id="path3201"
-       inkscape:connector-curvature="0" />
-    <path
-       sodipodi:nodetypes="cc"
-       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m -92.01593,878.91323 -22.28427,0"
-       id="path3203"
-       inkscape:connector-curvature="0" />
-    <path
-       sodipodi:nodetypes="cc"
-       inkscape:connector-curvature="0"
-       id="path3205"
-       d="m -92.01593,818.30408 -22.28427,0"
-       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-    <path
-       sodipodi:nodetypes="cc"
-       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m -92.01593,736.48172 -22.28427,0"
-       id="path3207"
-       inkscape:connector-curvature="0" />
-    <path
-       sodipodi:nodetypes="cc"
-       inkscape:connector-curvature="0"
-       id="path3209"
-       d="m -92.01593,662.06221 -22.28427,0"
-       style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-    <path
-       sodipodi:nodetypes="ccc"
-       inkscape:connector-curvature="0"
-       id="path3303"
-       d="m 341.95258,907.70258 -444.63604,0 0,-339.6194"
-       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#marker3222);marker-end:url(#marker3226)" />
+         id="tspan5913"
+         x="-77.872551"
+         y="1200.3119"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan5915"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1">2</tspan></tspan></text>
     <text
        inkscape:export-ydpi="300"
        inkscape:export-xdpi="300"
        inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
        sodipodi:linespacing="125%"
-       id="text3317"
-       y="915.10663"
-       x="358.20508"
+       id="text5917"
+       y="1200.2585"
+       x="28.596931"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="1200.2585"
+         x="28.596931"
+         id="tspan5919"
+         sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1"
+   id="tspan5921">3</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="73.960373"
+       y="1200.3119"
+       id="text5923"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan5925"
+         x="73.960373"
+         y="1200.3119"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan5927"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1">4</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text8005"
+       y="942.35449"
+       x="-92.683159"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="942.35449"
+         x="-92.683159"
+         id="tspan8007"
+         sodipodi:role="line">t'<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647"
+   id="tspan8009">2</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text8011"
+       y="942.30115"
+       x="-24.410038"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="942.30115"
+         x="-24.410038"
+         id="tspan8013"
+         sodipodi:role="line">t'<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647"
+   id="tspan8015">3</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="38.991463"
+       y="942.44788"
+       id="text8017"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8019"
+         x="38.991463"
+         y="942.44788"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t'<tspan
+   id="tspan8021"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647">4</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text8033"
+       y="942.35449"
+       x="-138.95805"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="942.35449"
+         x="-138.95805"
+         id="tspan8035"
+         sodipodi:role="line">t'<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647"
+   id="tspan8037">1</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="70.844666"
+       y="942.448"
+       id="text8039"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8041"
+         x="70.844666"
+         y="942.448"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t'<tspan
+   id="tspan8043"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647">5</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text10003"
+       y="954.34509"
+       x="246.84244"
        style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
        xml:space="preserve"><tspan
          style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
-         y="915.10663"
-         x="358.20508"
-         id="tspan3319"
-         sodipodi:role="line">p</tspan></text>
+         y="954.34509"
+         x="246.84244"
+         id="tspan10005"
+         sodipodi:role="line">t'</tspan></text>
+    <path
+       style="fill:none;stroke:#4d4d4d;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -187.25533,974.98165 57.85714,44.99995 60.083268,71.7961 105.56094,26.2639 45.204334,29.0419"
+       id="path6218"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#367f68;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path6210"
+       sodipodi:cx="212.5051"
+       sodipodi:cy="673.24896"
+       sodipodi:rx="12.494899"
+       sodipodi:ry="12.494899"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       transform="matrix(0.56691968,0,0,0.56691968,-249.6891,638.52682)" />
+    <path
+       transform="matrix(0.56691968,0,0,0.56691968,-190.19961,709.99511)"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       sodipodi:ry="12.494899"
+       sodipodi:rx="12.494899"
+       sodipodi:cy="673.24896"
+       sodipodi:cx="212.5051"
+       id="path6212"
+       style="fill:#367f68;fill-opacity:1;stroke:#367f68;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#367f68;fill-opacity:1;stroke:#367f68;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path6214"
+       sodipodi:cx="212.5051"
+       sodipodi:cy="673.24896"
+       sodipodi:rx="12.494899"
+       sodipodi:ry="12.494899"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       transform="matrix(0.56691968,0,0,0.56691968,-84.663858,736.06654)" />
+    <path
+       transform="matrix(0.56691968,0,0,0.56691968,-39.23529,765.53083)"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       sodipodi:ry="12.494899"
+       sodipodi:rx="12.494899"
+       sodipodi:cy="673.24896"
+       sodipodi:cx="212.5051"
+       id="path6216"
+       style="fill:#367f68;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:type="arc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -129.36397,950.06295 0,20.2842"
+       id="path11653"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path11655"
+       d="m 81.252842,950.06295 0,20.2842"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 49.252838,950.06295 0,20.2842"
+       id="path11657"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path11659"
+       d="m -14.242086,950.06295 0,20.2842"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -82.568591,950.06295 0,20.2842"
+       id="path11661"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-228.53188"
+       y="1024.4286"
+       id="text11779"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan11781"
+         x="-228.53188"
+         y="1024.4286"
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">γ<tspan
+   id="tspan11783"
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#367f68;fill-opacity:1">2</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text11795"
+       y="1095.4265"
+       x="-228.52374"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="1095.4265"
+         x="-228.52374"
+         id="tspan11797"
+         sodipodi:role="line">γ<tspan
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#367f68;fill-opacity:1"
+   id="tspan11799">3</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-228.50954"
+       y="1121.4183"
+       id="text11801"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan11803"
+         x="-228.50954"
+         y="1121.4183"
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">γ<tspan
+   id="tspan11805"
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#367f68;fill-opacity:1">4</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text11807"
+       y="1150.9214"
+       x="-228.48718"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="1150.9214"
+         x="-228.48718"
+         id="tspan11809"
+         sodipodi:role="line">γ<tspan
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#367f68;fill-opacity:1"
+   id="tspan11811">5</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b27;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="277.38889"
+       y="978.69067"
+       id="text16123"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan16125"
+         x="277.38889"
+         y="978.69067"
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b27;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">γ<tspan
+   id="tspan16127"
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#da7b27;fill-opacity:1">1</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text16129"
+       y="1024.6907"
+       x="277.46811"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b27;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b27;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="1024.6907"
+         x="277.46811"
+         id="tspan16131"
+         sodipodi:role="line">γ<tspan
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#da7b27;fill-opacity:1"
+   id="tspan16133">2</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b27;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="277.47623"
+       y="1079.5017"
+       id="text16135"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan16137"
+         x="277.47623"
+         y="1079.5017"
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b27;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">γ<tspan
+   id="tspan16139"
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#da7b27;fill-opacity:1">3</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text16141"
+       y="1109.1959"
+       x="277.49045"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b27;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b27;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="1109.1959"
+         x="277.49045"
+         id="tspan16143"
+         sodipodi:role="line">γ<tspan
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#da7b27;fill-opacity:1"
+   id="tspan16145">4</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b27;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="277.51279"
+       y="1130.1124"
+       id="text16147"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan16149"
+         x="277.51279"
+         y="1130.1124"
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b27;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">γ<tspan
+   id="tspan16151"
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#da7b27;fill-opacity:1">5</tspan></tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       id="path4465-9"
+       d="m -188.165,1020.758 58.64285,0 0,150.1066"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       sodipodi:nodetypes="ccc" />
+    <path
+       sodipodi:nodetypes="ccc"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       d="m -187.59356,1091.4723 117.571409,0 0,79.3923"
+       id="path16173"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path16175"
+       d="m -187.59356,1117.4723 223.571409,0 0,53.3923"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       sodipodi:nodetypes="ccc" />
+    <path
+       sodipodi:nodetypes="ccc"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       d="m -187.59356,1147.1152 268.99998,0 0,23.7494"
+       id="path16177"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -197.47253,1146.9819 20.2842,0"
+       id="path16179"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path16181"
+       d="m -197.47253,1117.3391 20.2842,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -197.47253,1091.3391 20.2842,0"
+       id="path16183"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path16185"
+       d="m -197.47253,1020.8033 20.2842,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -197.47253,975.16044 20.2842,0"
+       id="path16187"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       transform="matrix(0.56691968,0,0,0.56691968,-307.68095,593.39647)"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       sodipodi:ry="12.494899"
+       sodipodi:rx="12.494899"
+       sodipodi:cy="673.24896"
+       sodipodi:cx="212.5051"
+       id="path5959"
+       style="fill:#367f68;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 81.757922,1162.0629 0,20.2842"
+       id="path5889"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path5891"
+       d="m 36.301058,1162.0629 0,20.2842"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5903"
+       d="m -70.221811,1162.0629 0,20.2842"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path5887"
+       d="m -129.57317,1162.0629 0,20.2842"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccc"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       d="m 261.835,1020.758 -391.35715,0 0,-58.39848"
+       id="path16189"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path16191"
+       d="m 262.35782,1075.7478 -344.890122,0 0,-113.38828"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       sodipodi:nodetypes="ccc" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path16193"
+       d="m 261.835,974.758 -449.35715,0"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="ccc"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       d="m 262.35782,1105.2427 -276.890122,0 0,-142.88318"
+       id="path16195"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path16197"
+       d="m 262.35782,1126.2529 -212.890122,0 0,-163.89338"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       sodipodi:nodetypes="ccc" />
+    <path
+       sodipodi:nodetypes="ccc"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       d="m 262.35782,1147.2631 -180.890122,0 0,-184.90358"
+       id="path16199"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path16201"
+       d="m 252.04271,1146.9819 20.2842,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 252.04271,1126.2241 20.2842,0"
+       id="path16203"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path16205"
+       d="m 252.04271,1105.2345 20.2842,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 252.04271,1075.6134 20.2842,0"
+       id="path16207"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path16209"
+       d="m 252.04271,1020.7293 20.2842,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 252.04271,974.7293 20.2842,0"
+       id="path16211"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Forskning\Waning Immunity ODE\model.png"
+       sodipodi:linespacing="125%"
+       id="text16213"
+       y="1150.8702"
+       x="277.51279"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b27;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b27;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="1150.8702"
+         x="277.51279"
+         id="tspan16215"
+         sodipodi:role="line">γ<tspan
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#da7b27;fill-opacity:1"
+   id="tspan16217">6</tspan></tspan></text>
+    <path
+       transform="matrix(0.56691968,0,0,0.56691968,-203.20376,694.08368)"
+       d="m 225,673.24896 a 12.494899,12.494899 0 1 1 -24.9898,0 12.494899,12.494899 0 1 1 24.9898,0 z"
+       sodipodi:ry="12.494899"
+       sodipodi:rx="12.494899"
+       sodipodi:cy="673.24896"
+       sodipodi:cx="212.5051"
+       id="path4413-5"
+       style="fill:#da7b27;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#da7b27;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path16241"
+       sodipodi:cx="212.5051"
+       sodipodi:cy="673.24896"
+       sodipodi:rx="12.494899"
+       sodipodi:ry="12.494899"
+       d="m 225,673.24896 a 12.494899,12.494899 0 1 1 -24.9898,0 12.494899,12.494899 0 1 1 24.9898,0 z"
+       transform="matrix(0.56691968,0,0,0.56691968,-135.29131,723.3781)" />
+    <path
+       transform="matrix(0.56691968,0,0,0.56691968,-71.146623,744.5913)"
+       d="m 225,673.24896 a 12.494899,12.494899 0 1 1 -24.9898,0 12.494899,12.494899 0 1 1 24.9898,0 z"
+       sodipodi:ry="12.494899"
+       sodipodi:rx="12.494899"
+       sodipodi:cy="673.24896"
+       sodipodi:cx="212.5051"
+       id="path16243"
+       style="fill:#da7b27;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:type="arc" />
   </g>
 </svg>

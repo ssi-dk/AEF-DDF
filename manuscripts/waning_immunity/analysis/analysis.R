@@ -155,7 +155,7 @@ generators <- cbind(
   tibble::as_tibble()
 
 
-t <- seq(0, 3.5, by = 1 / 10)
+t <- seq(0, 3.5, by = 1 / 20)
 results <- generators |>
   tidyr::pivot_longer(
     c("waning_function", "approx_function"),
@@ -194,7 +194,7 @@ ggplot2::ggplot(mapping = ggplot2::aes(x = t, y = y, color = method)) +
     )
   )
 
-ggplot2::ggsave(file.path(dirname(getwd()), "figures/0.png"))
+ggplot2::ggsave(file.path(dirname(getwd()), "figures/single_target-overview.png"))
 
 
 # Compute the residuals for each method / strategy
@@ -279,7 +279,9 @@ for (single_target in names(single_target_waning_functions)) {
 error <- cbind(
   inputs,
   tibble::tibble("error" = purrr::map_dbl(approximation_output, ~ .$sqrt_integral))
-) |>
+)
+
+error_total <- error |>
   dplyr::summarise(
     "error" = sum(.data$error),
     .by = c("M", "method", "strategy")
@@ -312,7 +314,47 @@ ggplot2::ggplot() +
       "free_delta" = "#3C6088"  # SSI Blue
     )
   ) +
-  ggplot2::labs(y = latex2exp::TeX(r"{Error $\left(\int R^2\right)$}")) +
+  #ggplot2::labs(y = latex2exp::TeX(r"{Error $\left(\int R^2\right)$}")) +
+  ggplot2::coord_cartesian(ylim = c(0, NA), expand = FALSE) +
+  ggplot2::facet_wrap(~ target, scales = "free") +
+  ggplot2::theme_bw() +
+  ggplot2::labs(
+    caption = paste(
+      sep = "\n",
+      glue::glue("Error (disregarding penalty) from approximation to single targets"),
+      glue::glue("individual_level = {individual_level}, monotonous = {monotonous}")
+    )
+  )
+
+ggplot2::ggsave(file.path(dirname(getwd()), "figures/signal-target-error-per-target.png"))
+
+
+# Plot a subset of the data for illustrative purposes
+ggplot2::ggplot() +
+  ggplot2::geom_line(
+    data = dplyr::filter(
+      error_total,
+      .data$M > 1
+    ),
+    mapping = ggplot2::aes(x = M, y = error, colour = method, linetype = strategy),
+    linewidth = 1
+  ) +
+  ggplot2::guides(
+    colour = ggplot2::guide_legend(
+      title = "Method"
+    ),
+    linetype = ggplot2::guide_legend(
+      title = "Strategy"
+    )
+  ) +
+  ggplot2::scale_color_manual(
+    values = c(
+      "all_free"   = "#B51412", # SSI Red
+      "free_gamma" = "#367F68", # SSI Green
+      "free_delta" = "#3C6088"  # SSI Blue
+    )
+  ) +
+  #ggplot2::labs(y = latex2exp::TeX(r"{Error $\left(\int R^2\right)$}")) +
   ggplot2::coord_cartesian(ylim = c(0, NA), expand = FALSE) +
   ggplot2::theme_bw() +
   ggplot2::labs(
@@ -323,8 +365,7 @@ ggplot2::ggplot() +
     )
   )
 
-ggplot2::ggsave(file.path(dirname(getwd()), "figures/2.png"))
-
+ggplot2::ggsave(file.path(dirname(getwd()), "figures/single-target-error-total.png"))
 
 
 # Define custom waning functions for dual waning optimisation
@@ -443,14 +484,9 @@ approximation_output <- furrr::future_pmap(
 error <- cbind(
   inputs,
   tibble::tibble("error" = approximation_output$sqrt_integral)
-) |>
-  dplyr::summarise(
-    "error" = sum(.data$error),
-    .by = c("M", "method", "strategy")
-  )
+)
 
-
-# Plot a subset of the data for illustrative purposes
+# Plot the error per method / target
 ggplot2::ggplot() +
   ggplot2::geom_line(
     data = dplyr::filter(
@@ -475,7 +511,53 @@ ggplot2::ggplot() +
       "free_delta" = "#3C6088"  # SSI Blue
     )
   ) +
-  ggplot2::labs(y = latex2exp::TeX(r"{Error $\left(\int R^2\right)$}")) +
+  #ggplot2::labs(y = latex2exp::TeX(r"{Error $\left(\int R^2\right)$}")) +
+  ggplot2::coord_cartesian(ylim = c(0, NA), expand = FALSE) +
+  ggplot2::facet_wrap(~ target, ncol = 1) +
+  ggplot2::theme_bw() +
+  ggplot2::labs(
+    caption = paste(
+      sep = "\n",
+      glue::glue("Error (disregarding penalty) from approximation to two targets"),
+      glue::glue("individual_level = {individual_level}, monotonous = {monotonous}")
+    )
+  )
+
+ggplot2::ggsave(file.path(dirname(getwd()), "figures/double-target-target-error.png"))
+
+error_total <- error |>
+  dplyr::summarise(
+    "error" = sum(.data$error),
+    .by = c("M", "method", "strategy")
+  )
+
+
+# Plot the total error associated with each method
+ggplot2::ggplot() +
+  ggplot2::geom_line(
+    data = dplyr::filter(
+      error_total,
+      .data$M > 1
+    ),
+    mapping = ggplot2::aes(x = M, y = error, colour = method, linetype = strategy),
+    linewidth = 1
+  ) +
+  ggplot2::guides(
+    colour = ggplot2::guide_legend(
+      title = "Method"
+    ),
+    linetype = ggplot2::guide_legend(
+      title = "Strategy"
+    )
+  ) +
+  ggplot2::scale_color_manual(
+    values = c(
+      "all_free"   = "#B51412", # SSI Red
+      "free_gamma" = "#367F68", # SSI Green
+      "free_delta" = "#3C6088"  # SSI Blue
+    )
+  ) +
+  #ggplot2::labs(y = latex2exp::TeX(r"{Error $\left(\int R^2\right)$}")) +
   ggplot2::coord_cartesian(ylim = c(0, NA), expand = FALSE) +
   ggplot2::theme_bw() +
   ggplot2::labs(
@@ -486,4 +568,4 @@ ggplot2::ggplot() +
     )
   )
 
-ggplot2::ggsave(file.path(dirname(getwd()), "figures/3.png"))
+ggplot2::ggsave(file.path(dirname(getwd()), "figures/double-target-total-error.png"))
