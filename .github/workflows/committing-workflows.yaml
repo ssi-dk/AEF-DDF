@@ -270,6 +270,9 @@ jobs:
       - name: ⚙️ Update vignette caches
         if: ${{ inputs.update_cache == true }}
         run: |
+          # Load development state
+          devtools::load_all()
+
           # Look for cached files
           cached_files <- list.files(
             file.path("vignettes"),
