@@ -156,8 +156,6 @@ jobs:
             if [ "${{ inputs.container }}" != "null" ]; then
               git add pak.lock || echo "No pak.lock to add"
               git commit -m "chore: Update pak.lock"
-            else
-              echo "Only committing when running on docker container"
             fi
           fi
 
