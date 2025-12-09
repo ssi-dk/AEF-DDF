@@ -152,8 +152,11 @@ jobs:
             echo "No changes to commit"
           else
             echo "dependency_change=true" >> $GITHUB_OUTPUT
-            git add pak.lock || echo "No pak.lock to add"
-            git commit -m "chore: Update pak.lock"
+
+            if [ "${{ inputs.container }}" != "null" ]; then
+              git add pak.lock || echo "No pak.lock to add"
+              git commit -m "chore: Update pak.lock"
+            fi
           fi
 
       - name: 📝 Enforce code style
