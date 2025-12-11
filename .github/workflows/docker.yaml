@@ -111,7 +111,7 @@ jobs:
           echo "" >> dockerfile
 
           # Install package dependencies
-          echo "RUN R -e 'pkgs <- jsonlite::fromJSON(\"pak.lock\")$packages; pak::pak(paste0(pkgs$package, \"@\" ,pkgs$version))'" >> dockerfile
+          echo "RUN R -e 'pkgs <- jsonlite::fromJSON(\"pak.lock\")\$packages; pak::pak(paste0(pkgs\$package, \"@\" ,pkgs\$version))'" >> dockerfile
           echo "" >> dockerfile
 
           # Install workflow dependencies
