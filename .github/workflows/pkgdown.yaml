@@ -117,8 +117,12 @@ jobs:
 
       - name: Build site
         run: |
-          pkgdown::build_site_github_pages(new_process = FALSE, install = TRUE)
-        shell: Rscript {0}
+          output=$(Rscript -e "pkgdown::build_site_github_pages(new_process = FALSE, install = TRUE)" 2>&1)
+          if [[ "$output" == *"[WARNING]"* ]]; then
+            echo "::error::Found [WARNING] in output. Failing job."
+            exit 1
+          fi
+        shell: bash
 
       - name: Fix malformed formatting
         run: |
