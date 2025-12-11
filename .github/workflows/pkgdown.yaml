@@ -118,6 +118,7 @@ jobs:
       - name: Build site
         run: |
           output=$(Rscript -e "pkgdown::build_site_github_pages(new_process = FALSE, install = TRUE)" 2>&1)
+          echo "$output"
           if [[ "$output" == *"[WARNING]"* ]]; then
             echo "::error::Found [WARNING] in output. Failing job."
             exit 1
