@@ -118,9 +118,9 @@ jobs:
           lockfile <- jsonlite::fromJSON("pak.lock")
 
           # Heavily filter out information
-          pkg_order <- order(lockfile$packages$ref)
+          pkg_order <- order(lockfile$packages$package)
 
-          lockfile$packages <- lockfile$packages[pkg_order, c("ref", "package", "version", "binary", "sha256"), ]
+          lockfile$packages <- lockfile$packages[pkg_order, c("package", "version", "binary", "sha256"), ]
 
           jsonlite::write_json(lockfile, "pak.lock", pretty = TRUE, auto_unbox = TRUE)
         shell: Rscript {0}
