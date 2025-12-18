@@ -30,7 +30,7 @@ env:
 
 
 jobs:
-  new-docker:
+  docker:
     name: 🐋 Update docker image and files
     runs-on: ubuntu-latest
 
