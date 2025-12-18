@@ -186,7 +186,7 @@ jobs:
           echo "REPOSITORY_NAME=$repository_name_lowercase" >> $GITHUB_ENV
 
       - name: 🗑️ Clean up GHCR images
-        uses: snok/container-retention-policy@v3.0.0
+        uses: snok/container-retention-policy
         if: always()
         with:
           account: ssi-dk
