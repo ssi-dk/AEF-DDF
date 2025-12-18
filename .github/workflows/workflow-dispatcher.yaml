@@ -385,6 +385,13 @@ jobs:
       cancel-in-progress: false
 
 
+  docker-cleanup:
+    needs: [trigger, ghcr, committing-workflows]
+    uses: ./.github/workflows/docker-cleanup.yaml
+    if: ${{ always() && !cancelled() }}
+    secrets: inherit
+
+
   lint:
     needs: [trigger, committing-workflows, docker]
     if: ${{ always() && !failure() && !cancelled() && needs.committing-workflows.outputs.commits_made == 'false' && needs.trigger.outputs.lint == 'true' }}

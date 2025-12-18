@@ -1,0 +1,36 @@
+on:
+  workflow_call:
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  docker-cleanup:
+    name: 🐋 Remove old docker files
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: ⚙️ Get repository name (lowercase)
+        run: |
+          repository_name="${GITHUB_REPOSITORY#*/}"
+          repository_name_lowercase=$(echo "$repository_name" | tr '[:upper:]' '[:lower:]')
+          echo "REPOSITORY_NAME=$repository_name_lowercase" >> $GITHUB_ENV
+
+      - name: 🗑️ Clean up GHCR images
+        uses: snok/container-retention-policy@v3.0.1
+        if: always()
+        with:
+          account: ssi-dk
+          token: ${{ secrets.GH_PAT }}
+          image-names: ${{ env.REPOSITORY_NAME }}
+          cut-off: 1d
+          dry-run: true
