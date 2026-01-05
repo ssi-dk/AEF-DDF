@@ -120,7 +120,11 @@ jobs:
           # Heavily filter out information
           pkg_order <- order(lockfile$packages$package)
 
-          lockfile$packages <- lockfile$packages[pkg_order, c("package", "version", "binary", "sha256"), ]
+          pak::pak(c("tibble", "dplyr"))
+          print(tibble::tibble(lockfile$packages))
+
+          lockfile$packages <- lockfile$packages[pkg_order, ] |>
+            dplyr::select(dplyr::any_of(c("package", "version", "binary", "sha256")))
 
           jsonlite::write_json(lockfile, "pak.lock", pretty = TRUE, auto_unbox = TRUE)
         shell: Rscript {0}
