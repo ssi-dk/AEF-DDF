@@ -34,4 +34,4 @@ jobs:
           image-names: ${{ env.REPOSITORY_NAME }}
           cut-off: 1h
           tag-selection: untagged
-          dry-run: true
+          dry-run: false
