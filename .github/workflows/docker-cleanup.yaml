@@ -32,5 +32,6 @@ jobs:
           account: ssi-dk
           token: ${{ secrets.GH_PAT }}
           image-names: ${{ env.REPOSITORY_NAME }}
-          cut-off: 1d
+          cut-off: 1h
+          tag-selection: untagged
           dry-run: true
