@@ -375,7 +375,7 @@ jobs:
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
-      dependency_change: ${{ needs.committing-workflows.outputs.dependency_change || needs.ghcr.outputs.force-docker == 'true'}}
+      update_docker: ${{ needs.committing-workflows.outputs.update_docker || needs.ghcr.outputs.force-docker == 'true'}}
       use-containers: ${{ inputs.use-containers }}
     secrets: inherit
     concurrency:
