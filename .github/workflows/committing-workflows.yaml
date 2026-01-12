@@ -153,6 +153,9 @@ jobs:
             echo "No changes to commit"
 
             # Double check that we do not need an update
+            packages=$(Rscript -e "sapply(jsonlite::read_json('pak.lock')$packages, \(p) p$package)")
+            echo $packages
+
             package_match=$(Rscript -e "all(sapply(jsonlite::read_json('pak.lock')$packages, \(p) packageVersion(p$package) == p$version))")
             echo $package_match
             if [ "$package_match" == "[1] FALSE" ]; then
