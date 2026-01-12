@@ -134,6 +134,8 @@ jobs:
         if: ${{ !cancelled() && steps.pak.conclusion == 'success' }}
         id: update_docker
         run: |
+          set -o xtrace
+
           git stash --include-untracked
 
           if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]; then
