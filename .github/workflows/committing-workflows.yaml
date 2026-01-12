@@ -24,9 +24,9 @@ on:
         type: boolean
         default: false
     outputs:
-      dependency_change:
-        description: "Was there a change in the package dependencies since last run?"
-        value: ${{ jobs.update-lockfile-document-render-readme-styler.outputs.dependency_change }}
+      update_docker:
+        description: "Does the docker image need update?"
+        value: ${{ jobs.update-lockfile-document-render-readme-styler.outputs.update_docker }}
       commits_made:
         description: "Was a commit made?"
         value: ${{ jobs.update-lockfile-document-render-readme-styler.outputs.commits_made }}
@@ -46,7 +46,7 @@ jobs:
         shell: bash
 
     outputs:
-      dependency_change: ${{ steps.dependency_change.outputs.dependency_change }}
+      update_docker: ${{ steps.update_docker.outputs.update_docker }}
       commits_made: ${{ steps.push_changes.outputs.commits_made }}
 
     env:
@@ -132,7 +132,7 @@ jobs:
 
       - name: ⬆️ Commit changes
         if: ${{ !cancelled() && steps.pak.conclusion == 'success' }}
-        id: dependency_change
+        id: update_docker
         run: |
           git stash --include-untracked
 
@@ -149,10 +149,19 @@ jobs:
           lines_changed=$(git diff pak.lock | wc -l)
 
           if [ $lines_changed -eq 0 ]; then
-            echo "dependency_change=false" >> $GITHUB_OUTPUT
+            echo "update_docker=false" >> $GITHUB_OUTPUT
             echo "No changes to commit"
+
+            # Double check that we do not need an update
+            package_match=$(Rscript -e "all(sapply(jsonlite::read_json("pak.lock")$packages, \(p) packageVersion(p$package) == p$version))")
+            echo $package_match
+            if [ "$package_match" == "[1] FALSE" ]; then
+              echo "update_docker=true" >> $GITHUB_OUTPUT
+              echo "Package installation mismatch detected"
+            fi
+
           else
-            echo "dependency_change=true" >> $GITHUB_OUTPUT
+            echo "update_docker=true" >> $GITHUB_OUTPUT
             git add pak.lock || echo "No pak.lock to add"
             git commit -m "chore: Update pak.lock"
           fi
