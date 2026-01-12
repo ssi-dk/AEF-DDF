@@ -115,7 +115,7 @@ jobs:
           path: coverage_results.rds
 
       - name: 🐞 Show testthat output
-        if: always()
+        if: !cancelled()
         run: |
           ## --------------------------------------------------------------------
           TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
@@ -217,7 +217,7 @@ jobs:
           path: coverage_results.rds
 
       - name: 🐞 Show testthat output
-        if: always()
+        if: !cancelled()
         run: |
           ## --------------------------------------------------------------------
           TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
@@ -340,7 +340,7 @@ jobs:
           path: coverage_results.rds
 
       - name: 🐞 Show testthat output
-        if: always()
+        if: !cancelled()
         run: |
           ## --------------------------------------------------------------------
           TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
@@ -359,13 +359,13 @@ jobs:
         shell: bash
 
       - name: 🐞 Collect docker logs
-        if: always() && inputs.check_postgres_logs
+        if: !cancelled() && inputs.check_postgres_logs
         uses: jwalton/gh-docker-logs@v2
         with:
           dest: '.'
 
       - name: 🐞 Check docker logs for PostgreSQL ERRORs
-        if: always() && inputs.check_postgres_logs
+        if: !cancelled() && inputs.check_postgres_logs
         run: |
           log=$(find . -name '*postgreslatest*.log')
 
@@ -532,7 +532,7 @@ jobs:
           path: coverage_results.rds
 
       - name: 🐞 Show testthat output
-        if: always()
+        if: !cancelled()
         run: |
           ## --------------------------------------------------------------------
           TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
@@ -551,13 +551,13 @@ jobs:
         shell: bash
 
       - name: 🐞 Collect docker logs
-        if: always()
+        if: !cancelled()
         uses: jwalton/gh-docker-logs@v2
         with:
           dest: '.'
 
       - name: 🐞 Check docker logs for SQL Server ERRORs
-        if: always()
+        if: !cancelled()
         run: |
           log=$(find . -name '*mssqlserver2022latest*.log')
 
@@ -765,7 +765,7 @@ jobs:
           path: coverage_results.rds
 
       - name: 🐞 Show testthat output
-        if: always()
+        if: !cancelled()
         run: |
           ## --------------------------------------------------------------------
           TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
@@ -784,13 +784,13 @@ jobs:
         shell: bash
 
       - name: 🐞 Collect docker logs
-        if: always()
+        if: !cancelled()
         uses: jwalton/gh-docker-logs@v2
         with:
           dest: '.'
 
       - name: 🐞 Check docker logs for Oracle ERRORs
-        if: always()
+        if: !cancelled()
         run: |
           log=$(find . -name '*oraclefreelatest*.log')
 

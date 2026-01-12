@@ -86,7 +86,7 @@ jobs:
           needs: build, check, coverage, roxygen2, lint, website
 
       - name: Delete previous benchmark files
-        if: always()
+        if: !cancelled()
         run: rm -rf inst/extdata/benchmark-*.rds
 
       - name: Get SQLite version
@@ -114,12 +114,12 @@ jobs:
           echo "SQL_SERVER_VERSION=SQL Server v$version" >> $GITHUB_ENV
 
       - name: Install libraries to benchmark
-        if: always()
+        if: !cancelled()
         run: source("./data-raw/benchmark.R", echo=TRUE)
         shell: Rscript {0}
 
       - name: Run benchmark (${{ env.SQLITE_VERSION }})
-        if: ${{ always() && !contains(inputs.backend_exclude, 'sqlite') }}
+        if: ${{ !cancelled() && !contains(inputs.backend_exclude, 'sqlite') }}
         env:
           BACKEND: ${{ env.SQLITE_VERSION }}
           BACKEND_DRV: RSQLite::SQLite
@@ -128,7 +128,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Run benchmark (${{ env.DUCKDB_VERSION }})
-        if: ${{ always() && !contains(inputs.backend_exclude, 'duckdb') }}
+        if: ${{ !cancelled() && !contains(inputs.backend_exclude, 'duckdb') }}
         env:
           BACKEND: ${{ env.DUCKDB_VERSION }}
           BACKEND_DRV: duckdb::duckdb
@@ -137,7 +137,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Run benchmark (${{ env.POSTGRES_VERSION }})
-        if: ${{ always() && !contains(inputs.backend_exclude, 'postgres') }}
+        if: ${{ !cancelled() && !contains(inputs.backend_exclude, 'postgres') }}
         env:
           BACKEND: ${{ env.POSTGRES_VERSION }}
           BACKEND_DRV: RPostgres::Postgres
@@ -145,7 +145,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Run benchmark (${{ env.SQL_SERVER_VERSION }})
-        if: ${{ always() && !contains(inputs.backend_exclude, 'mssql') }}
+        if: ${{ !cancelled() && !contains(inputs.backend_exclude, 'mssql') }}
         env:
           BACKEND: ${{ env.SQL_SERVER_VERSION }}
           BACKEND_DRV: odbc::odbc
@@ -165,11 +165,11 @@ jobs:
         shell: Rscript {0}
 
       - name: Display structure of benchmark files
-        if: always()
+        if: !cancelled()
         run: ls -R inst/extdata
 
       - name: Combine benchmark results
-        if: always()
+        if: !cancelled()
         run: |
           benchmark_files <- list.files(
             "inst/extdata",
@@ -239,14 +239,14 @@ jobs:
         shell: Rscript {0}
 
       - name: Upload benchmark summary
-        if: always()
+        if: !cancelled()
         uses: actions/upload-artifact@v4
         with:
           name: benchmark-summary
           path: benchmarks.pdf
 
       - name: 🚀 Commit and push changes
-        if: always()
+        if: !cancelled()
         run: |
           git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY.git
           git stash --include-untracked

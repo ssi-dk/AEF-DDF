@@ -113,6 +113,7 @@ jobs:
           needs: build, check, coverage, roxygen2, lint, website
 
       - name: 📋 Update the pak.lock file
+        id: pak
         run: |
           pak::lockfile_create(".", lockfile = "pak.lock", dependencies = TRUE)
           lockfile <- jsonlite::fromJSON("pak.lock")
@@ -130,6 +131,7 @@ jobs:
         shell: Rscript {0}
 
       - name: ⬆️ Commit changes
+        if: ${{ !cancelled() && steps.pak.conclusion == 'success' }}
         id: dependency_change
         run: |
           git stash --include-untracked
@@ -156,7 +158,8 @@ jobs:
           fi
 
       - name: 📝 Enforce code style
-        if: ${{ inputs.styler == true }}
+        if: ${{ !cancelled() && inputs.styler == true }}
+        id: styler
         run: |
           # Set custom style
           diseasy_style <- function(...) {
@@ -182,7 +185,7 @@ jobs:
         shell: Rscript {0}
 
       - name: ⬆️ Commit changes
-        if: ${{ inputs.styler == true }}
+        if: ${{ !cancelled() && steps.styler.conclusion == 'success' && inputs.styler == true }}
         run: |
           git stash --include-untracked
 
@@ -199,12 +202,13 @@ jobs:
           git commit -m "chore: Enforce code style" || echo "No changes to commit"
 
       - name: 📖 Document
-        if: ${{ inputs.document == true }}
+        if: ${{ !cancelled() && inputs.document == true }}
+        id: document
         run: roxygen2::roxygenise()
         shell: Rscript {0}
 
       - name: ⬆️ Commit changes
-        if: ${{ inputs.document == true }}
+        if: ${{ !cancelled() && steps.document.conclusion == 'success' && inputs.document == true }}
         run: |
           git stash --include-untracked
 
@@ -221,17 +225,17 @@ jobs:
           git commit -m "docs: Re-build roxygen documentation" || echo "No changes to commit"
 
       - name: 🔧 Setup Node
-        if: ${{ inputs.render_readme == true && inputs.container != 'null' }}
+        if: ${{ !cancelled() && inputs.render_readme == true && inputs.container != 'null' }}
         run: |
           sudo apt-get -y install nodejs
           sudo apt-get -y install npm
 
       - name: 🔧 Install nunjucks
-        if: ${{ inputs.render_readme == true }}
+        if: ${{ !cancelled() && inputs.render_readme == true }}
         run: npm install nunjucks
 
       - name: 🔀 Resolve nunjucks templates
-        if: ${{ inputs.render_readme == true }}
+        if: ${{ !cancelled() && inputs.render_readme == true }}
         run: |
           echo "
             const nunjucks = require('nunjucks');
@@ -245,12 +249,13 @@ jobs:
           node render-templates.js
 
       - name: 📖 Render README
-        if: ${{ inputs.render_readme == true }}
+        if: ${{ !cancelled() && inputs.render_readme == true }}
+        id: readme
         run: rmarkdown::render("README.Rmd")
         shell: Rscript {0}
 
       - name: ⬆️ Commit changes
-        if: ${{ inputs.render_readme == true }}
+        if: ${{ !cancelled() && steps.readme.conclusion == 'success' && inputs.render_readme == true }}
         run: |
           git stash --include-untracked
 
@@ -267,7 +272,8 @@ jobs:
           git commit -m "docs(README): Re-build README.Rmd" || echo "No changes to commit"
 
       - name: ⚙️ Update vignette caches
-        if: ${{ inputs.update_cache == true }}
+        if: ${{ !cancelled() && inputs.update_cache == true }}
+        id: vignette
         run: |
           # Load development state
           devtools::load_all()
@@ -298,7 +304,7 @@ jobs:
         shell: Rscript {0}
 
       - name: ⬆️ Commit changes
-        if: ${{ inputs.render_readme == true }}
+        if: ${{ !cancelled() && steps.vignette.conclusion == 'success' && inputs.update_cache == true }}
         run: |
           git stash --include-untracked
 
@@ -315,7 +321,7 @@ jobs:
           git commit -m "chore(vignettes): Update the cache" || echo "No changes to commit"
 
       - name: 🚀 Push changes
-        if: always()
+        if: ${{ !cancelled() }}
         id: push_changes
         run: |
           set -o xtrace
