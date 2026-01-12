@@ -27,7 +27,7 @@ jobs:
 
       - name: 🗑️ Clean up GHCR images
         uses: snok/container-retention-policy@v3.0.1
-        if: !cancelled()
+        if: ${{ !cancelled() }}
         with:
           account: ssi-dk
           token: ${{ secrets.GH_PAT }}
