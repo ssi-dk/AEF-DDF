@@ -181,7 +181,7 @@ jobs:
 
       - name: 🔍 Check if Docker image exists in GHCR
         id: image_job
-        if: !cancelled()
+        if: ${{ !cancelled() }}
         run: |
           IMAGE="${{ steps.tag.outputs.tag }}"
 
@@ -200,7 +200,7 @@ jobs:
           fi
 
       - name: 🚀 Push changes
-        if:  !cancelled() && inputs.dependency_change == 'true'
+        if: ${{ !cancelled() && inputs.dependency_change == 'true' }}
         run: |
           set -o xtrace
 
