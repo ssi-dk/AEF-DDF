@@ -854,6 +854,7 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           path: coverage-reports
+          pattern: coverage-*
 
       - name: 🐞 List downloaded artifacts
         run: ls -R coverage-reports
