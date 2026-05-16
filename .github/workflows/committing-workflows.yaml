@@ -238,6 +238,7 @@ jobs:
       - name: 🔧 Setup Node
         if: ${{ !cancelled() && inputs.render_readme == true && inputs.container != 'null' }}
         run: |
+          sudo apt-get -y update
           sudo apt-get -y install nodejs
           sudo apt-get -y install npm
 
