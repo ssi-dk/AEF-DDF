@@ -4,7 +4,7 @@ on:
       skip:
         required: false
         type: string
-        default: 'styler'
+        default: 'styler,regenerate-data'
       main_branches:
         required: false
         type: string
@@ -40,6 +40,10 @@ on:
         required: false
         type: boolean
         default: true
+      data_files:
+        required: false
+        type: string
+        default: ""
 
 
 env:
@@ -209,6 +213,24 @@ jobs:
           )
         ) }}
 
+      regenerate-data: ${{
+        !contains(inputs.skip, 'regenerate-data') &&
+        (
+          inputs.event_name == 'workflow_dispatch' ||
+          (
+            inputs.event_name != 'release' &&
+            (
+              steps.main_branch_affected.outputs.on_main_branch == 'true' ||
+              (
+                steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
+                (
+                  steps.changed-files-yaml.outputs.R_any_changed == 'true'
+                )
+              )
+            )
+          )
+        ) }}
+
     steps:
       - uses: actions/checkout@v5
         with:
@@ -312,6 +334,7 @@ jobs:
           echo "pkgdown: ${{ needs.trigger.outputs.pkgdown }}"
           echo "update-lockfile: ${{ needs.trigger.outputs.update-lockfile }}"
           echo "update-cache: ${{ needs.trigger.outputs.update-cache }}"
+          echo "regenerate-data: ${{ needs.trigger.outputs.regenerate-data }}"
 
 
   ghcr:
@@ -362,6 +385,8 @@ jobs:
       document: ${{ needs.trigger.outputs.document == 'true' }}
       render_readme: ${{ needs.trigger.outputs.render-readme == 'true' }}
       update_cache: ${{ needs.trigger.outputs.update-cache == 'true' }}
+      regenerate_data: ${{ needs.trigger.outputs.regenerate-data == 'true' }}
+      data_files: ${{ inputs.data_files }}
     secrets: inherit
     concurrency:
       group: committing-workflows-${{ needs.trigger.outputs.branch_name }}

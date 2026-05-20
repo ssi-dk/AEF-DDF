@@ -23,6 +23,12 @@ on:
       update_cache:
         type: boolean
         default: false
+      regenerate_data:
+        type: boolean
+        default: false
+      data_files:
+        type: string
+        default: ''
     outputs:
       update_docker:
         description: "Does the docker image need update?"
@@ -312,6 +318,27 @@ jobs:
           # Run each vignette to update the cache
           for (vignette in vignettes) {
             rmarkdown::render(vignette)
+          }
+        shell: Rscript {0}
+
+      - name: ⚙️ Regenerate data files
+        if: ${{ !cancelled() && inputs.regenerate_data == true }}
+        id: data-raw
+        run: |
+          # Load development state
+          devtools::load_all()
+
+          # Look for data generators
+          data_raw_files <- list.files(
+            file.path("data-raw"),
+            pattern = stringr::str_replace_all("${{ inputs.data_files }}", ",", "|"),
+            recursive = TRUE,
+            full.names = TRUE
+          )
+
+          # Run each vignette to update the cache
+          for (data_raw_file in data_raw_files) {
+            source(data_raw_file)
           }
         shell: Rscript {0}
 
