@@ -336,6 +336,11 @@ jobs:
             full.names = TRUE
           )
 
+          # Ensure files are found
+          if (length(data_raw_files) == 0) {
+            quit("No data_raw/* files matched pattern", -1)
+          }
+
           # Run each vignette to update the cache
           for (data_raw_file in data_raw_files) {
             source(data_raw_file)
