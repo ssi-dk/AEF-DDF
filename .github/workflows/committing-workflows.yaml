@@ -380,7 +380,7 @@ jobs:
 
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
           git add *.rda || echo "No .rda data files to add"
-          git commit -m "chore(vignettes): Regenerate the data files" || echo "No changes to commit"
+          git commit -m "chore(data): Regenerate the data files" || echo "No changes to commit"
 
       - name: 🚀 Push changes
         if: ${{ !cancelled() }}
