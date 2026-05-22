@@ -40,10 +40,6 @@ on:
         required: false
         type: boolean
         default: true
-      data_files:
-        required: false
-        type: string
-        default: ""
 
 
 env:
@@ -386,7 +382,6 @@ jobs:
       render_readme: ${{ needs.trigger.outputs.render-readme == 'true' }}
       update_cache: ${{ needs.trigger.outputs.update-cache == 'true' }}
       regenerate_data: ${{ needs.trigger.outputs.regenerate-data == 'true' }}
-      data_files: ${{ inputs.data_files }}
     secrets: inherit
     concurrency:
       group: committing-workflows-${{ needs.trigger.outputs.branch_name }}
