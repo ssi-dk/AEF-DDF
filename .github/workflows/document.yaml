@@ -16,6 +16,8 @@ jobs:
   document:
     name: 📖 Document
     runs-on: ubuntu-latest
+    env:
+      TZ: Europe/Copenhagen
 
     steps:
       - name: ⬇️ Checkout repo
