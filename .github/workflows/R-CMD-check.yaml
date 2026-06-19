@@ -68,7 +68,7 @@ jobs:
 
       - name: "Build R package"
         run: |
-          build_tar <- devtools::build(path = ".")
+          devtools::build(path = ".")
         shell: Rscript {0}
 
       - uses: actions/upload-artifact@v4
@@ -89,7 +89,6 @@ jobs:
           - {os: macos-latest,    r: 'release'} # arm64 architecture
           - {os: windows-latest,  r: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
-          - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -209,8 +208,61 @@ jobs:
           snapshot-artifact-name: "r-release-hard-snapshot"
 
 
+  R-CMD-check-oldrel-1:
+    runs-on: ubuntu-latest
+
+    name: "🔎 Check: ubuntu (r-oldrel-1)"
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+      BACKEND: SQLite
+      BACKEND_DRV: RSQLite::SQLite
+      BACKEND_ARGS: 'list(dbname = file.path(tempdir(), "SQLite.SQLite"))'
+
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - name: 🔧 Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'oldrel-1'
+          use-public-rspm: true
+
+      - name: 🔧 Install R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: ${{ inputs.cache_version }}
+          extra-packages: any::rcmdcheck, any::devtools
+          needs: check
+
+      - name: Build R package
+        run: |
+          dir.create("pkg-build", showWarnings = FALSE)
+          devtools::build(path = ".", dest_path = "pkg-build")
+        shell: Rscript {0}
+
+      - name: Determine tar ball name
+        id: tarball
+        run: echo "tarball=$(ls *.tar.gz)" >> $GITHUB_ENV
+        working-directory: pkg-build
+
+      - uses: RasmusSkytte/actions/check-r-package@v2-branch
+        with:
+          path: '"${{ env.tarball }}"'
+          upload-snapshots: true
+          error-on: '"note"'
+          working-directory: pkg-build
+          snapshot-artifact-name: "r-oldrel-1-snapshot"
+
+
   R-CMD-check-devel:
-    needs: build-package
     runs-on: ubuntu-latest
 
     name: "🔎 Check: ubuntu (r-devel)"
@@ -244,10 +296,11 @@ jobs:
           extra-packages: any::rcmdcheck, any::devtools
           needs: check
 
-      - uses: actions/download-artifact@v7
-        with:
-          name: package-tarball
-          path: "./pkg-build"
+      - name: Build R package
+        run: |
+          dir.create("pkg-build", showWarnings = FALSE)
+          devtools::build(path = ".", dest_path = "pkg-build")
+        shell: Rscript {0}
 
       - name: Determine tar ball name
         id: tarball
@@ -298,10 +351,11 @@ jobs:
           extra-packages: any::rcmdcheck, any::devtools
           needs: check
 
-      - uses: actions/download-artifact@v7
-        with:
-          name: package-tarball
-          path: "./pkg-build"
+      - name: Build R package
+        run: |
+          dir.create("pkg-build", showWarnings = FALSE)
+          devtools::build(path = ".", dest_path = "pkg-build")
+        shell: Rscript {0}
 
       - name: Determine tar ball name
         id: tarball
