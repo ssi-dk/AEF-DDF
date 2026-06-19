@@ -256,7 +256,6 @@ jobs:
           path: '"${{ env.tarball }}"'
           upload-snapshots: true
           error-on: '"note"'
-          working-directory: pkg-build
           snapshot-artifact-name: "r-oldrel-1-snapshot"
 
 
@@ -308,7 +307,6 @@ jobs:
           path: '"${{ env.tarball }}"'
           upload-snapshots: true
           error-on: '"note"'
-          working-directory: pkg-build
           snapshot-artifact-name: "r-devel-snapshot"
 
 
@@ -360,5 +358,4 @@ jobs:
           path: '"./${{ env.tarball }}"'
           upload-snapshots: true
           error-on: '"note"'
-          working-directory: pkg-build
           snapshot-artifact-name: "r-${{ inputs.min_r_version }}-snapshot"
