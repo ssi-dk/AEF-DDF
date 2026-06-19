@@ -109,7 +109,7 @@ jobs:
         shell: Rscript {0}
 
       - name: ⬆️ Upload Coverage Report Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-${{ matrix.config.id }}
           path: coverage_results.rds
@@ -211,7 +211,7 @@ jobs:
         shell: Rscript {0}
 
       - name: ⬆️ Upload Coverage Report Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-duckdb
           path: coverage_results.rds
@@ -334,7 +334,7 @@ jobs:
         shell: Rscript {0}
 
       - name: ⬆️ Upload Coverage Report Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-postgres
           path: coverage_results.rds
@@ -526,7 +526,7 @@ jobs:
         shell: Rscript {0}
 
       - name: ⬆️ Upload Coverage Report Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-sql-server
           path: coverage_results.rds
@@ -759,7 +759,7 @@ jobs:
         shell: Rscript {0}
 
       - name: ⬆️ Upload Coverage Report Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-oracle
           path: coverage_results.rds
