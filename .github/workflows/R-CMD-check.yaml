@@ -244,14 +244,12 @@ jobs:
 
       - name: Build R package
         run: |
-          dir.create("pkg-build", showWarnings = FALSE)
-          devtools::build(path = ".", dest_path = "pkg-build")
+          devtools::build(path = ".")
         shell: Rscript {0}
 
       - name: Determine tar ball name
         id: tarball
         run: echo "tarball=$(ls *.tar.gz)" >> $GITHUB_ENV
-        working-directory: pkg-build
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
@@ -298,14 +296,12 @@ jobs:
 
       - name: Build R package
         run: |
-          dir.create("pkg-build", showWarnings = FALSE)
-          devtools::build(path = ".", dest_path = "pkg-build")
+          devtools::build(path = ".")
         shell: Rscript {0}
 
       - name: Determine tar ball name
         id: tarball
         run: echo "tarball=$(ls *.tar.gz)" >> $GITHUB_ENV
-        working-directory: pkg-build
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
@@ -352,14 +348,12 @@ jobs:
 
       - name: Build R package
         run: |
-          dir.create("pkg-build", showWarnings = FALSE)
-          devtools::build(path = ".", dest_path = "pkg-build")
+          devtools::build(path = ".")
         shell: Rscript {0}
 
       - name: Determine tar ball name
         id: tarball
         run: echo "tarball=$(ls *.tar.gz)" >> $GITHUB_ENV
-        working-directory: pkg-build
 
       - uses: RasmusSkytte/actions/check-r-package@v2-branch
         with:
