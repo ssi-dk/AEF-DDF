@@ -317,7 +317,6 @@ jobs:
 
 
   R-CMD-check-min-supported:
-    needs: build-package
     runs-on: ubuntu-latest
 
     name: "🔎 Check: ubuntu (R v${{ inputs.min_r_version }})"
