@@ -339,9 +339,10 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       container: ${{ steps.image_job.outputs.container }}
+      r_devel_container: ${{ steps.image_job.outputs.r_devel_container }}
       force-docker: ${{ steps.image_job.outputs.force }}
     steps:
-      - name: Determine container to send to workflows
+      - name: Determine containers to send to workflows
         id: image_job
         run: |
           # Convert IMAGE_NAME to lowercase
@@ -351,22 +352,38 @@ jobs:
           BRANCH_TAG_CLEAN=$(echo "${{ needs.trigger.outputs.branch_name }}" | tr '/' '-')
 
           IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
+          R_DEVEL_IMAGE="${IMAGE}-r-devel"
+          FORCE=false
 
           echo "Checking for image: ${IMAGE}"
+          echo "Checking for R-devel image: ${R_DEVEL_IMAGE}"
 
           # Try to pull the image metadata (doesn't download full image)
           if [[ "${{ inputs.use-containers }}" == "false" ]]; then
             echo "Use of containers is disabled"
             echo "container=null" >> $GITHUB_OUTPUT
-            echo "force=false" >> $GITHUB_OUTPUT
-          elif docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
-            echo "Image found in GHCR"
-            echo "container='${IMAGE}'" >> $GITHUB_OUTPUT
+            echo "r_devel_container=null" >> $GITHUB_OUTPUT
             echo "force=false" >> $GITHUB_OUTPUT
           else
-            echo "Image not found in GHCR"
-            echo "container=null" >> $GITHUB_OUTPUT
-            echo "force=true" >> $GITHUB_OUTPUT
+            if docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
+              echo "Image found in GHCR"
+              printf 'container="%s"\n' "${IMAGE}" >> $GITHUB_OUTPUT
+            else
+              echo "Image not found in GHCR"
+              echo "container=null" >> $GITHUB_OUTPUT
+              FORCE=true
+            fi
+
+            if docker manifest inspect "${R_DEVEL_IMAGE}" > /dev/null 2>&1; then
+              echo "R-devel image found in GHCR"
+              printf 'r_devel_container="%s"\n' "${R_DEVEL_IMAGE}" >> $GITHUB_OUTPUT
+            else
+              echo "R-devel image not found in GHCR"
+              echo "r_devel_container=null" >> $GITHUB_OUTPUT
+              FORCE=true
+            fi
+
+            echo "force=${FORCE}" >> $GITHUB_OUTPUT
           fi
 
 
@@ -395,7 +412,7 @@ jobs:
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
-      update_docker: ${{ needs.committing-workflows.outputs.update_docker || needs.ghcr.outputs.force-docker == 'true'}}
+      update_docker: ${{ needs.committing-workflows.outputs.update_docker == 'true' || needs.ghcr.outputs.force-docker == 'true' }}
       use-containers: ${{ inputs.use-containers }}
     secrets: inherit
     concurrency:
@@ -432,6 +449,7 @@ jobs:
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
       container: ${{ needs.docker.outputs.container }}
+      r_devel_container: ${{ needs.docker.outputs.r_devel_container }}
       rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       min_r_version: ${{ needs.trigger.outputs.min_r_version }}

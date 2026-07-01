@@ -17,6 +17,9 @@ on:
       container:
         description: "Updated container path"
         value: ${{ jobs.docker.outputs.container }}
+      r_devel_container:
+        description: "Updated R-devel container path"
+        value: ${{ jobs.docker.outputs.r_devel_container }}
 
 permissions:
   contents: write
@@ -39,6 +42,7 @@ jobs:
 
     outputs:
       container: ${{ steps.image_job.outputs.container }}
+      r_devel_container: ${{ steps.image_job.outputs.r_devel_container }}
 
     steps:
       - name: Dump github context
@@ -75,55 +79,58 @@ jobs:
             git switch "${{ inputs.branch_name }}"
           fi
 
-      - name: 🐋 Generate new dockerfile
+      - name: 🐋 Generate dockerfiles
         if: ${{ inputs.update_docker == 'true' }}
         run: |
-          echo "FROM rocker/tidyverse" > dockerfile
-          echo "ENV TZ=Australia/Sydney" >> dockerfile
-          echo "RUN date" >> dockerfile
-          echo "" >> dockerfile
+          cat > dockerfile <<'DOCKERFILE'
+          FROM rocker/tidyverse
+          ENV TZ=Australia/Sydney
+          RUN date
 
-          echo "# System dependencies (apt-get since r-base is debian based)" >> dockerfile
-          echo "RUN apt-get update" >> dockerfile
-          echo "RUN apt-get install -y libcurl4-gnutls-dev curl # curl files" >> dockerfile
-          echo "RUN apt-get install -y docker.io # docker interface" >> dockerfile
-          echo "RUN apt-get install -y gnupg2 # required to install odbc" >> dockerfile
-          echo "" >> dockerfile
+          # System dependencies (apt-get since r-base is debian based)
+          RUN apt-get update
+          RUN apt-get install -y libcurl4-gnutls-dev curl # curl files
+          RUN apt-get install -y docker.io # docker interface
+          RUN apt-get install -y gnupg2 # required to install odbc
 
-          echo "# Move pak.lock to the container" >> dockerfile
-          echo "COPY . /app/" >> dockerfile
-          echo "WORKDIR /app" >> dockerfile
-          echo "" >> dockerfile
+          # Move pak.lock to the container
+          COPY . /app/
+          WORKDIR /app
 
-          echo "# tex packages are installed in /root/bin so we have to make sure those" >> dockerfile
-          echo "# packages accessible by adding that directory to the PATH variable." >> dockerfile
-          echo "ENV PATH=\"$PATH:/root/bin\"" >> dockerfile
-          echo "" >> dockerfile
+          # tex packages are installed in /root/bin so we have to make sure those
+          # packages accessible by adding that directory to the PATH variable.
+          ENV PATH="${PATH}:/root/bin"
 
-          echo "RUN R -e 'install.packages(\"pak\")'" >> dockerfile
-          echo "" >> dockerfile
+          RUN R -e 'install.packages("pak")'
 
-          echo "RUN R -e 'getwd(); dir()'" >> dockerfile
-          echo "" >> dockerfile
+          RUN R -e 'getwd(); dir()'
 
           # Remove dev package from pak.lock
-          echo "RUN R -e 'pak::pak(\"jsonlite\"); d <- jsonlite::read_json(\"pak.lock\"); d\$packages <- Filter(\(x) x\$package != \"${{ github.event.repository.name }}\", d\$packages); print(unlist(Map(\(x) x\$package, d\$packages))); jsonlite::write_json(d, \"pak.lock\", auto_unbox = TRUE)'" >> dockerfile
-          echo "" >> dockerfile
+          RUN R -e 'pak::pak("jsonlite"); d <- jsonlite::read_json("pak.lock"); d$packages <- Filter(\(x) x$package != "${{ github.event.repository.name }}", d$packages); print(unlist(Map(\(x) x$package, d$packages))); jsonlite::write_json(d, "pak.lock", auto_unbox = TRUE)'
 
           # Install package dependencies
-          echo "RUN R -e 'pkgs <- jsonlite::fromJSON(\"pak.lock\")\$packages; pak::pak(paste0(pkgs\$package, \"@\" ,pkgs\$version))'" >> dockerfile
-          echo "" >> dockerfile
+          RUN R -e 'pkgs <- jsonlite::fromJSON("pak.lock")$packages; pak::pak(paste0(pkgs$package, "@" ,pkgs$version))'
 
           # Install workflow dependencies
-          echo "RUN R -e 'pak::pak(c(\"jsonlite\", \"rcmdcheck\", \"devtools\", \"lintr\", \"covr\", \"roxygen2\", \"pkgdown\", \"rmarkdown\", \"styler\"))'" >> dockerfile
-          echo "" >> dockerfile
+          RUN R -e 'pak::pak(c("jsonlite", "rcmdcheck", "devtools", "lintr", "covr", "roxygen2", "pkgdown", "rmarkdown", "styler"))'
 
           # Install the dev package
-          echo "RUN R -e 'devtools::install()'" >> dockerfile
-          echo "" >> dockerfile
+          RUN R -e 'devtools::install()'
+          DOCKERFILE
+
+          cat > dockerfile-r-devel <<'DOCKERFILE'
+          FROM ghcr.io/r-hub/containers/ubuntu-gcc16:latest
+          ENV TZ=Australia/Sydney
+
+          COPY . /app/
+          WORKDIR /app
+
+          # Install check-time dependencies once when the image is rebuilt.
+          RUN R -e 'pak::pkg_install(c("deps::.", "any::rcmdcheck", "any::devtools", "any::testthat", "any::knitr", "any::rmarkdown"), dependencies = TRUE)'
+          DOCKERFILE
 
           cat dockerfile
-
+          cat dockerfile-r-devel
       - name: ⬆️ Commit changes
         if: ${{ inputs.update_docker == 'true' }}
         run: |
@@ -138,8 +145,8 @@ jobs:
           fi
 
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
-          git add dockerfile
-          git commit -m "chore: Update Docker specification" || echo "No changes to commit"
+          git add dockerfile dockerfile-r-devel
+          git commit -m "chore: Update Docker specifications" || echo "No changes to commit"
 
       - name: 🐋 Log in to the Container registry
         if: ${{ inputs.update_docker == 'true' }}
@@ -166,37 +173,64 @@ jobs:
           BRANCH_TAG_CLEAN=$(echo "${{ inputs.branch_name }}" | tr '/' '-')
 
           IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
+          R_DEVEL_IMAGE="${IMAGE}-r-devel"
 
-          echo "Generate image reference is: ${IMAGE}"
+          echo "Generated image reference is: ${IMAGE}"
+          echo "Generated R-devel image reference is: ${R_DEVEL_IMAGE}"
           echo "tag=${IMAGE}" >> $GITHUB_OUTPUT
+          echo "r_devel_tag=${R_DEVEL_IMAGE}" >> $GITHUB_OUTPUT
 
       - name: 🐋 Build and push Docker image
         if: ${{ inputs.update_docker == 'true' }}
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: dockerfile
           push: true
           tags: ${{ steps.tag.outputs.tag }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: 🔍 Check if Docker image exists in GHCR
+      - name: 🐋 Build and push R-devel Docker image
+        if: ${{ inputs.update_docker == 'true' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: dockerfile-r-devel
+          push: true
+          tags: ${{ steps.tag.outputs.r_devel_tag }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: 🔍 Check if Docker images exist in GHCR
         id: image_job
         if: ${{ !cancelled() }}
         run: |
           IMAGE="${{ steps.tag.outputs.tag }}"
+          R_DEVEL_IMAGE="${{ steps.tag.outputs.r_devel_tag }}"
 
           echo "Checking for image: ${IMAGE}"
+          echo "Checking for R-devel image: ${R_DEVEL_IMAGE}"
 
           # Try to pull the image metadata (doesn't download full image)
           if [[ "${{ inputs.use-containers }}" == "false" ]]; then
             echo "Use of containers is disabled"
             echo "container=null" >> $GITHUB_OUTPUT
-          elif docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
-            echo "Image found in GHCR"
-            echo "container='${IMAGE}'" >> $GITHUB_OUTPUT
+            echo "r_devel_container=null" >> $GITHUB_OUTPUT
           else
-            echo "Image not found in GHCR"
-            echo "container=null" >> $GITHUB_OUTPUT
+            if docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
+              echo "Image found in GHCR"
+              printf 'container="%s"\n' "${IMAGE}" >> $GITHUB_OUTPUT
+            else
+              echo "Image not found in GHCR"
+              echo "container=null" >> $GITHUB_OUTPUT
+            fi
+
+            if docker manifest inspect "${R_DEVEL_IMAGE}" > /dev/null 2>&1; then
+              echo "R-devel image found in GHCR"
+              printf 'r_devel_container="%s"\n' "${R_DEVEL_IMAGE}" >> $GITHUB_OUTPUT
+            else
+              echo "R-devel image not found in GHCR"
+              echo "r_devel_container=null" >> $GITHUB_OUTPUT
+            fi
           fi
 
       - name: 🚀 Push changes
