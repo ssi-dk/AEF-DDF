@@ -28,7 +28,7 @@ on:
         default: false
     outputs:
       update_docker:
-        description: "Does the docker image need update?"
+        description: "JSON list of Docker image variants to update"
         value: ${{ jobs.update-lockfile-document-render-readme-styler.outputs.update_docker }}
       commits_made:
         description: "Was a commit made?"
@@ -152,24 +152,26 @@ jobs:
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
 
           lines_changed=$(git diff pak.lock | wc -l)
+          update_docker='[]'
 
           if [ $lines_changed -eq 0 ]; then
-            echo "update_docker=false" >> $GITHUB_OUTPUT
             echo "No changes to commit"
 
             # Double check that we do not need an update
-            package_match=$(Rscript -e "all(sapply(jsonlite::read_json(\"pak.lock\")\$packages, \(p) rlang::is_installed(p\$package) && (packageVersion(p\$package) == p\$version)))")
+            package_match=$(Rscript -e "all(sapply(jsonlite::read_json(\"pak.lock\")\$packages, \(p) packageVersion(p\$package) == p\$version))")
             echo $package_match
             if [ "$package_match" == "[1] FALSE" ]; then
-              echo "update_docker=true" >> $GITHUB_OUTPUT
+              update_docker='["release","r-devel"]'
               echo "Package installation mismatch detected"
             fi
 
           else
-            echo "update_docker=true" >> $GITHUB_OUTPUT
+            update_docker='["release","r-devel"]'
             git add pak.lock || echo "No pak.lock to add"
             git commit -m "chore: Update pak.lock"
           fi
+
+          echo "update_docker=${update_docker}" >> $GITHUB_OUTPUT
 
       - name: 📝 Enforce code style
         if: ${{ !cancelled() && inputs.styler == true }}

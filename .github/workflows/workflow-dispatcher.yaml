@@ -340,7 +340,7 @@ jobs:
     outputs:
       container: ${{ steps.image_job.outputs.container }}
       r_devel_container: ${{ steps.image_job.outputs.r_devel_container }}
-      force-docker: ${{ steps.image_job.outputs.force }}
+      update_docker: ${{ steps.image_job.outputs.update_docker }}
     steps:
       - name: Determine containers to send to workflows
         id: image_job
@@ -353,7 +353,6 @@ jobs:
 
           IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
           R_DEVEL_IMAGE="${IMAGE}-r-devel"
-          FORCE=false
 
           echo "Checking for image: ${IMAGE}"
           echo "Checking for R-devel image: ${R_DEVEL_IMAGE}"
@@ -363,27 +362,36 @@ jobs:
             echo "Use of containers is disabled"
             echo "container=null" >> $GITHUB_OUTPUT
             echo "r_devel_container=null" >> $GITHUB_OUTPUT
-            echo "force=false" >> $GITHUB_OUTPUT
+            echo "update_docker=[]" >> $GITHUB_OUTPUT
           else
+            UPDATE_DOCKER=()
+
             if docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
               echo "Image found in GHCR"
               printf 'container="%s"\n' "${IMAGE}" >> $GITHUB_OUTPUT
             else
               echo "Image not found in GHCR"
               echo "container=null" >> $GITHUB_OUTPUT
-              FORCE=true
+              UPDATE_DOCKER+=("release")
             fi
 
             if docker manifest inspect "${R_DEVEL_IMAGE}" > /dev/null 2>&1; then
               echo "R-devel image found in GHCR"
-              printf 'r_devel_container="%s"\n' "${R_DEVEL_IMAGE}" >> $GITHUB_OUTPUT
+              printf 'r_devel_container="%s"\n' "${R_DEVEL_IMAGE}" >> "$GITHUB_OUTPUT"
             else
               echo "R-devel image not found in GHCR"
               echo "r_devel_container=null" >> $GITHUB_OUTPUT
-              FORCE=true
+              UPDATE_DOCKER+=("r-devel")
             fi
 
-            echo "force=${FORCE}" >> $GITHUB_OUTPUT
+            if [ ${#UPDATE_DOCKER[@]} -eq 0 ]; then
+              echo "update_docker=[]" >> "$GITHUB_OUTPUT"
+            else
+              {
+                printf 'update_docker='
+                printf '%s\n' "${UPDATE_DOCKER[@]}" | jq -R . | jq -sc .
+              } >> "$GITHUB_OUTPUT"
+            fi
           fi
 
 
@@ -405,14 +413,41 @@ jobs:
       cancel-in-progress: false
 
 
+  docker-plan:
+    needs: [ghcr, committing-workflows]
+    name: 🧭 Plan Docker updates
+    runs-on: ubuntu-latest
+    outputs:
+      update_docker: ${{ steps.plan.outputs.update_docker }}
+    steps:
+      - name: Combine Docker update requests
+        id: plan
+        env:
+          GHCR_UPDATE_DOCKER: ${{ needs.ghcr.outputs.update_docker }}
+          COMMITTING_UPDATE_DOCKER: ${{ needs.committing-workflows.outputs.update_docker }}
+        run: |
+          GHCR_UPDATE_DOCKER="${GHCR_UPDATE_DOCKER:-[]}"
+          COMMITTING_UPDATE_DOCKER="${COMMITTING_UPDATE_DOCKER:-[]}"
+
+          DOCKER_VARIANTS='["release","r-devel"]'
+          UPDATE_DOCKER=$(jq -cn \
+            --argjson variants "${DOCKER_VARIANTS}" \
+            --argjson ghcr "${GHCR_UPDATE_DOCKER}" \
+            --argjson committing "${COMMITTING_UPDATE_DOCKER}" \
+            '($ghcr + $committing) as $requested | $variants | map(. as $variant | select($requested | index($variant)))')
+
+          echo "Docker image variants to update: ${UPDATE_DOCKER}"
+          echo "update_docker=${UPDATE_DOCKER}" >> "$GITHUB_OUTPUT"
+
+
   docker:
-    needs: [trigger, ghcr, committing-workflows]
+    needs: [trigger, ghcr, committing-workflows, docker-plan]
     uses: ./.github/workflows/docker.yaml
     if: ${{ !cancelled() }}
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
-      update_docker: ${{ needs.committing-workflows.outputs.update_docker == 'true' || needs.ghcr.outputs.force-docker == 'true' }}
+      update_docker: ${{ needs.docker-plan.outputs.update_docker }}
       use-containers: ${{ inputs.use-containers }}
     secrets: inherit
     concurrency:

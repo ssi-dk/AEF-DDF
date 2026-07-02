@@ -8,8 +8,9 @@ on:
         type: string
         default: '1'
       update_docker:
+        description: 'JSON list of Docker image variants to update, e.g. ["release","r-devel"]'
         type: string
-        default: "false"
+        default: '[]'
       use-containers:
         type: boolean
         default: true
@@ -46,14 +47,14 @@ jobs:
 
     steps:
       - name: Dump github context
-        if: ${{ inputs.update_docker == 'true' }}
+        if: ${{ inputs.update_docker != '[]' }}
         run:   echo "$GITHUB_CONTEXT"
         shell: bash
         env:
          GITHUB_CONTEXT: ${{ toJson(github) }}
 
       - name: ⬇️ Checkout repo
-        if: ${{ inputs.update_docker == 'true' }}
+        if: ${{ inputs.update_docker != '[]' }}
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
@@ -61,7 +62,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: 🔧 Configure git
-        if: ${{ inputs.update_docker == 'true' }}
+        if: ${{ inputs.update_docker != '[]' }}
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
@@ -79,8 +80,8 @@ jobs:
             git switch "${{ inputs.branch_name }}"
           fi
 
-      - name: 🐋 Generate dockerfiles
-        if: ${{ inputs.update_docker == 'true' }}
+      - name: Generate dockerfiles
+        if: ${{ inputs.update_docker != '[]' }}
         run: |
           cat > dockerfile <<'DOCKERFILE'
           FROM rocker/tidyverse
@@ -158,7 +159,7 @@ jobs:
           cat dockerfile-r-devel
 
       - name: ⬆️ Commit changes
-        if: ${{ inputs.update_docker == 'true' }}
+        if: ${{ inputs.update_docker != '[]' }}
         run: |
           git stash --include-untracked
 
@@ -175,7 +176,7 @@ jobs:
           git commit -m "chore: Update Docker specifications" || echo "No changes to commit"
 
       - name: 🐋 Log in to the Container registry
-        if: ${{ inputs.update_docker == 'true' }}
+        if: ${{ inputs.update_docker != '[]' }}
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
@@ -183,7 +184,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🐋 Extract metadata (tags, labels) for Docker
-        if: ${{ inputs.update_docker == 'true' }}
+        if: ${{ inputs.update_docker != '[]' }}
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -206,8 +207,8 @@ jobs:
           echo "tag=${IMAGE}" >> $GITHUB_OUTPUT
           echo "r_devel_tag=${R_DEVEL_IMAGE}" >> $GITHUB_OUTPUT
 
-      - name: 🐋 Build and push Docker image
-        if: ${{ inputs.update_docker == 'true' }}
+      - name: Build and push Docker image
+        if: ${{ contains(fromJSON(inputs.update_docker), 'release') }}
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -216,8 +217,8 @@ jobs:
           tags: ${{ steps.tag.outputs.tag }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: 🐋 Build and push R-devel Docker image
-        if: ${{ inputs.update_docker == 'true' }}
+      - name: Build and push R-devel Docker image
+        if: ${{ contains(fromJSON(inputs.update_docker), 'r-devel') }}
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -260,7 +261,7 @@ jobs:
           fi
 
       - name: 🚀 Push changes
-        if: ${{ !cancelled() && inputs.update_docker == 'true' }}
+        if: ${{ !cancelled() && inputs.update_docker != '[]' }}
         run: |
           set -o xtrace
 
