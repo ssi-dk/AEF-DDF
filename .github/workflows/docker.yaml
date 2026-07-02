@@ -82,7 +82,7 @@ jobs:
 
       - name: 🔧 Resolve R-devel base image digest
         id: r_devel_base_image
-        if: ${{ inputs.use-containers == 'false' }}
+        if: ${{ contains(fromJSON(inputs.update_docker), 'r-devel') }}
         run: |
           set -euo pipefail
 

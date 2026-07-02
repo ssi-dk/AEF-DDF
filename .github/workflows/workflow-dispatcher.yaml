@@ -59,6 +59,7 @@ jobs:
       branch_name: ${{ steps.branch_name.outputs.branch_name }}
       cache_version: ${{ steps.cache_version.outputs.cache_version }}
       min_r_version: ${{ steps.min_r_version.outputs.min_R_version }}
+      r_devel_base_digest_changed: ${{ steps.changed-files-yaml.outputs.r_devel_base_digest_any_changed }}
 
 
       lint: ${{
@@ -254,6 +255,8 @@ jobs:
               - DESCRIPTION
             lintr:
               - .lintr*
+            r_devel_base_digest:
+              - .github/r-devel-base-digest
 
       - name: Determine branch name
         id: branch_name
@@ -304,6 +307,7 @@ jobs:
           echo "README.Rmd changed: ${{ steps.changed-files-yaml.outputs.readme_any_changed }}"
           echo "DESCRIPTION changed: ${{ steps.changed-files-yaml.outputs.description_any_changed }}"
           echo "lintr files changed: ${{ steps.changed-files-yaml.outputs.lintr_any_changed }}"
+          echo "R-devel base digest changed: ${{ steps.changed-files-yaml.outputs.r_devel_base_digest_any_changed }}"
           echo "main branch affected: ${{ steps.main_branch_affected.outputs.main_branch_affected }}"
           echo "branch name: ${{ steps.branch_name.outputs.branch_name }}"
           echo "cache_version: ${{ steps.cache_version.outputs.cache_version }}"
@@ -320,6 +324,7 @@ jobs:
           echo "branch_name: ${{ needs.trigger.outputs.branch_name }}"
           echo "cache_version: ${{ needs.trigger.outputs.cache_version }}"
           echo "min_r_version: ${{ needs.trigger.outputs.min_r_version }}"
+          echo "r_devel_base_digest_changed: ${{ needs.trigger.outputs.r_devel_base_digest_changed }}"
           echo "lint: ${{ needs.trigger.outputs.lint }}"
           echo "spell-checker: ${{ needs.trigger.outputs.spell-checker }}"
           echo "R-CMD-check: ${{ needs.trigger.outputs.R-CMD-check }}"
@@ -395,6 +400,65 @@ jobs:
           fi
 
 
+  r-devel-base-image:
+    needs: trigger
+    name: 🔍 Check R-devel base image digest
+    runs-on: ubuntu-latest
+    outputs:
+      update_docker: ${{ steps.r_devel_base_image.outputs.update_docker }}
+      digest: ${{ steps.r_devel_base_image.outputs.digest }}
+    steps:
+      - uses: actions/checkout@v5
+        if: ${{ inputs.use-containers }}
+        with:
+          fetch-depth: 0
+
+      - name: Compare R-devel base image digest
+        id: r_devel_base_image
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ inputs.use-containers }}" == "false" ]]; then
+            echo "Use of containers is disabled"
+            echo "digest=" >> "$GITHUB_OUTPUT"
+            echo "update_docker=[]" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          R_DEVEL_BASE_IMAGE="rocker/tidyverse:devel"
+          CURRENT_DIGEST=$(docker manifest inspect "${R_DEVEL_BASE_IMAGE}" | jq -r '
+            if has("manifests") then
+              ([.manifests[] | select(.platform.os == "linux" and .platform.architecture == "amd64") | .digest][0] // "")
+            else
+              (.config.digest // "")
+            end
+          ')
+
+          if [ -z "${CURRENT_DIGEST}" ] || [ "${CURRENT_DIGEST}" = "null" ]; then
+            echo "Could not resolve digest for ${R_DEVEL_BASE_IMAGE}"
+            exit 1
+          fi
+
+          STORED_DIGEST=""
+          if [ -f .github/r-devel-base-digest ]; then
+            STORED_DIGEST=$(tr -d '[:space:]' < .github/r-devel-base-digest)
+          fi
+
+          echo "Current ${R_DEVEL_BASE_IMAGE} digest: ${CURRENT_DIGEST}"
+          echo "Stored ${R_DEVEL_BASE_IMAGE} digest: ${STORED_DIGEST:-<missing>}"
+
+          if [ "${CURRENT_DIGEST}" != "${STORED_DIGEST}" ] || [ "${{ needs.trigger.outputs.r_devel_base_digest_changed }}" = "true" ]; then
+            echo "R-devel image should be rebuilt"
+            echo 'update_docker=["r-devel"]' >> "$GITHUB_OUTPUT"
+          else
+            echo "R-devel base digest is unchanged"
+            echo "update_docker=[]" >> "$GITHUB_OUTPUT"
+          fi
+
+          echo "digest=${CURRENT_DIGEST}" >> "$GITHUB_OUTPUT"
+
+
   committing-workflows:
     needs: [trigger, ghcr]
     uses: ./.github/workflows/committing-workflows.yaml
@@ -414,7 +478,7 @@ jobs:
 
 
   docker-plan:
-    needs: [ghcr, committing-workflows]
+    needs: [ghcr, committing-workflows, r-devel-base-image]
     name: 🐋 Plan Docker updates
     runs-on: ubuntu-latest
     outputs:
@@ -425,16 +489,19 @@ jobs:
         env:
           GHCR_UPDATE_DOCKER: ${{ needs.ghcr.outputs.update_docker }}
           COMMITTING_UPDATE_DOCKER: ${{ needs.committing-workflows.outputs.update_docker }}
+          R_DEVEL_UPDATE_DOCKER: ${{ needs.r-devel-base-image.outputs.update_docker }}
         run: |
           GHCR_UPDATE_DOCKER="${GHCR_UPDATE_DOCKER:-[]}"
           COMMITTING_UPDATE_DOCKER="${COMMITTING_UPDATE_DOCKER:-[]}"
+          R_DEVEL_UPDATE_DOCKER="${R_DEVEL_UPDATE_DOCKER:-[]}"
 
           DOCKER_VARIANTS='["release","r-devel"]'
           UPDATE_DOCKER=$(jq -cn \
             --argjson variants "${DOCKER_VARIANTS}" \
             --argjson ghcr "${GHCR_UPDATE_DOCKER}" \
             --argjson committing "${COMMITTING_UPDATE_DOCKER}" \
-            '($ghcr + $committing) as $requested | $variants | map(. as $variant | select($requested | index($variant)))')
+            --argjson rdevel "${R_DEVEL_UPDATE_DOCKER}" \
+            '($ghcr + $committing + $rdevel) as $requested | $variants | map(. as $variant | select($requested | index($variant)))')
 
           echo "Docker image variants to update: ${UPDATE_DOCKER}"
           echo "update_docker=${UPDATE_DOCKER}" >> "$GITHUB_OUTPUT"
