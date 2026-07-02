@@ -80,6 +80,29 @@ jobs:
             git switch "${{ inputs.branch_name }}"
           fi
 
+      - name: 🔧 Resolve R-devel base image digest
+        id: r_devel_base_image
+        if: ${{ inputs.use-containers == 'false' }}
+        run: |
+          set -euo pipefail
+
+          R_DEVEL_BASE_IMAGE="rocker/tidyverse:devel"
+          R_DEVEL_BASE_DIGEST=$(docker manifest inspect "${R_DEVEL_BASE_IMAGE}" | jq -r '
+            if has("manifests") then
+              ([.manifests[] | select(.platform.os == "linux" and .platform.architecture == "amd64") | .digest][0] // "")
+            else
+              (.config.digest // "")
+            end
+          ')
+
+          if [ -z "${R_DEVEL_BASE_DIGEST}" ] || [ "${R_DEVEL_BASE_DIGEST}" = "null" ]; then
+            echo "Could not resolve digest for ${R_DEVEL_BASE_IMAGE}"
+            exit 1
+          fi
+
+          echo "Resolved ${R_DEVEL_BASE_IMAGE} to ${R_DEVEL_BASE_DIGEST}"
+          echo "digest=${R_DEVEL_BASE_DIGEST}" >> $GITHUB_OUTPUT
+
       - name: Generate dockerfiles
         if: ${{ inputs.update_docker != '[]' }}
         run: |
@@ -155,6 +178,12 @@ jobs:
           RUN R -e 'devtools::install()'
           DOCKERFILE
 
+          if echo '${{ inputs.update_docker }}' | jq -e 'index("r-devel")' > /dev/null; then
+            mkdir -p .github
+            printf '%s\n' '${{ steps.r_devel_base_image.outputs.digest }}' > .github/r-devel-base-digest
+            echo "Recorded R-devel base image digest: $(cat .github/r-devel-base-digest)"
+          fi
+
           cat dockerfile
           cat dockerfile-r-devel
 
@@ -173,6 +202,7 @@ jobs:
 
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
           git add dockerfile dockerfile-r-devel
+          git add .github/r-devel-base-digest 2>/dev/null || true
           git commit -m "chore: Update Docker specifications" || echo "No changes to commit"
 
       - name: 🐋 Log in to the Container registry
@@ -207,7 +237,7 @@ jobs:
           echo "tag=${IMAGE}" >> $GITHUB_OUTPUT
           echo "r_devel_tag=${R_DEVEL_IMAGE}" >> $GITHUB_OUTPUT
 
-      - name: Build and push Docker image
+      - name: 🔧 Build and push Docker image
         if: ${{ contains(fromJSON(inputs.update_docker), 'release') }}
         uses: docker/build-push-action@v6
         with:
@@ -217,7 +247,7 @@ jobs:
           tags: ${{ steps.tag.outputs.tag }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build and push R-devel Docker image
+      - name: 🔧 Build and push R-devel Docker image
         if: ${{ contains(fromJSON(inputs.update_docker), 'r-devel') }}
         uses: docker/build-push-action@v6
         with:
@@ -225,7 +255,10 @@ jobs:
           file: dockerfile-r-devel
           push: true
           tags: ${{ steps.tag.outputs.r_devel_tag }}
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: |
+            ${{ steps.meta.outputs.labels }}
+            dk.ssi.ci.r-devel-base-image=rocker/tidyverse:devel
+            dk.ssi.ci.r-devel-base-digest=${{ steps.r_devel_base_image.outputs.digest }}
 
       - name: 🔍 Check if Docker images exist in GHCR
         id: image_job

@@ -415,7 +415,7 @@ jobs:
 
   docker-plan:
     needs: [ghcr, committing-workflows]
-    name: 🧭 Plan Docker updates
+    name: 🐋 Plan Docker updates
     runs-on: ubuntu-latest
     outputs:
       update_docker: ${{ steps.plan.outputs.update_docker }}
