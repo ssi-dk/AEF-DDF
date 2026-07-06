@@ -26,6 +26,11 @@ lockfile <- jsonlite::read_json(
 
 package_table <- as.data.frame(lockfile[["packages"]])
 
+package_table <- package_table[
+  !purrr::map2_lgl(package_table[["package"]], package_table[["version"]], ~ rlang::is_installed(.x) && packageVersion(.x) == .y)
+  ,
+]
+
 install.packages(
   pkgs = package_table[["package"]],
   type = "source",
