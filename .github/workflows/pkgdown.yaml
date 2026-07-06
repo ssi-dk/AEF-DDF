@@ -191,7 +191,7 @@ jobs:
 
     steps:
       - name: 🗑 Delete previous deployments
-        uses: strumwolf/delete-deployment-environment@v2
+        uses: strumwolf/delete-deployment-environment@v4.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           environment: github-pages
