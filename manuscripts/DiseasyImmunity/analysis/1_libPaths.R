@@ -15,6 +15,12 @@ dir.create(library_dir, showWarnings = FALSE)
 
 .libPaths(library_dir)
 
+repo_url <- if (.Platform$OS.type == "windows") {
+  paste0("file:///", repo_dir)
+} else {
+  paste0("file://", repo_dir)
+}
+
 options(
   repos = c(local = repo_url)
 )
