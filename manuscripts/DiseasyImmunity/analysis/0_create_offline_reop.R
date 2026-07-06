@@ -2,7 +2,7 @@
 # dependencies at this state
 
 github_repo <- "ssi-dk/diseasy"
-github_commit <- "7d2df25b9f49f59505b67c5a13cbe55df76fb4b1" # main, 2026-07-06 13:39
+github_commit <- "40000a73c975b4c6fd050a741287bca9cff155ab" # main, 2026-07-06 13:56
 
 source_repos <- c("https://cloud.r-project.org")
 
