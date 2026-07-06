@@ -28,8 +28,6 @@ source_dir <- file.path(repo_dir, "src", "contrib")
 dir.create(checkout_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(source_dir, recursive = TRUE, showWarnings = FALSE)
 
-message("Downloading GitHub archive...")
-
 archive_url <- sprintf(
   "https://github.com/%s/archive/%s.tar.gz",
   github_repo,
@@ -42,6 +40,9 @@ archive_file <- file.path(
 )
 
 if (!file.exists(archive_file)) {
+
+  message("Downloading GitHub archive...")
+
   utils::download.file(
     url = archive_url,
     destfile = archive_file,
@@ -85,11 +86,11 @@ if (!file.exists(lockfile_path)) {
   )
 }
 
-file.copy(
+invisible(file.copy(
   from = lockfile_path,
   to = dirname(repo_dir),
   overwrite = TRUE
-)
+))
 
 message("Using lockfile: ", normalizePath(lockfile_path, winslash = "/"))
 
@@ -506,6 +507,3 @@ file.copy(
   to = file.path(dirname(repo_dir), "analysis", "2_diseasy_immunity_optimisation.R"),
   overwrite = TRUE
 )
-
-
-return(invisible(NULL))
