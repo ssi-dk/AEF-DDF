@@ -75,22 +75,21 @@ if (length(package_roots) != 1L) {
 
 package_root <- package_roots[[1L]]
 
-lockfile_candidates <- c(
-  file.path(package_root, "pak.lock"),
-  file.path(package_root, "pkg.lock")
-)
+lockfile_path <- file.path(package_root, "pak.lock")
 
-lockfile_path <- lockfile_candidates[file.exists(lockfile_candidates)]
-
-if (length(lockfile_path) == 0L) {
+if (!file.exists(lockfile_path)) {
   stop(
-    "No pak.lock or pkg.lock found in package root: ",
+    "pak.lock not found in package root: ",
     package_root,
     call. = FALSE
   )
 }
 
-lockfile_path <- lockfile_path[[1L]]
+file.copy(
+  from = lockfile_path,
+  to = dirname(repo_dir),
+  overwrite = TRUE
+)
 
 message("Using lockfile: ", normalizePath(lockfile_path, winslash = "/"))
 

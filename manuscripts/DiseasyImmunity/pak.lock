@@ -1,0 +1,1108 @@
+{
+  "lockfile_version": 1,
+  "os": "Ubuntu 24.04.4 LTS",
+  "r_version": "R version 4.6.1 (2026-06-24)",
+  "platform": "x86_64-pc-linux-gnu",
+  "packages": [
+    {
+      "package": "abind",
+      "version": "1.4-8",
+      "binary": true
+    },
+    {
+      "package": "askpass",
+      "version": "1.2.1",
+      "binary": true
+    },
+    {
+      "package": "assertthat",
+      "version": "0.2.1",
+      "binary": true
+    },
+    {
+      "package": "backports",
+      "version": "1.5.1",
+      "binary": true
+    },
+    {
+      "package": "base64enc",
+      "version": "0.1-6",
+      "binary": true
+    },
+    {
+      "package": "bayesplot",
+      "version": "1.15.0",
+      "binary": true
+    },
+    {
+      "package": "bibtex",
+      "version": "0.5.2",
+      "binary": true
+    },
+    {
+      "package": "bigD",
+      "version": "0.3.1",
+      "binary": true
+    },
+    {
+      "package": "bit",
+      "version": "4.6.0",
+      "binary": true
+    },
+    {
+      "package": "bit64",
+      "version": "4.8.2",
+      "binary": true
+    },
+    {
+      "package": "bitops",
+      "version": "1.0-9",
+      "binary": true
+    },
+    {
+      "package": "blob",
+      "version": "1.3.0",
+      "binary": true
+    },
+    {
+      "package": "brew",
+      "version": "1.0-10",
+      "binary": true
+    },
+    {
+      "package": "bridgesampling",
+      "version": "1.2-1",
+      "binary": true
+    },
+    {
+      "package": "brio",
+      "version": "1.1.5",
+      "binary": true
+    },
+    {
+      "package": "brms",
+      "version": "2.23.0",
+      "binary": true
+    },
+    {
+      "package": "Brobdingnag",
+      "version": "1.2-9",
+      "binary": true
+    },
+    {
+      "package": "bslib",
+      "version": "0.11.0",
+      "binary": true
+    },
+    {
+      "package": "cachem",
+      "version": "1.1.0",
+      "binary": true
+    },
+    {
+      "package": "callr",
+      "version": "3.8.0",
+      "binary": true
+    },
+    {
+      "package": "cellranger",
+      "version": "1.1.0",
+      "binary": true
+    },
+    {
+      "package": "checkmate",
+      "version": "2.3.4",
+      "binary": true
+    },
+    {
+      "package": "class",
+      "version": "7.3-23",
+      "binary": true
+    },
+    {
+      "package": "classInt",
+      "version": "0.4-11",
+      "binary": true
+    },
+    {
+      "package": "cli",
+      "version": "3.6.6",
+      "binary": true
+    },
+    {
+      "package": "clipr",
+      "version": "0.8.1",
+      "binary": true
+    },
+    {
+      "package": "coda",
+      "version": "0.19-4.1",
+      "binary": true
+    },
+    {
+      "package": "codetools",
+      "version": "0.2-20",
+      "binary": true
+    },
+    {
+      "package": "commonmark",
+      "version": "2.0.0",
+      "binary": true
+    },
+    {
+      "package": "contactdata",
+      "version": "1.1.0",
+      "binary": true
+    },
+    {
+      "package": "countrycode",
+      "version": "1.8.0",
+      "binary": true
+    },
+    {
+      "package": "crayon",
+      "version": "1.5.3",
+      "binary": true
+    },
+    {
+      "package": "credentials",
+      "version": "2.0.3",
+      "binary": true
+    },
+    {
+      "package": "crosstalk",
+      "version": "1.2.2",
+      "binary": true
+    },
+    {
+      "package": "curl",
+      "version": "7.1.0",
+      "binary": true
+    },
+    {
+      "package": "data.table",
+      "version": "1.18.4",
+      "binary": true
+    },
+    {
+      "package": "DBI",
+      "version": "1.3.0",
+      "binary": true
+    },
+    {
+      "package": "dbplyr",
+      "version": "2.6.0",
+      "binary": true
+    },
+    {
+      "package": "desc",
+      "version": "1.4.3",
+      "binary": true
+    },
+    {
+      "package": "deSolve",
+      "version": "1.42",
+      "binary": true
+    },
+    {
+      "package": "devtools",
+      "version": "2.5.2",
+      "binary": true
+    },
+    {
+      "package": "dfoptim",
+      "version": "2023.1.0",
+      "binary": true
+    },
+    {
+      "package": "diffobj",
+      "version": "0.3.6",
+      "binary": true
+    },
+    {
+      "package": "digest",
+      "version": "0.6.39",
+      "binary": true
+    },
+    {
+      "package": "diseasy",
+      "version": "0.0.0.9001",
+      "binary": false
+    },
+    {
+      "package": "diseasystore",
+      "version": "0.3.3",
+      "binary": true
+    },
+    {
+      "package": "distributional",
+      "version": "0.7.0",
+      "binary": true
+    },
+    {
+      "package": "downlit",
+      "version": "0.4.5",
+      "binary": true
+    },
+    {
+      "package": "dplyr",
+      "version": "1.2.1",
+      "binary": true
+    },
+    {
+      "package": "duckdb",
+      "version": "1.5.2",
+      "binary": true
+    },
+    {
+      "package": "e1071",
+      "version": "1.7-17",
+      "binary": true
+    },
+    {
+      "package": "ellipsis",
+      "version": "0.3.3",
+      "binary": true
+    },
+    {
+      "package": "eurostat",
+      "version": "4.0.0",
+      "binary": true
+    },
+    {
+      "package": "evaluate",
+      "version": "1.0.5",
+      "binary": true
+    },
+    {
+      "package": "expm",
+      "version": "1.0-0",
+      "binary": true
+    },
+    {
+      "package": "fansi",
+      "version": "1.0.7",
+      "binary": true
+    },
+    {
+      "package": "farver",
+      "version": "2.1.2",
+      "binary": true
+    },
+    {
+      "package": "fastmap",
+      "version": "1.2.0",
+      "binary": true
+    },
+    {
+      "package": "fontawesome",
+      "version": "0.5.3",
+      "binary": true
+    },
+    {
+      "package": "fs",
+      "version": "2.1.0",
+      "binary": true
+    },
+    {
+      "package": "future",
+      "version": "1.70.0",
+      "binary": true
+    },
+    {
+      "package": "future.apply",
+      "version": "1.20.2",
+      "binary": true
+    },
+    {
+      "package": "generics",
+      "version": "0.1.4",
+      "binary": true
+    },
+    {
+      "package": "geojsonsf",
+      "version": "2.0.5",
+      "binary": true
+    },
+    {
+      "package": "gert",
+      "version": "2.3.1",
+      "binary": true
+    },
+    {
+      "package": "ggplot2",
+      "version": "4.0.3",
+      "binary": true
+    },
+    {
+      "package": "ggridges",
+      "version": "0.5.7",
+      "binary": true
+    },
+    {
+      "package": "gh",
+      "version": "1.6.0",
+      "binary": true
+    },
+    {
+      "package": "giscoR",
+      "version": "1.1.1",
+      "binary": true
+    },
+    {
+      "package": "gitcreds",
+      "version": "0.1.2",
+      "binary": true
+    },
+    {
+      "package": "globals",
+      "version": "0.19.1",
+      "binary": true
+    },
+    {
+      "package": "glue",
+      "version": "1.8.1",
+      "binary": true
+    },
+    {
+      "package": "gridExtra",
+      "version": "2.3",
+      "binary": true
+    },
+    {
+      "package": "gt",
+      "version": "1.3.0",
+      "binary": true
+    },
+    {
+      "package": "gtable",
+      "version": "0.3.6",
+      "binary": true
+    },
+    {
+      "package": "here",
+      "version": "1.0.2",
+      "binary": true
+    },
+    {
+      "package": "highr",
+      "version": "0.12",
+      "binary": true
+    },
+    {
+      "package": "hms",
+      "version": "1.1.4",
+      "binary": true
+    },
+    {
+      "package": "htmltools",
+      "version": "0.5.9",
+      "binary": true
+    },
+    {
+      "package": "htmlwidgets",
+      "version": "1.6.4",
+      "binary": true
+    },
+    {
+      "package": "httpuv",
+      "version": "1.6.17",
+      "binary": true
+    },
+    {
+      "package": "httr",
+      "version": "1.4.8",
+      "binary": true
+    },
+    {
+      "package": "httr2",
+      "version": "1.2.2",
+      "binary": true
+    },
+    {
+      "package": "hunspell",
+      "version": "3.0.6",
+      "binary": true
+    },
+    {
+      "package": "ini",
+      "version": "0.3.1",
+      "binary": true
+    },
+    {
+      "package": "inline",
+      "version": "0.3.21",
+      "binary": true
+    },
+    {
+      "package": "isoband",
+      "version": "0.3.0",
+      "binary": true
+    },
+    {
+      "package": "ISOweek",
+      "version": "0.6-2",
+      "binary": true
+    },
+    {
+      "package": "jquerylib",
+      "version": "0.1.4",
+      "binary": true
+    },
+    {
+      "package": "jsonlite",
+      "version": "2.0.0",
+      "binary": true
+    },
+    {
+      "package": "juicyjuice",
+      "version": "0.1.0",
+      "binary": true
+    },
+    {
+      "package": "KernSmooth",
+      "version": "2.23-26",
+      "binary": true
+    },
+    {
+      "package": "knitr",
+      "version": "1.51",
+      "binary": true
+    },
+    {
+      "package": "labeling",
+      "version": "0.4.3",
+      "binary": true
+    },
+    {
+      "package": "later",
+      "version": "1.4.8",
+      "binary": true
+    },
+    {
+      "package": "lattice",
+      "version": "0.22-9",
+      "binary": true
+    },
+    {
+      "package": "lazyeval",
+      "version": "0.2.3",
+      "binary": true
+    },
+    {
+      "package": "lgr",
+      "version": "0.5.2",
+      "binary": true
+    },
+    {
+      "package": "lifecycle",
+      "version": "1.0.5",
+      "binary": true
+    },
+    {
+      "package": "lintr",
+      "version": "3.3.0-1",
+      "binary": true
+    },
+    {
+      "package": "listenv",
+      "version": "0.10.1",
+      "binary": true
+    },
+    {
+      "package": "litedown",
+      "version": "0.9",
+      "binary": true
+    },
+    {
+      "package": "loo",
+      "version": "2.9.0",
+      "binary": true
+    },
+    {
+      "package": "lubridate",
+      "version": "1.9.5",
+      "binary": true
+    },
+    {
+      "package": "lwgeom",
+      "version": "0.2-16",
+      "binary": true
+    },
+    {
+      "package": "magrittr",
+      "version": "2.0.5",
+      "binary": true
+    },
+    {
+      "package": "markdown",
+      "version": "2.0",
+      "binary": true
+    },
+    {
+      "package": "MASS",
+      "version": "7.3-65",
+      "binary": true
+    },
+    {
+      "package": "Matrix",
+      "version": "1.7-5",
+      "binary": true
+    },
+    {
+      "package": "matrixStats",
+      "version": "1.5.0",
+      "binary": true
+    },
+    {
+      "package": "memoise",
+      "version": "2.0.1",
+      "binary": true
+    },
+    {
+      "package": "mgcv",
+      "version": "1.9-4",
+      "binary": true
+    },
+    {
+      "package": "microbenchmark",
+      "version": "1.5.0",
+      "binary": true
+    },
+    {
+      "package": "mime",
+      "version": "0.13",
+      "binary": true
+    },
+    {
+      "package": "miniUI",
+      "version": "0.1.2",
+      "binary": true
+    },
+    {
+      "package": "mvtnorm",
+      "version": "1.4-1",
+      "binary": true
+    },
+    {
+      "package": "nleqslv",
+      "version": "3.3.7",
+      "binary": true
+    },
+    {
+      "package": "nlme",
+      "version": "3.1-169",
+      "binary": true
+    },
+    {
+      "package": "nloptr",
+      "version": "2.2.1",
+      "binary": true
+    },
+    {
+      "package": "numDeriv",
+      "version": "2016.8-1.1",
+      "binary": true
+    },
+    {
+      "package": "openssl",
+      "version": "2.4.2",
+      "binary": true
+    },
+    {
+      "package": "optimx",
+      "version": "2025-4.9",
+      "binary": true
+    },
+    {
+      "package": "otel",
+      "version": "0.2.0",
+      "binary": true
+    },
+    {
+      "package": "pak",
+      "version": "0.10.0",
+      "binary": true
+    },
+    {
+      "package": "parallelly",
+      "version": "1.47.0",
+      "binary": true
+    },
+    {
+      "package": "pillar",
+      "version": "1.11.1",
+      "binary": true
+    },
+    {
+      "package": "pkgbuild",
+      "version": "1.4.8",
+      "binary": true
+    },
+    {
+      "package": "pkgcond",
+      "version": "0.1.1",
+      "binary": true
+    },
+    {
+      "package": "pkgconfig",
+      "version": "2.0.3",
+      "binary": true
+    },
+    {
+      "package": "pkgdown",
+      "version": "2.2.0",
+      "binary": true
+    },
+    {
+      "package": "pkgload",
+      "version": "1.5.2",
+      "binary": true
+    },
+    {
+      "package": "plotly",
+      "version": "4.12.0",
+      "binary": true
+    },
+    {
+      "package": "plyr",
+      "version": "1.8.9",
+      "binary": true
+    },
+    {
+      "package": "posterior",
+      "version": "1.7.0",
+      "binary": true
+    },
+    {
+      "package": "pracma",
+      "version": "2.4.6",
+      "binary": true
+    },
+    {
+      "package": "praise",
+      "version": "1.0.0",
+      "binary": true
+    },
+    {
+      "package": "prettyunits",
+      "version": "1.2.0",
+      "binary": true
+    },
+    {
+      "package": "processx",
+      "version": "3.9.0",
+      "binary": true
+    },
+    {
+      "package": "profvis",
+      "version": "0.4.0",
+      "binary": true
+    },
+    {
+      "package": "progressr",
+      "version": "0.19.0",
+      "binary": true
+    },
+    {
+      "package": "promises",
+      "version": "1.5.0",
+      "binary": true
+    },
+    {
+      "package": "proxy",
+      "version": "0.4-29",
+      "binary": true
+    },
+    {
+      "package": "ps",
+      "version": "1.9.3",
+      "binary": true
+    },
+    {
+      "package": "purrr",
+      "version": "1.2.2",
+      "binary": true
+    },
+    {
+      "package": "QuickJSR",
+      "version": "1.10.0",
+      "binary": true
+    },
+    {
+      "package": "R6",
+      "version": "2.6.1",
+      "binary": true
+    },
+    {
+      "package": "ragg",
+      "version": "1.5.2",
+      "binary": true
+    },
+    {
+      "package": "rappdirs",
+      "version": "0.3.4",
+      "binary": true
+    },
+    {
+      "package": "rcmdcheck",
+      "version": "1.4.0",
+      "binary": true
+    },
+    {
+      "package": "RColorBrewer",
+      "version": "1.1-3",
+      "binary": true
+    },
+    {
+      "package": "Rcpp",
+      "version": "1.1.1-1.1",
+      "binary": true
+    },
+    {
+      "package": "RcppParallel",
+      "version": "5.1.11-2",
+      "binary": true
+    },
+    {
+      "package": "reactable",
+      "version": "0.4.5",
+      "binary": true
+    },
+    {
+      "package": "reactR",
+      "version": "0.6.1",
+      "binary": true
+    },
+    {
+      "package": "readr",
+      "version": "2.2.0",
+      "binary": true
+    },
+    {
+      "package": "readxl",
+      "version": "1.4.5",
+      "binary": true
+    },
+    {
+      "package": "RefManageR",
+      "version": "1.4.0",
+      "binary": true
+    },
+    {
+      "package": "regions",
+      "version": "0.1.8",
+      "binary": true
+    },
+    {
+      "package": "rematch",
+      "version": "2.0.0",
+      "binary": true
+    },
+    {
+      "package": "reshape2",
+      "version": "1.4.5",
+      "binary": true
+    },
+    {
+      "package": "rex",
+      "version": "1.2.2",
+      "binary": true
+    },
+    {
+      "package": "rlang",
+      "version": "1.2.0",
+      "binary": true
+    },
+    {
+      "package": "rmarkdown",
+      "version": "2.31",
+      "binary": true
+    },
+    {
+      "package": "rnaturalearth",
+      "version": "1.2.0",
+      "binary": true
+    },
+    {
+      "package": "rnaturalearthdata",
+      "version": "1.0.0",
+      "binary": true
+    },
+    {
+      "package": "roxygen2",
+      "version": "8.0.0",
+      "binary": true
+    },
+    {
+      "package": "rprojroot",
+      "version": "2.1.1",
+      "binary": true
+    },
+    {
+      "package": "RSQLite",
+      "version": "3.53.1",
+      "binary": true
+    },
+    {
+      "package": "rstan",
+      "version": "2.32.7",
+      "binary": true
+    },
+    {
+      "package": "rstantools",
+      "version": "2.6.0",
+      "binary": true
+    },
+    {
+      "package": "rstudioapi",
+      "version": "0.18.0",
+      "binary": true
+    },
+    {
+      "package": "rversions",
+      "version": "3.0.0",
+      "binary": true
+    },
+    {
+      "package": "s2",
+      "version": "1.1.11",
+      "binary": true
+    },
+    {
+      "package": "S7",
+      "version": "0.2.2",
+      "binary": true
+    },
+    {
+      "package": "sass",
+      "version": "0.4.10",
+      "binary": true
+    },
+    {
+      "package": "scales",
+      "version": "1.4.0",
+      "binary": true
+    },
+    {
+      "package": "SCDB",
+      "version": "0.6.2",
+      "binary": true
+    },
+    {
+      "package": "sessioninfo",
+      "version": "1.2.4",
+      "binary": true
+    },
+    {
+      "package": "sf",
+      "version": "1.1-1",
+      "binary": true
+    },
+    {
+      "package": "shiny",
+      "version": "1.13.0",
+      "binary": true
+    },
+    {
+      "package": "sourcetools",
+      "version": "0.1.7-2",
+      "binary": true
+    },
+    {
+      "package": "spelling",
+      "version": "2.3.2",
+      "binary": true
+    },
+    {
+      "package": "StanHeaders",
+      "version": "2.32.10",
+      "binary": true
+    },
+    {
+      "package": "stringi",
+      "version": "1.8.7",
+      "binary": true
+    },
+    {
+      "package": "stringr",
+      "version": "1.6.0",
+      "binary": true
+    },
+    {
+      "package": "subplex",
+      "version": "1.9",
+      "binary": true
+    },
+    {
+      "package": "sys",
+      "version": "3.4.3",
+      "binary": true
+    },
+    {
+      "package": "systemfonts",
+      "version": "1.3.2",
+      "binary": true
+    },
+    {
+      "package": "tensorA",
+      "version": "0.36.2.1",
+      "binary": true
+    },
+    {
+      "package": "terra",
+      "version": "1.9-34",
+      "binary": true
+    },
+    {
+      "package": "testthat",
+      "version": "3.3.2",
+      "binary": true
+    },
+    {
+      "package": "textshaping",
+      "version": "1.0.5",
+      "binary": true
+    },
+    {
+      "package": "tibble",
+      "version": "3.3.1",
+      "binary": true
+    },
+    {
+      "package": "tidyr",
+      "version": "1.3.2",
+      "binary": true
+    },
+    {
+      "package": "tidyselect",
+      "version": "1.2.1",
+      "binary": true
+    },
+    {
+      "package": "timechange",
+      "version": "0.4.0",
+      "binary": true
+    },
+    {
+      "package": "tinytex",
+      "version": "0.59",
+      "binary": true
+    },
+    {
+      "package": "tzdb",
+      "version": "0.5.0",
+      "binary": true
+    },
+    {
+      "package": "ucminf",
+      "version": "1.2.3",
+      "binary": true
+    },
+    {
+      "package": "units",
+      "version": "1.0-1",
+      "binary": true
+    },
+    {
+      "package": "urlchecker",
+      "version": "1.0.1",
+      "binary": true
+    },
+    {
+      "package": "usethis",
+      "version": "3.2.1",
+      "binary": true
+    },
+    {
+      "package": "utf8",
+      "version": "1.2.6",
+      "binary": true
+    },
+    {
+      "package": "V8",
+      "version": "8.2.0",
+      "binary": true
+    },
+    {
+      "package": "vctrs",
+      "version": "0.7.3",
+      "binary": true
+    },
+    {
+      "package": "viridisLite",
+      "version": "0.4.3",
+      "binary": true
+    },
+    {
+      "package": "vroom",
+      "version": "1.7.1",
+      "binary": true
+    },
+    {
+      "package": "waldo",
+      "version": "0.6.2",
+      "binary": true
+    },
+    {
+      "package": "whisker",
+      "version": "0.4.1",
+      "binary": true
+    },
+    {
+      "package": "withr",
+      "version": "3.0.2",
+      "binary": true
+    },
+    {
+      "package": "wk",
+      "version": "0.9.5",
+      "binary": true
+    },
+    {
+      "package": "xfun",
+      "version": "0.58",
+      "binary": true
+    },
+    {
+      "package": "xml2",
+      "version": "1.5.2",
+      "binary": true
+    },
+    {
+      "package": "xmlparsedata",
+      "version": "1.0.5",
+      "binary": true
+    },
+    {
+      "package": "xopen",
+      "version": "1.0.1",
+      "binary": true
+    },
+    {
+      "package": "xtable",
+      "version": "1.8-8",
+      "binary": true
+    },
+    {
+      "package": "yaml",
+      "version": "2.3.12",
+      "binary": true
+    },
+    {
+      "package": "zip",
+      "version": "3.0.0",
+      "binary": true
+    }
+  ],
+  "sysreqs": {
+    "os": "linux",
+    "distribution": "ubuntu",
+    "version": "24.04",
+    "url": {},
+    "pre_install": "apt-get -y update",
+    "install_scripts": "apt-get -y install pandoc libx11-dev git libcurl4-openssl-dev libssl-dev xz-utils cmake make libuv1-dev libgit2-dev zlib1g-dev libgeos-dev libproj-dev libsqlite3-dev libfreetype6-dev libjpeg-dev libpng-dev libtiff-dev libwebp-dev libabsl-dev libgdal-dev gdal-bin libicu-dev libfontconfig1-dev libfribidi-dev libharfbuzz-dev libudunits2-dev libnode-dev libxml2-dev",
+    "post_install": {},
+    "packages": ["pandoc", "libx11-dev", "git", "libcurl4-openssl-dev", "libssl-dev", "xz-utils", "cmake", "make", "libuv1-dev", "libgit2-dev", "zlib1g-dev", "libgeos-dev", "libproj-dev", "libsqlite3-dev", "libfreetype6-dev", "libjpeg-dev", "libpng-dev", "libtiff-dev", "libwebp-dev", "libabsl-dev", "libgdal-dev", "gdal-bin", "libicu-dev", "libfontconfig1-dev", "libfribidi-dev", "libharfbuzz-dev", "libudunits2-dev", "libnode-dev", "libxml2-dev"]
+  }
+}
