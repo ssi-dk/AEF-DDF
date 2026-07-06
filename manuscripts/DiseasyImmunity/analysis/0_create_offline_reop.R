@@ -25,8 +25,6 @@ if (!requireNamespace("jsonlite", quietly = TRUE)) {
 checkout_dir <- file.path(repo_dir, "_github-checkout")
 source_dir <- file.path(repo_dir, "src", "contrib")
 
-unlink(repo_dir, recursive = TRUE, force = TRUE)
-
 dir.create(checkout_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(source_dir, recursive = TRUE, showWarnings = FALSE)
 
@@ -43,12 +41,14 @@ archive_file <- file.path(
   paste0("github-", gsub("[^A-Za-z0-9_.-]", "-", github_commit), ".tar.gz")
 )
 
-utils::download.file(
-  url = archive_url,
-  destfile = archive_file,
-  mode = "wb",
-  quiet = FALSE
-)
+if (!file.exists(archive_file)) {
+  utils::download.file(
+    url = archive_url,
+    destfile = archive_file,
+    mode = "wb",
+    quiet = FALSE
+  )
+}
 
 utils::untar(
   tarfile = archive_file,
@@ -157,6 +157,9 @@ for (row_index in seq_len(nrow(remote_package_table))) {
   version <- remote_package_table[["version"]][[row_index]]
   filename <- paste0(package, "_", version, ".tar.gz")
   destfile <- file.path(source_dir, filename)
+
+  if (file.exists(destfile)) next
+
   temp_file <- tempfile(pattern = package, fileext = ".tar.gz")
 
   message("[", row_index, "/", nrow(remote_package_table), "] ", package, " ", version)
