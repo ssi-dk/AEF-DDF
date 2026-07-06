@@ -497,4 +497,12 @@ message("Repo: ", normalizePath(repo_dir, winslash = "/", mustWork = TRUE))
 message("Source packages: ", normalizePath(source_dir, winslash = "/", mustWork = TRUE))
 message("Manifest: ", normalizePath(manifest_path, winslash = "/", mustWork = TRUE))
 
+# Copy the optimiser script from the current diseasy version
+file.copy(
+  from = file.path(package_root, "data-raw", "diseasy_immunity_optimiser_results.R"),
+  to = file.path(dirname(repo_dir), "analysis", "2_diseasy_immunity_optimisation.R"),
+  overwrite = TRUE
+)
+
+
 return(invisible(NULL))
