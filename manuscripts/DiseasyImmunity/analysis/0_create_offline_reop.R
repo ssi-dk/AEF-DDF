@@ -1,6 +1,8 @@
 # This files takes a specific commit of Diseasy and installs it and the
 # dependencies at this state
 
+# Note: This was primarily vibe coded with ChatGPT
+
 github_repo <- "ssi-dk/diseasy"
 github_commit <- "40000a73c975b4c6fd050a741287bca9cff155ab" # main, 2026-07-06 13:56
 
@@ -17,6 +19,44 @@ repo_dir <- purrr::reduce(
 ) |>
   paste(collapse = .Platform$file.sep)
 
+read_stored_diseasy_sha <- function(path) {
+  if (!file.exists(path)) {
+    return(NA_character_)
+  }
+
+  stored_sha <- trimws(readLines(path, warn = FALSE, n = 1L))
+
+  if (length(stored_sha) == 0L || !nzchar(stored_sha)) {
+    return(NA_character_)
+  }
+
+  stored_sha
+}
+
+diseasy_sha_file <- file.path(repo_dir, "diseasy-sha.txt")
+stored_diseasy_sha <- read_stored_diseasy_sha(diseasy_sha_file)
+
+offline_repo_is_current <- identical(stored_diseasy_sha, github_commit)
+
+if (offline_repo_is_current) {
+  message("Offline repo is already current for diseasy SHA: ", github_commit)
+  message("Repo: ", normalizePath(repo_dir, winslash = "/", mustWork = TRUE))
+  message("SHA file: ", normalizePath(diseasy_sha_file, winslash = "/", mustWork = TRUE))
+} else {
+  if (!curl::has_internet()) {
+    stop("No internet available to update offline-repo")
+  }
+  if (is.na(stored_diseasy_sha)) {
+    message("No stored diseasy SHA found in offline repo. Creating/updating repo.")
+  } else {
+    message(
+      "Stored diseasy SHA ",
+      stored_diseasy_sha,
+      " differs from requested SHA ",
+      github_commit,
+      ". Creating/updating repo."
+    )
+  }
 
 if (!requireNamespace("jsonlite", quietly = TRUE)) {
   stop("Required package is not installed: jsonlite", call. = FALSE)
@@ -39,6 +79,24 @@ archive_file <- file.path(
   paste0("github-", gsub("[^A-Za-z0-9_.-]", "-", github_commit), ".tar.gz")
 )
 
+github_repo_name <- basename(github_repo)
+expected_checkout_dir <- file.path(
+  checkout_dir,
+  paste0(github_repo_name, "-", github_commit)
+)
+
+checkout_candidates <- list.dirs(
+  path = checkout_dir,
+  recursive = FALSE,
+  full.names = TRUE
+)
+
+stale_checkout_dirs <- setdiff(checkout_candidates, expected_checkout_dir)
+
+if (length(stale_checkout_dirs) > 0L) {
+  unlink(stale_checkout_dirs, recursive = TRUE, force = TRUE)
+}
+
 if (!file.exists(archive_file)) {
 
   message("Downloading GitHub archive...")
@@ -51,30 +109,53 @@ if (!file.exists(archive_file)) {
   )
 }
 
-utils::untar(
-  tarfile = archive_file,
-  exdir = checkout_dir
-)
-
-checkout_candidates <- list.dirs(
-  path = checkout_dir,
-  recursive = FALSE,
-  full.names = TRUE
-)
-
-package_roots <- checkout_candidates[
-  file.exists(file.path(checkout_candidates, "DESCRIPTION"))
-]
-
-if (length(package_roots) != 1L) {
-  stop(
-    "Expected exactly one package root with DESCRIPTION, found: ",
-    length(package_roots),
-    call. = FALSE
+if (!file.exists(file.path(expected_checkout_dir, "DESCRIPTION"))) {
+  utils::untar(
+    tarfile = archive_file,
+    exdir = checkout_dir
   )
 }
 
-package_root <- package_roots[[1L]]
+if (file.exists(file.path(expected_checkout_dir, "DESCRIPTION"))) {
+  package_root <- expected_checkout_dir
+} else {
+  checkout_candidates <- list.dirs(
+    path = checkout_dir,
+    recursive = FALSE,
+    full.names = TRUE
+  )
+
+  package_roots <- checkout_candidates[
+    file.exists(file.path(checkout_candidates, "DESCRIPTION"))
+  ]
+
+  if (length(package_roots) != 1L) {
+    stop(
+      "Expected exactly one package root with DESCRIPTION, found: ",
+      length(package_roots),
+      call. = FALSE
+    )
+  }
+
+  package_root <- package_roots[[1L]]
+}
+
+checkout_sha <- sub(
+  pattern = paste0("^", github_repo_name, "-"),
+  replacement = "",
+  x = basename(package_root)
+)
+
+if (!identical(checkout_sha, github_commit)) {
+  stop(
+    "Checkout folder SHA does not match requested diseasy SHA. Folder has ",
+    checkout_sha,
+    "; requested ",
+    github_commit,
+    ".",
+    call. = FALSE
+  )
+}
 
 lockfile_path <- file.path(package_root, "pak.lock")
 
@@ -159,7 +240,16 @@ for (row_index in seq_len(nrow(remote_package_table))) {
   filename <- paste0(package, "_", version, ".tar.gz")
   destfile <- file.path(source_dir, filename)
 
-  if (file.exists(destfile)) next
+  if (file.exists(destfile)) {
+    download_results[[row_index]] <- data.frame(
+      "package" = package,
+      "version" = version,
+      "url" = NA_character_,
+      "file" = normalizePath(destfile, winslash = "/", mustWork = TRUE)
+    )
+
+    next
+  }
 
   temp_file <- tempfile(pattern = package, fileext = ".tar.gz")
 
@@ -496,14 +586,41 @@ utils::write.csv(
   row.names = FALSE
 )
 
+# Copy the optimiser script from the current diseasy version
+optimiser_source <- file.path(
+  package_root,
+  "data-raw",
+  "diseasy_immunity_optimiser_results.R"
+)
+optimiser_dest <- file.path(
+  dirname(repo_dir),
+  "analysis",
+  "2_diseasy_immunity_optimisation.R"
+)
+
+optimiser_copied <- file.copy(
+  from = optimiser_source,
+  to = optimiser_dest,
+  overwrite = TRUE
+)
+
+if (!optimiser_copied) {
+  stop(
+    "Failed to copy optimiser script from ",
+    optimiser_source,
+    " to ",
+    optimiser_dest,
+    ".",
+    call. = FALSE
+  )
+}
+
+writeLines(github_commit, diseasy_sha_file, useBytes = TRUE)
+
 message("Offline repo created successfully.")
 message("Repo: ", normalizePath(repo_dir, winslash = "/", mustWork = TRUE))
 message("Source packages: ", normalizePath(source_dir, winslash = "/", mustWork = TRUE))
 message("Manifest: ", normalizePath(manifest_path, winslash = "/", mustWork = TRUE))
-
-# Copy the optimiser script from the current diseasy version
-file.copy(
-  from = file.path(package_root, "data-raw", "diseasy_immunity_optimiser_results.R"),
-  to = file.path(dirname(repo_dir), "analysis", "2_diseasy_immunity_optimisation.R"),
-  overwrite = TRUE
-)
+message("Diseasy SHA: ", github_commit)
+message("SHA file: ", normalizePath(diseasy_sha_file, winslash = "/", mustWork = TRUE))
+}
