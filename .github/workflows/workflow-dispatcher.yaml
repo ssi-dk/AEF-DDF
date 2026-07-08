@@ -148,7 +148,7 @@ jobs:
             inputs.event_name != 'release' &&
             (
               steps.main_branch_affected.outputs.main_branch_affected == 'true' ||
-              needs.trigger.outputs.readme_any_changed == 'true'
+              steps.changed-files-yaml.outputs.readme_any_changed == 'true'
             )
           )
         ) }}
@@ -166,26 +166,6 @@ jobs:
               steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
               steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
               steps.changed-files-yaml.outputs.vignette_any_changed == 'true'
-            )
-          )
-        ) }}
-
-      update-lockfile: ${{
-        !contains(inputs.skip, 'update-lockfile') &&
-        (
-          inputs.event_name == 'workflow_dispatch' ||
-          (
-            inputs.event_name != 'release' &&
-            (
-              steps.main_branch_affected.outputs.on_main_branch == 'true' ||
-              (
-                steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
-                (
-                  steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-                  steps.changed-files-yaml.outputs.test_any_changed == 'true' ||
-                  steps.changed-files-yaml.outputs.description_any_changed == 'true'
-                )
-              )
             )
           )
         ) }}
@@ -328,7 +308,6 @@ jobs:
           echo "document: ${{ needs.trigger.outputs.document }}"
           echo "render-readme: ${{ needs.trigger.outputs.render-readme }}"
           echo "pkgdown: ${{ needs.trigger.outputs.pkgdown }}"
-          echo "update-lockfile: ${{ needs.trigger.outputs.update-lockfile }}"
           echo "update-cache: ${{ needs.trigger.outputs.update-cache }}"
           echo "regenerate-data: ${{ needs.trigger.outputs.regenerate-data }}"
 
