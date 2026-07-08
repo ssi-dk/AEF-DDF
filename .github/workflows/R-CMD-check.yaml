@@ -153,6 +153,39 @@ jobs:
           args: ${{ inputs.rcmdcheck_args }}
           error-on: '"note"'
 
+      - name: 🐞 Fail on runtime warnings in R CMD check logs
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+
+          warning_regex='(^Warning messages?:|^Warning message:)'
+
+          mapfile -t CHECK_LOGS < <(
+            find . -type f \
+              \( \
+                -name '00check.log' \
+                -o -name '*.Rout' \
+                -o -name '*.Rout.fail' \
+                -o -name 'testthat.Rout*' \
+              \)
+          )
+
+          if [[ ${#CHECK_LOGS[@]} -eq 0 ]]; then
+            echo "No R CMD check log files found"
+            exit 1
+          fi
+
+          for log in "${CHECK_LOGS[@]}"; do
+            if grep -En "$warning_regex" "$log"; then
+              echo "::error file=${log}::Runtime warning found in R CMD check log"
+              echo "::group::${log}"
+              cat "$log"
+              echo "::endgroup::"
+              exit 1
+            fi
+          done
+        shell: bash
+
 
   R-CMD-check-hard:
     needs: build-package
@@ -209,6 +242,7 @@ jobs:
           path: '"./${{ env.tarball }}"'
           upload-snapshots: true
           working-directory: pkg-build
+          error-on: '"note"'
           snapshot-artifact-name: "r-release-hard-snapshot"
 
 
