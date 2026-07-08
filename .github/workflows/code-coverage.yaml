@@ -117,20 +117,40 @@ jobs:
       - name: 🐞 Show testthat output
         if: ${{ !cancelled() }}
         run: |
-          ## --------------------------------------------------------------------
-          TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
+          set -o pipefail
 
-          cat $TESTTHAT_OUT
+          mapfile -t TESTTHAT_OUT < <(find "${RUNNER_TEMP}/package" -name 'testthat.Rout*' -type f)
 
-          # Throw errors on failures or warnings
-          grep -q "FAIL 0" $TESTTHAT_OUT || { echo "Test failures found"; exit 1; }
-          grep -q "WARN 0" $TESTTHAT_OUT || { echo "Test warnings found"; exit 1; }
-
-          # Throw error if error: are found
-          if grep -q "Error:" $TESTTHAT_OUT; then
-            echo "Error: found"
+          if [[ ${#TESTTHAT_OUT[@]} -eq 0 ]]; then
+            echo "No testthat.Rout files found"
             exit 1
           fi
+
+          for out in "${TESTTHAT_OUT[@]}"; do
+            echo "::group::${out}"
+            cat "$out"
+            echo "::endgroup::"
+
+            grep -q "FAIL 0" "$out" || {
+              echo "Test failures found in ${out}"
+              exit 1
+            }
+
+            grep -q "WARN 0" "$out" || {
+              echo "Testthat warnings found in ${out}"
+              exit 1
+            }
+
+            if grep -Eq "^Warning messages?:|^Warning message:" "$out"; then
+              echo "Top-level R warnings found in ${out}"
+              exit 1
+            fi
+
+            if grep -q "Error:" "$out"; then
+              echo "Error: found in ${out}"
+              exit 1
+            fi
+          done
         shell: bash
 
 
@@ -219,20 +239,40 @@ jobs:
       - name: 🐞 Show testthat output
         if: ${{ !cancelled() }}
         run: |
-          ## --------------------------------------------------------------------
-          TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
+          set -o pipefail
 
-          cat $TESTTHAT_OUT
+          mapfile -t TESTTHAT_OUT < <(find "${RUNNER_TEMP}/package" -name 'testthat.Rout*' -type f)
 
-          # Throw errors on failures or warnings
-          grep -q "FAIL 0" $TESTTHAT_OUT || { echo "Test failures found"; exit 1; }
-          grep -q "WARN 0" $TESTTHAT_OUT || { echo "Test warnings found"; exit 1; }
-
-          # Throw error if error: are found
-          if grep -q "Error:" $TESTTHAT_OUT; then
-            echo "Error: found"
+          if [[ ${#TESTTHAT_OUT[@]} -eq 0 ]]; then
+            echo "No testthat.Rout files found"
             exit 1
           fi
+
+          for out in "${TESTTHAT_OUT[@]}"; do
+            echo "::group::${out}"
+            cat "$out"
+            echo "::endgroup::"
+
+            grep -q "FAIL 0" "$out" || {
+              echo "Test failures found in ${out}"
+              exit 1
+            }
+
+            grep -q "WARN 0" "$out" || {
+              echo "Testthat warnings found in ${out}"
+              exit 1
+            }
+
+            if grep -Eq "^Warning messages?:|^Warning message:" "$out"; then
+              echo "Top-level R warnings found in ${out}"
+              exit 1
+            fi
+
+            if grep -q "Error:" "$out"; then
+              echo "Error: found in ${out}"
+              exit 1
+            fi
+          done
         shell: bash
 
 
@@ -342,20 +382,40 @@ jobs:
       - name: 🐞 Show testthat output
         if: ${{ !cancelled() }}
         run: |
-          ## --------------------------------------------------------------------
-          TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
+          set -o pipefail
 
-          cat $TESTTHAT_OUT
+          mapfile -t TESTTHAT_OUT < <(find "${RUNNER_TEMP}/package" -name 'testthat.Rout*' -type f)
 
-          # Throw errors on failures or warnings
-          grep -q "FAIL 0" $TESTTHAT_OUT || { echo "Test failures found"; exit 1; }
-          grep -q "WARN 0" $TESTTHAT_OUT || { echo "Test warnings found"; exit 1; }
-
-          # Throw error if error: are found
-          if grep -q "Error:" $TESTTHAT_OUT; then
-            echo "Error: found"
+          if [[ ${#TESTTHAT_OUT[@]} -eq 0 ]]; then
+            echo "No testthat.Rout files found"
             exit 1
           fi
+
+          for out in "${TESTTHAT_OUT[@]}"; do
+            echo "::group::${out}"
+            cat "$out"
+            echo "::endgroup::"
+
+            grep -q "FAIL 0" "$out" || {
+              echo "Test failures found in ${out}"
+              exit 1
+            }
+
+            grep -q "WARN 0" "$out" || {
+              echo "Testthat warnings found in ${out}"
+              exit 1
+            }
+
+            if grep -Eq "^Warning messages?:|^Warning message:" "$out"; then
+              echo "Top-level R warnings found in ${out}"
+              exit 1
+            fi
+
+            if grep -q "Error:" "$out"; then
+              echo "Error: found in ${out}"
+              exit 1
+            fi
+          done
         shell: bash
 
       - name: 🐞 Collect docker logs
@@ -534,20 +594,40 @@ jobs:
       - name: 🐞 Show testthat output
         if: ${{ !cancelled() }}
         run: |
-          ## --------------------------------------------------------------------
-          TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
+          set -o pipefail
 
-          cat $TESTTHAT_OUT
+          mapfile -t TESTTHAT_OUT < <(find "${RUNNER_TEMP}/package" -name 'testthat.Rout*' -type f)
 
-          # Throw errors on failures or warnings
-          grep -q "FAIL 0" $TESTTHAT_OUT || { echo "Test failures found"; exit 1; }
-          grep -q "WARN 0" $TESTTHAT_OUT || { echo "Test warnings found"; exit 1; }
-
-          # Throw error if error: are found
-          if grep -q "Error:" $TESTTHAT_OUT; then
-            echo "Error: found"
+          if [[ ${#TESTTHAT_OUT[@]} -eq 0 ]]; then
+            echo "No testthat.Rout files found"
             exit 1
           fi
+
+          for out in "${TESTTHAT_OUT[@]}"; do
+            echo "::group::${out}"
+            cat "$out"
+            echo "::endgroup::"
+
+            grep -q "FAIL 0" "$out" || {
+              echo "Test failures found in ${out}"
+              exit 1
+            }
+
+            grep -q "WARN 0" "$out" || {
+              echo "Testthat warnings found in ${out}"
+              exit 1
+            }
+
+            if grep -Eq "^Warning messages?:|^Warning message:" "$out"; then
+              echo "Top-level R warnings found in ${out}"
+              exit 1
+            fi
+
+            if grep -q "Error:" "$out"; then
+              echo "Error: found in ${out}"
+              exit 1
+            fi
+          done
         shell: bash
 
       - name: 🐞 Collect docker logs
@@ -767,20 +847,40 @@ jobs:
       - name: 🐞 Show testthat output
         if: ${{ !cancelled() }}
         run: |
-          ## --------------------------------------------------------------------
-          TESTTHAT_OUT=$(find ${RUNNER_TEMP}/package -name 'testthat.Rout*')
+          set -o pipefail
 
-          cat $TESTTHAT_OUT
+          mapfile -t TESTTHAT_OUT < <(find "${RUNNER_TEMP}/package" -name 'testthat.Rout*' -type f)
 
-          # Throw errors on failures or warnings
-          grep -q "FAIL 0" $TESTTHAT_OUT || { echo "Test failures found"; exit 1; }
-          grep -q "WARN 0" $TESTTHAT_OUT || { echo "Test warnings found"; exit 1; }
-
-          # Throw error if error: are found
-          if grep -q "Error:" $TESTTHAT_OUT; then
-            echo "Error: found"
+          if [[ ${#TESTTHAT_OUT[@]} -eq 0 ]]; then
+            echo "No testthat.Rout files found"
             exit 1
           fi
+
+          for out in "${TESTTHAT_OUT[@]}"; do
+            echo "::group::${out}"
+            cat "$out"
+            echo "::endgroup::"
+
+            grep -q "FAIL 0" "$out" || {
+              echo "Test failures found in ${out}"
+              exit 1
+            }
+
+            grep -q "WARN 0" "$out" || {
+              echo "Testthat warnings found in ${out}"
+              exit 1
+            }
+
+            if grep -Eq "^Warning messages?:|^Warning message:" "$out"; then
+              echo "Top-level R warnings found in ${out}"
+              exit 1
+            fi
+
+            if grep -q "Error:" "$out"; then
+              echo "Error: found in ${out}"
+              exit 1
+            fi
+          done
         shell: bash
 
       - name: 🐞 Collect docker logs
