@@ -121,6 +121,9 @@ jobs:
           pak::lockfile_create(".", lockfile = "pak.lock", dependencies = TRUE)
           lockfile <- jsonlite::fromJSON("pak.lock")
 
+          # Remove sysreqs entry
+          lockfile$sysreqs <- NULL
+
           # Heavily filter out information
           pkg_order <- order(lockfile$packages$package)
 
