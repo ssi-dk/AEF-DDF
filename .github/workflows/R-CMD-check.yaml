@@ -156,35 +156,33 @@ jobs:
       - name: 🐞 Fail on runtime warnings in R CMD check logs
         if: ${{ !cancelled() }}
         run: |
-          set -o pipefail
+          warning_regex <- "(^Warning messages?:|^Warning message:)"
 
-          warning_regex='(^Warning messages?:|^Warning message:)'
-
-          mapfile -t CHECK_LOGS < <(
-            find . -type f \
-              \( \
-                -name '00check.log' \
-                -o -name '*.Rout' \
-                -o -name '*.Rout.fail' \
-                -o -name 'testthat.Rout*' \
-              \)
+          logs <- list.files(
+            path = ".",
+            pattern = "^(00check\\.log|.*\\.Rout|.*\\.Rout\\.fail|testthat\\.Rout.*)$",
+            recursive = TRUE,
+            full.names = TRUE
           )
 
-          if [[ ${#CHECK_LOGS[@]} -eq 0 ]]; then
-            echo "No R CMD check log files found"
-            exit 1
-          fi
+          if (length(logs) == 0L) {
+            stop("No R CMD check log files found", call. = FALSE)
+          }
 
-          for log in "${CHECK_LOGS[@]}"; do
-            if grep -En "$warning_regex" "$log"; then
-              echo "::error file=${log}::Runtime warning found in R CMD check log"
-              echo "::group::${log}"
-              cat "$log"
-              echo "::endgroup::"
-              exit 1
-            fi
-          done
-        shell: bash
+          for (log in logs) {
+            lines <- readLines(log, warn = FALSE)
+
+            matches <- grep(warning_regex, lines, value = TRUE)
+
+            if (length(matches) > 0L) {
+              cat("Runtime warning found in R CMD check log: ", log, "\n", sep = "")
+              cat(matches, sep = "\n")
+              cat("\n\n--- Full log ---\n")
+              cat(lines, sep = "\n")
+              quit(status = 1L)
+            }
+          }
+        shell: Rscript {0}
 
 
   R-CMD-check-hard:
