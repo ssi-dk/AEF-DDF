@@ -25,6 +25,6 @@ if (Sys.getenv("RSTUDIO") != "1") {
 withr::local_options("diseasy.cache" = cachem::cache_disk(dir = "cache/"))
 
 # Source analysis scripts
-source("3_1-analysis-single-target.R")
-source("3_2-analysis-double-targets.R")
-source("3_3-analysis-simulation-study.R")
+source("4_1-analysis-single-target.R")
+source("4_2-analysis-double-targets.R")
+source("4_3-analysis-simulation-study.R")

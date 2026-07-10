@@ -1,16 +1,6 @@
-relative_repo_dir <- "manuscripts/DiseasyImmunity/offline-repo"
+repo_dir <- file.path(getwd(), "offline-repo")
 
-repo_dir <- purrr::reduce(
-  c(
-    stringr::str_split(getwd(), .Platform$file.sep),
-    stringr::str_split(relative_repo_dir, "/")
-  ),
-  union
-) |>
-  paste(collapse = .Platform$file.sep)
-
-
-library_dir <- file.path(dirname(repo_dir), "r-lib")
+library_dir <- file.path(getwd(), "r-lib")
 dir.create(library_dir, showWarnings = FALSE)
 
 .libPaths(library_dir)

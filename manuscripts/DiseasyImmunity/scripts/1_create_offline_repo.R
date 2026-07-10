@@ -4,20 +4,11 @@
 # Note: This was primarily vibe coded with ChatGPT
 
 github_repo <- "ssi-dk/diseasy"
-github_commit <- "40000a73c975b4c6fd050a741287bca9cff155ab" # main, 2026-07-06 13:56
+github_commit <- "3bf17232b9eb8c1114de46036d7c715ef52b2b88"
 
 source_repos <- c("https://cloud.r-project.org")
 
-relative_repo_dir <- "manuscripts/DiseasyImmunity/offline-repo"
-
-repo_dir <- purrr::reduce(
-  c(
-    stringr::str_split(getwd(), .Platform$file.sep),
-    stringr::str_split(relative_repo_dir, "/")
-  ),
-  union
-) |>
-  paste(collapse = .Platform$file.sep)
+repo_dir <- file.path(getwd(), "offline-repo")
 
 read_stored_diseasy_sha <- function(path) {
   if (!file.exists(path)) {
@@ -94,7 +85,7 @@ checkout_candidates <- list.dirs(
 stale_checkout_dirs <- setdiff(checkout_candidates, expected_checkout_dir)
 
 if (length(stale_checkout_dirs) > 0L) {
-  unlink(stale_checkout_dirs, recursive = TRUE, force = TRUE)
+  file.remove(stale_checkout_dirs)
 }
 
 if (!file.exists(archive_file)) {
@@ -533,47 +524,21 @@ repo_versions <- stats::setNames(
   repo_index[["package"]]
 )
 
-verify_package_table <- package_table[
-  !package_table[["package"]] %in% base_packages,
-  ,
-  drop = FALSE
-]
+locked_versions <- stats::setNames(
+  verify_package_table[["version"]],
+  verify_package_table[["package"]]
+)
+
 
 missing_packages <- setdiff(
-  verify_package_table[["package"]],
-  names(repo_versions)
+  paste(names(locked_versions), locked_versions),
+  paste(names(repo_versions), repo_versions)
 )
 
 if (length(missing_packages) > 0L) {
   stop(
     "Missing packages in offline repo: ",
     paste(missing_packages, collapse = ", "),
-    call. = FALSE
-  )
-}
-
-locked_versions <- stats::setNames(
-  verify_package_table[["version"]],
-  verify_package_table[["package"]]
-)
-
-wrong_versions <- names(locked_versions)[
-  repo_versions[names(locked_versions)] != locked_versions
-]
-
-if (length(wrong_versions) > 0L) {
-  mismatch_table <- data.frame(
-    "package" = wrong_versions,
-    "locked" = locked_versions[wrong_versions],
-    "repo" = repo_versions[wrong_versions],
-    row.names = NULL
-  )
-
-  print(mismatch_table)
-
-  stop(
-    "Version mismatch in offline repo: ",
-    paste(wrong_versions, collapse = ", "),
     call. = FALSE
   )
 }
@@ -592,11 +557,7 @@ optimiser_source <- file.path(
   "data-raw",
   "diseasy_immunity_optimiser_results.R"
 )
-optimiser_dest <- file.path(
-  dirname(repo_dir),
-  "analysis",
-  "2_diseasy_immunity_optimisation.R"
-)
+optimiser_dest <- file.path(getwd(), "scripts", "3_diseasy_immunity_optimisation.R")
 
 optimiser_copied <- file.copy(
   from = optimiser_source,
