@@ -76,6 +76,7 @@ jobs:
             any::devtools
             any::lintr
             any::covr
+            any::xml2
             any::roxygen2
             any::pkgdown
             any::rmarkdown
@@ -179,6 +180,7 @@ jobs:
             any::devtools
             any::lintr
             any::covr
+            any::xml2
             any::roxygen2
             any::pkgdown
             any::rmarkdown
@@ -317,6 +319,7 @@ jobs:
             any::devtools
             any::lintr
             any::covr
+            any::xml2
             any::roxygen2
             any::pkgdown
             any::rmarkdown
@@ -509,6 +512,7 @@ jobs:
             any::devtools
             any::lintr
             any::covr
+            any::xml2
             any::roxygen2
             any::pkgdown
             any::rmarkdown
@@ -704,6 +708,7 @@ jobs:
             any::devtools
             any::lintr
             any::covr
+            any::xml2
             any::roxygen2
             any::pkgdown
             any::rmarkdown
@@ -844,6 +849,7 @@ jobs:
             any::devtools
             any::lintr
             any::covr
+            any::xml2
             any::roxygen2
             any::pkgdown
             any::rmarkdown
@@ -860,7 +866,7 @@ jobs:
         run: ls -R coverage-reports
         shell: bash
 
-      - name: ⬆️ Combine Coverage Reports and upload to codecov.io
+      - name: ⬆️ Combine Coverage Reports
         run: |
           files <- list.files(
             "coverage-reports",
@@ -869,22 +875,25 @@ jobs:
             recursive = TRUE
           )
 
-          coverages <- purrr::map(files, readRDS)
+          if (length(files) == 0) {
+            stop("No coverage_results.rds files were downloaded")
+          }
 
-          combined_coverage <- purrr::reduce(coverages, c)
+          coverages <- lapply(files, readRDS)
+
+          combined_coverage <- do.call(c, coverages)
 
           attr(combined_coverage, "class") <- attr(coverages[[1]], "class")
           attr(combined_coverage, "package") <- attr(coverages[[1]], "package")
           attr(combined_coverage, "relative") <- attr(coverages[[1]], "relative")
 
-          tryCatch(
-            {
-              covr::codecov(coverage = combined_coverage)
-            },
-            error = function(e) {
-              message("Failed to upload coverage report to Codecov: ", e$message)
-              quit(status = 1)
-            }
-          )
+          covr::to_cobertura(combined_coverage, filename = "cobertura.xml")
 
         shell: Rscript {0}
+
+      - name: ⬆️ Upload coverage to codecov.io
+        uses: codecov/codecov-action@v5
+        with:
+          files: cobertura.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
