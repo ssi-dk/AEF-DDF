@@ -1,6 +1,4 @@
-# This files takes a specific commit of Diseasy and installs it and the
-# dependencies at this state
-
+# This files takes a specific commit of Diseasy and downloads the dependencies at this state
 # Note: This was primarily vibe coded with ChatGPT
 
 
@@ -531,6 +529,13 @@ repo_versions <- stats::setNames(
   repo_index[["version"]],
   repo_index[["package"]]
 )
+
+
+verify_package_table <- package_table[
+  !package_table[["package"]] %in% base_packages,
+  ,
+  drop = FALSE
+]
 
 locked_versions <- stats::setNames(
   verify_package_table[["version"]],
