@@ -3,6 +3,14 @@
 
 # Note: This was primarily vibe coded with ChatGPT
 
+
+# Set local working dir
+relative_wd <- c("AEF-DDF", "manuscripts", "DiseasyImmunity")
+wd <- stringr::str_split(getwd(), .Platform$file.sep)[[1]]
+wd <- paste(c(wd[seq_len(which(wd %in% relative_wd)[1] - 1)], relative_wd), collapse = .Platform$file.sep)
+withr::local_dir(wd)
+
+
 github_repo <- "ssi-dk/diseasy"
 github_commit <- "3bf17232b9eb8c1114de46036d7c715ef52b2b88"
 

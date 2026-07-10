@@ -1,3 +1,11 @@
+# Set local working dir
+relative_wd <- c("AEF-DDF", "manuscripts", "DiseasyImmunity")
+wd <- stringr::str_split(getwd(), .Platform$file.sep)[[1]]
+wd <- paste(c(wd[seq_len(which(wd %in% relative_wd)[1] - 1)], relative_wd), collapse = .Platform$file.sep)
+withr::local_dir(wd)
+
+
+
 # Get figure targets
 M_single <- options("analysis.M_single")
 M_double <- options("analysis.M_double")
