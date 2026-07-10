@@ -9,30 +9,17 @@ withr::local_dir(wd)
 # Load diseasy package
 library(diseasy)
 withr::local_options("diseasy.logging" = FALSE)
+withr::local_seed(4260)
 
 # Set the time scales of the problem
 rE <- 1 / 2.1
 rI <- 1 / 4.5
 
-overall_infection_risk <- 0.025
-
-# Set the age resolution
-age_cuts_lower <- c(0, 30, 60)
+overall_infection_risk <- 1e-6
 
 # Setup the number of compartments for the generating model
 K <- 2L
-L <- 1L
-M <- 1L
-
-# Build model
-
-# Set the
-
-# Create a simple static activity scenario
-act <- DiseasyActivity$new()
-act$set_contact_basis(contact_basis = contact_basis %.% DK)
-act$set_activity_units(dk_activity_units)
-act$change_activity(date = as.Date("2020-01-01"), opening = "baseline")
+L <- 3L
 
 # We need a "dummy" observables module to initialise the diseasy ODE model
 # (not used for the simulation study)
@@ -41,49 +28,87 @@ obs <- DiseasyObservables$new(
   last_queryable_date = Sys.Date() - 1
 )
 
-# Create ODE instance
-m <- DiseasyModelOdeSeir$new(
-  activity = act,
-  observables = obs,
-  parameters = list(
-    "compartment_structure" = c("E" = K, "I" = L, "R" = M),
-    "age_cuts_lower" = age_cuts_lower,
-    "overall_infection_risk" = overall_infection_risk,
-    "disease_progression_rates" = c("E" = rE, "I" = rI)
-  )
+
+# Testing space
+Ms <- seq.int(from = 1, to = 10) # Increasing # of R compartments
+waning_functions <- list(
+  "exponential" = \(t) exp(-t / time_scale),
+  "sigmoidal" = \(t) exp(-(t - time_scale) / 6) / (1 + exp(-(t - time_scale) / 6)),
+  "exp_sum" = \(t) (exp(-0.5 * t / time_scale) + exp(-2 * t / time_scale)) / 2
 )
 
-# Get a reference to the private environment
-private <- m$.__enclos_env__$private
+tests <- tidyr::expand_grid(
+  M = Ms,
+  waning_function = waning_functions
+)
 
-# Generate a initial state_vector
-y0 <- rep(0, (K + L + M + 1) * length(age_cuts_lower))
+purrr::pmap(
+  tests,
+  \(M, waning_function) {
 
-population_proportion <- act$map_population(age_cuts_lower) |>
-  dplyr::summarise("proportion" = sum(.data$proportion), .by = "age_group_out") |>
-  dplyr::pull("proportion")
+    M <- 1L
+    waning_function <- \(t) exp(-(t - time_scale) / 6) / (1 + exp(-(t - time_scale) / 6))
 
-activity_proportion <- cbind(
-  act$map_population(age_cuts_lower) |>
-    dplyr::summarise(
-      "proportion" = sum(.data$proportion),
-      .by = c("age_group_ref", "age_group_out")
-    ),
-  "activity" = rowSums(act$get_scenario_contacts(weights = c(1, 1, 1, 1))[[1]])
-) |>
-  dplyr::summarise("activity" = sum(.data$activity), .by = "age_group_out") |>
-  dplyr::pull("activity")
+    time_scale <- 180
 
-activity <- population_proportion * activity_proportion
-activity <- activity / sum(activity)
-
-# 0.05% are newly infected
-y0[private$e1_state_indices] <- activity * 0.0005
-
-# 99.95% are susceptible
-y0[private$s_state_indices] <- population_proportion - y0[private$e1_state_indices]
+    # Configure immunity module
+    #immunity <- DiseasyImmunity$new()
+    #immunity$set_custom_waning(waning_function, time_scale = time_scale)
 
 
+    # Define the activity scenario
+    activity <- DiseasyActivity$new()
+    activity$set_contact_basis(contact_basis = contact_basis_nordic %.% DK)
+    activity$set_activity_units(dk_activity_units)
+    activity$change_activity(date = as.Date("2020-01-01"), opening = "baseline")
+
+
+    # Create ODE instances
+    model <- DiseasyModelOdeSeir$new(
+      observables = obs,
+      activity = activity,
+      #immunity = immunity,
+      parameters = list(
+        "compartment_structure" = c("E" = K, "I" = L, "R" = M),
+        "overall_infection_risk" =  1e10,
+        "disease_progression_rates" = c("E" = rE, "I" = rI)
+      )
+    )
+
+    # Get a reference to the private environment
+    private <- m$.__enclos_env__$private
+
+    # Generate a initial state_vector
+    y0 <- rep(0, (K + L + M + 1))
+
+    # 0.05% are newly infected
+    y0[private$e1_state_indices] <- 0.5
+
+    # 99.95% are susceptible
+    y0[private$s_state_indices] <- 1 - y0[private$e1_state_indices]
+
+    # Run solver across scenario change to check for long-term leakage
+    tt <- deSolve::ode(
+      y = y0,
+      times = seq(0, time_scale),
+      func = m %.% rhs
+    )
+
+    # Extract the maximal test positive signal from the I1 states
+    true_infected <- tt[, 1 + private$i1_state_indices] * L * rI
+    data <- tibble::tibble("f_infected" = cumsum(true_infected)) |>
+      dplyr::mutate("t" = dplyr::row_number(), .before = dplyr::everything())
+
+    ggplot2::ggplot(
+      data = data,
+      mapping = ggplot2::aes(x = t, y = f_infected)
+    ) +
+      ggplot2::geom_line()
+
+
+
+  }
+)
 
 
 rs_samples <- list()
@@ -104,17 +129,6 @@ tt <- deSolve::ode(
   )
 )
 
-
-# Extract the maximal test positive signal from the I1 states
-true_infected <- tt[, 1 + private$i1_state_indices] * L * rI * sum(contact_basis %.% DK %.% population)
-colnames(true_infected) <- diseasystore::age_labels(age_cuts_lower)
-
-# Convert to long format
-seir_example_data <- true_infected |>
-  tibble::as_tibble(rownames = "t") |>
-  tidyr::pivot_longer(cols = !"t", names_to = "age_group", values_to = "n_infected") |>
-  dplyr::mutate(date = as.Date("2020-01-01") + as.numeric(.data$t), .after = "t") |>
-  dplyr::select(!"t")
 
 
 # Unnest to develop a testing model with simple and realistic testing patterns
