@@ -22,6 +22,9 @@ lockfile <- jsonlite::read_json(
 
 package_table <- as.data.frame(lockfile[["packages"]])
 
+# Remove heavy DB packages that takes long time to install
+package_table <- package_table[!(package_table[["package"]] %in% c("duckdb", "RSQLite")), ]
+
 package_table <- package_table[
   !purrr::map2_lgl(
     package_table[["package"]],
