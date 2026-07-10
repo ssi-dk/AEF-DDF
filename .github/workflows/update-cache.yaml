@@ -52,7 +52,7 @@ jobs:
 
       - name: ⚙️ Update vignette caches
         if: ${{ inputs.update_vignette_cache == true }}
-        run_: |
+        run: |
           # Look for cached files
           cached_files <- list.files(file.path("vignettes"), pattern = ".rds", recursive = TRUE, full.names = TRUE)
 
