@@ -4,6 +4,10 @@ on:
       branch_name:
         type: string
         required: true
+      container_branch:
+        type: string
+        required: false
+        default: ''
       cache_version:
         type: string
         default: '1'
@@ -226,8 +230,13 @@ jobs:
           # Convert IMAGE_NAME to lowercase
           IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
 
+          CONTAINER_BRANCH="${{ inputs.container_branch }}"
+          if [ -z "${CONTAINER_BRANCH}" ]; then
+            CONTAINER_BRANCH="${{ inputs.branch_name }}"
+          fi
+
           # Replace / with - in BRANCH_TAG
-          BRANCH_TAG_CLEAN=$(echo "${{ inputs.branch_name }}" | tr '/' '-')
+          BRANCH_TAG_CLEAN=$(echo "${CONTAINER_BRANCH}" | tr '/' '-')
 
           IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
           R_DEVEL_IMAGE="${IMAGE}-r-devel"

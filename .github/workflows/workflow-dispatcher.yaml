@@ -320,7 +320,52 @@ jobs:
       container: ${{ steps.image_job.outputs.container }}
       r_devel_container: ${{ steps.image_job.outputs.r_devel_container }}
       update_docker: ${{ steps.image_job.outputs.update_docker }}
+      container_branch: ${{ steps.container_branch.outputs.container_branch }}
+      reuse_main_containers: ${{ steps.container_branch.outputs.reuse_main_containers }}
     steps:
+      - uses: actions/checkout@v5
+        if: ${{ inputs.use-containers }}
+        with:
+          fetch-depth: 0
+
+      - name: Select Docker image branch
+        id: container_branch
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BRANCH_NAME="${{ needs.trigger.outputs.branch_name }}"
+          CONTAINER_BRANCH="${BRANCH_NAME}"
+          REUSE_MAIN_CONTAINERS="false"
+
+          if [[ "${{ inputs.use-containers }}" != "false" && "${{ needs.trigger.outputs.on_main_branch }}" != "true" ]]; then
+            MAIN_BRANCH="${GITHUB_BASE_REF:-}"
+            if [ -z "${MAIN_BRANCH}" ]; then
+              MAIN_BRANCH=$(printf '%s' "${{ inputs.main_branches }}" | cut -d',' -f1 | xargs)
+            fi
+
+            if [ -n "${MAIN_BRANCH}" ] && git fetch --no-tags --depth=1 origin "${MAIN_BRANCH}"; then
+              if [ -f pak.lock ] && git cat-file -e "FETCH_HEAD:pak.lock" 2>/dev/null; then
+                git show "FETCH_HEAD:pak.lock" > /tmp/main-pak.lock
+
+                if cmp -s pak.lock /tmp/main-pak.lock; then
+                  CONTAINER_BRANCH="${MAIN_BRANCH}"
+                  REUSE_MAIN_CONTAINERS="true"
+                  echo "pak.lock matches ${MAIN_BRANCH}; using Docker images tagged for ${MAIN_BRANCH}."
+                else
+                  echo "pak.lock differs from ${MAIN_BRANCH}; using Docker images tagged for ${BRANCH_NAME}."
+                fi
+              else
+                echo "Could not compare pak.lock with ${MAIN_BRANCH}; using Docker images tagged for ${BRANCH_NAME}."
+              fi
+            else
+              echo "Could not fetch main branch; using Docker images tagged for ${BRANCH_NAME}."
+            fi
+          fi
+
+          echo "container_branch=${CONTAINER_BRANCH}" >> "$GITHUB_OUTPUT"
+          echo "reuse_main_containers=${REUSE_MAIN_CONTAINERS}" >> "$GITHUB_OUTPUT"
+
       - name: Determine containers to send to workflows
         id: image_job
         run: |
@@ -328,7 +373,8 @@ jobs:
           IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
 
           # Replace / with - in BRANCH_TAG
-          BRANCH_TAG_CLEAN=$(echo "${{ needs.trigger.outputs.branch_name }}" | tr '/' '-')
+          BRANCH_TAG_CLEAN=$(echo "${{ steps.container_branch.outputs.container_branch }}" | tr '/' '-')
+          REUSE_MAIN_CONTAINERS="${{ steps.container_branch.outputs.reuse_main_containers }}"
 
           IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
           R_DEVEL_IMAGE="${IMAGE}-r-devel"
@@ -351,7 +397,11 @@ jobs:
             else
               echo "Image not found in GHCR"
               echo "container=null" >> $GITHUB_OUTPUT
-              UPDATE_DOCKER+=("release")
+              if [[ "${REUSE_MAIN_CONTAINERS}" != "true" ]]; then
+                UPDATE_DOCKER+=("release")
+              else
+                echo "Main release image is missing; not creating a branch-specific image."
+              fi
             fi
 
             if docker manifest inspect "${R_DEVEL_IMAGE}" > /dev/null 2>&1; then
@@ -360,7 +410,11 @@ jobs:
             else
               echo "R-devel image not found in GHCR"
               echo "r_devel_container=null" >> $GITHUB_OUTPUT
-              UPDATE_DOCKER+=("r-devel")
+              if [[ "${REUSE_MAIN_CONTAINERS}" != "true" ]]; then
+                UPDATE_DOCKER+=("r-devel")
+              else
+                echo "Main R-devel image is missing; not creating a branch-specific image."
+              fi
             fi
 
             if [ ${#UPDATE_DOCKER[@]} -eq 0 ]; then
@@ -464,18 +518,24 @@ jobs:
           GHCR_UPDATE_DOCKER: ${{ needs.ghcr.outputs.update_docker }}
           COMMITTING_UPDATE_DOCKER: ${{ needs.committing-workflows.outputs.update_docker }}
           R_DEVEL_UPDATE_DOCKER: ${{ needs.r-devel-base-image.outputs.update_docker }}
+          REUSE_MAIN_CONTAINERS: ${{ needs.ghcr.outputs.reuse_main_containers }}
         run: |
           GHCR_UPDATE_DOCKER="${GHCR_UPDATE_DOCKER:-[]}"
           COMMITTING_UPDATE_DOCKER="${COMMITTING_UPDATE_DOCKER:-[]}"
           R_DEVEL_UPDATE_DOCKER="${R_DEVEL_UPDATE_DOCKER:-[]}"
 
-          DOCKER_VARIANTS='["release","r-devel"]'
-          UPDATE_DOCKER=$(jq -cn \
-            --argjson variants "${DOCKER_VARIANTS}" \
-            --argjson ghcr "${GHCR_UPDATE_DOCKER}" \
-            --argjson committing "${COMMITTING_UPDATE_DOCKER}" \
-            --argjson rdevel "${R_DEVEL_UPDATE_DOCKER}" \
-            '($ghcr + $committing + $rdevel) as $requested | $variants | map(. as $variant | select($requested | index($variant)))')
+          if [[ "${REUSE_MAIN_CONTAINERS}" == "true" ]]; then
+            UPDATE_DOCKER='[]'
+            echo "pak.lock matches main; reusing main Docker images and skipping branch-specific Docker builds."
+          else
+            DOCKER_VARIANTS='["release","r-devel"]'
+            UPDATE_DOCKER=$(jq -cn \
+              --argjson variants "${DOCKER_VARIANTS}" \
+              --argjson ghcr "${GHCR_UPDATE_DOCKER}" \
+              --argjson committing "${COMMITTING_UPDATE_DOCKER}" \
+              --argjson rdevel "${R_DEVEL_UPDATE_DOCKER}" \
+              '($ghcr + $committing + $rdevel) as $requested | $variants | map(. as $variant | select($requested | index($variant)))')
+          fi
 
           echo "Docker image variants to update: ${UPDATE_DOCKER}"
           echo "update_docker=${UPDATE_DOCKER}" >> "$GITHUB_OUTPUT"
@@ -487,6 +547,7 @@ jobs:
     if: ${{ !cancelled() }}
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
+      container_branch: ${{ needs.ghcr.outputs.container_branch }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       update_docker: ${{ needs.docker-plan.outputs.update_docker }}
       use-containers: ${{ inputs.use-containers }}
