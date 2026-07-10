@@ -36,13 +36,9 @@ package_table <- as.data.frame(lockfile[["packages"]])
 # Remove heavy DB packages that takes long time to install
 package_table <- package_table[!(package_table[["package"]] %in% c("duckdb", "RSQLite")), ]
 
+package_table$installed <- sapply(package_table[["package"]], \(p) tryCatch(as.character(packageVersion(p)), error = \(e) ""))
 package_table <- package_table[
-  !purrr::map2_lgl(
-    package_table[["package"]],
-    package_table[["version"]],
-    ~ rlang::is_installed(.x) && packageVersion(.x) == .y
-  )
-  ,
+  package_table[["version"]] != package_table[["installed"]],
 ]
 
 install.packages(
