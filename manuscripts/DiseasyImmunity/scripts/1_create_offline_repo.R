@@ -10,7 +10,7 @@ withr::local_dir(wd)
 
 
 github_repo <- "ssi-dk/diseasy"
-github_commit <- "3bf17232b9eb8c1114de46036d7c715ef52b2b88"
+github_commit <- "55e09774bbcd207036152085c32df3670ef01a08"
 
 source_repos <- c("https://cloud.r-project.org")
 
