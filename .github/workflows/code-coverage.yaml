@@ -895,5 +895,6 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           files: cobertura.xml
+          disable_search: true
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
