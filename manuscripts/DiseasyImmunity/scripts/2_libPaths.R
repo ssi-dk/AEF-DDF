@@ -41,10 +41,23 @@ package_table <- package_table[
   package_table[["version"]] != package_table[["installed"]],
 ]
 
+message("Installing packages from offline repo (compiling from source -- will take time!)")
 install.packages(
-  pkgs = package_table[["package"]],
+  pkgs = "purrr",
   type = "source",
-  dependencies = FALSE
+  dependencies = FALSE,
+  quiet = TRUE
+)
+
+purrr::walk(
+  .progress = TRUE,
+  package_table[["package"]],
+  ~ install.packages(
+    pkgs = .,
+    type = "source",
+    dependencies = FALSE,
+    quiet = TRUE
+  )
 )
 
 

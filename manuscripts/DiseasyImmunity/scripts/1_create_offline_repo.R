@@ -102,7 +102,7 @@ if (offline_repo_is_current) {
       url = archive_url,
       destfile = archive_file,
       mode = "wb",
-      quiet = FALSE
+      quiet = TRUE
     )
   }
 
@@ -422,17 +422,20 @@ if (offline_repo_is_current) {
   old_wd <- getwd()
   setwd(source_dir)
 
-  build_output <- system2(
-    command = file.path(R.home("bin"), "R"),
-    args = c(
-      "CMD",
-      "build",
-      "--no-build-vignettes",
-      "--no-manual",
-      shQuote(normalizePath(package_root, winslash = "/", mustWork = TRUE))
-    ),
-    stdout = TRUE,
-    stderr = TRUE
+  build_output <- withr::with_output_sink(
+    nullfile(),
+    system2(
+      command = file.path(R.home("bin"), "R"),
+      args = c(
+        "CMD",
+        "build",
+        "--no-build-vignettes",
+        "--no-manual",
+        shQuote(normalizePath(package_root, winslash = "/", mustWork = TRUE))
+      ),
+      stdout = TRUE,
+      stderr = TRUE
+    )
   )
 
   setwd(old_wd)
@@ -557,12 +560,6 @@ if (offline_repo_is_current) {
       call. = FALSE
     )
   }
-
-
-  old_versions <-
-  repo_versions
-
-  paste(names(repo_versions), repo_versions)
 
 
   manifest_path <- file.path(repo_dir, "download-manifest.csv")
