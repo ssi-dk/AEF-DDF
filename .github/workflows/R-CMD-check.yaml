@@ -153,6 +153,37 @@ jobs:
           args: ${{ inputs.rcmdcheck_args }}
           error-on: '"note"'
 
+      - name: 🐞 Fail on runtime warnings in R CMD check logs
+        if: ${{ !cancelled() }}
+        run: |
+          warning_regex <- "(^Warning messages?:|^Warning message:)"
+
+          logs <- list.files(
+            path = ".",
+            pattern = "^(00check\\.log|.*\\.Rout|.*\\.Rout\\.fail|testthat\\.Rout.*)$",
+            recursive = TRUE,
+            full.names = TRUE
+          )
+
+          if (length(logs) == 0L) {
+            stop("No R CMD check log files found", call. = FALSE)
+          }
+
+          for (log in logs) {
+            lines <- readLines(log, warn = FALSE)
+
+            matches <- grep(warning_regex, lines, value = TRUE)
+
+            if (length(matches) > 0L) {
+              cat("Runtime warning found in R CMD check log: ", log, "\n", sep = "")
+              cat(matches, sep = "\n")
+              cat("\n\n--- Full log ---\n")
+              cat(lines, sep = "\n")
+              quit(status = 1L)
+            }
+          }
+        shell: Rscript {0}
+
 
   R-CMD-check-hard:
     needs: build-package
@@ -209,6 +240,7 @@ jobs:
           path: '"./${{ env.tarball }}"'
           upload-snapshots: true
           working-directory: pkg-build
+          error-on: '"note"'
           snapshot-artifact-name: "r-release-hard-snapshot"
 
 

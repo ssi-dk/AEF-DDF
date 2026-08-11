@@ -117,12 +117,23 @@ jobs:
 
       - name: Build site
         run: |
-          # Run the R script, print output in real-time, and capture it
-          output=$(Rscript -e "pkgdown::build_site_github_pages(new_process = FALSE, install = TRUE)" 2>&1 | tee /dev/stderr)
+          warning_regex='(^Warning messages?:|^Warning:|[WARNING]:)'
 
-          # Check for [WARNING] and fail if found
-          if [[ "$output" == *"[WARNING]"* ]]; then
-            echo "::error::Found [WARNING] in output. Failing job."
+          Rscript --vanilla - <<'EOF' 2>&1 | tee pkgdown-build.log
+          options(warn = 2)
+
+          pkgdown::build_site_github_pages(
+            new_process = FALSE,
+            install = TRUE
+          )
+
+          for (gc_index in seq_len(3L)) {
+            invisible(gc())
+          }
+          EOF
+
+          if grep -En "$warning_regex" pkgdown-build.log; then
+            echo "::error::Warnings found while building pkgdown site."
             exit 1
           fi
         shell: bash
