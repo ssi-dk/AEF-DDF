@@ -5,7 +5,7 @@
 relative_wd <- c("AEF-DDF", "manuscripts", "DiseasyImmunity")
 wd <- stringr::str_split(getwd(), .Platform$file.sep)[[1]]
 wd <- paste(c(wd[seq_len(which(wd %in% relative_wd)[1] - 1)], relative_wd), collapse = .Platform$file.sep)
-withr::local_dir(wd)
+setwd(wd)
 
 
 
@@ -42,22 +42,41 @@ package_table <- package_table[
 ]
 
 message("Installing packages from offline repo (compiling from source -- will take time!)")
-install.packages(
-  pkgs = "purrr",
-  type = "source",
-  dependencies = FALSE,
-  quiet = TRUE
-)
-
-purrr::walk(
-  .progress = TRUE,
-  package_table[["package"]],
-  ~ install.packages(
-    pkgs = .,
+if (!rlang::is_installed("purrr")) {
+  install.packages(
+    pkgs = "purrr",
     type = "source",
     dependencies = FALSE,
     quiet = TRUE
   )
+}
+
+is_installed <- function(package, version) {
+  if (!rlang::is_installed(package)) {
+    return(FALSE)
+  }
+
+  installed_version <- as.character(packageVersion(package))
+  requested_version <- stringr::str_replace(version, "-", ".")
+
+  return(rlang::is_installed(package) && installed_version == requested_version)
+}
+
+package_table[["r"]] <- seq_len(nrow(package_table))
+
+purrr::pwalk(
+  package_table,
+  \(package, version, binary, installed, r) {
+    if (!is_installed(package, version)) {
+      message(glue::glue("Installing package: [{r}/{nrow(package_table)}] {package} v{version} ..."))
+      install.packages(
+        pkgs = package,
+        type = "source",
+        dependencies = FALSE,
+        quiet = TRUE
+      )
+    }
+  }
 )
 
 
@@ -78,18 +97,18 @@ locked_versions <- stats::setNames(
 # Installed versions
 installed_versions <- purrr::map_chr(
   names(locked_versions),
-  packageVersion
+  ~ as.character(packageVersion(.))
 ) |>
   stats::setNames(names(locked_versions))
 
 missing_packages <- setdiff(
-  paste(names(installed_versions), installed_versions),
-  paste(names(locked_versions), locked_versions)
+  paste(names(installed_versions), stringr::str_replace(installed_versions, "-", ".")),
+  paste(names(locked_versions), stringr::str_replace(locked_versions, "-", "."))
 )
 
 if (length(missing_packages) > 0L) {
   stop(
-    "Missing packages in library",
+    "Missing packages in library!\n",
     paste(missing_packages, collapse = ", "),
     call. = FALSE
   )

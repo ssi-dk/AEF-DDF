@@ -6,7 +6,7 @@
 relative_wd <- c("AEF-DDF", "manuscripts", "DiseasyImmunity")
 wd <- stringr::str_split(getwd(), .Platform$file.sep)[[1]]
 wd <- paste(c(wd[seq_len(which(wd %in% relative_wd)[1] - 1)], relative_wd), collapse = .Platform$file.sep)
-withr::local_dir(wd)
+setwd(wd)
 
 
 github_repo <- "ssi-dk/diseasy"
@@ -422,20 +422,17 @@ if (offline_repo_is_current) {
   old_wd <- getwd()
   setwd(source_dir)
 
-  build_output <- withr::with_output_sink(
-    nullfile(),
-    system2(
-      command = file.path(R.home("bin"), "R"),
-      args = c(
-        "CMD",
-        "build",
-        "--no-build-vignettes",
-        "--no-manual",
-        shQuote(normalizePath(package_root, winslash = "/", mustWork = TRUE))
-      ),
-      stdout = TRUE,
-      stderr = TRUE
-    )
+  build_output <- system2(
+    command = file.path(R.home("bin"), "R"),
+    args = c(
+      "CMD",
+      "build",
+      "--no-build-vignettes",
+      "--no-manual",
+      shQuote(normalizePath(package_root, winslash = "/", mustWork = TRUE))
+    ),
+    stdout = FALSE,
+    stderr = FALSE
   )
 
   setwd(old_wd)
