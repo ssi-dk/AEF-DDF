@@ -170,7 +170,7 @@ jobs:
             fi
 
           else
-            update_docker='["release","r-devel"]'
+            update_docker='[]'
             git add pak.lock || echo "No pak.lock to add"
             git commit -m "chore: Update pak.lock"
           fi
