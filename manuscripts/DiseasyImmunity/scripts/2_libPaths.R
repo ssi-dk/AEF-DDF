@@ -41,7 +41,6 @@ package_table <- package_table[
   package_table[["version"]] != package_table[["installed"]],
 ]
 
-message("Installing packages from offline repo (compiling from source -- will take time!)")
 if (!rlang::is_installed("purrr")) {
   install.packages(
     pkgs = "purrr",
@@ -62,20 +61,28 @@ is_installed <- function(package, version) {
   return(rlang::is_installed(package) && installed_version == requested_version)
 }
 
-package_table[["r"]] <- seq_len(nrow(package_table))
+packages_to_install <- package_table
+packages_to_install[["r"]] <- seq_len(nrow(packages_to_install))
+packages_to_install <- packages_to_install[
+  !purrr::map2_lgl(packages_to_install[["package"]], packages_to_install[["version"]], is_installed),
+]
+
+if (nrow(packages_to_install) > 1) {
+  message("Installing packages from offline repo (compiling from source -- will take time!)")
+} else {
+  message("Package library up to date!")
+}
 
 purrr::pwalk(
-  package_table,
+  packages_to_install,
   \(package, version, binary, installed, r) {
-    if (!is_installed(package, version)) {
-      message(glue::glue("Installing package: [{r}/{nrow(package_table)}] {package} v{version} ..."))
-      install.packages(
-        pkgs = package,
-        type = "source",
-        dependencies = FALSE,
-        quiet = TRUE
-      )
-    }
+    message(glue::glue("Installing package: [{r}/{nrow(packages_to_install)}] {package} v{version} ..."))
+    install.packages(
+      pkgs = package,
+      type = "source",
+      dependencies = FALSE,
+      quiet = TRUE
+    )
   }
 )
 
