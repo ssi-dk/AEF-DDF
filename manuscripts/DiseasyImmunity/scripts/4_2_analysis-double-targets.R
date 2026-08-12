@@ -7,12 +7,12 @@ withr::local_dir(wd)
 
 
 # Get figure targets
-M_single <- options("analysis.M_single")
-M_double <- options("analysis.M_double")
+M_single <- getOption("analysis.M_single")
+M_double <- getOption("analysis.M_double")
 
 # Get optimiser parameters
-monotonous <- options("analysis.monotonous")
-individual_level <- options("analysis.individual_level")
+monotonous <- getOption("analysis.monotonous")
+individual_level <- getOption("analysis.individual_level")
 
 # Load diseasy package
 library(diseasy)

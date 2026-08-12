@@ -67,7 +67,7 @@ packages_to_install <- packages_to_install[
   !purrr::map2_lgl(packages_to_install[["package"]], packages_to_install[["version"]], is_installed),
 ]
 
-if (nrow(packages_to_install) > 1) {
+if (nrow(packages_to_install) > 0) {
   message("Installing packages from offline repo (compiling from source -- will take time!)")
 } else {
   message("Package library up to date!")
@@ -120,3 +120,11 @@ if (length(missing_packages) > 0L) {
     call. = FALSE
   )
 }
+
+# Install extra packages needed to run the analysis scripts (but not used in diseasy)
+withr::with_options(
+  list("repos" = "https://cloud.r-project.org"),
+  c("furrr") |>
+    purrr::discard(rlang::is_installed) |>
+    install.packages(pkgs = _, quiet = TRUE)
+)

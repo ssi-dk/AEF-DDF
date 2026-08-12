@@ -26,13 +26,14 @@ withr::local_options(
 # Controls for the computation
 if (Sys.getenv("RSTUDIO") != "1") {
   workers <- unname(future::availableCores(omit = 1))
-  future::plan("multicore", gc = TRUE, workers = workers)
+  #future::plan("multisession", gc = TRUE, workers = workers)
+  future::plan("sequential", gc = TRUE, workers = workers)
 }
 
 # Setup a cache for the analysis
 withr::local_options("diseasy.cache" = cachem::cache_disk(dir = "diseasy-cache/"))
 
 # Source analysis scripts
-source(file.path("scripts", "4_1-analysis-single-target.R"))
-source(file.path("scripts", "4_2-analysis-double-targets.R"))
-source(file.path("scripts", "4_3-analysis-simulation-study.R"))
+source(file.path("scripts", "4_1_analysis-single-targets.R"))
+source(file.path("scripts", "4_2_analysis-double-targets.R"))
+source(file.path("scripts", "4_3_analysis-simulation-study.R"))
