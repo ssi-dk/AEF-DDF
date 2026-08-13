@@ -46,6 +46,10 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
+concurrency:
+  group: workflow-dispatcher-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: false
+
 jobs:
 
   # To give granular control of when workflows should execute, we determine which "categories" of files has changed
@@ -500,9 +504,6 @@ jobs:
       update_cache: ${{ needs.trigger.outputs.update-cache == 'true' }}
       regenerate_data: ${{ needs.trigger.outputs.regenerate-data == 'true' }}
     secrets: inherit
-    concurrency:
-      group: committing-workflows-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: false
 
 
   docker-plan:
@@ -552,9 +553,6 @@ jobs:
       update_docker: ${{ needs.docker-plan.outputs.update_docker }}
       use-containers: ${{ inputs.use-containers }}
     secrets: inherit
-    concurrency:
-      group: committing-workflows-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: false
 
 
   docker-cleanup:
@@ -591,9 +589,6 @@ jobs:
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       min_r_version: ${{ needs.trigger.outputs.min_r_version }}
     secrets: inherit
-    concurrency:
-      group: R-CMD-check-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
 
 
   code-coverage:
@@ -607,9 +602,6 @@ jobs:
       backend_exclude: ${{ inputs.backend_exclude }}
       check_postgres_logs: ${{ inputs.check_postgres_logs }}
     secrets: inherit
-    concurrency:
-      group: code-coverage-${{ needs.trigger.outputs.branch_name }}
-      cancel-in-progress: true
 
 
   pkgdown:
@@ -624,6 +616,3 @@ jobs:
       run_id: ${{ inputs.run_id }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
     secrets: inherit
-    concurrency:
-      group: pkgdown-${{ needs.trigger.outputs.branch_name }}${{ github.event_name == 'release' && '-release' || '' }}
-      cancel-in-progress: true
