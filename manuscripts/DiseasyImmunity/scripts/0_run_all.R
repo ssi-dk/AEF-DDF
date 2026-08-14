@@ -7,5 +7,5 @@ setwd(wd)
 
 source(file.path("scripts", "1_create_offline_repo.R"))
 source(file.path("scripts", "2_libPaths.R"))
-# source(file.path("scripts", "3_diseasy_immunity_optimisation")) # We leave this commented until NGC runs are downloaded locally
+source(file.path("scripts", "3_diseasy_immunity_optimisation")) # We leave this commented until NGC runs are downloaded locally
 source(file.path("scripts", "4_0_analysis.R"))
