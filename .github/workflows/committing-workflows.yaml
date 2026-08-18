@@ -189,7 +189,7 @@ jobs:
           git log --oneline origin/${{ inputs.branch_name }}..HEAD
 
       - name: 📝 Enforce code style
-        if: ${{ !cancelled() && inputs.styler == true }}
+        if: ${{ !cancelled() && steps.update_docker.outputs.update_docker == '[]' && inputs.styler == true }}
         id: styler
         run: |
           # Set custom style
@@ -216,7 +216,7 @@ jobs:
         shell: Rscript {0}
 
       - name: ⬆️ Commit changes
-        if: ${{ !cancelled() && steps.styler.conclusion == 'success' && inputs.styler == true }}
+        if: ${{ !cancelled() && steps.update_docker.outputs.update_docker == '[]' && steps.styler.conclusion == 'success' && inputs.styler == true }}
         run: |
           git stash --include-untracked
 
@@ -244,13 +244,13 @@ jobs:
           git log --oneline origin/${{ inputs.branch_name }}..HEAD
 
       - name: 📖 Document
-        if: ${{ !cancelled() && inputs.document == true }}
+        if: ${{ !cancelled() && steps.update_docker.outputs.update_docker == '[]' && inputs.document == true }}
         id: document
         run: roxygen2::roxygenise()
         shell: Rscript {0}
 
       - name: ⬆️ Commit changes
-        if: ${{ !cancelled() && steps.document.conclusion == 'success' && inputs.document == true }}
+        if: ${{ !cancelled() && steps.update_docker.outputs.update_docker == '[]' && steps.document.conclusion == 'success' && inputs.document == true }}
         run: |
           git stash --include-untracked
 
@@ -278,18 +278,18 @@ jobs:
           git log --oneline origin/${{ inputs.branch_name }}..HEAD
 
       - name: 🔧 Setup Node
-        if: ${{ !cancelled() && inputs.render_readme == true && inputs.container != 'null' }}
+        if: ${{ !cancelled() && steps.update_docker.outputs.update_docker == '[]' && inputs.render_readme == true && inputs.container != 'null' }}
         run: |
           sudo apt-get -y update
           sudo apt-get -y install nodejs
           sudo apt-get -y install npm
 
       - name: 🔧 Install nunjucks
-        if: ${{ !cancelled() && inputs.render_readme == true }}
+        if: ${{ !cancelled() && steps.update_docker.outputs.update_docker == '[]' && inputs.render_readme == true }}
         run: npm install nunjucks
 
       - name: 🔀 Resolve nunjucks templates
-        if: ${{ !cancelled() && inputs.render_readme == true }}
+        if: ${{ !cancelled() && steps.update_docker.outputs.update_docker == '[]' && inputs.render_readme == true }}
         run: |
           echo "
             const nunjucks = require('nunjucks');
@@ -303,13 +303,13 @@ jobs:
           node render-templates.js
 
       - name: 📖 Render README
-        if: ${{ !cancelled() && inputs.render_readme == true }}
+        if: ${{ !cancelled() && steps.update_docker.outputs.update_docker == '[]' && inputs.render_readme == true }}
         id: readme
         run: rmarkdown::render("README.Rmd")
         shell: Rscript {0}
 
       - name: ⬆️ Commit changes
-        if: ${{ !cancelled() && steps.readme.conclusion == 'success' && inputs.render_readme == true }}
+        if: ${{ !cancelled() && steps.update_docker.outputs.update_docker == '[]' && steps.readme.conclusion == 'success' && inputs.render_readme == true }}
         run: |
           git stash --include-untracked
 
@@ -337,7 +337,7 @@ jobs:
           git log --oneline origin/${{ inputs.branch_name }}..HEAD
 
       - name: ⚙️ Update vignette caches
-        if: ${{ !cancelled() && inputs.update_cache == true }}
+        if: ${{ !cancelled() && steps.update_docker.outputs.update_docker == '[]' && inputs.update_cache == true }}
         id: vignette
         run: |
           # Load development state
@@ -369,7 +369,7 @@ jobs:
         shell: Rscript {0}
 
       - name: ⬆️ Commit changes
-        if: ${{ !cancelled() && steps.vignette.conclusion == 'success' && inputs.update_cache == true }}
+        if: ${{ !cancelled() && steps.update_docker.outputs.update_docker == '[]' && steps.vignette.conclusion == 'success' && inputs.update_cache == true }}
         run: |
           git stash --include-untracked
 
@@ -397,7 +397,7 @@ jobs:
           git log --oneline origin/${{ inputs.branch_name }}..HEAD
 
       - name: ⚙️ Regenerate data files
-        if: ${{ !cancelled() && inputs.regenerate_data == true }}
+        if: ${{ !cancelled() && steps.update_docker.outputs.update_docker == '[]' && inputs.regenerate_data == true }}
         id: data-raw
         run: |
           # Load development state
@@ -421,7 +421,7 @@ jobs:
         shell: Rscript {0}
 
       - name: ⬆️ Commit changes
-        if: ${{ !cancelled() && steps.data-raw.conclusion == 'success' && inputs.regenerate_data == true }}
+        if: ${{ !cancelled() && steps.update_docker.outputs.update_docker == '[]' && steps.data-raw.conclusion == 'success' && inputs.regenerate_data == true }}
         run: |
           git stash --include-untracked
 
