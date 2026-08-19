@@ -171,18 +171,9 @@ jobs:
 
           if [ $lines_changed -eq 0 ]; then
             echo "No changes to commit"
-
-            # Double check that we do not need an update
-            package_match=$(Rscript -e "all(sapply(jsonlite::read_json(\"pak.lock\")\$packages, \(p) rlang::is_installed(p\$package) && packageVersion(p\$package) == p\$version))")
-            echo $package_match
-            if [ "$package_match" == "[1] FALSE" ]; then
-              update_docker='["release","r-devel"]'
-              echo "Package installation mismatch detected"
-            fi
-
           else
-            update_docker='[]'
-            git add pak.lock || echo "No pak.lock to add"
+            update_docker='["release","r-devel"]'
+            git add pak.lock
             git commit -m "chore: Update pak.lock"
           fi
 
