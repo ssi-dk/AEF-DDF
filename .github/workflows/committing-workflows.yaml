@@ -116,29 +116,40 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
-      - name: 📋 Update the pak.lock file
-        id: pak
+      - name: 📋 Record installed R packages
+        id: installed_packages
         run: |
-          pak::lockfile_create(".", lockfile = "pak.lock", dependencies = TRUE)
-          lockfile <- jsonlite::fromJSON("pak.lock")
+          packages <- as.data.frame(
+            installed.packages(),
+            stringsAsFactors = FALSE
+          )
 
-          # Remove sysreqs entry
-          lockfile$sysreqs <- NULL
+          packages <- packages[
+            is.na(packages$Priority) |
+              !packages$Priority %in% c("base", "recommended"),
+            ,
+            drop = FALSE
+          ]
 
-          # Heavily filter out information
-          pkg_order <- order(lockfile$packages$package)
+          packages <- packages[
+            order(packages$Package),
+            c("Package", "Version", "LibPath")
+          ]
 
-          pak::pak(c("tibble", "dplyr"))
-          print(tibble::tibble(lockfile$packages))
+          names(packages) <- c("package", "version", "library")
 
-          lockfile$packages <- lockfile$packages[pkg_order, ] |>
-            dplyr::select(dplyr::any_of(c("package", "version", "binary", "sha256")))
+          jsonlite::write_json(
+            list(packages = packages),
+            "pak.lock",
+            pretty = TRUE,
+            auto_unbox = TRUE
+          )
 
-          jsonlite::write_json(lockfile, "pak.lock", pretty = TRUE, auto_unbox = TRUE)
+          print(packages)
         shell: Rscript {0}
 
       - name: ⬆️ Commit changes
-        if: ${{ !cancelled() && steps.pak.conclusion == 'success' }}
+        if: ${{ !cancelled() && steps.installed_packages.conclusion == 'success' }}
         id: update_docker
         run: |
           set -o xtrace
