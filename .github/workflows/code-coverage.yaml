@@ -108,9 +108,11 @@ jobs:
             install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
           )
 
-          covr::to_cobertura(
-            coverage,
-            filename = "cobertura.xml"
+          coverage_json <- covr:::to_codecov(coverage)
+
+          writeLines(
+            coverage_json,
+            "coverage.json"
           )
         shell: Rscript {0}
 
@@ -118,7 +120,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: coverage-${{ matrix.config.id }}
-          path: cobertura.xml
+          path: codecov.json
 
       - name: 🐞 Show testthat output
         if: ${{ !cancelled() }}
@@ -236,9 +238,11 @@ jobs:
             install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
           )
 
-          covr::to_cobertura(
-            coverage,
-            filename = "cobertura.xml"
+          coverage_json <- covr:::to_codecov(coverage)
+
+          writeLines(
+            coverage_json,
+            "coverage.json"
           )
         shell: Rscript {0}
 
@@ -246,7 +250,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: coverage-duckdb
-          path: cobertura.xml
+          path: codecov.json
 
       - name: 🐞 Show testthat output
         if: ${{ !cancelled() }}
@@ -385,9 +389,11 @@ jobs:
             install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
           )
 
-          covr::to_cobertura(
-            coverage,
-            filename = "cobertura.xml"
+          coverage_json <- covr:::to_codecov(coverage)
+
+          writeLines(
+            coverage_json,
+            "coverage.json"
           )
         shell: Rscript {0}
 
@@ -395,7 +401,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: coverage-postgres
-          path: cobertura.xml
+          path: codecov.json
 
       - name: 🐞 Show testthat output
         if: ${{ !cancelled() }}
@@ -603,9 +609,11 @@ jobs:
             install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
           )
 
-          covr::to_cobertura(
-            coverage,
-            filename = "cobertura.xml"
+          coverage_json <- covr:::to_codecov(coverage)
+
+          writeLines(
+            coverage_json,
+            "coverage.json"
           )
         shell: Rscript {0}
 
@@ -613,7 +621,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: coverage-sql-server
-          path: cobertura.xml
+          path: codecov.json
 
       - name: 🐞 Show testthat output
         if: ${{ !cancelled() }}
@@ -862,9 +870,11 @@ jobs:
             install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
           )
 
-          covr::to_cobertura(
-            coverage,
-            filename = "cobertura.xml"
+          coverage_json <- covr:::to_codecov(coverage)
+
+          writeLines(
+            coverage_json,
+            "coverage.json"
           )
         shell: Rscript {0}
 
@@ -872,7 +882,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: coverage-oracle
-          path: cobertura.xml
+          path: codecov.json
 
       - name: 🐞 Show testthat output
         if: ${{ !cancelled() }}
