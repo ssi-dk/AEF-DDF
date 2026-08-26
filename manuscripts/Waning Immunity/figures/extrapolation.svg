@@ -1,0 +1,2684 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="657.03125"
+   height="1200.4688"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="extrapolation_unify.svg"
+   inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="StopL"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="StopL"
+       style="overflow:visible">
+      <path
+         id="path5535"
+         d="M 0,5.65 0,-5.65"
+         style="fill:none;stroke:#000000;stroke-width:1pt"
+         transform="scale(0.8,0.8)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="StopM"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="StopM"
+       style="overflow:visible">
+      <path
+         id="path5538"
+         d="M 0,5.65 0,-5.65"
+         style="fill:none;stroke:#000000;stroke-width:1pt"
+         transform="scale(0.4,0.4)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mstart"
+       style="overflow:visible">
+      <path
+         id="path4087"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.4,0,0,0.4,4,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lstart"
+       style="overflow:visible">
+      <path
+         id="path4081"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.8,0,0,0.8,10,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend"
+       style="overflow:visible">
+      <path
+         id="path4090"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend"
+       style="overflow:visible">
+      <path
+         id="path4084"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-2"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-4"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-4"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-40"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-7"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-8"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-3"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-6"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-67"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mstart-9"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4087-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.4,0,0,0.4,4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-5"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4090-0"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-65"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-8"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker6902"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path6904"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker6906"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path6908"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker6910"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path6912"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker6914"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path6916"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker6918"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path6920"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-1"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4090-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mstart-0"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4087-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.4,0,0,0.4,4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-7"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4090-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-3"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-36"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3202"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3204"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3206"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3208"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3210"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3212"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3214"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3216"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3218"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3220"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3222"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3224"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.4,0,0,0.4,4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3226"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3228"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3230"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3232"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3234"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3236"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3238"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3240"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3242"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3244"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3246"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3248"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3250"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3252"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-60"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-26"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-2"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-1"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-5"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-89"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-93"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-26-1"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4084-2-8"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4644"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4646"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4648"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4650"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4652"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4654"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4656"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4658"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4660"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4662"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4664"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4666"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="380.95448"
+     inkscape:cy="235.94747"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <sodipodi:guide
+       orientation="0,1"
+       position="783.08514,1002.9325"
+       id="guide3824" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="-93.95429,401.43942"
+       id="guide6718" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="655.01357,-43.418395"
+       id="guide6720" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="313.16086,82.764016"
+       id="guide6724" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="435.48232,324.66782"
+       id="guide3315" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="255.07709,122.66504"
+       id="guide3327" />
+    <sodipodi:guide
+       orientation="-1,8.1746297e-005"
+       position="388.41722,77.208176"
+       id="guide3329" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="557.1127,329.74632"
+       id="guide3331" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="361.62451,301.43432"
+       id="guide3333" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="-19.179328,386.81994"
+       id="guide3335" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="471.73113,411.54094"
+       id="guide3337" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="435.36564,622.66282"
+       id="guide3339" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="289.29928,622.66282"
+       id="guide3341" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="-165.67512,399.41911"
+       id="guide4395" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="786.9224,506.52301"
+       id="guide3342" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="331.84868,611.57888"
+       id="guide4435" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="310.63548,559.55602"
+       id="guide4437" />
+    <inkscape:grid
+       type="xygrid"
+       id="grid5395"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       originx="148.48232px"
+       originy="752.9725px" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="758.58499,577.20596"
+       id="guide5493" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="230.98232,155.82965"
+       id="guide11785" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="248.48232,111.18679"
+       id="guide11787" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="381.6966,39.758222"
+       id="guide11789" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="480.62518,13.329652"
+       id="guide11791" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="498.48232,-15.956068"
+       id="guide11793" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="815.71175,445.40878"
+       id="guide4713" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="181.84103,338.33261"
+       id="guide4715" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="209.11515,111.18679"
+       id="guide4864" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(351.75,20.21875)">
+    <rect
+       style="fill:#ececec;fill-opacity:0.94117647;stroke:#000000;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect5633"
+       width="653.00336"
+       height="354.56345"
+       x="-349.73981"
+       y="824.67639"
+       ry="30.304577"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m -350.74995,869.82857 654.99005,0"
+       id="path5873"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text5875"
+       y="854.14319"
+       x="-119.90219"
+       style="font-size:32px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Bold"
+       xml:space="preserve"><tspan
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Bold"
+         y="854.14319"
+         x="-119.90219"
+         id="tspan5877"
+         sodipodi:role="line">Interpolate γ</tspan></text>
+    <rect
+       y="920.11865"
+       x="-213.25533"
+       height="208.3873"
+       width="374.61801"
+       id="rect5881"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#999999;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -213.08157,933.33619 57.5787,44.95179 59.599,71.21572 105.56094,25.5595"
+       id="path4860"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <g
+       id="g15337"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <rect
+         style="fill:#ececec;fill-opacity:0.94117647;stroke:#000000;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect5491"
+         width="653.00336"
+         height="406.06894"
+         x="-349.73981"
+         y="411.11511"
+         ry="30.304577" />
+      <path
+         sodipodi:nodetypes="cc"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -349.71307,456.26729 654.99005,0"
+         id="path5505"
+         inkscape:connector-curvature="0" />
+    </g>
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect16003"
+       width="376.01746"
+       height="251.53777"
+       x="-213.90897"
+       y="497.01691"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#999999;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M -213.90897,747.43006 -89.15513,688.84122 36.19679,627.72699 160.35255,523.0821"
+       id="path4717"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <rect
+       style="fill:#ececec;fill-opacity:0.94117647;stroke:#000000;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect5486"
+       width="654.01355"
+       height="422.24411"
+       x="-350.74994"
+       y="-19.209875"
+       ry="30.304577"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m -350.74995,28.267291 654.99005,0"
+       id="path5499"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text5501"
+       y="12.581912"
+       x="-94.868164"
+       style="font-size:32px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Bold"
+       xml:space="preserve"><tspan
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Bold"
+         y="12.581912"
+         x="-94.868164"
+         id="tspan5503"
+         sodipodi:role="line">Overview</tspan></text>
+    <g
+       transform="translate(-61.82579,283.03045)"
+       id="g4074"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <g
+       id="g4174"
+       transform="translate(-265.06818,282.69964)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       style="stroke:#000000" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="350"
+       y="155.93361"
+       id="text7146"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan7148"
+         x="350"
+         y="155.93361" /></text>
+    <g
+       id="g3979-6"
+       transform="matrix(0.45715503,0,0,0.45715503,-273.95403,-33.027163)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <rect
+         y="176.81247"
+         x="401.28311"
+         height="76.266518"
+         width="76.266518"
+         id="rect2985-6-3-2-8"
+         style="fill:#cccccc;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text2991-8-8-9-3"
+         y="227.24182"
+         x="418.96213"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="227.24182"
+           x="418.96213"
+           id="tspan2993-8-9-3-57"
+           sodipodi:role="line">R<tspan
+   id="tspan3795-8-9-8"
+   style="font-size:65.00091553%;baseline-shift:sub">1</tspan></tspan></text>
+    </g>
+    <g
+       id="g3985-5"
+       transform="matrix(0.45715503,0,0,0.45715503,-261.54789,-32.796253)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       style="stroke-width:1.99932182;stroke-miterlimit:4;stroke-dasharray:none">
+      <rect
+         y="176.30737"
+         x="496.23746"
+         height="76.266518"
+         width="76.266518"
+         id="rect2985-6-3-2-7-2"
+         style="fill:#cccccc;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text2991-8-8-9-1-6"
+         y="226.73672"
+         x="511.91644"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="226.73672"
+           x="511.91644"
+           id="tspan2993-8-9-3-7-2"
+           sodipodi:role="line">R<tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan3912-2">2</tspan></tspan></text>
+    </g>
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       id="rect3343"
+       width="375"
+       height="208.3873"
+       x="-93.267677"
+       y="143.12881"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#b51412;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -91.27157,156.35688 56.063468,0 0,44.95179 59.599002,0 0,71.43656 105.56094,0 0,26.04316 151.45686,0"
+       id="path6738"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-mid:none;marker-end:none"
+       d="m -92.95501,143.38013 0,210.36048 374.2724,0"
+       id="path3782"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -34.871236,343.07308 0,20.28427"
+       id="path6702"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 130.28871,343.07308 0,20.28427"
+       id="path6714"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <g
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       transform="matrix(0.45715503,0,0,0.45715503,-201.8744,-32.796253)"
+       id="g6740"
+       style="stroke-width:1.99932182;stroke-miterlimit:4;stroke-dasharray:none">
+      <rect
+         style="fill:#cccccc;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect6742"
+         width="76.266518"
+         height="76.266518"
+         x="496.23746"
+         y="176.30737" />
+      <text
+         xml:space="preserve"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="511.91644"
+         y="226.73672"
+         id="text6744"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan6746"
+           x="511.91644"
+           y="226.73672">R<tspan
+   id="tspan6748"
+   style="font-size:65.00091553%;baseline-shift:sub">3</tspan></tspan></text>
+    </g>
+    <g
+       id="g6750"
+       transform="matrix(0.45715503,0,0,0.45715503,-96.68567,-32.796253)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       style="stroke-width:1.99932182;stroke-miterlimit:4;stroke-dasharray:none">
+      <rect
+         y="176.30737"
+         x="496.23746"
+         height="76.266518"
+         width="76.266518"
+         id="rect6752"
+         style="fill:#cccccc;fill-opacity:1;stroke:#367f68;stroke-width:1.99932182;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text6754"
+         y="226.73672"
+         x="511.91644"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="226.73672"
+           x="511.91644"
+           id="tspan6756"
+           sodipodi:role="line">R<tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan6758">4</tspan></tspan></text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-mid:url(#StopL)"
+       d="m -93.03933,122.749 57.831228,0 59.599002,0 105.56094,0 c 78.20653,0 73.69877,0 151.9053,0"
+       id="path7580"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       xml:space="preserve"
+       style="font-size:27.98381233px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-87.54007"
+       y="114.67506"
+       id="text7150-7-45"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan7152-8-6"
+         x="-87.54007"
+         y="114.67506"
+         style="font-size:27.98381233px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">1/δ<tspan
+   style="font-size:18.18973351px;baseline-shift:sub"
+   id="tspan7175-2">1</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;text-align:center;line-height:125%;letter-spacing:-0.31px;word-spacing:-1.54999995px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       x="397.49503"
+       y="397.27826"
+       id="text8156"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8158"
+         x="397.49503"
+         y="397.27826" /></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text8173"
+       y="382.78394"
+       x="265.97293"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="382.78394"
+         x="265.97293"
+         id="tspan8175"
+         sodipodi:role="line">t</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-153.86102"
+       y="266.78711"
+       id="text8179"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8181"
+         x="-153.86102"
+         y="266.78711"
+         style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">γ(t)<tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan8185" /></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text8187"
+       y="114.67506"
+       x="-30.212353"
+       style="font-size:27.98381233px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:27.98381233px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="114.67506"
+         x="-30.212353"
+         sodipodi:role="line"
+         id="tspan8217">1/δ<tspan
+   style="font-size:18.18973351px;baseline-shift:sub"
+   id="tspan8219">2</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:27.98381233px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="50.841415"
+       y="114.67506"
+       id="text8193"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8195"
+         x="50.841415"
+         y="114.67506"
+         style="font-size:27.98381233px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">1/δ<tspan
+   style="font-size:18.18973351px;baseline-shift:sub"
+   id="tspan8197">3</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:27.98381233px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="190.40147"
+       y="115.79551"
+       id="text8224"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8226"
+         x="190.40147"
+         y="115.79551"
+         style="font-size:27.98381233px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">∞</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker3226)"
+       d="m -53.107143,64.04076 14.107143,0"
+       id="path8230"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker3226)"
+       d="m 2.96429,64.04076 17.32142,0"
+       id="path8234"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker3226)"
+       d="m 63.5,64.04076 62.67857,0"
+       id="path8236"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;text-align:center;line-height:125%;letter-spacing:-0.31px;word-spacing:-1.54999995px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       x="-118.18785"
+       y="60.392391"
+       id="text8514"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8516"
+         x="-118.18785"
+         y="60.392391" /></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text8518"
+       y="71.27298"
+       x="-328.76086"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:26px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria"
+         y="71.27298"
+         x="-328.76086"
+         id="tspan8520"
+         sodipodi:role="line">Compartment</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-327.32629"
+       y="113.73079"
+       id="text8524"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         x="-327.32629"
+         y="113.73079"
+         style="font-size:26px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria"
+         id="tspan3375">Average time spent </tspan></text>
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 24.83727,343.07308 0,20.28427"
+       id="path8602"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-42.001488"
+       y="381.32214"
+       id="text8604"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8606"
+         x="-42.001488"
+         y="381.32214"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan8610"
+   style="font-size:65.00091553%;baseline-shift:sub">1</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text8612"
+       y="381.32214"
+       x="17.186527"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="381.32214"
+         x="17.186527"
+         id="tspan8614"
+         sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan8618">2</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="122.58459"
+       y="381.26874"
+       id="text8620"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8622"
+         x="122.58459"
+         y="381.26874"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan8626"
+   style="font-size:65.00091553%;baseline-shift:sub">3</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-327.32629"
+       y="383.17834"
+       id="text8644"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         x="-327.32629"
+         y="383.17834"
+         style="font-size:26px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria"
+         id="tspan3377">Average exit time</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;text-align:center;line-height:125%;letter-spacing:-0.31px;word-spacing:-1.54999995px;text-anchor:middle;fill:#000000;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       x="222.14285"
+       y="802.07452"
+       id="text5408"
+       sodipodi:linespacing="125%"
+       transform="translate(-203.26768,47.345903)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan5410"
+         x="222.14285"
+         y="802.07452" /></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5420"
+       style="font-size:40px;text-align:center;line-height:125%;letter-spacing:-0.31px;word-spacing:-1.54999995px;text-anchor:middle;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       transform="translate(-203.26768,47.345903)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><flowRegion
+         id="flowRegion5422"><rect
+           id="rect5424"
+           width="25"
+           height="42.857143"
+           x="123.57143"
+           y="873.50305" /></flowRegion><flowPara
+         id="flowPara5426" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-218.65489"
+       y="489.41113"
+       id="text3217"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan3219"
+         x="-218.65489"
+         y="489.41113"
+         style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t</tspan></text>
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path3249"
+       d="m -203.63045,688.87672 -20.28428,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path3253"
+       d="m -203.63045,523.00249 -20.28428,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3259"
+       d="m -203.63045,627.73965 -20.28428,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text3261"
+       y="692.88165"
+       x="-244.93727"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="692.88165"
+         x="-244.93727"
+         id="tspan3263"
+         sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1"
+   id="tspan3265">1</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-245.45778"
+       y="631.81213"
+       id="text3267"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan3269"
+         x="-245.45778"
+         y="631.81213"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan3271"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1">2</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text3273"
+       y="527.02161"
+       x="-245.51118"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="527.02161"
+         x="-245.51118"
+         id="tspan3275"
+         sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1"
+   id="tspan3277">3</tspan></tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -214.02513,737.57463 0,20.28428"
+       id="path3329"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text3333"
+       y="779.88965"
+       x="-221.70895"
+       style="font-size:25.92000008px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:25.92000008px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="779.88965"
+         x="-221.70895"
+         id="tspan3335"
+         sodipodi:role="line">0</tspan></text>
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path4409"
+       d="m -89.058303,737.57463 0,20.28428"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 35.513121,737.57463 0,20.28428"
+       id="path4411"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -203.63045,523.00249 -20.28428,0"
+       id="path4419"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -203.63045,627.73965 -20.28428,0"
+       id="path4421"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -119.77259,737.57463 0,40.28428"
+       id="path4441"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path4443"
+       d="m -27.201161,737.57463 0,40.28428"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 66.08455,737.57463 0,40.28428"
+       id="path4445"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text5291"
+       y="489.41113"
+       x="156.05939"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="489.41113"
+         x="156.05939"
+         id="tspan5293"
+         sodipodi:role="line">t'</tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       id="path5299"
+       d="m 161.71508,704.30916 -281,0 0,33.89741"
+       style="fill:none;stroke:#da7b27;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="ccc"
+       style="fill:none;stroke:#da7b27;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       d="m 161.71508,658.30916 -189,0 0,79.89741"
+       id="path5301"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5303"
+       d="m 161.71508,600.39582 -95,0 0,137.81075"
+       style="fill:none;stroke:#da7b27;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#367f68;fill-opacity:1;stroke:#367f68;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path4399"
+       sodipodi:cx="212.5051"
+       sodipodi:cy="673.24896"
+       sodipodi:rx="12.494899"
+       sodipodi:ry="12.494899"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       transform="matrix(0.56691968,0,0,0.56691968,-209.75315,306.92186)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#367f68;fill-opacity:1;stroke:#367f68;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path4403"
+       sodipodi:cx="212.5051"
+       sodipodi:cy="673.24896"
+       sodipodi:rx="12.494899"
+       sodipodi:ry="12.494899"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       transform="matrix(0.56691968,0,0,0.56691968,-85.110289,246.21265)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       transform="matrix(0.56691968,0,0,0.56691968,-240.31949,322.4933)"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       sodipodi:ry="12.494899"
+       sodipodi:rx="12.494899"
+       sodipodi:cy="673.24896"
+       sodipodi:cx="212.5051"
+       id="path4413"
+       style="fill:#da7b27;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:type="arc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#da7b27;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path4415"
+       sodipodi:cx="212.5051"
+       sodipodi:cy="673.24896"
+       sodipodi:rx="12.494899"
+       sodipodi:ry="12.494899"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       transform="matrix(0.56691968,0,0,0.56691968,-147.61029,276.78409)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       transform="matrix(0.56691968,0,0,0.56691968,-54.171174,217.62925)"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       sodipodi:ry="12.494899"
+       sodipodi:rx="12.494899"
+       sodipodi:cy="673.24896"
+       sodipodi:cx="212.5051"
+       id="path4417"
+       style="fill:#da7b27;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:type="arc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       xml:space="preserve"
+       style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:-0.26544583px;word-spacing:-1.32722926px;text-anchor:middle;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+       x="-89.270195"
+       y="775.66748"
+       id="text5412"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan5414"
+         x="-89.402916"
+         y="775.66748"
+         style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"><tspan
+           style="font-size:17.12553787px"
+           id="tspan5436">1/</tspan><tspan
+           style="font-size:17.81081009px;baseline-shift:sub"
+           id="tspan5432">3</tspan></tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text5438"
+       y="795.73706"
+       x="-120.10623"
+       style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:-0.26544583px;word-spacing:-1.32722926px;text-anchor:middle;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="795.73706"
+         x="-120.23895"
+         id="tspan5440"
+         sodipodi:role="line"><tspan
+           id="tspan5442"
+           style="font-size:17.12553787px">1/</tspan><tspan
+           id="tspan5444"
+           style="font-size:17.81081009px;baseline-shift:sub">4</tspan></tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text5446"
+       y="795.73706"
+       x="-27.024719"
+       style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:-0.26544583px;word-spacing:-1.32722926px;text-anchor:middle;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="795.73706"
+         x="-27.157442"
+         id="tspan5448"
+         sodipodi:role="line"><tspan
+           id="tspan5450"
+           style="font-size:17.12553787px">2/</tspan><tspan
+           id="tspan5452"
+           style="font-size:17.81081009px;baseline-shift:sub">4</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:-0.26544583px;word-spacing:-1.32722926px;text-anchor:middle;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+       x="35.811317"
+       y="775.66748"
+       id="text5454"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan5456"
+         x="35.678596"
+         y="775.66748"
+         style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"><tspan
+           style="font-size:17.12553787px"
+           id="tspan5458">2/</tspan><tspan
+           style="font-size:17.81081009px;baseline-shift:sub"
+           id="tspan5460">3</tspan></tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text5462"
+       y="795.73706"
+       x="66.135567"
+       style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:-0.26544583px;word-spacing:-1.32722926px;text-anchor:middle;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         style="font-size:27.40086174px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;stroke:none;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="795.73706"
+         x="66.002846"
+         id="tspan5464"
+         sodipodi:role="line"><tspan
+           id="tspan5466"
+           style="font-size:17.12553787px">3/</tspan><tspan
+           id="tspan5468"
+           style="font-size:17.81081009px;baseline-shift:sub">4</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-336.21024"
+       y="625.12177"
+       id="text5478"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan5480"
+         x="-336.21024"
+         y="625.12177"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">M = 4</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Bold"
+       x="-119.02829"
+       y="440.58191"
+       id="text5507"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan5509"
+         x="-119.02829"
+         y="440.58191"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Bold"><tspan
+           style="font-style:italic;-inkscape-font-specification:Cambria Bold Italic"
+           id="tspan5631"><tspan
+   style="font-style:normal"
+   id="tspan16121">Extrapolate</tspan> t</tspan></tspan></text>
+    <path
+       sodipodi:nodetypes="cccccccc"
+       inkscape:connector-curvature="0"
+       id="path5883"
+       d="m -211.25922,933.34675 56.06346,0 0,44.95175 59.599008,0 0,71.4365 105.56094,0 0,26.0432 151.456862,0"
+       style="opacity:0.35;fill:none;stroke:#b51412;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="149.65259"
+       y="1156.3451"
+       id="text5893"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan5895"
+         x="149.65259"
+         y="1156.3451"
+         style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t</tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text5897"
+       y="937.4184"
+       x="-254.6111"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="937.4184"
+         x="-254.6111"
+         id="tspan5899"
+         sodipodi:role="line">γ<tspan
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#367f68;fill-opacity:1"
+   id="tspan11777">1</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text5905"
+       y="1158.3119"
+       x="-162.7034"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="1158.3119"
+         x="-162.7034"
+         id="tspan5907"
+         sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1"
+   id="tspan5909">1</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-103.87255"
+       y="1158.3119"
+       id="text5911"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan5913"
+         x="-103.87255"
+         y="1158.3119"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t<tspan
+   id="tspan5915"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1">2</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text5917"
+       y="1158.2585"
+       x="2.235817"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="1158.2585"
+         x="2.235817"
+         id="tspan5919"
+         sodipodi:role="line">t<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#367f68;fill-opacity:1"
+   id="tspan5921">3</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text8005"
+       y="900.35449"
+       x="-132.6972"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="900.35449"
+         x="-132.6972"
+         id="tspan8007"
+         sodipodi:role="line">t'<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647"
+   id="tspan8009">2</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text8011"
+       y="900.30115"
+       x="-75.08992"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="900.30115"
+         x="-75.08992"
+         id="tspan8013"
+         sodipodi:role="line">t'<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647"
+   id="tspan8015">3</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-0.32143402"
+       y="900.44788"
+       id="text8017"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan8019"
+         x="-0.32143402"
+         y="900.44788"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t'<tspan
+   id="tspan8021"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647">4</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text8033"
+       y="900.35449"
+       x="-178.09442"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="900.35449"
+         x="-178.09442"
+         id="tspan8035"
+         sodipodi:role="line">t'<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647"
+   id="tspan8037">1</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text10003"
+       y="912.34509"
+       x="146.84244"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:32px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="912.34509"
+         x="146.84244"
+         id="tspan10005"
+         sodipodi:role="line">t'</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="fill:#367f68;fill-opacity:1;stroke:#367f68;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path6210"
+       sodipodi:cx="212.5051"
+       sodipodi:cy="673.24896"
+       sodipodi:rx="12.494899"
+       sodipodi:ry="12.494899"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       transform="matrix(0.56691968,0,0,0.56691968,-275.6891,596.52682)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       transform="matrix(0.56691968,0,0,0.56691968,-216.19961,667.99511)"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       sodipodi:ry="12.494899"
+       sodipodi:rx="12.494899"
+       sodipodi:cy="673.24896"
+       sodipodi:cx="212.5051"
+       id="path6212"
+       style="fill:#367f68;fill-opacity:1;stroke:#367f68;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:type="arc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#367f68;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path6214"
+       sodipodi:cx="212.5051"
+       sodipodi:cy="673.24896"
+       sodipodi:rx="12.494899"
+       sodipodi:ry="12.494899"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       transform="matrix(0.56691968,0,0,0.56691968,-110.53338,694.06654)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       xml:space="preserve"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-254.53188"
+       y="982.42859"
+       id="text11779"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan11781"
+         x="-254.53188"
+         y="982.42859"
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">γ<tspan
+   id="tspan11783"
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#367f68;fill-opacity:1">2</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text11795"
+       y="1053.4265"
+       x="-254.52374"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="1053.4265"
+         x="-254.52374"
+         id="tspan11797"
+         sodipodi:role="line">γ<tspan
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#367f68;fill-opacity:1"
+   id="tspan11799">3</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#367f68;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-254.50954"
+       y="1079.4183"
+       id="text11801"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan11803"
+         x="-254.50954"
+         y="1079.4183"
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#367f68;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">γ<tspan
+   id="tspan11805"
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#367f68;fill-opacity:1">4</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b27;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="177.38889"
+       y="936.69067"
+       id="text16123"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan16125"
+         x="177.38889"
+         y="936.69067"
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b27;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">γ<tspan
+   id="tspan16127"
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#da7b27;fill-opacity:1">1</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text16129"
+       y="971.68054"
+       x="177.46811"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b27;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b27;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="971.68054"
+         x="177.46811"
+         id="tspan16131"
+         sodipodi:role="line">γ<tspan
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#da7b27;fill-opacity:1"
+   id="tspan16133">2</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b27;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="177.47623"
+       y="1023.5017"
+       id="text16135"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan16137"
+         x="177.47623"
+         y="1023.5017"
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b27;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">γ<tspan
+   id="tspan16139"
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#da7b27;fill-opacity:1">3</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text16141"
+       y="1061.1959"
+       x="177.49045"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b27;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b27;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="1061.1959"
+         x="177.49045"
+         id="tspan16143"
+         sodipodi:role="line">γ<tspan
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#da7b27;fill-opacity:1"
+   id="tspan16145">4</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:28.79999924px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b27;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="177.51279"
+       y="1079.1022"
+       id="text16147"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan16149"
+         x="177.51279"
+         y="1079.1022"
+         style="font-size:28.79999924px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b27;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic">γ<tspan
+   id="tspan16151"
+   style="font-size:18.72026443px;baseline-shift:sub;fill:#da7b27;fill-opacity:1">5</tspan></tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       id="path4465-9"
+       d="m -214.165,978.758 58.64285,0 0,150.1066"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="ccc"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       d="m -213.59356,1049.4723 117.571409,0 0,79.3923"
+       id="path16173"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path16175"
+       d="m -213.59356,1075.4723 223.571409,0 0,53.3923"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path16181"
+       d="m -223.47253,1075.3391 20.2842,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -223.47253,1049.3391 20.2842,0"
+       id="path16183"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path16185"
+       d="m -223.47253,978.8033 20.2842,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -223.47253,933.16044 20.2842,0"
+       id="path16187"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       transform="matrix(0.56691968,0,0,0.56691968,-333.68095,551.39647)"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       sodipodi:ry="12.494899"
+       sodipodi:rx="12.494899"
+       sodipodi:cy="673.24896"
+       sodipodi:cx="212.5051"
+       id="path5959"
+       style="fill:#367f68;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:type="arc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path5891"
+       d="m 9.93994,1120.0629 0,20.2842"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5903"
+       d="m -96.221811,1120.0629 0,20.2842"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path5887"
+       d="m -155.57317,1120.0629 0,20.2842"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="ccc"
+       style="fill:none;stroke:#da7b27;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       d="m 159.835,968.25292 -328.347,0 0,-47.8934"
+       id="path16189"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path16191"
+       d="m 160.35782,1019.7478 -282.89012,0 0,-99.38828"
+       style="fill:none;stroke:#da7b27;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path16193"
+       d="m 159.835,932.758 -373.35715,0"
+       style="fill:none;stroke:#da7b27;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="ccc"
+       style="fill:none;stroke:#da7b27;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       d="m 160.35782,1057.2427 -224.890122,0 0,-136.88318"
+       id="path16195"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path16197"
+       d="m 160.35782,1075.7682 -150.022105,0 0,-155.40868"
+       style="fill:none;stroke:#da7b27;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 152.04271,1075.2139 20.2842,0"
+       id="path16203"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path16205"
+       d="m 152.04271,1057.2345 20.2842,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 152.04271,1019.6134 20.2842,0"
+       id="path16207"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path16209"
+       d="m 152.04271,967.71914 20.2842,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 152.04271,932.7293 20.2842,0"
+       id="path16211"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       transform="matrix(0.56691968,0,0,0.56691968,-242.719,638.56844)"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       sodipodi:ry="12.494899"
+       sodipodi:rx="12.494899"
+       sodipodi:cy="673.24896"
+       sodipodi:cx="212.5051"
+       id="path4413-5"
+       style="fill:#da7b27;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:type="arc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#da7b27;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path16241"
+       sodipodi:cx="212.5051"
+       sodipodi:cy="673.24896"
+       sodipodi:rx="12.494899"
+       sodipodi:ry="12.494899"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       transform="matrix(0.56691968,0,0,0.56691968,-185.29131,675.3781)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path3657"
+       d="m -203.63045,748.47439 -20.28428,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       xml:space="preserve"
+       style="font-size:25.92000008px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="-243.82874"
+       y="756.71362"
+       id="text3659"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan3661"
+         x="-243.82874"
+         y="756.71362"
+         style="font-size:25.92000008px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">0</tspan></text>
+    <path
+       sodipodi:nodetypes="ccc"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       d="m -214.28492,688.81424 125,0 0,49.39233"
+       id="path4723"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path4725"
+       d="m -213.29507,627.82439 248.999998,0 0,110.38218"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#367f68;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6, 6;stroke-dashoffset:0"
+       d="m -213.29507,523.31931 373,0"
+       id="path4727"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="175.2565"
+       y="663.19171"
+       id="text5351"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan5353"
+         x="175.2565"
+         y="663.19171"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t'<tspan
+   id="tspan5355"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647">2</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="175.20309"
+       y="605.47766"
+       id="text5385"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan5387"
+         x="175.20309"
+         y="605.47766"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t'<tspan
+   id="tspan5389"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647">3</tspan></tspan></text>
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text5357"
+       y="528.66931"
+       x="175.20309"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="528.66931"
+         x="175.20309"
+         id="tspan5359"
+         sodipodi:role="line">t'<tspan
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647"
+   id="tspan5361">4</tspan></tspan></text>
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path3331"
+       d="m 161.99518,737.57463 0,20.28428"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       xml:space="preserve"
+       style="font-size:25.92000008px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="154.57031"
+       y="781.23322"
+       id="text3337"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan3339"
+         x="154.57031"
+         y="781.23322"
+         style="font-size:25.92000008px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cambria;-inkscape-font-specification:Cambria Italic">1</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 171.08383,703.86656 -20.28427,0"
+       id="path5315"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 171.08383,523.42629 -20.28427,0"
+       id="path5319"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       xml:space="preserve"
+       style="font-size:21.02465248px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b2f;fill-opacity:0.94117647;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       x="175.77701"
+       y="709.10944"
+       id="text5323"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan5325"
+         x="175.77701"
+         y="709.10944"
+         style="font-size:21.02465248px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b2f;fill-opacity:0.94117647;font-family:Cambria;-inkscape-font-specification:Cambria Italic">t'<tspan
+   id="tspan5327"
+   style="font-size:65.00091553%;baseline-shift:sub;fill:#da7b2f;fill-opacity:0.94117647">1</tspan></tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       id="path5369"
+       d="m 171.08383,657.94886 -20.28427,0"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 171.08383,600.2882 -20.28427,0"
+       id="path5391"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       transform="matrix(0.56691968,0,0,0.56691968,40.603986,141.91201)"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       sodipodi:ry="12.494899"
+       sodipodi:rx="12.494899"
+       sodipodi:cy="673.24896"
+       sodipodi:cx="212.5051"
+       id="path4405"
+       style="fill:#367f68;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:type="arc"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       sodipodi:linespacing="125%"
+       id="text5482"
+       y="625.12177"
+       x="219.78976"
+       style="font-size:32px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#da7b27;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Cambria Italic"
+       xml:space="preserve"><tspan
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#da7b27;fill-opacity:1;font-family:Cambria;-inkscape-font-specification:Cambria Italic"
+         y="625.12177"
+         x="219.78976"
+         id="tspan5484"
+         sodipodi:role="line">M = 5</tspan></text>
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path4788"
+       d="m -168.50033,910.89627 0,20.28427"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path4790"
+       d="m 9.93994,910.89627 0,20.28427"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -122.58263,910.89627 0,20.28427"
+       id="path4798"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path4800"
+       d="m -64.92197,910.89627 0,20.28427"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#da7b27;fill-opacity:1;stroke:#da7b27;stroke-width:3;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path4862"
+       sodipodi:cx="212.5051"
+       sodipodi:cy="673.24896"
+       sodipodi:rx="12.494899"
+       sodipodi:ry="12.494899"
+       d="m 225,673.24896 c 0,6.90074 -5.59416,12.4949 -12.4949,12.4949 -6.90075,0 -12.4949,-5.59416 -12.4949,-12.4949 0,-6.90074 5.59415,-12.4949 12.4949,-12.4949 6.90074,0 12.4949,5.59416 12.4949,12.4949 z"
+       transform="matrix(0.56691968,0,0,0.56691968,-289.30783,586.94916)"
+       inkscape:export-filename="C:\Users\B246705\Documents\Kode\R\diseasy\feat\waning_immunity\manuscripts\waning_immunity\figures\extrapolation_unify.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+  </g>
+</svg>

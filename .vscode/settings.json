@@ -1,0 +1,17 @@
+{
+    "cSpell.words": [
+        "CLASSPATH",
+        "dbatools",
+        "mssql",
+        "MSSQLHOST",
+        "ojdbc",
+        "ojdbc8",
+        "oracledb",
+        "ORACLEHOST",
+        "sqlcmd",
+        "sqlite"
+    ],
+    "cSpell.ignoreWords": [
+        "jdbc"
+    ]
+}

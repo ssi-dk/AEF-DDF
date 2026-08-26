@@ -32,6 +32,7 @@ lockfile <- jsonlite::read_json(
 )
 
 package_table <- as.data.frame(lockfile[["packages"]])
+package_table[["library"]] <- NULL
 
 # Remove heavy DB packages that takes long time to install
 package_table <- package_table[!(package_table[["package"]] %in% c("duckdb", "RSQLite")), ]
@@ -61,30 +62,36 @@ is_installed <- function(package, version) {
   return(rlang::is_installed(package) && installed_version == requested_version)
 }
 
-packages_to_install <- package_table
-packages_to_install[["r"]] <- seq_len(nrow(packages_to_install))
-packages_to_install <- packages_to_install[
-  !purrr::map2_lgl(packages_to_install[["package"]], packages_to_install[["version"]], is_installed),
-]
 
-if (nrow(packages_to_install) > 0) {
-  message("Installing packages from offline repo (compiling from source -- will take time!)")
-} else {
-  message("Package library up to date!")
-}
+for (attempt in range(5)) {
+  packages_to_install <- package_table
+  packages_to_install <- packages_to_install[
+    !purrr::map2_lgl(packages_to_install[["package"]], packages_to_install[["version"]], is_installed),
+  ]
+  packages_to_install[["r"]] <- seq_len(nrow(packages_to_install))
 
-purrr::pwalk(
-  packages_to_install,
-  \(package, version, binary, installed, r) {
-    message(glue::glue("Installing package: [{r}/{nrow(packages_to_install)}] {package} v{version} ..."))
-    install.packages(
-      pkgs = package,
-      type = "source",
-      dependencies = FALSE,
-      quiet = TRUE
-    )
+  if (nrow(packages_to_install) > 0) {
+    message("Installing packages from offline repo (compiling from source -- will take time!)")
+    cache <- getOption("diseasy.cache")
+    cache$reset()
+  } else {
+    message("Package library up to date!")
+    break
   }
-)
+
+  purrr::pwalk(
+    packages_to_install,
+    \(package, version, binary, installed, r) {
+      message(glue::glue("Installing package: [{r}/{nrow(packages_to_install)}] {package} v{version} ..."))
+      install.packages(
+        pkgs = package,
+        type = "source",
+        dependencies = FALSE,
+        quiet = TRUE
+      )
+    }
+  )
+}
 
 
 base_packages <- rownames(installed.packages(priority = "base"))
@@ -114,7 +121,7 @@ missing_packages <- setdiff(
 )
 
 if (length(missing_packages) > 0L) {
-  stop(
+  warning(
     "Missing packages in library!\n",
     paste(missing_packages, collapse = ", "),
     call. = FALSE
@@ -124,7 +131,7 @@ if (length(missing_packages) > 0L) {
 # Install extra packages needed to run the analysis scripts (but not used in diseasy)
 withr::with_options(
   list("repos" = "https://cloud.r-project.org"),
-  c("furrr") |>
+  c("furrr", "rlang") |>
     purrr::discard(rlang::is_installed) |>
     install.packages(pkgs = _, quiet = TRUE)
 )

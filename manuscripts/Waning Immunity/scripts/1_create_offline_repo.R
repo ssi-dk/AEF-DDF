@@ -10,7 +10,7 @@ setwd(wd)
 
 
 github_repo <- "ssi-dk/diseasy"
-github_commit <- "55e09774bbcd207036152085c32df3670ef01a08"
+github_commit <- "8db8be292fe4f411ca3b2254b1a7610a33a8285f"
 
 source_repos <- c("https://cloud.r-project.org")
 
@@ -566,31 +566,6 @@ if (offline_repo_is_current) {
     file = manifest_path,
     row.names = FALSE
   )
-
-  # Copy the optimiser script from the current diseasy version
-  optimiser_source <- file.path(
-    package_root,
-    "data-raw",
-    "diseasy_immunity_optimiser_results.R"
-  )
-  optimiser_dest <- file.path(getwd(), "scripts", "3_diseasy_immunity_optimisation.R")
-
-  optimiser_copied <- file.copy(
-    from = optimiser_source,
-    to = optimiser_dest,
-    overwrite = TRUE
-  )
-
-  if (!optimiser_copied) {
-    stop(
-      "Failed to copy optimiser script from ",
-      optimiser_source,
-      " to ",
-      optimiser_dest,
-      ".",
-      call. = FALSE
-    )
-  }
 
   writeLines(github_commit, diseasy_sha_file, useBytes = TRUE)
 
