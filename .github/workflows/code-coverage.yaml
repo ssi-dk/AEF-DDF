@@ -110,10 +110,24 @@ jobs:
 
           coverage_json <- covr:::to_codecov(coverage)
 
-          writeLines(
-            coverage_json,
-            "coverage.json"
+          output <- file.path(
+            Sys.getenv("GITHUB_WORKSPACE"),
+            "codecov.json"
           )
+
+          writeLines(
+            as.character(coverage_json),
+            output
+          )
+
+          message("Working directory: ", getwd())
+          message("Coverage report: ", output)
+          message("Exists: ", file.exists(output))
+          message("Size: ", file.size(output))
+
+          stopifnot(file.exists(output))
+          stopifnot(file.size(output) > 0)
+          stopifnot(jsonlite::validate(readChar(output, file.size(output))))
         shell: Rscript {0}
 
       - name: ⬆️ Upload Coverage Report Artifact
@@ -240,10 +254,24 @@ jobs:
 
           coverage_json <- covr:::to_codecov(coverage)
 
-          writeLines(
-            coverage_json,
-            "coverage.json"
+          output <- file.path(
+            Sys.getenv("GITHUB_WORKSPACE"),
+            "codecov.json"
           )
+
+          writeLines(
+            as.character(coverage_json),
+            output
+          )
+
+          message("Working directory: ", getwd())
+          message("Coverage report: ", output)
+          message("Exists: ", file.exists(output))
+          message("Size: ", file.size(output))
+
+          stopifnot(file.exists(output))
+          stopifnot(file.size(output) > 0)
+          stopifnot(jsonlite::validate(readChar(output, file.size(output))))
         shell: Rscript {0}
 
       - name: ⬆️ Upload Coverage Report Artifact
@@ -391,10 +419,24 @@ jobs:
 
           coverage_json <- covr:::to_codecov(coverage)
 
-          writeLines(
-            coverage_json,
-            "coverage.json"
+          output <- file.path(
+            Sys.getenv("GITHUB_WORKSPACE"),
+            "codecov.json"
           )
+
+          writeLines(
+            as.character(coverage_json),
+            output
+          )
+
+          message("Working directory: ", getwd())
+          message("Coverage report: ", output)
+          message("Exists: ", file.exists(output))
+          message("Size: ", file.size(output))
+
+          stopifnot(file.exists(output))
+          stopifnot(file.size(output) > 0)
+          stopifnot(jsonlite::validate(readChar(output, file.size(output))))
         shell: Rscript {0}
 
       - name: ⬆️ Upload Coverage Report Artifact
@@ -611,10 +653,24 @@ jobs:
 
           coverage_json <- covr:::to_codecov(coverage)
 
-          writeLines(
-            coverage_json,
-            "coverage.json"
+          output <- file.path(
+            Sys.getenv("GITHUB_WORKSPACE"),
+            "codecov.json"
           )
+
+          writeLines(
+            as.character(coverage_json),
+            output
+          )
+
+          message("Working directory: ", getwd())
+          message("Coverage report: ", output)
+          message("Exists: ", file.exists(output))
+          message("Size: ", file.size(output))
+
+          stopifnot(file.exists(output))
+          stopifnot(file.size(output) > 0)
+          stopifnot(jsonlite::validate(readChar(output, file.size(output))))
         shell: Rscript {0}
 
       - name: ⬆️ Upload Coverage Report Artifact
@@ -872,10 +928,24 @@ jobs:
 
           coverage_json <- covr:::to_codecov(coverage)
 
-          writeLines(
-            coverage_json,
-            "coverage.json"
+          output <- file.path(
+            Sys.getenv("GITHUB_WORKSPACE"),
+            "codecov.json"
           )
+
+          writeLines(
+            as.character(coverage_json),
+            output
+          )
+
+          message("Working directory: ", getwd())
+          message("Coverage report: ", output)
+          message("Exists: ", file.exists(output))
+          message("Size: ", file.size(output))
+
+          stopifnot(file.exists(output))
+          stopifnot(file.size(output) > 0)
+          stopifnot(jsonlite::validate(readChar(output, file.size(output))))
         shell: Rscript {0}
 
       - name: ⬆️ Upload Coverage Report Artifact
