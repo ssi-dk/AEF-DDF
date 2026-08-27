@@ -969,9 +969,15 @@ jobs:
           path: coverage-reports
           pattern: coverage-*
 
+      - name: 🐞 List coverage reports
+        run: |
+          find coverage-reports -type f -print
+
       - name: ⬆️ Upload coverage to codecov.io
         uses: codecov/codecov-action@v5
         with:
-          directory: coverage-reports
+          files: coverage-reports/**/codecov.json
+          disable_search: true
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
+          verbose: true
