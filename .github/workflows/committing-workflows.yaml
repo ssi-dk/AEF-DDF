@@ -133,10 +133,10 @@ jobs:
 
           packages <- packages[
             order(packages$Package),
-            c("Package", "Version", "LibPath")
+            c("Package", "Version")
           ]
 
-          names(packages) <- c("package", "version", "library")
+          names(packages) <- c("package", "version")
 
           jsonlite::write_json(
             list(packages = packages),
