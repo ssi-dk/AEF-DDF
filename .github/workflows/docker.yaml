@@ -50,6 +50,28 @@ jobs:
       r_devel_container: ${{ steps.image_job.outputs.r_devel_container }}
 
     steps:
+      - name: ⚙️ Generate image tag
+        id: tag
+        run: |
+          # Convert IMAGE_NAME to lowercase
+          IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
+
+          CONTAINER_BRANCH="${{ inputs.container_branch }}"
+          if [ -z "${CONTAINER_BRANCH}" ]; then
+            CONTAINER_BRANCH="${{ inputs.branch_name }}"
+          fi
+
+          # Replace / with - in BRANCH_TAG
+          BRANCH_TAG_CLEAN=$(echo "${CONTAINER_BRANCH}" | tr '/' '-')
+
+          IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
+          R_DEVEL_IMAGE="${IMAGE}-r-devel"
+
+          echo "Generated image reference is: ${IMAGE}"
+          echo "Generated R-devel image reference is: ${R_DEVEL_IMAGE}"
+          echo "tag=${IMAGE}" >> $GITHUB_OUTPUT
+          echo "r_devel_tag=${R_DEVEL_IMAGE}" >> $GITHUB_OUTPUT
+
       - name: Dump github context
         if: ${{ inputs.update_docker != '[]' }}
         run:   echo "$GITHUB_CONTEXT"
@@ -107,6 +129,39 @@ jobs:
           echo "Resolved ${R_DEVEL_BASE_IMAGE} to ${R_DEVEL_BASE_DIGEST}"
           echo "digest=${R_DEVEL_BASE_DIGEST}" >> $GITHUB_OUTPUT
 
+      - name: 🔧 Resolve arf release
+        id: arf_release
+        if: ${{ inputs.update_docker != '[]' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          RELEASE_JSON=$(curl --fail --silent --show-error --location \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            https://api.github.com/repos/eitsupi/arf/releases/latest)
+
+          ARF_TAG=$(jq -r '.tag_name // empty' <<< "${RELEASE_JSON}")
+          ARF_DIGEST=$(jq -r '.assets[] | select(.name == "arf-console-installer.sh") | .digest // empty' <<< "${RELEASE_JSON}")
+
+          if [ -z "${ARF_TAG}" ] || [ -z "${ARF_DIGEST}" ] || [[ "${ARF_DIGEST}" != sha256:* ]]; then
+            echo "Could not resolve the latest stable arf release and installer digest"
+            exit 1
+          fi
+
+          ARF_VERSION="${ARF_TAG#v}"
+          ARF_SHA256="${ARF_DIGEST#sha256:}"
+          ARF_RELEASE="${ARF_TAG}@${ARF_DIGEST}"
+
+          echo "Resolved arf ${ARF_TAG} with installer digest ${ARF_DIGEST}"
+          echo "tag=${ARF_TAG}" >> "$GITHUB_OUTPUT"
+          echo "version=${ARF_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "digest=${ARF_DIGEST}" >> "$GITHUB_OUTPUT"
+          echo "sha256=${ARF_SHA256}" >> "$GITHUB_OUTPUT"
+          echo "release=${ARF_RELEASE}" >> "$GITHUB_OUTPUT"
+
       - name: Generate dockerfiles
         if: ${{ inputs.update_docker != '[]' }}
         run: |
@@ -115,11 +170,29 @@ jobs:
           ENV TZ=Australia/Sydney
           RUN date
 
-          # System dependencies (apt-get since r-base is debian based)
-          RUN apt-get update
-          RUN apt-get install -y libcurl4-gnutls-dev curl # curl files
-          RUN apt-get install -y docker.io # docker interface
-          RUN apt-get install -y gnupg2 # required to install odbc
+          # System and development dependencies
+          RUN apt-get update && apt-get install -y --no-install-recommends \
+              ca-certificates \
+              curl \
+              docker.io \
+              git \
+              gnupg2 \
+              libcurl4-gnutls-dev \
+              openssh-client \
+              sudo \
+              xz-utils \
+              && rm -rf /var/lib/apt/lists/*
+
+          # Install the latest stable arf release
+          ARG ARF_VERSION=${{ steps.arf_release.outputs.version }}
+          ARG ARF_INSTALLER_SHA256=${{ steps.arf_release.outputs.sha256 }}
+          RUN curl --proto '=https' --tlsv1.2 -LsSf \
+                "https://github.com/eitsupi/arf/releases/download/v${ARF_VERSION}/arf-console-installer.sh" \
+                -o /tmp/arf-installer.sh \
+              && echo "${ARF_INSTALLER_SHA256}  /tmp/arf-installer.sh" | sha256sum -c - \
+              && CARGO_DIST_FORCE_INSTALL_DIR=/usr/local/bin sh /tmp/arf-installer.sh \
+              && rm /tmp/arf-installer.sh \
+              && arf --version
 
           # Move pak.lock to the container
           COPY . /app/
@@ -139,11 +212,17 @@ jobs:
           # Install package dependencies
           RUN R -e 'pkgs <- jsonlite::fromJSON("pak.lock")$packages; pak::pak(paste0(pkgs$package, "@" ,pkgs$version))'
 
-          # Install workflow dependencies
-          RUN R -e 'pak::pak(c("jsonlite", "rcmdcheck", "devtools", "lintr", "covr", "roxygen2", "pkgdown", "rmarkdown", "styler"))'
+          # Install workflow and VS Code development dependencies
+          RUN R -e 'pak::pak(c("jsonlite", "rcmdcheck", "devtools", "lintr", "covr", "roxygen2", "pkgdown", "rmarkdown", "styler", "languageserver", "httpgd"))'
 
           # Install the dev package
           RUN R -e 'devtools::install()'
+
+          # Give the non-root Rocker user a writable personal package library
+          # for packages installed interactively while using the dev container.
+          RUN mkdir -p /home/rstudio/R/library \
+              && chown -R rstudio:rstudio /home/rstudio/R
+          ENV R_LIBS_USER=/home/rstudio/R/library
           DOCKERFILE
 
           cat > dockerfile-r-devel <<'DOCKERFILE'
@@ -179,14 +258,48 @@ jobs:
           RUN R -e 'devtools::install()'
           DOCKERFILE
 
+          DEV_IMAGE="${{ steps.tag.outputs.tag }}"
+
+          mkdir -p .devcontainer
+          cat > .devcontainer/devcontainer.json <<DEVCONTAINER
+          {
+            "name": "${{ github.event.repository.name }}",
+            "image": "${DEV_IMAGE}",
+            "overrideCommand": false,
+            "remoteUser": "rstudio",
+            "containerEnv": {
+              "ROOT": "true"
+            },
+            "customizations": {
+              "vscode": {
+                "extensions": [
+                  "REditorSupport.r"
+                ],
+                "settings": {
+                  "r.rpath.linux": "/usr/local/bin/R",
+                  "r.rterm.linux": "/usr/local/bin/arf",
+                  "r.bracketedPaste": true,
+                  "r.alwaysUseActiveTerminal": true
+                }
+              }
+            }
+          }
+          DEVCONTAINER
+
+          echo "Generated dev container configuration for ${DEV_IMAGE}"
+
+          mkdir -p .github
+          printf '%s\n' '${{ steps.arf_release.outputs.release }}' > .github/arf-release
+          echo "Recorded arf release: $(cat .github/arf-release)"
+
           if echo '${{ inputs.update_docker }}' | jq -e 'index("r-devel")' > /dev/null; then
-            mkdir -p .github
             printf '%s\n' '${{ steps.r_devel_base_image.outputs.digest }}' > .github/r-devel-base-digest
             echo "Recorded R-devel base image digest: $(cat .github/r-devel-base-digest)"
           fi
 
           cat dockerfile
           cat dockerfile-r-devel
+          cat .devcontainer/devcontainer.json
 
       - name: ⬆️ Commit changes
         if: ${{ inputs.update_docker != '[]' }}
@@ -202,7 +315,7 @@ jobs:
           fi
 
           git stash list | grep stash@{0} && git stash pop || echo "No stash to pop"
-          git add dockerfile dockerfile-r-devel
+          git add dockerfile dockerfile-r-devel .devcontainer/devcontainer.json .github/arf-release
           git add .github/r-devel-base-digest 2>/dev/null || true
           git commit -m "chore: Update Docker specifications" || echo "No changes to commit"
 
@@ -221,28 +334,6 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: ⚙️ Generate image tag
-        id: tag
-        run: |
-          # Convert IMAGE_NAME to lowercase
-          IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
-
-          CONTAINER_BRANCH="${{ inputs.container_branch }}"
-          if [ -z "${CONTAINER_BRANCH}" ]; then
-            CONTAINER_BRANCH="${{ inputs.branch_name }}"
-          fi
-
-          # Replace / with - in BRANCH_TAG
-          BRANCH_TAG_CLEAN=$(echo "${CONTAINER_BRANCH}" | tr '/' '-')
-
-          IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
-          R_DEVEL_IMAGE="${IMAGE}-r-devel"
-
-          echo "Generated image reference is: ${IMAGE}"
-          echo "Generated R-devel image reference is: ${R_DEVEL_IMAGE}"
-          echo "tag=${IMAGE}" >> $GITHUB_OUTPUT
-          echo "r_devel_tag=${R_DEVEL_IMAGE}" >> $GITHUB_OUTPUT
-
       - name: 🔧 Build and push Docker image
         if: ${{ contains(fromJSON(inputs.update_docker), 'release') }}
         uses: docker/build-push-action@v6
@@ -251,7 +342,10 @@ jobs:
           file: dockerfile
           push: true
           tags: ${{ steps.tag.outputs.tag }}
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: |
+            ${{ steps.meta.outputs.labels }}
+            dk.ssi.ci.arf-version=${{ steps.arf_release.outputs.version }}
+            dk.ssi.ci.arf-installer-digest=${{ steps.arf_release.outputs.digest }}
 
       - name: 🔧 Build and push R-devel Docker image
         if: ${{ contains(fromJSON(inputs.update_docker), 'r-devel') }}
