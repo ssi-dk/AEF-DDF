@@ -2,13 +2,8 @@ on:
   workflow_call:
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
   packages: write
-
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   docker-cleanup:
@@ -16,22 +11,81 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_PAT }}
 
     steps:
-      - name: ⚙️ Get repository name (lowercase)
+      - name: ⚙️ Get repository information
         run: |
           repository_name="${GITHUB_REPOSITORY#*/}"
           repository_name_lowercase=$(echo "$repository_name" | tr '[:upper:]' '[:lower:]')
-          echo "REPOSITORY_NAME=$repository_name_lowercase" >> $GITHUB_ENV
 
-      - name: 🗑️ Clean up GHCR images
-        uses: snok/container-retention-policy@v3.0.1
+          echo "REPOSITORY_NAME=$repository_name_lowercase" >> "$GITHUB_ENV"
+
+      - name: 🔍 Find live branch image tags
+        run: |
+          set -euo pipefail
+
+          gh api \
+            --paginate \
+            "/repos/${GITHUB_REPOSITORY}/branches?per_page=100" \
+            --jq '.[].name' |
+          while IFS= read -r branch; do
+            tag=$(echo "$branch" | tr '/' '-')
+
+            echo "$tag"
+            echo "${tag}-r-devel"
+          done |
+          sort -u > /tmp/live-tags
+
+          echo "Live Docker tags:"
+          cat /tmp/live-tags
+
+      - name: 🗑️ Remove images for deleted branches
+        run: |
+          set -euo pipefail
+
+          API="/orgs/${GITHUB_REPOSITORY_OWNER}/packages/container/${REPOSITORY_NAME}/versions"
+
+          gh api \
+            --paginate \
+            "${API}?per_page=100" \
+            --jq '.[] | [.id, (.metadata.container.tags | join(","))] | @tsv' |
+          while IFS=$'\t' read -r version_id tags; do
+
+            # Leave untagged images to container-retention-policy.
+            if [ -z "$tags" ]; then
+              continue
+            fi
+
+            keep=false
+
+            IFS=',' read -ra tag_array <<< "$tags"
+
+            for tag in "${tag_array[@]}"; do
+              if grep -Fxq "$tag" /tmp/live-tags; then
+                keep=true
+                break
+              fi
+            done
+
+            if [ "$keep" = true ]; then
+              echo "Keeping version ${version_id}: ${tags}"
+            else
+              echo "Deleting version ${version_id}: ${tags}"
+
+              gh api \
+                --method DELETE \
+                "${API}/${version_id}"
+            fi
+          done
+
+      - name: 🗑️ Clean up old untagged GHCR images
         if: ${{ !cancelled() }}
+        uses: snok/container-retention-policy@v3.1.0
         with:
           account: ssi-dk
           token: ${{ secrets.GH_PAT }}
           image-names: ${{ env.REPOSITORY_NAME }}
           cut-off: 1h
           tag-selection: untagged
-          dry-run: false
+          dry-run: true
