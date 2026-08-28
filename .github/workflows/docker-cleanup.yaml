@@ -33,7 +33,8 @@ jobs:
             tag=$(echo "$branch" | tr '/' '-')
 
             echo "$tag"
-            echo "${tag}-r-devel"
+            echo "${tag}-ci"
+            echo "${tag}-ci-r-devel"
           done |
           sort -u > /tmp/live-tags
 

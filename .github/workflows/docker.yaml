@@ -19,12 +19,12 @@ on:
         type: boolean
         default: true
     outputs:
-      container:
-        description: "Updated container path"
-        value: ${{ jobs.docker.outputs.container }}
-      r_devel_container:
-        description: "Updated R-devel container path"
-        value: ${{ jobs.docker.outputs.r_devel_container }}
+      ci_container:
+        description: "Updated CI container path"
+        value: ${{ jobs.docker.outputs.ci_container }}
+      ci_r_devel_container:
+        description: "Updated CI R-devel container path"
+        value: ${{ jobs.docker.outputs.ci_r_devel_container }}
 
 permissions:
   contents: write
@@ -46,11 +46,11 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     outputs:
-      container: ${{ steps.image_job.outputs.container }}
-      r_devel_container: ${{ steps.image_job.outputs.r_devel_container }}
+      ci_container: ${{ steps.image_job.outputs.ci_container }}
+      ci_r_devel_container: ${{ steps.image_job.outputs.ci_r_devel_container }}
 
     steps:
-      - name: ⚙️ Generate image tag
+      - name: ⚙️ Generate tags for CI images
         id: tag
         run: |
           # Convert IMAGE_NAME to lowercase
@@ -64,13 +64,16 @@ jobs:
           # Replace / with - in BRANCH_TAG
           BRANCH_TAG_CLEAN=$(echo "${CONTAINER_BRANCH}" | tr '/' '-')
 
-          IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
-          R_DEVEL_IMAGE="${IMAGE}-r-devel"
+          DEV_IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
+          CI_IMAGE="${DEV_IMAGE}-ci"
+          CI_R_DEVEL_IMAGE="${CI_IMAGE}-r-devel"
 
-          echo "Generated image reference is: ${IMAGE}"
-          echo "Generated R-devel image reference is: ${R_DEVEL_IMAGE}"
-          echo "tag=${IMAGE}" >> $GITHUB_OUTPUT
-          echo "r_devel_tag=${R_DEVEL_IMAGE}" >> $GITHUB_OUTPUT
+          echo "Generated dev image reference is: ${DEV_IMAGE}"
+          echo "Generated CI image reference is: ${CI_IMAGE}"
+          echo "Generated CI R-devel image reference is: ${CI_R_DEVEL_IMAGE}"
+          echo "dev_tag=${DEV_IMAGE}" >> $GITHUB_OUTPUT
+          echo "ci_tag=${CI_IMAGE}" >> $GITHUB_OUTPUT
+          echo "ci_r_devel_tag=${CI_R_DEVEL_IMAGE}" >> $GITHUB_OUTPUT
 
       - name: Dump github context
         if: ${{ inputs.update_docker != '[]' }}
@@ -258,7 +261,7 @@ jobs:
           RUN R -e 'devtools::install()'
           DOCKERFILE
 
-          DEV_IMAGE="${{ steps.tag.outputs.tag }}"
+          DEV_IMAGE="${{ steps.tag.outputs.dev_tag }}"
 
           mkdir -p .devcontainer
           cat > .devcontainer/devcontainer.json <<DEVCONTAINER
@@ -334,14 +337,16 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: 🔧 Build and push Docker image
+      - name: 🔧 Build and push dev and CI Docker image
         if: ${{ contains(fromJSON(inputs.update_docker), 'release') }}
         uses: docker/build-push-action@v6
         with:
           context: .
           file: dockerfile
           push: true
-          tags: ${{ steps.tag.outputs.tag }}
+          tags: |
+            ${{ steps.tag.outputs.dev_tag }}
+            ${{ steps.tag.outputs.ci_tag }}
           labels: |
             ${{ steps.meta.outputs.labels }}
             dk.ssi.ci.arf-version=${{ steps.arf_release.outputs.version }}
@@ -354,42 +359,42 @@ jobs:
           context: .
           file: dockerfile-r-devel
           push: true
-          tags: ${{ steps.tag.outputs.r_devel_tag }}
+          tags: ${{ steps.tag.outputs.ci_r_devel_tag }}
           labels: |
             ${{ steps.meta.outputs.labels }}
             dk.ssi.ci.r-devel-base-image=rocker/tidyverse:devel
             dk.ssi.ci.r-devel-base-digest=${{ steps.r_devel_base_image.outputs.digest }}
 
-      - name: 🔍 Check if Docker images exist in GHCR
+      - name: 🔍 Check if CI Docker images exist in GHCR
         id: image_job
         if: ${{ !cancelled() }}
         run: |
-          IMAGE="${{ steps.tag.outputs.tag }}"
-          R_DEVEL_IMAGE="${{ steps.tag.outputs.r_devel_tag }}"
+          CI_IMAGE="${{ steps.tag.outputs.ci_tag }}"
+          CI_R_DEVEL_IMAGE="${{ steps.tag.outputs.ci_r_devel_tag }}"
 
-          echo "Checking for image: ${IMAGE}"
-          echo "Checking for R-devel image: ${R_DEVEL_IMAGE}"
+          echo "Checking for CI image: ${CI_IMAGE}"
+          echo "Checking for CI R-devel image: ${CI_R_DEVEL_IMAGE}"
 
           # Try to pull the image metadata (doesn't download full image)
           if [[ "${{ inputs.use-containers }}" == "false" ]]; then
             echo "Use of containers is disabled"
-            echo "container=null" >> $GITHUB_OUTPUT
-            echo "r_devel_container=null" >> $GITHUB_OUTPUT
+            echo "ci_container=null" >> $GITHUB_OUTPUT
+            echo "ci_r_devel_container=null" >> $GITHUB_OUTPUT
           else
-            if docker manifest inspect "${IMAGE}" > /dev/null 2>&1; then
-              echo "Image found in GHCR"
-              printf 'container="%s"\n' "${IMAGE}" >> $GITHUB_OUTPUT
+            if docker manifest inspect "${CI_IMAGE}" > /dev/null 2>&1; then
+              echo "CI image found in GHCR"
+              printf 'ci_container="%s"\n' "${CI_IMAGE}" >> $GITHUB_OUTPUT
             else
-              echo "Image not found in GHCR"
-              echo "container=null" >> $GITHUB_OUTPUT
+              echo "CI image not found in GHCR"
+              echo "ci_container=null" >> $GITHUB_OUTPUT
             fi
 
-            if docker manifest inspect "${R_DEVEL_IMAGE}" > /dev/null 2>&1; then
-              echo "R-devel image found in GHCR"
-              printf 'r_devel_container="%s"\n' "${R_DEVEL_IMAGE}" >> $GITHUB_OUTPUT
+            if docker manifest inspect "${CI_R_DEVEL_IMAGE}" > /dev/null 2>&1; then
+              echo "CI R-devel image found in GHCR"
+              printf 'ci_r_devel_container="%s"\n' "${CI_R_DEVEL_IMAGE}" >> $GITHUB_OUTPUT
             else
-              echo "R-devel image not found in GHCR"
-              echo "r_devel_container=null" >> $GITHUB_OUTPUT
+              echo "CI R-devel image not found in GHCR"
+              echo "ci_r_devel_container=null" >> $GITHUB_OUTPUT
             fi
           fi
 

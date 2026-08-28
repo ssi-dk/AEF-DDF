@@ -567,7 +567,7 @@ jobs:
     if: ${{ needs.committing-workflows.outputs.commits_made == 'false' && needs.trigger.outputs.lint == 'true' }}
     uses: ./.github/workflows/lint.yaml
     with:
-      container: ${{ needs.docker.outputs.container }}
+      container: ${{ needs.docker.outputs.ci_container }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
 
 
@@ -583,8 +583,8 @@ jobs:
     if: ${{ needs.committing-workflows.outputs.commits_made == 'false'  && needs.trigger.outputs.R-CMD-check == 'true' }}
     uses: ./.github/workflows/R-CMD-check.yaml
     with:
-      container: ${{ needs.docker.outputs.container }}
-      r_devel_container: ${{ needs.docker.outputs.r_devel_container }}
+      container: ${{ needs.docker.outputs.ci_container }}
+      r_devel_container: ${{ needs.docker.outputs.ci_r_devel_container }}
       rcmdcheck_args: ${{ inputs.rcmdcheck_args }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       min_r_version: ${{ needs.trigger.outputs.min_r_version }}
@@ -596,7 +596,7 @@ jobs:
     if: ${{ needs.committing-workflows.outputs.commits_made == 'false'  && needs.trigger.outputs.code-coverage == 'true' }}
     uses: ./.github/workflows/code-coverage.yaml
     with:
-      container: ${{ needs.docker.outputs.container }}
+      container: ${{ needs.docker.outputs.ci_container }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       schemas: ${{ inputs.schemas }}
       backend_exclude: ${{ inputs.backend_exclude }}
@@ -609,7 +609,7 @@ jobs:
     if: ${{ needs.committing-workflows.outputs.commits_made == 'false'  && needs.trigger.outputs.pkgdown == 'true' }}
     uses: ./.github/workflows/pkgdown.yaml
     with:
-      container: ${{ needs.docker.outputs.container }}
+      container: ${{ needs.docker.outputs.ci_container }}
       auto_link_r6: ${{ inputs.auto_link_r6 }}
       event_name: ${{ inputs.event_name }}
       main_branches: ${{ inputs.main_branches }}
