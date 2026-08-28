@@ -71,11 +71,11 @@ jobs:
             if [ "$keep" = true ]; then
               echo "Keeping version ${version_id}: ${tags}"
             else
-              echo "Deleting version ${version_id}: ${tags}"
+              echo "Would delete version ${version_id}: ${tags}"
 
-              gh api \
-                --method DELETE \
-                "${API}/${version_id}"
+              #gh api \
+              #  --method DELETE \
+              #  "${API}/${version_id}"
             fi
           done
 
