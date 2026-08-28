@@ -74,9 +74,9 @@ jobs:
             else
               echo "Would delete version ${version_id}: ${tags}"
 
-              #gh api \
-              #  --method DELETE \
-              #  "${API}/${version_id}"
+              gh api \
+                --method DELETE \
+                "${API}/${version_id}"
             fi
           done
 
@@ -89,4 +89,4 @@ jobs:
           image-names: ${{ env.REPOSITORY_NAME }}
           cut-off: 1h
           tag-selection: untagged
-          dry-run: true
+          dry-run: false
