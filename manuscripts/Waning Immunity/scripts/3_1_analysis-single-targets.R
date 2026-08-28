@@ -1,5 +1,5 @@
 # Set local working dir
-relative_wd <- c("AEF-DDF", "manuscripts", "DiseasyImmunity")
+relative_wd <- c("AEF-DDF", "manuscripts", "Waning Immunity")
 wd <- stringr::str_split(getwd(), .Platform$file.sep)[[1]]
 wd <- paste(c(wd[seq_len(which(wd %in% relative_wd)[1] - 1)], relative_wd), collapse = .Platform$file.sep)
 withr::local_dir(wd)
@@ -13,9 +13,6 @@ M_double <- getOption("analysis.M_double")
 # Get optimiser parameters
 monotonous <- getOption("analysis.monotonous")
 individual_level <- getOption("analysis.individual_level")
-
-# Load diseasy package
-library(diseasy)
 
 # Define custom waning functions to form the basis for the figures
 single_target_waning_functions <- list(
@@ -88,51 +85,72 @@ inputs_single <- tidyr::expand_grid(
   )
 
 # Generate approximations (stored in the cache)
-outputs_single <- furrr::future_pmap(
-  .progress = TRUE,
-  .options = furrr::furrr_options(seed = TRUE),
-  inputs_single,
-  \(target, method, strategy, defaults, M, waning_function, optim_control) {
+progressr::with_progress(
+  handlers = progressr::handler_progress(
+    format   = ":current/:total [:bar] :percent in :elapsed ETA: :eta",
+    width    = 61,
+    complete = "+"
+  ),
 
-    try({
-      im <- DiseasyImmunity$new()
+  expr = {
+    p <- progressr::progressor(steps = nrow(inputs_single))
 
-      im$set_custom_waning(
-        custom_function = waning_function,
-        target = "infection",
-        name = target,
-      )
+    outputs_single <- future.apply::future_lapply(
+      dplyr::group_split(dplyr::group_by(inputs_single, dplyr::row_number()), .keep = FALSE),
+      future.seed = TRUE,
+      FUN = \(input) {
 
-      # Override optim_control
-      if (defaults) optim_control <- NULL
+        purrr::pmap(
+          input,
+          \(target, method, strategy, defaults, M, waning_function, optim_control) {
 
-      approx <- im$approximate_compartmental(
-        method = method,
-        M = M,
-        strategy = strategy,
-        monotonous = monotonous,
-        individual_level = individual_level,
-        optim_control = optim_control
-      )
+            try({
+              im <- diseasy::DiseasyImmunity$new()
 
-      # Get a reference to the internal helper functions
-      private <- im$.__enclos_env__$private
+              im$set_custom_waning(
+                custom_function = waning_function,
+                target = "infection",
+                name = target,
+              )
 
-      # Convert gamma and delta values to plotting functions
-      modifyList(
-        approx,
-        list(
-          "target" = target,
-          "approx_function" = private$get_approximation(
-            approx$gamma$infection,
-            approx$delta,
-            M
-          )
+              # Override optim_control
+              if (defaults) optim_control <- NULL
+
+              approx <- im$approximate_compartmental(
+                method = method,
+                M = M,
+                strategy = strategy,
+                monotonous = monotonous,
+                individual_level = individual_level,
+                optim_control = optim_control
+              )
+
+              # Get a reference to the internal helper functions
+              private <- im$.__enclos_env__$private
+
+              # Convert gamma and delta values to plotting functions
+              modifyList(
+                approx,
+                list(
+                  "target" = target,
+                  "approx_function" = private$get_approximation(
+                    approx$gamma$infection,
+                    approx$delta,
+                    M
+                  )
+                )
+              )
+            })
+          }
         )
-      )
-    })
+
+        p()
+
+      }
+    )
   }
 )
+
 
 # Convert some variables to factors to order plots
 inputs_single <- inputs_single |>
