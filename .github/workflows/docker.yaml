@@ -344,9 +344,7 @@ jobs:
           context: .
           file: dockerfile
           push: true
-          tags: |
-            ${{ steps.tag.outputs.dev_tag }}
-            ${{ steps.tag.outputs.ci_tag }}
+          tags: ${{ steps.tag.outputs.ci_tag }}
           labels: |
             ${{ steps.meta.outputs.labels }}
             dk.ssi.ci.arf-version=${{ steps.arf_release.outputs.version }}
