@@ -380,7 +380,7 @@ jobs:
           BRANCH_TAG_CLEAN=$(echo "${{ steps.container_branch.outputs.container_branch }}" | tr '/' '-')
           REUSE_MAIN_CONTAINERS="${{ steps.container_branch.outputs.reuse_main_containers }}"
 
-          IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}"
+          IMAGE="${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}-ci"
           R_DEVEL_IMAGE="${IMAGE}-r-devel"
 
           echo "Checking for image: ${IMAGE}"
