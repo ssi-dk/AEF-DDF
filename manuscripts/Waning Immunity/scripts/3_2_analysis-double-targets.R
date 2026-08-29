@@ -316,6 +316,7 @@ inputs_double_subset |>
         )
 
       ggplot2::ggsave(
+        create.dir = TRUE,
         file.path(
           dirname(getwd()),
           glue::glue("figures/double-target-{iteration_id}.png")
@@ -384,6 +385,7 @@ g <- ggplot2::ggplot() +
 
 if (interactive()) print(g)
 ggplot2::ggsave(
+  create.dir = TRUE,
   file.path(dirname(getwd()), "figures/double-target-error-total.png"),
   plot = g
 )
@@ -462,6 +464,7 @@ g <- ggplot2::ggplot() +
 
 if (interactive()) print(g)
 ggplot2::ggsave(
+  create.dir = TRUE,
   file.path(
     dirname(getwd()),
     "figures/double-target-error-per-target.png"
@@ -556,6 +559,7 @@ g <- ggplot2::ggplot() +
 
 if (interactive()) print(g)
 ggplot2::ggsave(
+  create.dir = TRUE,
   file.path(
     dirname(getwd()),
     "figures/double-target-execution-time-per-target.png"
