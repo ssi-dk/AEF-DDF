@@ -319,7 +319,9 @@ inputs_double_subset |>
         create.dir = TRUE,
         file.path(
           dirname(getwd()),
-          glue::glue("figures/double-target-{iteration_id}.png")
+          "Waning Immunity",
+          "figures",
+          glue::glue("double-target-{iteration_id}.png")
         ),
         plot = g
       )
@@ -386,7 +388,12 @@ g <- ggplot2::ggplot() +
 if (interactive()) print(g)
 ggplot2::ggsave(
   create.dir = TRUE,
-  file.path(dirname(getwd()), "figures/double-target-error-total.png"),
+  file.path(
+    dirname(getwd()),
+    "Waning Immunity",
+    "figures"
+    "double-target-error-total.png"
+  ),
   plot = g
 )
 
@@ -467,7 +474,9 @@ ggplot2::ggsave(
   create.dir = TRUE,
   file.path(
     dirname(getwd()),
-    "figures/double-target-error-per-target.png"
+    "Waning Immunity",
+    "figures",
+    "double-target-error-per-target.png"
   ),
   plot = g
 )
@@ -562,7 +571,9 @@ ggplot2::ggsave(
   create.dir = TRUE,
   file.path(
     dirname(getwd()),
-    "figures/double-target-execution-time-per-target.png"
+    "Waning Immunity",
+    "figures",
+    "double-target-execution-time-per-target.png"
   ),
   plot = g
 )

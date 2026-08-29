@@ -241,7 +241,12 @@ g <- ggplot2::ggplot(mapping = ggplot2::aes(x = t, y = y, color = method)) +
 if (interactive()) print(g)
 ggplot2::ggsave(
   create.dir = TRUE,
-  file.path(dirname(getwd()), "figures/single-target-overview.png"),
+  file.path(
+    dirname(getwd()),
+    "Waning Immunity",
+    "figures",
+    "single-target-overview.png"
+  ),
   plot = g
 )
 
@@ -344,7 +349,9 @@ for (single_target in names(single_target_waning_functions)) {
     create.dir = TRUE,
     file.path(
       dirname(getwd()),
-      glue::glue("figures/single-target-{label}.png")
+      "Waning Immunity",
+      "figures",
+      glue::glue("single-target-{label}.png")
     ),
     plot = g
   )
@@ -415,7 +422,12 @@ g <- ggplot2::ggplot() +
 if (interactive()) print(g)
 ggplot2::ggsave(
   create.dir = TRUE,
-  file.path(dirname(getwd()), "figures/single-target-error-per-target.png"),
+  file.path(
+    dirname(getwd()),
+    "Waning Immunity",
+    "figures",
+    "single-target-error-per-target.png"
+  ),
   plot = g
 )
 
@@ -459,7 +471,12 @@ g <- ggplot2::ggplot() +
 if (interactive()) print(g)
 ggplot2::ggsave(
   create.dir = TRUE,
-  file.path(dirname(getwd()), "figures/single-target-error-total.png"),
+  file.path(
+    dirname(getwd()),
+    "Waning Immunity",
+    "figures",
+    "single-target-error-total.png"
+  ),
   plot = g
 )
 
@@ -531,7 +548,9 @@ ggplot2::ggsave(
   create.dir = TRUE,
   file.path(
     dirname(getwd()),
-    "figures/single-target-execution-time-per-target.png"
+    "Waning Immunity",
+    "figures",
+    "single-target-execution-time-per-target.png"
   ),
   plot = g
 )
@@ -574,7 +593,12 @@ g <- ggplot2::ggplot() +
 if (interactive()) print(g)
 ggplot2::ggsave(
   create.dir = TRUE,
-  file.path(dirname(getwd()), "figures/single-target-execution-time-total.png"),
+  file.path(
+    dirname(getwd()),
+    "Waning Immunity",
+    "figures",
+    "single-target-execution-time-total.png"
+  ),
   plot = g
 )
 
@@ -640,7 +664,12 @@ g <- ggplot2::ggplot() +
 if (interactive()) print(g)
 ggplot2::ggsave(
   create.dir = TRUE,
-  file.path(dirname(getwd()), "figures/single-target-trade-off-total.png"),
+  file.path(
+    dirname(getwd()),
+    "Waning Immunity",
+    "figures",
+    "single-target-trade-off-total.png"
+  ),
   plot = g
 )
 
@@ -697,7 +726,9 @@ ggplot2::ggsave(
   create.dir = TRUE,
   file.path(
     dirname(getwd()),
-    "figures/single-target-trade-off-optim-choice.png"
+    "Waning Immunity",
+    "figures",
+    "single-target-trade-off-optim-choice.png"
   ),
   plot = g
 )
@@ -806,6 +837,11 @@ g <- ggplot2::ggplot() +
 if (interactive()) print(g)
 ggplot2::ggsave(
   create.dir = TRUE,
-  file.path(dirname(getwd()), "figures/single-target-penalty-per-target.png"),
+  file.path(
+    dirname(getwd()),
+    "Waning Immunity",
+    "figures",
+    "single-target-penalty-per-target.png"
+  ),
   plot = g
 )
