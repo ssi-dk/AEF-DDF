@@ -100,51 +100,55 @@ progressr::with_progress(
       future.seed = TRUE,
       FUN = \(input) {
 
-        purrr::pmap(
+        out <- purrr::pmap(
           input,
           \(target, method, strategy, defaults, M, waning_function, optim_control) {
 
-            try({
-              im <- diseasy::DiseasyImmunity$new()
+            try(
+              {
+                im <- diseasy::DiseasyImmunity$new()
 
-              im$set_custom_waning(
-                custom_function = waning_function,
-                target = "infection",
-                name = target,
-              )
+                im$set_custom_waning(
+                  custom_function = waning_function,
+                  target = "infection",
+                  name = target,
+                )
 
-              # Override optim_control
-              if (defaults) optim_control <- NULL
+                # Override optim_control
+                if (defaults) optim_control <- NULL
 
-              approx <- im$approximate_compartmental(
-                method = method,
-                M = M,
-                strategy = strategy,
-                monotonous = monotonous,
-                individual_level = individual_level,
-                optim_control = optim_control
-              )
+                approx <- im$approximate_compartmental(
+                  method = method,
+                  M = M,
+                  strategy = strategy,
+                  monotonous = monotonous,
+                  individual_level = individual_level,
+                  optim_control = optim_control
+                )
 
-              # Get a reference to the internal helper functions
-              private <- im$.__enclos_env__$private
+                # Get a reference to the internal helper functions
+                private <- im$.__enclos_env__$private
 
-              # Convert gamma and delta values to plotting functions
-              modifyList(
-                approx,
-                list(
-                  "target" = target,
-                  "approx_function" = private$get_approximation(
-                    approx$gamma$infection,
-                    approx$delta,
-                    M
+                # Convert gamma and delta values to plotting functions
+                modifyList(
+                  approx,
+                  list(
+                    "target" = target,
+                    "approx_function" = private$get_approximation(
+                      approx$gamma$infection,
+                      approx$delta,
+                      M
+                    )
                   )
                 )
-              )
-            })
+              }
+            )
           }
-        )
+        )[[1]]
 
         p()
+
+        return(out)
 
       }
     )
