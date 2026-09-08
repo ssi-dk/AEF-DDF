@@ -224,6 +224,11 @@ g <- ggplot2::ggplot(mapping = ggplot2::aes(x = t, y = y, color = method)) +
     linewidth = 1
   ) +
   ggplot2::facet_grid(M ~ target) +
+  ggplot2::coord_cartesian(expand = FALSE) +
+  ggplot2::guides(
+    colour = ggplot2::guide_legend(title = "Method", order = 1),
+    linetype = ggplot2::guide_legend(title = "Strategy", order  = 2)
+  ) +
   ggplot2::labs(
     caption = paste(
       sep = "\n",
@@ -231,6 +236,9 @@ g <- ggplot2::ggplot(mapping = ggplot2::aes(x = t, y = y, color = method)) +
       glue::glue("individual_level = {individual_level}"),
       glue::glue("monotonous = {monotonous}")
     )
+  ) +
+  ggplot2::theme(
+    panel.spacing = ggplot2::unit(1, "lines")
   )
 
 if (interactive()) print(g)
@@ -811,8 +819,15 @@ g <- ggplot2::ggplot() +
     ),
     linewidth = 1
   ) +
+  ggplot2::scale_colour_discrete(
+    name = "Type of penalty",
+    labels = c(
+      non_monotonicity = "Non-monotonicity",
+      gamma_penalty = "Gamma penalty",
+      delta_penalty = "Delta penalty"
+    )
+  ) +
   ggplot2::guides(
-    colour = ggplot2::guide_legend(title = "Strategy"),
     linetype = ggplot2::guide_legend(title = "Strategy")
   ) +
   ggplot2::coord_cartesian(ylim = c(0, NA), expand = FALSE) +
@@ -821,6 +836,7 @@ g <- ggplot2::ggplot() +
   ggplot2::theme(panel.spacing = ggplot2::unit(1, "lines")) +
   ggplot2::labs(
     #y = latex2exp::TeX(r"{Error $\left(\int R^2\right)$}"),
+    y = "Size of error",
     caption = paste(
       sep = "\n",
       glue::glue("Penalties ({ifelse(individual_level, 'applied', 'not applied')}) for single targets"),

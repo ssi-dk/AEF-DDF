@@ -441,8 +441,17 @@ g <- ggplot2::ggplot() +
   ggplot2::scale_fill_viridis_c(na.value = "white") +
   ggplot2::guides(
     fill = ggplot2::guide_colourbar(title = "Added error", order = 1),
-    x = legendry::guide_axis_nested(key = "&", title = ""),
-    y = legendry::guide_axis_nested(key = "&", title = "")
+    x = legendry::guide_axis_nested(
+      key = "&",
+      title = "",
+      theme = ggplot2::theme(
+        axis.text.x.bottom = ggplot2::element_text(hjust = 0.5)
+      )
+    ),
+    y = legendry::guide_axis_nested(
+      key = "&",
+      title = ","
+    )
   ) +
   ggplot2::facet_wrap(~ method) +
   ggplot2::coord_cartesian(expand = FALSE) +
@@ -538,8 +547,17 @@ g <- ggplot2::ggplot() +
   ggplot2::scale_fill_viridis_c(option = "plasma", na.value = "white") +
   ggplot2::guides(
     fill = ggplot2::guide_colourbar(title = "Relative execution time", order = 1),
-    x = legendry::guide_axis_nested(key = "&", title = ""),
-    y = legendry::guide_axis_nested(key = "&", title = "")
+    x = legendry::guide_axis_nested(
+      key = "&",
+      title = "",
+      theme = ggplot2::theme(
+        axis.text.x.bottom = ggplot2::element_text(hjust = 0.5)
+      )
+    ),
+    y = legendry::guide_axis_nested(
+      key = "&",
+      title = ","
+    )
   ) +
   ggplot2::facet_wrap(~ method) +
   ggplot2::coord_cartesian(expand = FALSE) +
