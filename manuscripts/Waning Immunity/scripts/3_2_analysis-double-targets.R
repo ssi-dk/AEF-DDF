@@ -80,73 +80,57 @@ inputs_double_subset <- inputs_double |>
 
 
 # Generate approximations (stored in the cache)
-progressr::with_progress(
-  handlers = progressr::handler_progress(
-    format   = ":current/:total [:bar] :percent in :elapsed ETA: :eta",
-    width    = 61,
-    complete = "+"
-  ),
+outputs_double <- furrr::future_pmap(
+  .progress = TRUE,
+  .options = furrr::furrr_options(seed = TRUE),
+  inputs_double_subset,
+  \(target_1, target_2, method, strategy, M, waning_function_1, waning_function_2) {
 
-  expr = {
-    p <- progressr::progressor(steps = nrow(inputs_double_subset))
+    try({
+      options("diseasy.cache" = cachem::cache_disk(dir = cache_dir, max_size = Inf))
 
-    outputs_double <- future.apply::future_lapply(
-      dplyr::group_split(dplyr::group_by(inputs_double_subset, dplyr::row_number()), .keep = FALSE),
-      future.seed = TRUE,
-      FUN = \(input) {
+      im <- DiseasyImmunity$new()
 
-        out <- purrr::pmap(
-          input,
-          \(target_1, target_2, method, strategy, M, waning_function_1, waning_function_2) {
+      im$set_custom_waning(
+        custom_function = waning_function_1,
+        target = "target_1",
+        name = target_1,
+      )
 
-            try(
-              {
-                im <- DiseasyImmunity$new()
+      im$set_custom_waning(
+        custom_function = waning_function_2,
+        target = "target_2",
+        name = target_2,
+      )
 
-                im$set_custom_waning(
-                  custom_function = waning_function_1,
-                  target = "target_1",
-                  name = target_1,
-                )
+      approx <- im$approximate_compartmental(
+        method = method,
+        M = M,
+        strategy = strategy,
+        monotonous = monotonous,
+        individual_level = individual_level
+      )
 
-                im$set_custom_waning(
-                  custom_function = waning_function_2,
-                  target = "target_2",
-                  name = target_2,
-                )
+      # Get a reference to the internal helper functions
+      private <- im$.__enclos_env__$private
 
-                approx <- im$approximate_compartmental(
-                  method = method,
-                  M = M,
-                  strategy = strategy,
-                  monotonous = monotonous,
-                  individual_level = individual_level
-                )
-
-                # Get a reference to the internal helper functions
-                private <- im$.__enclos_env__$private
-
-                modifyList(
-                  approx,
-                  list(
-                    "target_1" = target_1,
-                    "target_2" = target_2,
-                    "approx_function_1" = private$get_approximation(approx$gamma$target_1, approx$delta, M),
-                    "approx_function_2" = private$get_approximation(approx$gamma$target_2, approx$delta, M)
-                  )
-                )
-              }
-            )
-          }
-        )[[1]]
-
-        p()
-
-        return(out)
-      }
-    )
+      modifyList(
+        approx,
+        list(
+          "target_1" = target_1,
+          "target_2" = target_2,
+          "approx_function_1" = private$get_approximation(approx$gamma$target_1, approx$delta, M),
+          "approx_function_2" = private$get_approximation(approx$gamma$target_2, approx$delta, M)
+        )
+      )
+    })
   }
 )
+
+
+# Force trace of errors
+errors <- purrr::keep(outputs_double, ~ inherits(., "try-error"))
+if (length(errors) > 0) print(errors)
 
 
 
@@ -391,7 +375,7 @@ ggplot2::ggsave(
   file.path(
     dirname(getwd()),
     "Waning Immunity",
-    "figures"
+    "figures",
     "double-target-error-total.png"
   ),
   plot = g
@@ -457,8 +441,8 @@ g <- ggplot2::ggplot() +
   ggplot2::scale_fill_viridis_c(na.value = "white") +
   ggplot2::guides(
     fill = ggplot2::guide_colourbar(title = "Added error", order = 1),
-    x = ggh4x::guide_axis_nested(delim = "&", title = ""),
-    y = ggh4x::guide_axis_nested(delim = "&", title = "")
+    x = legendry::guide_axis_nested(key = "&", title = ""),
+    y = legendry::guide_axis_nested(key = "&", title = "")
   ) +
   ggplot2::facet_wrap(~ method) +
   ggplot2::coord_cartesian(expand = FALSE) +
@@ -554,8 +538,8 @@ g <- ggplot2::ggplot() +
   ggplot2::scale_fill_viridis_c(option = "plasma", na.value = "white") +
   ggplot2::guides(
     fill = ggplot2::guide_colourbar(title = "Relative execution time", order = 1),
-    x = ggh4x::guide_axis_nested(delim = "&", title = ""),
-    y = ggh4x::guide_axis_nested(delim = "&", title = "")
+    x = legendry::guide_axis_nested(key = "&", title = ""),
+    y = legendry::guide_axis_nested(key = "&", title = "")
   ) +
   ggplot2::facet_wrap(~ method) +
   ggplot2::coord_cartesian(expand = FALSE) +

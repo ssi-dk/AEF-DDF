@@ -23,36 +23,25 @@ single_target_waning_functions <- list(
 
 # Determine optimal optimisers per method/strategy pair
 optim_control <- diseasy::diseasy_immunity_optimiser_results |>
-  dplyr::filter(
-    .data$penalty == !!(monotonous | individual_level), # Match analysis config.
+  dplyr::filter( # Match analysis config.
+    .data$monotonous == {{ monotonous }},
+    .data$individual_level == {{ individual_level }},
     .data$variation == "Base"
   ) |>
   dplyr::group_by(
-    dplyr::across(c("method", "strategy", "M", "optim_method"))
+    dplyr::across(c("method", "strategy", "M", "optim_method", "config"))
   ) |>
   dplyr::summarise(
     "value" = sum(.data$value, na.rm = TRUE),
-    .groups = "drop_last"
+    .groups = "drop"
   ) |>
   dplyr::filter(.data$value >= 0) |>
-  dplyr::slice_min(.data$value, with_ties = FALSE) |>
-  tidyr::separate(
-    col = "optim_method",
-    into = c("optim_method", "localsolver"),
-    sep = "_",
-    fill = "right"
+  dplyr::slice_min(
+    .data$value,
+    with_ties = FALSE,
+    by = c("method", "strategy", "M")
   ) |>
-  dplyr::mutate(
-    "optim_control" = purrr::map2(
-      .data$optim_method,
-      .data$localsolver,
-      ~ purrr::discard(
-        list("optim_method" = .x, "localsolver" = toupper(.y)),
-        is.na
-      )
-    )
-  ) |>
-  dplyr::select(!c("value", "optim_method", "localsolver"))
+  dplyr::select(!"value")
 
 
 # Get combinations of problems to solve
@@ -82,7 +71,8 @@ inputs_single <- tidyr::expand_grid(
   dplyr::left_join(
     optim_control,
     by = c("method", "strategy", "M")
-  )
+  ) |>
+  dplyr::rename("optim_control" = "config")
 
 # Generate approximations (stored in the cache)
 progressr::with_progress(
@@ -102,10 +92,12 @@ progressr::with_progress(
 
         out <- purrr::pmap(
           input,
-          \(target, method, strategy, defaults, M, waning_function, optim_control) {
+          \(target, method, strategy, defaults, M, waning_function, optim_method, optim_control) {
 
             try(
               {
+                options("diseasy.cache" = cachem::cache_disk(dir = cache_dir, max_size = Inf))
+
                 im <- diseasy::DiseasyImmunity$new()
 
                 im$set_custom_waning(
@@ -155,6 +147,9 @@ progressr::with_progress(
   }
 )
 
+# Force trace of errors
+errors <- purrr::keep(outputs_single, ~ inherits(., "try-error"))
+if (length(errors) > 0) print(errors)
 
 # Convert some variables to factors to order plots
 inputs_single <- inputs_single |>
