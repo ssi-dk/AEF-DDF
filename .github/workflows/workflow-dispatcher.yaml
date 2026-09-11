@@ -151,7 +151,7 @@ jobs:
           (
             inputs.event_name != 'release' &&
             (
-              steps.main_branch_affected.outputs.main_branch_affected == 'true' ||
+              steps.main_branch_affected.outputs.on_main_branch == 'true' ||
               steps.changed-files-yaml.outputs.readme_any_changed == 'true'
             )
           )
@@ -164,13 +164,10 @@ jobs:
           inputs.event_name == 'release' ||
           steps.main_branch_affected.outputs.on_main_branch == 'true' ||
           (
-            steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
-            (
-              steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-              steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
-              steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
-              steps.changed-files-yaml.outputs.vignette_any_changed == 'true'
-            )
+            steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+            steps.changed-files-yaml.outputs.description_any_changed == 'true' ||
+            steps.changed-files-yaml.outputs.man_any_changed == 'true' ||
+            steps.changed-files-yaml.outputs.vignette_any_changed == 'true'
           )
         ) }}
 
@@ -183,11 +180,8 @@ jobs:
             (
               steps.main_branch_affected.outputs.on_main_branch == 'true' ||
               (
-                steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
-                (
-                  steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
-                  steps.changed-files-yaml.outputs.vignette_any_changed == 'true'
-                )
+                steps.changed-files-yaml.outputs.R_any_changed == 'true' ||
+                steps.changed-files-yaml.outputs.vignette_any_changed == 'true'
               )
             )
           )
@@ -202,10 +196,7 @@ jobs:
             (
               steps.main_branch_affected.outputs.on_main_branch == 'true' ||
               (
-                steps.main_branch_affected.outputs.main_branch_affected == 'true' &&
-                (
-                  steps.changed-files-yaml.outputs.R_any_changed == 'true'
-                )
+                steps.changed-files-yaml.outputs.R_any_changed == 'true'
               )
             )
           )
