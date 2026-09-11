@@ -14,9 +14,6 @@ M_double <- getOption("analysis.M_double")
 monotonous <- getOption("analysis.monotonous")
 individual_level <- getOption("analysis.individual_level")
 
-# Load diseasy package
-library(diseasy)
-
 # Define custom waning functions for dual waning optimisation
 dual_target_waning_functions <- list(
   "Exponential&tau = 1" = \(t) exp(-t),
@@ -89,7 +86,7 @@ outputs_double <- furrr::future_pmap(
     try({
       options("diseasy.cache" = cachem::cache_disk(dir = cache_dir, max_size = Inf))
 
-      im <- DiseasyImmunity$new()
+      im <- diseasy::DiseasyImmunity$new()
 
       im$set_custom_waning(
         custom_function = waning_function_1,
