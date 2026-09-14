@@ -1,6 +1,3 @@
-# TODOs
-# Should we set individual_level = FALSE and / or monotonous = FALSE?
-
 # Set local working dir
 relative_wd <- c("AEF-DDF", "manuscripts", "Waning Immunity")
 wd <- stringr::str_split(getwd(), .Platform$file.sep)[[1]]

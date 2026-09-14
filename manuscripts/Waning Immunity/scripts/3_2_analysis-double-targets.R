@@ -77,50 +77,76 @@ inputs_double_subset <- inputs_double |>
 
 
 # Generate approximations (stored in the cache)
-outputs_double <- furrr::future_pmap(
-  .progress = TRUE,
-  .options = furrr::furrr_options(seed = TRUE),
-  inputs_double_subset,
-  \(target_1, target_2, method, strategy, M, waning_function_1, waning_function_2) {
+progressr::with_progress(
+  handlers = progressr::handler_progress(
+    format   = ":current/:total [:bar] :percent in :elapsed ETA: :eta",
+    width    = 61,
+    complete = "+"
+  ),
 
-    try({
-      options("diseasy.cache" = cachem::cache_disk(dir = cache_dir, max_size = Inf))
+  expr = {
+    p <- progressr::progressor(steps = nrow(inputs_double_subset))
 
-      im <- diseasy::DiseasyImmunity$new()
+    outputs_double <- future.apply::future_lapply(
+      dplyr::group_split(dplyr::group_by(inputs_double_subset, dplyr::row_number()), .keep = FALSE),
+      future.seed = TRUE,
+      FUN = \(input) {
 
-      im$set_custom_waning(
-        custom_function = waning_function_1,
-        target = "target_1",
-        name = target_1,
-      )
+        out <- purrr::pmap(
+          input,
+          \(target_1, target_2, method, strategy, M, waning_function_1, waning_function_2) {
 
-      im$set_custom_waning(
-        custom_function = waning_function_2,
-        target = "target_2",
-        name = target_2,
-      )
+            try(
+              {
+                options("diseasy.cache" = cachem::cache_disk(dir = "diseasy-cache/", max_size = Inf))
 
-      approx <- im$approximate_compartmental(
-        method = method,
-        M = M,
-        strategy = strategy,
-        monotonous = monotonous,
-        individual_level = individual_level
-      )
+                im <- diseasy::DiseasyImmunity$new()
 
-      # Get a reference to the internal helper functions
-      private <- im$.__enclos_env__$private
+                im$set_custom_waning(
+                  custom_function = waning_function_1,
+                  target = "target_1",
+                  name = target_1,
+                )
 
-      modifyList(
-        approx,
-        list(
-          "target_1" = target_1,
-          "target_2" = target_2,
-          "approx_function_1" = private$get_approximation(approx$gamma$target_1, approx$delta, M),
-          "approx_function_2" = private$get_approximation(approx$gamma$target_2, approx$delta, M)
-        )
-      )
-    })
+                im$set_custom_waning(
+                  custom_function = waning_function_2,
+                  target = "target_2",
+                  name = target_2,
+                )
+
+                approx <- im$approximate_compartmental(
+                  method = method,
+                  M = M,
+                  strategy = strategy,
+                  monotonous = monotonous,
+                  individual_level = individual_level
+                )
+
+                # Get a reference to the internal helper functions
+                private <- im$.__enclos_env__$private
+
+                approximations <- modifyList(
+                  approx,
+                  list(
+                    "target_1" = target_1,
+                    "target_2" = target_2,
+                    "approx_function_1" = private$get_approximation(approx$gamma$target_1, approx$delta, M),
+                    "approx_function_2" = private$get_approximation(approx$gamma$target_2, approx$delta, M)
+                  )
+                )
+
+                return(approximations)
+              }
+            )
+          }
+        )[[1]]
+
+        p()
+
+        return(out)
+
+      }
+    )
   }
 )
 

@@ -96,7 +96,7 @@ progressr::with_progress(
 
             try(
               {
-                options("diseasy.cache" = cachem::cache_disk(dir = cache_dir, max_size = Inf))
+                options("diseasy.cache" = cachem::cache_disk(dir = "diseasy-cache/", max_size = Inf))
 
                 im <- diseasy::DiseasyImmunity$new()
 
@@ -122,7 +122,7 @@ progressr::with_progress(
                 private <- im$.__enclos_env__$private
 
                 # Convert gamma and delta values to plotting functions
-                modifyList(
+                approximation <- modifyList(
                   approx,
                   list(
                     "target" = target,
@@ -133,6 +133,8 @@ progressr::with_progress(
                     )
                   )
                 )
+
+                return(approximation)
               }
             )
           }
