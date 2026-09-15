@@ -15,10 +15,14 @@ monotonous <- getOption("analysis.monotonous")
 individual_level <- getOption("analysis.individual_level")
 
 # Define custom waning functions to form the basis for the figures
-single_target_waning_functions <- list(
-  "Exponential" = \(t) exp(-t),
-  "Sum of exponentials" = \(t) 1 / 2 * (exp(- t / 2) + exp(-2 * t)),
-  "Sigmoidal" = \(t) exp(-(t - 1) * 6) / (1 + exp(-(t - 1) * 6))
+single_target_waning_functions <- tibble::tibble(
+  "target" = c("exponential", "exp_sum", "sigmoidal"),
+  "label" = c("Exponential", "Sum of exponentials", "Sigmoidal"),
+  "waning_function" = list(
+    \(t) exp(-t),
+    \(t) 1 / 2 * (exp(- t / 2) + exp(-2 * t)),
+    \(t) exp(-(t - 1) * 6) / (1 + exp(-(t - 1) * 6))
+  )
 )
 
 # Determine optimal optimisers per method/strategy pair
@@ -28,51 +32,43 @@ optim_control <- diseasy::diseasy_immunity_optimiser_results |>
     .data$individual_level == {{ individual_level }},
     .data$variation == "Base"
   ) |>
-  dplyr::group_by(
-    dplyr::across(c("method", "strategy", "M", "optim_method", "config"))
-  ) |>
-  dplyr::summarise(
-    "value" = sum(.data$value, na.rm = TRUE),
-    .groups = "drop"
-  ) |>
-  dplyr::filter(.data$value >= 0) |>
   dplyr::slice_min(
     .data$value,
     with_ties = FALSE,
-    by = c("method", "strategy", "M")
+    by = c("target", "method", "strategy", "M")
   ) |>
-  dplyr::select(!"value")
+  dplyr::select("target", "method", "strategy", "M", "optim_method", "config")
 
 
 # Get combinations of problems to solve
 inputs_single <- tidyr::expand_grid(
-  "target" = names(single_target_waning_functions),
   "method-strategy" = c(
     "free_gamma-naive", "free_gamma-recursive",
     "free_delta-naive", "free_delta-recursive",
     "all_free-naive", "all_free-recursive", "all_free-combination"
   ),
   "defaults" = c(TRUE, FALSE),
-  "M" = seq.int(from = 1, to = max(M_single), by = 1),
+  "M" = seq.int(from = 2, to = max(M_single), by = 1),
 ) |>
+  dplyr::cross_join(single_target_waning_functions) |>
   tidyr::separate_wider_delim(
     cols = "method-strategy",
     delim = "-",
     names = c("method", "strategy")
   ) |>
   dplyr::left_join(
-    tibble::enframe(
-      single_target_waning_functions,
-      name = "target",
-      value = "waning_function"
-    ),
-    by = "target"
-  ) |>
-  dplyr::left_join(
     optim_control,
-    by = c("method", "strategy", "M")
+    by = c("target", "method", "strategy", "M")
   ) |>
   dplyr::rename("optim_control" = "config")
+
+
+if (nrow(dplyr::filter(inputs_single, is.na(.data$optim_method))) > 0) {
+  print("Missing best optimiser runs")
+  print(dplyr::filter(inputs_single, is.na(.data$optim_method)))
+  stop("Optimiser runs needs to run for longer!")
+}
+
 
 # Generate approximations (stored in the cache)
 progressr::with_progress(
