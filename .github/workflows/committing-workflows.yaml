@@ -119,7 +119,7 @@ jobs:
       - name: 🔧 Update R packages
         if: ${{ inputs.container != 'null' }}
         run: pak::pak(upgrade = TRUE)
-        shell: Rscript
+        shell: Rscript {0}
 
       - name: 📋 Record installed R packages
         id: installed_packages
