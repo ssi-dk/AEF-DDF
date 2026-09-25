@@ -116,6 +116,11 @@ jobs:
             any::styler
           needs: build, check, coverage, roxygen2, lint, website
 
+      - name: 🔧 Update R packages
+        if: ${{ inputs.container != 'null' }}
+        run: pak::pak(upgrade = TRUE)
+        shell: Rscript
+
       - name: 📋 Record installed R packages
         id: installed_packages
         run: |
