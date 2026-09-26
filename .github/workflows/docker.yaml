@@ -266,7 +266,7 @@ jobs:
           mkdir -p .devcontainer
           cat > .devcontainer/devcontainer.json <<DEVCONTAINER
           {
-            "name": "${{ github.event.repository.name }}",
+            "name": "${{ github.event.repository.name }}-ci",
             "image": "${DEV_IMAGE}",
             "overrideCommand": false,
             "remoteUser": "rstudio",
