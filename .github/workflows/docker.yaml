@@ -282,8 +282,8 @@ jobs:
                   "mhutchie.git-graph"
                 ],
                 "settings": {
-                  "r.rpath.linux": "/usr/local/bin/R",
-                  "r.rterm.linux": "/usr/local/bin/arf",
+                  "r.executablePath: "/usr/local/bin/R",
+                  "r.consolePath": "/usr/local/bin/arf",
                   "r.bracketedPaste": true,
                   "r.alwaysUseActiveTerminal": true
                 }
