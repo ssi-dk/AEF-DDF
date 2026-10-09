@@ -516,7 +516,8 @@ jobs:
           COMMITTING_UPDATE_DOCKER="${COMMITTING_UPDATE_DOCKER:-[]}"
           R_DEVEL_UPDATE_DOCKER="${R_DEVEL_UPDATE_DOCKER:-[]}"
 
-          if [[ "${REUSE_MAIN_CONTAINERS}" == "true" ]]; then
+          if [[ "${REUSE_MAIN_CONTAINERS}" == "true" ]] && \
+             [[ "${COMMITTING_UPDATE_DOCKER}" == "[]" ]]; then
             UPDATE_DOCKER='[]'
             echo "pak.lock matches main; reusing main Docker images and skipping branch-specific Docker builds."
           else
