@@ -65,7 +65,13 @@ inputs_single <- tidyr::expand_grid(
 
 if (nrow(dplyr::filter(inputs_single, is.na(.data$optim_method))) > 0) {
   print("Missing best optimiser runs")
-  print(dplyr::filter(inputs_single, is.na(.data$optim_method)))
+  print(
+    dplyr::filter(
+      inputs_single,
+      is.na(.data$optim_method),
+      .data$defaults
+    )
+  )
   stop("Optimiser runs needs to run for longer!")
 }
 
@@ -88,7 +94,7 @@ progressr::with_progress(
 
         out <- purrr::pmap(
           input,
-          \(target, method, strategy, defaults, M, waning_function, optim_method, optim_control) {
+          \(method, strategy, defaults, M, target, label, waning_function, optim_method, optim_control) {
 
             try(
               {
@@ -122,11 +128,7 @@ progressr::with_progress(
                   approx,
                   list(
                     "target" = target,
-                    "approx_function" = private$get_approximation(
-                      approx$gamma$infection,
-                      approx$delta,
-                      M
-                    )
+                    "approx_function" = \(t) private$occupancy_probability(approx$delta, M, t) %*% approx$gamma$infection
                   )
                 )
 
@@ -152,10 +154,6 @@ if (length(errors) > 0) print(errors)
 # Convert some variables to factors to order plots
 inputs_single <- inputs_single |>
   dplyr::mutate(
-    "target" = factor(
-      .data$target,
-      levels = names(single_target_waning_functions)
-    ),
     "method" = factor(
       .data$method,
       levels = c("free_delta", "free_gamma", "all_free")
@@ -164,9 +162,8 @@ inputs_single <- inputs_single |>
       .data$strategy,
       levels = c("recursive", "naive", "combination")
     ),
-    "optim_control" = dplyr::if_else(
-      .data$defaults, list("optim_method" = "ucminf"), .data$optim_control
-    ),
+    "optim_method" = dplyr::if_else(.data$defaults, NA, .data$optim_method),
+    "optim_control" = dplyr::if_else(.data$defaults, NA, .data$optim_control),
     "defaults" = factor(
       .data$defaults,
       levels = c(TRUE, FALSE),
@@ -212,7 +209,7 @@ reference_results_single <- results_single |>
 
 g <- ggplot2::ggplot(mapping = ggplot2::aes(x = t, y = y, color = method)) +
   ggplot2::geom_line(
-    data = dplyr::filter(approx_results_single, .data$M < 4),
+    data = approx_results_single,
     mapping = ggplot2::aes(linetype = strategy),
     linewidth = 1
   ) +
@@ -221,7 +218,7 @@ g <- ggplot2::ggplot(mapping = ggplot2::aes(x = t, y = y, color = method)) +
     color = "black",
     linewidth = 1
   ) +
-  ggplot2::facet_grid(M ~ target) +
+  ggplot2::facet_grid(M ~ label) +
   ggplot2::coord_cartesian(expand = FALSE) +
   ggplot2::guides(
     colour = ggplot2::guide_legend(title = "Method", order = 1),
@@ -284,7 +281,7 @@ residuals_single <- dplyr::left_join(
 
 
 # Plot a subset of the data for illustrative purposes
-for (single_target in names(single_target_waning_functions)) {
+for (single_target in single_target_waning_functions$target) {
   g <- ggplot2::ggplot() +
     ggplot2::geom_line(
       data = dplyr::filter(

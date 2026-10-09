@@ -11,7 +11,8 @@ withr::local_dir(wd)
 # Set figure targets
 withr::local_options(
   "analysis.M_single" = c(2, 6, 10), # Facets
-  "analysis.M_double" = 10 # Upper limit
+  "analysis.M_double" = 10, # Upper limit
+  "analysis.M_simulation" = 10 # Upper limit
 )
 
 # Set optimiser parameters

@@ -130,8 +130,8 @@ progressr::with_progress(
                   list(
                     "target_1" = target_1,
                     "target_2" = target_2,
-                    "approx_function_1" = private$get_approximation(approx$gamma$target_1, approx$delta, M),
-                    "approx_function_2" = private$get_approximation(approx$gamma$target_2, approx$delta, M)
+                    "approx_function_1" = \(t) private$occupancy_probability(approx$delta, M, t) %*% approx$gamma$target_1
+                    "approx_function_2" = \(t) private$occupancy_probability(approx$delta, M, t) %*% approx$gamma$target_2
                   )
                 )
 
