@@ -10,14 +10,14 @@ withr::local_dir(wd)
 withr::local_options("diseasy.logging" = FALSE)
 withr::local_seed(4260)
 
-# Testing space
-Ms <- seq.int(from = 1, to = getOption("analysis.M_simulation")) # Increasing # of R compartments
+# Combinations of waning functions to test
 waning_functions <- list(
   "exponential" = \(t) exp(-t / time_scale),
   "sigmoidal" = \(t) exp(-(t - time_scale) / 6) / (1 + exp(-(t - time_scale) / 6)),
   "exp_sum" = \(t) (exp(-0.5 * t / time_scale) + exp(-2 * t / time_scale)) / 2
 )
 
+# Testing space
 tests <- purrr::list_rbind(
   list(
     tidyr::expand_grid(
@@ -31,8 +31,10 @@ tests <- purrr::list_rbind(
 ) |>
   dplyr::cross_join(
     tidyr::expand_grid(
-      "M" = Ms,
-      "relative_time_scale" = 1
+      "K" = c(0L, 1L, 2L),
+      "L" = c(1L, 2L),
+      "M" = seq.int(from = 1, to = getOption("analysis.M_simulation")), # Increasing # of R compartments
+      "relative_time_scale" = c(1, 2)
     )
   )
 
@@ -55,7 +57,13 @@ progressr::with_progress(
 
         out <- purrr::pmap(
           input,
-          \(infection_waning, hospitalisation_waning, M, relative_time_scale) {
+          \(infection_waning, hospitalisation_waning, K, L, M, relative_time_scale) {
+
+            # id <- 1
+            # infection_waning <- tests[[id, "infection_waning"]][[1]]
+            # hospitalisation_waning <- tests[[id, "hospitalisation_waning"]][[1]]
+            # M <- tests[[id, "M"]][[1]]
+            # relative_time_scale <- tests[[id, "relative_time_scale"]][[1]]
 
             try(
               {
@@ -79,7 +87,7 @@ progressr::with_progress(
                 # Create ODE instances
                 model <- diseasy:::generate_example_seir_model(
                   module_overrides = list("immunity" = immunity),
-                  parameter_overrides = list("compartment_structure" = c("E" = 2L, "I" = 1L, "R" = M))
+                  parameter_overrides = list("compartment_structure" = c("E" = K, "I" = L, "R" = M))
                 )
 
                 # Get a reference to the private environment
@@ -105,7 +113,7 @@ progressr::with_progress(
                 activity <- population_proportion * activity_proportion
                 activity <- activity / sum(activity)
 
-                y0 <- rep(0, private$n_states)
+                y0 <- rep(0, length(private$progression_flow_rates))
 
                 # 0.05% are newly infected
                 y0[private$e1_state_indices] <- activity * 0.0005
@@ -130,6 +138,10 @@ progressr::with_progress(
                   "S" = "S"
                 )
 
+                if (!is.null(hospitalisation_waning)) {
+                  states <- c(states, "n_hospitalisation" = "n_hospitalisation")
+                }
+
                 state_labels <- purrr::map(
                   states,
                   ~ {
@@ -141,13 +153,13 @@ progressr::with_progress(
                   }
                 ) |>
                   purrr::list_rbind() |>
-                  tidyr::unite(
-                    "label",
+                    tidyr::unite(
+                      "label",
                     "variant", names(model$population$groups), "state",
-                    sep = "/",
+                      sep = "/",
                     na.rm = FALSE,
                     remove = FALSE
-                  )
+                )
 
                 colnames(sol) <- c("time", dplyr::pull(state_labels, "label"))
 
@@ -158,7 +170,7 @@ progressr::with_progress(
                     !"time",
                     names_sep = "/",
                     names_to = colnames(dplyr::select(state_labels, !"label"))
-                  )
+                )
 
                 # Extract rates for the I1-exit (= n_infected) and each configured
                 # observable.
@@ -170,7 +182,7 @@ progressr::with_progress(
                       .data$state == "I1",
                       model$parameters$disease_progression_rates[["I"]] *
                         model$parameters$compartment_structure[["I"]] * .data$value,
-                      dplyr::lead(.data$value, order_by = .data$time) - .data$value
+                      .data$value - dplyr::lag(.data$value, order_by = .data$time)
                     ),
                     "outcome" = dplyr::if_else(
                       .data$state == "I1",
@@ -179,7 +191,7 @@ progressr::with_progress(
                     ),
                     .by = !c("time", "value")
                   ) |>
-                  dplyr::select(!"value")
+                  dplyr::select(!c("value", "state"))
 
                 return(model_rates)
               }
