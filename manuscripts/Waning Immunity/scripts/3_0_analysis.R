@@ -22,8 +22,17 @@ withr::local_options(
 )
 
 # Controls for the computation
-#future::plan("sequential", gc = TRUE)
-future::plan("multisession", gc = TRUE, workers = unname(future::availableCores(omit = 1)))
+if (interactive()) {
+  workers <- 1
+  future::plan("sequential", gc = TRUE)
+} else {
+  withr::local_options(
+    "cli.progress_enable" = TRUE,
+    "progressr.enable" = TRUE
+  )
+  workers <- unname(future::availableCores(omit = 1))
+  future::plan("multisession", gc = TRUE, workers = workers)
+}
 
 # Source analysis scripts
 source(file.path("scripts", "3_1_analysis-single-targets.R"))
