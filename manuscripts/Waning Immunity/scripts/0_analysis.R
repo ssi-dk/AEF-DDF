@@ -12,7 +12,7 @@ withr::local_dir(wd)
 withr::local_options(
   "analysis.M_single" = c(2, 6, 10), # Facets
   "analysis.M_double" = 10, # Upper limit
-  "analysis.M_simulation" = 10 # Upper limit
+  "analysis.M_simulation" = 5 # Upper limit
 )
 
 # Set optimiser parameters
@@ -35,6 +35,6 @@ if (interactive()) {
 }
 
 # Source analysis scripts
-source(file.path("scripts", "3_1_analysis-single-targets.R"))
-source(file.path("scripts", "3_2_analysis-double-targets.R"))
-source(file.path("scripts", "3_3_analysis-simulation-study.R"))
+#source(file.path("scripts", "1_analysis-single-targets.R"))
+#source(file.path("scripts", "2_analysis-double-targets.R"))
+source(file.path("scripts", "3_analysis-simulation-study.R"))
