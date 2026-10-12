@@ -271,8 +271,8 @@ jobs:
             "overrideCommand": false,
             "remoteUser": "rstudio",
 
-            "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces/diseasy,type=bind",
-            "workspaceFolder": "/workspaces/diseasy/${localWorkspaceFolderBasename}",
+            "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/diseasy,type=bind",
+            "workspaceFolder": "/workspaces/diseasy",
 
             "mounts": [
               "source=${localEnv:HOME}/.gitconfig,target=/home/rstudio/.gitconfig-host,type=bind,readonly"
