@@ -293,13 +293,18 @@ jobs:
               "vscode": {
                 "extensions": [
                   "REditorSupport.r",
-                  "mhutchie.git-graph"
+                  "plohnensoftware.git-graph-libre"
                 ],
                 "settings": {
                   "r.executablePath": "/usr/local/bin/R",
                   "r.consolePath": "/usr/local/bin/arf",
                   "r.bracketedPaste": true,
-                  "r.alwaysUseActiveTerminal": true
+                  "r.alwaysUseActiveTerminal": true,
+                  "r.plot.backend": "httpgd",
+
+                  "[r]": {
+                    "editor.inlayHints.enabled": "off"
+                  }
                 }
               }
             }
