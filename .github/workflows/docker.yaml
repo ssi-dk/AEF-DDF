@@ -354,7 +354,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: 🔧 Build and push dev and CI Docker image
+      - name: 🔧 Build and push CI Docker image
         if: ${{ contains(fromJSON(inputs.update_docker), 'release') }}
         uses: docker/build-push-action@v6
         with:
