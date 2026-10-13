@@ -498,8 +498,9 @@ jobs:
 
 
   docker-plan:
-    needs: [ghcr, committing-workflows, r-devel-base-image]
     name: 🐋 Plan Docker updates
+    needs: [ghcr, committing-workflows, r-devel-base-image]
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     outputs:
       update_docker: ${{ steps.plan.outputs.update_docker }}
