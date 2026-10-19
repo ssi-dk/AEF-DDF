@@ -194,13 +194,24 @@ progressr::with_progress(
             tidyr::expand_grid(!!!purrr::map_if(parameters, is.function, ~ list(.)))
           )
 
-          # Add the approximation error for the run
+          # Add the approximation data for the run
           approx <- immunity$approximate_compartmental(M = parameters$M)
 
           model_rates <- dplyr::cross_join(
             model_rates,
-            tidyr::expand_grid(!!!purrr::keep_at(approx, c("error", "penalty", "execution_time", "method", "strategy")))
-          )
+            tidyr::expand_grid(!!!purrr::keep_at(approx, c("execution_time", "method", "strategy")))
+          ) |>
+            dplyr::left_join(
+              tibble::enframe(
+                purrr::pluck(approx, "error"),
+                name = "outcome",
+                value = "error"
+              ) |>
+                dplyr::mutate(
+                  "outcome" = paste0("n_", dplyr::if_else(.data$outcome == "infection", "infected", .data$outcome))
+                ),
+              by = "outcome"
+            )
 
           cache$set(key, model_rates)
         }
@@ -224,6 +235,7 @@ ggplot2::ggplot(
 
 
 results <- model_rates |>
+  purrr::map(head) |>
   purrr::list_rbind() |>
   dplyr::summarise(
     "metric" = sum(.data$rate, na.rm = TRUE),
@@ -241,14 +253,24 @@ results <- model_rates |>
   dplyr::mutate(
     "uuid" = purrr::map_chr(.data$uuid, digest::digest),
     .after = dplyr::everything()
+  ) |>
+  dplyr::relocate(
+    "outcome",
+    "metric",
+    "error",
+    "type",
+    .after = "uuid"
   )
 
 
 results <- dplyr::group_modify(
   dplyr::group_by(results, .data$uuid, .data$outcome),
-  ~ dplyr::mutate(.x, "metric_min" = dplyr::slice_min(.x, .data$error)$metric)
+  ~ dplyr::mutate(.x, "metric_min" = dplyr::slice_min(.x, .data$error)$metric, .after = "metric")
 ) |>
-  dplyr::mutate("relative_metric" = .data$metric / .data$metric_min)
+  dplyr::mutate(
+    "metric_deviation" = .data$metric - .data$metric_min,
+    .after = "metric"
+  )
 
 
 # Collapse labels
@@ -261,9 +283,12 @@ results <- results |>
     )
   )
 
+dplyr::count(dplyr::ungroup(results), .data$type, .data$outcome)
+
+
 g <- ggplot2::ggplot(
   data = results,
-  mapping = ggplot2::aes(x = .data$error, y = .data$relative_metric, group = .data$uuid, colour = factor(.data$M))
+  mapping = ggplot2::aes(x = .data$error, y = .data$metric_deviation, group = .data$uuid, colour = factor(.data$M))
 ) +
   #ggplot2::geom_hline(
   #  mapping = ggplot2::aes(yintercept = metric),
@@ -271,7 +296,7 @@ g <- ggplot2::ggplot(
   #  linetype = "dashed"
   #) +
   ggplot2::geom_hline(
-    yintercept = 1,
+    yintercept = 0,
     linetype = "dashed"
   ) +
   ggplot2::geom_point(size = 3) +
