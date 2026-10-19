@@ -235,7 +235,6 @@ ggplot2::ggplot(
 
 
 results <- model_rates |>
-  purrr::map(head) |>
   purrr::list_rbind() |>
   dplyr::summarise(
     "metric" = sum(.data$rate, na.rm = TRUE),
@@ -269,6 +268,7 @@ results <- dplyr::group_modify(
 ) |>
   dplyr::mutate(
     "metric_deviation" = .data$metric - .data$metric_min,
+    "relative_metric" = .data$metric / .data$metric_min,
     .after = "metric"
   )
 

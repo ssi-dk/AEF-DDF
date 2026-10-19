@@ -8,7 +8,6 @@ withr::local_dir(wd)
 
 # Get figure targets
 M_single <- getOption("analysis.M_single")
-M_double <- getOption("analysis.M_double")
 
 # Get optimiser parameters
 monotonous <- getOption("analysis.monotonous")
