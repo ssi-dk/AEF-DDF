@@ -288,7 +288,7 @@ dplyr::count(dplyr::ungroup(results), .data$type, .data$outcome)
 
 g <- ggplot2::ggplot(
   data = results,
-  mapping = ggplot2::aes(x = .data$error, y = .data$metric_deviation, group = .data$uuid, colour = factor(.data$M))
+  mapping = ggplot2::aes(x = .data$error, y = .data$relative_metric, group = .data$uuid, colour = factor(.data$M), shape = factor(.data$K /.data$L))
 ) +
   #ggplot2::geom_hline(
   #  mapping = ggplot2::aes(yintercept = metric),
@@ -296,7 +296,7 @@ g <- ggplot2::ggplot(
   #  linetype = "dashed"
   #) +
   ggplot2::geom_hline(
-    yintercept = 0,
+    yintercept = 1,
     linetype = "dashed"
   ) +
   ggplot2::geom_point(size = 3) +
@@ -305,7 +305,7 @@ g <- ggplot2::ggplot(
   ggplot2::guides(
     colour = ggplot2::guide_legend(title = "M", order = 1)
   ) +
-  ggplot2::facet_grid(.data$type ~ outcome)
+  ggplot2::facet_grid(.data$type + .data$outcome ~ .data$infection_waning_label)
 
 if (interactive()) print(g)
 ggplot2::ggsave(
