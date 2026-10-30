@@ -576,26 +576,48 @@ jobs:
       - name: 🔧 Install ODBC Driver and SQL Server tools
         run: |
           set -o xtrace
+          set -euo pipefail
 
-          if ! [[ "18.04 20.04 22.04 24.04 24.10" == *"$(grep VERSION_ID /etc/os-release | cut -d '"' -f 2)"* ]];
-          then
-              echo "Ubuntu $(grep VERSION_ID /etc/os-release | cut -d '"' -f 2) is not currently supported.";
-              exit;
+          source /etc/os-release
+
+          if [[ "$ID" != "ubuntu" ]]; then
+            echo "::error::Unsupported Linux distribution: $ID"
+            exit 1
           fi
 
-          # Download the package to configure the Microsoft repo
-          curl -sSL -O https://packages.microsoft.com/config/ubuntu/$(grep VERSION_ID /etc/os-release | cut -d '"' -f 2)/packages-microsoft-prod.deb
-          # Install the package
+          case "$VERSION_ID" in
+            18.04|20.04|22.04|24.04)
+              MS_UBUNTU_VERSION="$VERSION_ID"
+              ;;
+            24.10|26.04)
+              MS_UBUNTU_VERSION="24.04"
+              ;;
+            *)
+              echo "::error::Unsupported Ubuntu version: $VERSION_ID"
+              exit 1
+              ;;
+          esac
+
+          echo "Ubuntu version: $VERSION_ID"
+          echo "Microsoft repository version: $MS_UBUNTU_VERSION"
+
+          curl -fsSL \
+            "https://packages.microsoft.com/config/ubuntu/${MS_UBUNTU_VERSION}/packages-microsoft-prod.deb" \
+            -o packages-microsoft-prod.deb
+
           sudo dpkg -i packages-microsoft-prod.deb
-          # Delete the file
           rm packages-microsoft-prod.deb
 
-          # Install the driver
           sudo apt-get update
-          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
-          sudo ACCEPT_EULA=Y apt-get install -y mssql-tools18
 
-          echo "/opt/mssql-tools18/bin" >> $GITHUB_PATH
+          sudo env ACCEPT_EULA=Y apt-get install -y \
+            msodbcsql18 \
+            mssql-tools18
+
+          echo "/opt/mssql-tools18/bin" >> "$GITHUB_PATH"
+
+          /opt/mssql-tools18/bin/sqlcmd -? > /dev/null
+          odbcinst -q -d
 
       - name: 🔧 Setup testing schemata in SQL server
         if: ${{ inputs.schemas != 'none' }}
