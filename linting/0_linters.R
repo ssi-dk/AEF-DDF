@@ -64,6 +64,7 @@ diseasy_code_linters <- function() {
 #' @seealso
 #' - [lintr::linters] for a complete list of linters available in lintr.
 #' - <https://style.tidyverse.org/syntax.html#long-lines>
+#' @importFrom rlang .data
 #' @noRd
 nolint_position_linter <- function(length = 80L) {
   general_msg <- paste("`nolint:` statements start at", length + 1, "characters.")
@@ -126,6 +127,7 @@ nolint_position_linter <- function(length = 80L) {
 #'   linters = c(nolint_line_length_linter(length = 20L), lintr::object_name_linter())
 #' )
 #'
+#' @importFrom rlang .data
 #' @noRd
 nolint_line_length_linter <- function(length = 80L, code_block_length = 85L) {
   general_msg <- paste("Lines should not be more than", length, "characters.")
@@ -183,6 +185,7 @@ nolint_line_length_linter <- function(length = 80L, code_block_length = 85L) {
 #'   linters = non_ascii_linter()
 #' )
 #'
+#' @importFrom rlang .data
 #' @noRd
 non_ascii_linter <- function() {
   general_msg <- paste("Code should not contain non-ASCII characters")
@@ -241,6 +244,7 @@ non_ascii_linter <- function() {
 #'   text = "#' @param test (`numeric()`)\cr",
 #'   linters = param_and_field_linter()
 #' )
+#' @importFrom rlang .data
 #' @noRd
 param_and_field_linter <- function() {
   general_msg <- "@param and @field should follow mlr3 format."
@@ -342,6 +346,7 @@ param_and_field_linter <- function() {
 #'   linters = documentation_template_linter()
 #' )
 #'
+#' @importFrom rlang .data
 #' @noRd
 documentation_template_linter <- function() {
   general_msg <- paste("Documentation templates should used if available.")
