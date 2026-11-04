@@ -192,7 +192,6 @@ jobs:
             )
 
           # Save the combined benchmark results and delete the individual files
-          dir.create(file.path("inst", "extdata"), recursive = TRUE, showWarnings = FALSE)
           saveRDS(benchmarks, file.path("inst", "extdata", "benchmarks.rds"))
           file.remove(benchmark_files)
 
@@ -244,6 +243,49 @@ jobs:
         with:
           name: benchmark-summary
           path: benchmarks.pdf
+
+      - name: Upload profiling files
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: profiling-files
+          path: inst/extdata/*.Rprof
+
+      - name: Combine profiling results
+        if: ${{ !cancelled() }}
+        run: |
+          rprof_files <- list.files(
+            "inst/extdata",
+            pattern = "\\.Rprof$",
+            full.names = TRUE
+          )
+
+          profiles <- purrr::map_dfr(rprof_files, \(file) {
+            profile <- summaryRprof(file)
+
+            profile$by.self |>
+              as.data.frame() |>
+              tibble::rownames_to_column("function") |>
+              dplyr::mutate(
+                "profile" = sub("\\.Rprof$", "", basename(file)),
+                "sampling_time" = profile$sampling.time,
+                .before = 1
+              )
+          })
+
+          # Largest self-time contributors within each profile
+          profiles |>
+            dplyr::slice_max(
+              order_by = .data$self.time,
+              n = 15,
+              by = "profile"
+            ) |>
+            dplyr::arrange(.data$profile, dplyr::desc(.data$self.time))
+
+          # Save the combined benchmark results and delete the individual files
+          saveRDS(profiles, file.path("inst", "extdata", "profiles.rds"))
+          file.remove(rprof_files)
+        shell: Rscript {0}
 
       - name: 🚀 Commit and push changes
         if: ${{ !cancelled() }}
