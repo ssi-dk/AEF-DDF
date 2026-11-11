@@ -559,6 +559,27 @@ jobs:
     secrets: inherit
 
 
+  inspect-check-prerequisites:
+    name: 🐞 Inspect check prerequisites
+    needs: [trigger, committing-workflows, docker-plan, docker]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report job results and outputs
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: |
+          echo "$NEEDS_JSON" | jq '{
+            trigger: .trigger.result,
+            committing_result: ."committing-workflows".result,
+            commits_made: ."committing-workflows".outputs.commits_made,
+            docker_plan_result: ."docker-plan".result,
+            update_docker: ."docker-plan".outputs.update_docker,
+            docker_result: .docker.result,
+            ci_container: .docker.outputs.ci_container
+          }'
+
+
   docker-cleanup:
     needs: [trigger, ghcr, committing-workflows]
     uses: ./.github/workflows/docker-cleanup.yaml
