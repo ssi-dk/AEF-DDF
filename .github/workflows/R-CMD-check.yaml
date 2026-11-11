@@ -296,7 +296,6 @@ jobs:
 
 
   R-CMD-check-devel:
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft != true }}
     runs-on: ubuntu-latest
     container: ${{ fromJSON(inputs.r_devel_container) }}
     defaults:

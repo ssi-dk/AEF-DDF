@@ -111,7 +111,7 @@ jobs:
 
       - name: 🔧 Resolve R-devel base image digest
         id: r_devel_base_image
-        if: ${{ contains(fromJSON(inputs.update_docker), 'r-devel') && (github.event_name != 'pull_request' || github.event.pull_request.draft != true) }}
+        if: ${{ contains(fromJSON(inputs.update_docker), 'r-devel') }}
         run: |
           set -euo pipefail
 
@@ -372,7 +372,7 @@ jobs:
             dk.ssi.ci.arf-installer-digest=${{ steps.arf_release.outputs.digest }}
 
       - name: 🔧 Build and push R-devel Docker image
-        if: ${{ contains(fromJSON(inputs.update_docker), 'r-devel') && (github.event_name != 'pull_request' || github.event.pull_request.draft != true) }}
+        if: ${{ contains(fromJSON(inputs.update_docker), 'r-devel') }}
         uses: docker/build-push-action@v6
         with:
           context: .
