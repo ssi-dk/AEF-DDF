@@ -363,6 +363,8 @@ jobs:
 
       - name: Determine containers to send to workflows
         id: image_job
+        env:
+          IS_DRAFT_PR: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == true }}
         run: |
           # Convert IMAGE_NAME to lowercase
           IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
@@ -399,7 +401,10 @@ jobs:
               fi
             fi
 
-            if docker manifest inspect "${R_DEVEL_IMAGE}" > /dev/null 2>&1; then
+            if [[ "${IS_DRAFT_PR}" == "true" ]]; then
+              echo "Draft PR: skipping R-devel image lookup and build request."
+              echo "r_devel_container=null" >> "$GITHUB_OUTPUT"
+            elif docker manifest inspect "${R_DEVEL_IMAGE}" > /dev/null 2>&1; then
               echo "R-devel image found in GHCR"
               printf 'r_devel_container="%s"\n' "${R_DEVEL_IMAGE}" >> "$GITHUB_OUTPUT"
             else
@@ -425,6 +430,7 @@ jobs:
 
   r-devel-base-image:
     needs: trigger
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft != true }}
     name: 🔍 Check R-devel base image digest
     runs-on: ubuntu-latest
     outputs:
@@ -512,6 +518,7 @@ jobs:
           COMMITTING_UPDATE_DOCKER: ${{ needs.committing-workflows.outputs.update_docker }}
           R_DEVEL_UPDATE_DOCKER: ${{ needs.r-devel-base-image.outputs.update_docker }}
           REUSE_MAIN_CONTAINERS: ${{ needs.ghcr.outputs.reuse_main_containers }}
+          IS_DRAFT_PR: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == true }}
         run: |
           GHCR_UPDATE_DOCKER="${GHCR_UPDATE_DOCKER:-[]}"
           COMMITTING_UPDATE_DOCKER="${COMMITTING_UPDATE_DOCKER:-[]}"
@@ -522,7 +529,11 @@ jobs:
             UPDATE_DOCKER='[]'
             echo "pak.lock matches main; reusing main Docker images and skipping branch-specific Docker builds."
           else
-            DOCKER_VARIANTS='["release","r-devel"]'
+            if [[ "${IS_DRAFT_PR}" == "true" ]]; then
+              DOCKER_VARIANTS='["release"]'
+            else
+              DOCKER_VARIANTS='["release","r-devel"]'
+            fi
             UPDATE_DOCKER=$(jq -cn \
               --argjson variants "${DOCKER_VARIANTS}" \
               --argjson ghcr "${GHCR_UPDATE_DOCKER}" \
