@@ -75,6 +75,19 @@ jobs:
           echo "ci_tag=${CI_IMAGE}" >> $GITHUB_OUTPUT
           echo "ci_r_devel_tag=${CI_R_DEVEL_IMAGE}" >> $GITHUB_OUTPUT
 
+      - name: 🔒 Prevent overwriting another branch's Docker images
+        if: ${{ inputs.update_docker != '[]' }}
+        shell: bash
+        env:
+          SOURCE_BRANCH: ${{ inputs.branch_name }}
+          IMAGE_BRANCH: ${{ inputs.container_branch }}
+        run: |
+          IMAGE_BRANCH="${IMAGE_BRANCH:-${SOURCE_BRANCH}}"
+          if [[ "${IMAGE_BRANCH}" != "${SOURCE_BRANCH}" ]]; then
+            echo "::error::Refusing to build images tagged for ${IMAGE_BRANCH} from source branch ${SOURCE_BRANCH}."
+            exit 1
+          fi
+
       - name: Dump github context
         if: ${{ inputs.update_docker != '[]' }}
         run:   echo "$GITHUB_CONTEXT"
@@ -418,7 +431,7 @@ jobs:
           fi
 
       - name: 🚀 Push changes
-        if: ${{ !cancelled() && inputs.update_docker != '[]' }}
+        if: ${{ success() && inputs.update_docker != '[]' }}
         run: |
           set -o xtrace
 

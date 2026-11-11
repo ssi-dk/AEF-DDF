@@ -499,11 +499,12 @@ jobs:
 
   docker-plan:
     name: 🐋 Plan Docker updates
-    needs: [ghcr, committing-workflows, r-devel-base-image]
+    needs: [trigger, ghcr, committing-workflows, r-devel-base-image]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     outputs:
       update_docker: ${{ steps.plan.outputs.update_docker }}
+      container_branch: ${{ steps.plan.outputs.container_branch }}
     steps:
       - name: Combine Docker update requests
         id: plan
@@ -512,10 +513,16 @@ jobs:
           COMMITTING_UPDATE_DOCKER: ${{ needs.committing-workflows.outputs.update_docker }}
           R_DEVEL_UPDATE_DOCKER: ${{ needs.r-devel-base-image.outputs.update_docker }}
           REUSE_MAIN_CONTAINERS: ${{ needs.ghcr.outputs.reuse_main_containers }}
+          BRANCH_NAME: ${{ needs.trigger.outputs.branch_name }}
+          CONTAINER_BRANCH: ${{ needs.ghcr.outputs.container_branch }}
+        shell: bash
         run: |
+          set -euo pipefail
+
           GHCR_UPDATE_DOCKER="${GHCR_UPDATE_DOCKER:-[]}"
           COMMITTING_UPDATE_DOCKER="${COMMITTING_UPDATE_DOCKER:-[]}"
           R_DEVEL_UPDATE_DOCKER="${R_DEVEL_UPDATE_DOCKER:-[]}"
+          CONTAINER_BRANCH="${CONTAINER_BRANCH:-${BRANCH_NAME}}"
 
           if [[ "${REUSE_MAIN_CONTAINERS}" == "true" ]] && \
              [[ "${COMMITTING_UPDATE_DOCKER}" == "[]" ]]; then
@@ -531,8 +538,42 @@ jobs:
               '($ghcr + $committing + $rdevel) as $requested | $variants | map(. as $variant | select($requested | index($variant)))')
           fi
 
+          # Reuse another branch's images only when nothing needs rebuilding.
+          # A PR must never overwrite main-ci (or another branch's CI tag).
+          if [[ "${UPDATE_DOCKER}" != '[]' && "${CONTAINER_BRANCH}" != "${BRANCH_NAME}" ]]; then
+            echo "Rebuild requested: switching image destination from ${CONTAINER_BRANCH} to ${BRANCH_NAME}."
+            CONTAINER_BRANCH="${BRANCH_NAME}"
+
+            IMAGE_NAME_LOWER=$(printf '%s' "${IMAGE_NAME}" | tr '[:upper:]' '[:lower:]')
+            BRANCH_TAG_CLEAN="${CONTAINER_BRANCH//\//-}"
+            BRANCH_CI_IMAGE="${REGISTRY}/${IMAGE_NAME_LOWER}:${BRANCH_TAG_CLEAN}-ci"
+            BRANCH_R_DEVEL_IMAGE="${BRANCH_CI_IMAGE}-r-devel"
+
+            MISSING_RELEASE=false
+            MISSING_R_DEVEL=false
+            if ! docker manifest inspect "${BRANCH_CI_IMAGE}" > /dev/null 2>&1; then
+              MISSING_RELEASE=true
+              echo "Branch-specific release image is missing: ${BRANCH_CI_IMAGE}"
+            fi
+            if ! docker manifest inspect "${BRANCH_R_DEVEL_IMAGE}" > /dev/null 2>&1; then
+              MISSING_R_DEVEL=true
+              echo "Branch-specific R-devel image is missing: ${BRANCH_R_DEVEL_IMAGE}"
+            fi
+
+            UPDATE_DOCKER=$(jq -cn \
+              --argjson requested "${UPDATE_DOCKER}" \
+              --argjson missing_release "${MISSING_RELEASE}" \
+              --argjson missing_r_devel "${MISSING_R_DEVEL}" \
+              '($requested +
+                (if $missing_release then ["release"] else [] end) +
+                (if $missing_r_devel then ["r-devel"] else [] end)) as $needed |
+                ["release","r-devel"] | map(. as $variant | select($needed | index($variant)))')
+          fi
+
           echo "Docker image variants to update: ${UPDATE_DOCKER}"
+          echo "Docker image branch: ${CONTAINER_BRANCH}"
           echo "update_docker=${UPDATE_DOCKER}" >> "$GITHUB_OUTPUT"
+          echo "container_branch=${CONTAINER_BRANCH}" >> "$GITHUB_OUTPUT"
 
 
   docker:
@@ -541,7 +582,7 @@ jobs:
     if: ${{ !cancelled() }}
     with:
       branch_name: ${{ needs.trigger.outputs.branch_name }}
-      container_branch: ${{ needs.ghcr.outputs.container_branch }}
+      container_branch: ${{ needs.docker-plan.outputs.container_branch }}
       cache_version: ${{ needs.trigger.outputs.cache_version }}
       update_docker: ${{ needs.docker-plan.outputs.update_docker }}
       use-containers: ${{ inputs.use-containers }}
